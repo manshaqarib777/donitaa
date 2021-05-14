@@ -1,0 +1,564 @@
+1610353929a:1:{s:8:"home.htm";a:21:{s:8:"fileName";s:8:"home.htm";s:7:"content";s:10057:"title = "Home"
+url = "/"
+layout = "front"
+is_hidden = 0
+role = 0
+permission = 0
+anonymous_only = 1
+logged_only = 0
+child_of = "mey_no_parent"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumb_disabled = 0
+
+[viewBag]
+
+[account]
+paramCode = "code"
+forceSecure = 0
+
+[resetPassword]
+paramCode = "code"
+
+[session]
+security = "all"
+==
+<?php
+function onStart(){
+	if($_FILES){
+            foreach($_FILES['sliders'] as $slide_image){
+                dd($slide_image);
+            }
+        }
+}
+?>
+==
+
+<!-- Slideshow - iOS Slider element with animateme scroll efect, custom height and bottom mask style 2 -->
+<div class="kl-slideshow iosslider-slideshow uh_light_gray maskcontainer--shadow_ud iosslider--custom-height scrollme">
+	<!-- Loader -->
+	<div class="kl-loader">
+		<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewbox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve"><path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946 s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634 c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"></path><path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0 C22.32,8.481,24.301,9.057,26.013,10.047z" transform="rotate(98.3774 20 20)"><animatetransform attributetype="xml" attributename="transform" type="rotate" from="0 20 20" to="360 20 20" dur="0.5s" repeatcount="indefinite"></animatetransform></path></svg>
+	</div>
+	<!-- Loader -->
+
+	<div class="bgback">
+	</div>
+
+	<!-- Animated Sparkles -->
+	<div class="th-sparkles">
+	</div>
+	<!--/ Animated Sparkles -->
+
+	<!-- iOS Slider wrapper with animateme scroll efect -->
+	<div class="iosSlider kl-slideshow-inner animateme" data-trans="6000" data-autoplay="0" data-infinite="true" data-when="span" data-from="0" data-to="0.75" data-translatey="300" data-easing="linear">
+		<!-- Slides -->
+		<div class="kl-iosslider hideControls">
+			{% for key,slider in settings.website.sliders %}
+			<!-- Slide 1 -->
+			<div class="item iosslider__item">
+				<!-- Image -->
+				<!-- <div class="slide-item-bg" style="background-image:url(./front/images/_niches/cargo/{{settings.sliders_pics[key].file_name}});"> -->
+					<div class="slide-item-bg" style="background-image:url({{settings.sliders_pics[key].path}});">
+				</div><!-- cargo2.jpg --> 
+				<!--/ Image -->
+
+				<!-- Gradient overlay -->
+				<div class="kl-slide-overlay" style="background:rgba(32,55,152,0.4); background: -moz-linear-gradient(left, rgba(32,55,152,0.4) 0%, rgba(17,93,131,0.25) 100%); background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(32,55,152,0.4)), color-stop(100%,rgba(17,93,131,0.25))); background: -webkit-linear-gradient(left, rgba(32,55,152,0.4) 0%,rgba(17,93,131,0.25) 100%); background: -o-linear-gradient(left, rgba(32,55,152,0.4) 0%,rgba(17,93,131,0.25) 100%); background: -ms-linear-gradient(left, rgba(32,55,152,0.4) 0%,rgba(17,93,131,0.25) 100%); background: linear-gradient(to right, rgba(32,55,152,0.4) 0%,rgba(17,93,131,0.25) 100%); ">
+				</div>
+				<!--/ Gradient overlay -->
+
+				<!-- Captions container -->
+				<div class="container kl-iosslide-caption kl-ioscaption--style4 s4ext fromleft klios-alignleft kl-caption-posv-middle">
+					<!-- Captions animateme wrapper -->
+					<div class="animateme" data-when="span" data-from="0" data-to="0.75" data-opacity="0.1" data-easing="linear">
+						<!-- Main Big Title -->
+						<h2 class="main_title has_titlebig">
+							<!-- <span><strong>{{'FAST'|__}}</strong>, {{'SAFE & ACCURATE'|__}}</span> -->
+							<span>
+								{{slider.titleslider}}
+							</span>
+						</h2>
+						<!--/ Main Big Title -->
+
+						<!-- Big Title -->
+						<h3 class="title_big">
+							<!-- {{'ANYWHERE'|__}}<strong> {{'IN THIS WORLD'|__}}</strong> -->
+							{{slider.subtitle}}
+						</h3>
+						<!--/ Big Title -->
+
+						<!-- Link more button -->
+						<a href="{{slider.link}}" target="_self" class="more">  <!-- {{'about'|page}} -->
+							{{'SEE MORE'|__}}
+						</a>
+						<!--/ Link more button -->
+					</div>
+					<!--/ Captions animateme wrapper -->
+				</div>
+				<!--/ Captions container -->
+			</div>
+			<!--/ Slide 1 -->
+			{% endfor %}
+		</div>
+		<!--/ Slides -->
+
+		<!-- Navigation Controls - Prev -->
+		<div class="kl-iosslider-prev">
+			<!-- Arrow -->
+			<span class="thin-arrows ta__prev"></span>
+			<!--/ Arrow -->
+
+			<!-- Label - prev -->
+			<div class="btn-label">
+				{{'PREV'|__}}
+			</div>
+			<!--/ Label - prev -->
+		</div>
+		<!--/ Navigation Controls - Prev -->
+
+		<!-- Navigation Controls - Next -->
+		<div class="kl-iosslider-next">
+			<!-- Arrow -->
+			<span class="thin-arrows ta__next"></span>
+			<!--/ Arrow -->
+
+			<!-- Label - next -->
+			<div class="btn-label">
+				{{'NEXT'|__}}
+			</div>
+			<!--/ Label - next -->
+		</div>
+		<!--/ Navigation Controls - Prev -->
+	</div>
+	<!--/ iOS Slider wrapper with animateme scroll efect -->
+
+	<!-- Bullets -->
+	<div class="kl-ios-selectors-block bullets2">
+		<div class="selectors">
+			<!-- Item #1 -->
+			<div class="item iosslider__bull-item first">
+			</div>
+			<!--/ Item #1 -->
+
+			<!-- Item #2 -->
+			<div class="item iosslider__bull-item">
+			</div>
+			<!--/ Item #2 -->
+		</div>
+		<!--/ .selectors -->
+	</div>
+	<!--/ Bullets -->
+
+	<div class="scrollbarContainer">
+	</div>
+
+	<!-- Bottom mask style 2 -->
+	<div class="kl-bottommask kl-bottommask--shadow_ud">
+	</div>
+	<!--/ Bottom mask style 2 -->
+</div>
+<!--/ Slideshow - iOS Slider element with animateme scroll efect, custom height and bottom mask style 2 -->
+
+<!-- Title element - section with custom paddings -->
+<section class="hg_section pt-0 pb-25">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+				<!-- Title element wit custom paddings -->
+				<div class="kl-title-block text-center tbk-symbol--line pt-80">
+					<!-- Sub-title with custom color -->
+					<h6 class="gray">
+						{{'WELCOME TO'|__}}
+					</h6>
+
+					<!-- Title with custom size, weight and color -->
+					<h3 class="tbk__title fs-xl fw-extrabold text-center black">
+						{{ settings.company.title|__ }}
+					</h3>
+					<!--/ Title -->
+				</div>
+				<!--/ Title element wit custom paddings -->
+			</div>
+		</div>
+	</div>
+</section>
+<!--/ Title element - section with custom paddings -->
+
+<!-- Icon Boxes element Left Floated Style - section white with custom paddings -->
+<section class="hg_section bg-white pt-100 pb-80">
+	<div class="container_fluid">
+		<div class="row">
+			<div class="col-lg-10 offset-lg-1">
+				<div class="row gutter-md">
+					{% for key,service in settings.website.services %}
+					<div class="col-sm-12 col-md-6 col-lg-3">
+						<!-- Icon box float left -->
+						<div class="kl-iconbox kl-iconbox--fleft text-left">
+							<div class="kl-iconbox__inner">
+								<!-- Icon with custom sizes -->
+								<div class="kl-iconbox__icon-wrapper w-30 w-md-30 w-sm-20 w-xs-20">
+									<img src="{{settings.services_pics[key].path}}" class="kl-iconbox__icon"  alt="" title="" />
+								</div>
+								<!--/ Icon -->
+
+								<!-- /.kl-iconbox__icon-wrapper -->
+								<div class="kl-iconbox__content-wrapper">
+									<!-- Title with csutom size, weight and color -->
+									<div class="kl-iconbox__el-wrapper kl-iconbox__title-wrapper">
+										<h3 class="kl-iconbox__title fs-s fw-extrabold gray2">
+											{{service.title|__}}
+										</h3>
+									</div>
+									<!--/ Title -->
+
+									<!-- Description -->
+									<div class=" kl-iconbox__el-wrapper kl-iconbox__desc-wrapper">
+										<p class="kl-iconbox__desc fs-14 gray">
+											{{service.description|__}}
+										</p>
+									</div>
+									<!--/ Description -->
+								</div>
+								<!-- /.kl-iconbox__content-wrapper -->
+							</div>
+							<!--/ kl-iconbox__inner -->
+						</div>
+						<!--/ Icon box float left -->
+					</div>
+					<!--/ col-sm-12 col-md-6 col-lg-3 -->
+					{% endfor %}
+
+					<!-- <img src="./front/images/_niches/cargo/sailing-boat.svg" class="kl-iconbox__icon" alt="" title="" />
+					<img src="./front/images/_niches/cargo/transportation.svg" class="kl-iconbox__icon"  alt="" title="" />
+					<img src="./front/images/_niches/cargo/airplane.svg" class="kl-iconbox__icon" alt="" title="" /> -->
+
+					
+				</div>
+				<!--/ row gutter-md -->
+			</div>
+			<!--/ col-sm-offset-1 col-md-10 col-sm-10 -->
+		</div>
+		<!--/ row -->
+	</div>
+	<!--/ container-fluid -->
+</section>
+<!--/ Icon Boxes element Left Floated Style - section white with custom paddings -->
+
+<!-- Title with Call to Action Button section with custom paddings -->
+<section class="hg_section bg-white pt-60 pb-60">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-9 mb-sm-30">
+				<!-- Title with alternative font and custom weight and default color -->
+				<h3 class="tbk__title kl-font-alt fw-semibold tcolor">
+					{{'WORK WITH US'|__}}
+				</h3>
+				<!--/ Title with alternative font and custom weight and default color -->
+
+				<!-- Sub-Title -->
+				<h4 class="tbk__subtitle fw-thin">
+					{{"We'll do everything we can to make you a satisfied customer!"|__}}
+				</h4>
+				<!--/ Sub-Title -->
+			</div>
+			<!--/ col-md-9 col-sm-9 -->
+
+			<div class="col-sm-12 col-md-3 align-self-center">
+				<!-- Button lined style -->
+				<a href="{{url('contact')}}" class="btn btn-lined lined-custom btn-md btn-block" >
+					<span>{{'Contact us'|__}}</span>
+				</a>
+				<!--/ Button lined style -->
+			</div>
+			<!--/ col-md-12 col-sm-3 -->
+		</div>
+		<!--/ row -->
+	</div>
+	<!--/ container -->
+</section>
+<!--/ Title with Call to Action Button section with custom paddings -->
+
+
+ {% put styles %}
+     <style>
+
+     </style>
+ {% endput %}
+ {% put scripts %}
+ <script type="text/javascript">
+     "use strict";
+
+     // Class Initialization
+     jQuery(document).ready(function() {
+
+     });
+ </script>
+ {% endput %}
+";s:5:"mtime";i:1609921143;s:6:"markup";s:9569:"<!-- Slideshow - iOS Slider element with animateme scroll efect, custom height and bottom mask style 2 -->
+<div class="kl-slideshow iosslider-slideshow uh_light_gray maskcontainer--shadow_ud iosslider--custom-height scrollme">
+	<!-- Loader -->
+	<div class="kl-loader">
+		<svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewbox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve"><path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946 s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634 c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"></path><path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0 C22.32,8.481,24.301,9.057,26.013,10.047z" transform="rotate(98.3774 20 20)"><animatetransform attributetype="xml" attributename="transform" type="rotate" from="0 20 20" to="360 20 20" dur="0.5s" repeatcount="indefinite"></animatetransform></path></svg>
+	</div>
+	<!-- Loader -->
+
+	<div class="bgback">
+	</div>
+
+	<!-- Animated Sparkles -->
+	<div class="th-sparkles">
+	</div>
+	<!--/ Animated Sparkles -->
+
+	<!-- iOS Slider wrapper with animateme scroll efect -->
+	<div class="iosSlider kl-slideshow-inner animateme" data-trans="6000" data-autoplay="0" data-infinite="true" data-when="span" data-from="0" data-to="0.75" data-translatey="300" data-easing="linear">
+		<!-- Slides -->
+		<div class="kl-iosslider hideControls">
+			{% for key,slider in settings.website.sliders %}
+			<!-- Slide 1 -->
+			<div class="item iosslider__item">
+				<!-- Image -->
+				<!-- <div class="slide-item-bg" style="background-image:url(./front/images/_niches/cargo/{{settings.sliders_pics[key].file_name}});"> -->
+					<div class="slide-item-bg" style="background-image:url({{settings.sliders_pics[key].path}});">
+				</div><!-- cargo2.jpg --> 
+				<!--/ Image -->
+
+				<!-- Gradient overlay -->
+				<div class="kl-slide-overlay" style="background:rgba(32,55,152,0.4); background: -moz-linear-gradient(left, rgba(32,55,152,0.4) 0%, rgba(17,93,131,0.25) 100%); background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(32,55,152,0.4)), color-stop(100%,rgba(17,93,131,0.25))); background: -webkit-linear-gradient(left, rgba(32,55,152,0.4) 0%,rgba(17,93,131,0.25) 100%); background: -o-linear-gradient(left, rgba(32,55,152,0.4) 0%,rgba(17,93,131,0.25) 100%); background: -ms-linear-gradient(left, rgba(32,55,152,0.4) 0%,rgba(17,93,131,0.25) 100%); background: linear-gradient(to right, rgba(32,55,152,0.4) 0%,rgba(17,93,131,0.25) 100%); ">
+				</div>
+				<!--/ Gradient overlay -->
+
+				<!-- Captions container -->
+				<div class="container kl-iosslide-caption kl-ioscaption--style4 s4ext fromleft klios-alignleft kl-caption-posv-middle">
+					<!-- Captions animateme wrapper -->
+					<div class="animateme" data-when="span" data-from="0" data-to="0.75" data-opacity="0.1" data-easing="linear">
+						<!-- Main Big Title -->
+						<h2 class="main_title has_titlebig">
+							<!-- <span><strong>{{'FAST'|__}}</strong>, {{'SAFE & ACCURATE'|__}}</span> -->
+							<span>
+								{{slider.titleslider}}
+							</span>
+						</h2>
+						<!--/ Main Big Title -->
+
+						<!-- Big Title -->
+						<h3 class="title_big">
+							<!-- {{'ANYWHERE'|__}}<strong> {{'IN THIS WORLD'|__}}</strong> -->
+							{{slider.subtitle}}
+						</h3>
+						<!--/ Big Title -->
+
+						<!-- Link more button -->
+						<a href="{{slider.link}}" target="_self" class="more">  <!-- {{'about'|page}} -->
+							{{'SEE MORE'|__}}
+						</a>
+						<!--/ Link more button -->
+					</div>
+					<!--/ Captions animateme wrapper -->
+				</div>
+				<!--/ Captions container -->
+			</div>
+			<!--/ Slide 1 -->
+			{% endfor %}
+		</div>
+		<!--/ Slides -->
+
+		<!-- Navigation Controls - Prev -->
+		<div class="kl-iosslider-prev">
+			<!-- Arrow -->
+			<span class="thin-arrows ta__prev"></span>
+			<!--/ Arrow -->
+
+			<!-- Label - prev -->
+			<div class="btn-label">
+				{{'PREV'|__}}
+			</div>
+			<!--/ Label - prev -->
+		</div>
+		<!--/ Navigation Controls - Prev -->
+
+		<!-- Navigation Controls - Next -->
+		<div class="kl-iosslider-next">
+			<!-- Arrow -->
+			<span class="thin-arrows ta__next"></span>
+			<!--/ Arrow -->
+
+			<!-- Label - next -->
+			<div class="btn-label">
+				{{'NEXT'|__}}
+			</div>
+			<!--/ Label - next -->
+		</div>
+		<!--/ Navigation Controls - Prev -->
+	</div>
+	<!--/ iOS Slider wrapper with animateme scroll efect -->
+
+	<!-- Bullets -->
+	<div class="kl-ios-selectors-block bullets2">
+		<div class="selectors">
+			<!-- Item #1 -->
+			<div class="item iosslider__bull-item first">
+			</div>
+			<!--/ Item #1 -->
+
+			<!-- Item #2 -->
+			<div class="item iosslider__bull-item">
+			</div>
+			<!--/ Item #2 -->
+		</div>
+		<!--/ .selectors -->
+	</div>
+	<!--/ Bullets -->
+
+	<div class="scrollbarContainer">
+	</div>
+
+	<!-- Bottom mask style 2 -->
+	<div class="kl-bottommask kl-bottommask--shadow_ud">
+	</div>
+	<!--/ Bottom mask style 2 -->
+</div>
+<!--/ Slideshow - iOS Slider element with animateme scroll efect, custom height and bottom mask style 2 -->
+
+<!-- Title element - section with custom paddings -->
+<section class="hg_section pt-0 pb-25">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-12">
+				<!-- Title element wit custom paddings -->
+				<div class="kl-title-block text-center tbk-symbol--line pt-80">
+					<!-- Sub-title with custom color -->
+					<h6 class="gray">
+						{{'WELCOME TO'|__}}
+					</h6>
+
+					<!-- Title with custom size, weight and color -->
+					<h3 class="tbk__title fs-xl fw-extrabold text-center black">
+						{{ settings.company.title|__ }}
+					</h3>
+					<!--/ Title -->
+				</div>
+				<!--/ Title element wit custom paddings -->
+			</div>
+		</div>
+	</div>
+</section>
+<!--/ Title element - section with custom paddings -->
+
+<!-- Icon Boxes element Left Floated Style - section white with custom paddings -->
+<section class="hg_section bg-white pt-100 pb-80">
+	<div class="container_fluid">
+		<div class="row">
+			<div class="col-lg-10 offset-lg-1">
+				<div class="row gutter-md">
+					{% for key,service in settings.website.services %}
+					<div class="col-sm-12 col-md-6 col-lg-3">
+						<!-- Icon box float left -->
+						<div class="kl-iconbox kl-iconbox--fleft text-left">
+							<div class="kl-iconbox__inner">
+								<!-- Icon with custom sizes -->
+								<div class="kl-iconbox__icon-wrapper w-30 w-md-30 w-sm-20 w-xs-20">
+									<img src="{{settings.services_pics[key].path}}" class="kl-iconbox__icon"  alt="" title="" />
+								</div>
+								<!--/ Icon -->
+
+								<!-- /.kl-iconbox__icon-wrapper -->
+								<div class="kl-iconbox__content-wrapper">
+									<!-- Title with csutom size, weight and color -->
+									<div class="kl-iconbox__el-wrapper kl-iconbox__title-wrapper">
+										<h3 class="kl-iconbox__title fs-s fw-extrabold gray2">
+											{{service.title|__}}
+										</h3>
+									</div>
+									<!--/ Title -->
+
+									<!-- Description -->
+									<div class=" kl-iconbox__el-wrapper kl-iconbox__desc-wrapper">
+										<p class="kl-iconbox__desc fs-14 gray">
+											{{service.description|__}}
+										</p>
+									</div>
+									<!--/ Description -->
+								</div>
+								<!-- /.kl-iconbox__content-wrapper -->
+							</div>
+							<!--/ kl-iconbox__inner -->
+						</div>
+						<!--/ Icon box float left -->
+					</div>
+					<!--/ col-sm-12 col-md-6 col-lg-3 -->
+					{% endfor %}
+
+					<!-- <img src="./front/images/_niches/cargo/sailing-boat.svg" class="kl-iconbox__icon" alt="" title="" />
+					<img src="./front/images/_niches/cargo/transportation.svg" class="kl-iconbox__icon"  alt="" title="" />
+					<img src="./front/images/_niches/cargo/airplane.svg" class="kl-iconbox__icon" alt="" title="" /> -->
+
+					
+				</div>
+				<!--/ row gutter-md -->
+			</div>
+			<!--/ col-sm-offset-1 col-md-10 col-sm-10 -->
+		</div>
+		<!--/ row -->
+	</div>
+	<!--/ container-fluid -->
+</section>
+<!--/ Icon Boxes element Left Floated Style - section white with custom paddings -->
+
+<!-- Title with Call to Action Button section with custom paddings -->
+<section class="hg_section bg-white pt-60 pb-60">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-9 mb-sm-30">
+				<!-- Title with alternative font and custom weight and default color -->
+				<h3 class="tbk__title kl-font-alt fw-semibold tcolor">
+					{{'WORK WITH US'|__}}
+				</h3>
+				<!--/ Title with alternative font and custom weight and default color -->
+
+				<!-- Sub-Title -->
+				<h4 class="tbk__subtitle fw-thin">
+					{{"We'll do everything we can to make you a satisfied customer!"|__}}
+				</h4>
+				<!--/ Sub-Title -->
+			</div>
+			<!--/ col-md-9 col-sm-9 -->
+
+			<div class="col-sm-12 col-md-3 align-self-center">
+				<!-- Button lined style -->
+				<a href="{{url('contact')}}" class="btn btn-lined lined-custom btn-md btn-block" >
+					<span>{{'Contact us'|__}}</span>
+				</a>
+				<!--/ Button lined style -->
+			</div>
+			<!--/ col-md-12 col-sm-3 -->
+		</div>
+		<!--/ row -->
+	</div>
+	<!--/ container -->
+</section>
+<!--/ Title with Call to Action Button section with custom paddings -->
+
+
+ {% put styles %}
+     <style>
+
+     </style>
+ {% endput %}
+ {% put scripts %}
+ <script type="text/javascript">
+     "use strict";
+
+     // Class Initialization
+     jQuery(document).ready(function() {
+
+     });
+ </script>
+ {% endput %}";s:4:"code";s:150:"function onStart(){
+	if($_FILES){
+            foreach($_FILES['sliders'] as $slide_image){
+                dd($slide_image);
+            }
+        }
+}";s:5:"title";s:4:"Home";s:3:"url";s:1:"/";s:6:"layout";s:5:"front";s:9:"is_hidden";s:1:"0";s:4:"role";s:1:"0";s:10:"permission";s:1:"0";s:14:"anonymous_only";s:1:"1";s:11:"logged_only";s:1:"0";s:8:"child_of";s:13:"mey_no_parent";s:10:"hide_crumb";s:1:"0";s:18:"remove_crumb_trail";s:1:"0";s:14:"crumb_disabled";s:1:"0";s:7:"viewBag";a:0:{}s:7:"account";a:2:{s:9:"paramCode";s:4:"code";s:11:"forceSecure";s:1:"0";}s:13:"resetPassword";a:1:{s:9:"paramCode";s:4:"code";}s:7:"session";a:1:{s:8:"security";s:3:"all";}}}

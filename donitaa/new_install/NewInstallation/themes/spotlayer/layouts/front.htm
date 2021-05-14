@@ -1,0 +1,927 @@
+description = "Front layout"
+
+[localePicker]
+forceUrl = 1
+
+[staticMenu mainMenu]
+code = "main-front-menu"
+
+[staticBreadcrumbs]
+
+[account]
+redirect = "login"
+paramCode = "code"
+forceSecure = 0
+
+[session]
+security = "all"
+
+[breadcrumbs]
+main-ol-class = "breadcrumb"
+active-class = "active"
+disabled-class = "disabled"
+==
+<?php
+use \Spot\Shipment\Models\Settings;
+use RainLab\Translate\Classes\Translator;
+use RainLab\Translate\Components\LocalePicker;
+protected $translator;
+function onMyRegister()
+{
+    $data['role_id']         = 5;
+    $this['account']->onRegister();
+}
+?>
+==
+<!doctype html>
+<html lang="{{currentLang}}" {% if currentLang == 'ar'%}direction="rtl" dir="rtl" style="direction: rtl"{% else %}dir="ltr"{% endif %} class="no-js">
+    <head>
+        <base href="{{ 'assets/admin'|theme }}"><!--end::Base Path -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{{ this.page.title|__ }} | {{ settings.company.title|__ }}</title>
+    	<!-- meta -->
+    	<meta http-equiv="content-type" content="text/html; charset={{ settings.company.charset }}" />
+    	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    	<!-- Uncomment the meta tags you are going to use! Be relevant and don't spam! -->
+    	<meta name="keywords" content="{{ settings.company.keywords|__ }}" />
+    	<meta name="description" content="{{ settings.company.description|__ }}">
+
+        {% if settings.favicon.path %}
+            <!-- iDevices & Retina Favicons -->
+        	<link rel="apple-touch-icon-precomposed" type="image/x-icon" href="{{ settings.favicon.thumb(72,72) }}" sizes="72x72" />
+        	<link rel="apple-touch-icon-precomposed" type="image/x-icon" href="{{ settings.favicon.thumb(114,114) }}" sizes="114x114" />
+        	<link rel="apple-touch-icon-precomposed" type="image/x-icon" href="{{ settings.favicon.thumb(144,144) }}" sizes="144x144" />
+        	<link rel="apple-touch-icon-precomposed" type="image/x-icon" href="{{ settings.favicon.path }}" />
+
+        	<!--  Desktop Favicons  -->
+        	<link rel="icon" type="image/png" href="{{ settings.favicon.path }}" sizes="32x32">
+        {% endif %}
+
+    	<!-- Google Fonts CSS Stylesheet // More here http://www.google.com/fonts#UsePlace:use/Collection:Open+Sans -->
+    	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400italic,400,600,600italic,700,800,800italic" rel="stylesheet" type="text/css">
+    	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    	<!-- ***** Boostrap Custom / Addons Stylesheets ***** -->
+    	<link rel="stylesheet" href="./front/css/bootstrap.css" type="text/css" media="all">
+
+    	<!-- Font Awesome icons library -->
+    	<link rel="stylesheet" href="./front/fonts/font-awesome/css/font-awesome.min.css" type="text/css" media="all">
+
+    	<!-- Required CSS file for IOS Slider element  -->
+    	<link rel="stylesheet" href="./front/css/sliders/ios/style.css" type="text/css" media="all">
+
+    	<!-- ***** Main + Responsive & Base sizing CSS Stylesheet ***** -->
+    	<link rel="stylesheet" href="./front/css/template.css" type="text/css" media="all">
+    	<link rel="stylesheet" href="./front/css/responsive.css" type="text/css" media="all">
+    	<link rel="stylesheet" href="./front/css/base-sizing.css" type="text/css" media="all">
+
+    	<!-- Required custom CSS file for this niche -->
+    	<link rel="stylesheet" href="./front/css/niches/custom-cargo.css" type="text/css" />
+
+    	<!-- Custom CSS Stylesheet (where you should add your own css rules) -->
+    	<link rel="stylesheet" href="./front/css/custom.css" type="text/css" />
+
+    	<!-- Modernizr Library -->
+    	<script type="text/javascript" src="./front/js/modernizr.min.js"></script>
+
+    	<!-- jQuery Library -->
+    	<script type="text/javascript" src="./front/js/jquery.js"></script>
+
+        {% if currentLang == 'ar'%}
+            <link href='http://fonts.googleapis.com/css?family=Changa:300,400,500,600,700' rel='stylesheet' type='text/css'>
+        {% else %}
+
+        {% endif %}
+        <!--end::Global Theme Styles -->
+        <!--begin::Layout Skins(used by all pages) -->
+        <style id="template-colors"> a:hover,.cart-container > .widget_shopping_cart_content .checkout,.sc-infopop__btn,.m_title,.smallm_title,.circle_title,.zn_text_box-title--style1,.feature_box .title,.services_box--classic .services_box__title,.latest_posts.default-style .hoverBorder:hover h6,.latest_posts.style2 ul.posts .title,.recentwork_carousel--1 .recentwork_carousel__crsl-title,.acc--default-style .acc-tgg-button,.acc--style3 .acc-tgg-button:after,.screenshot-box .left-side h3.title,.vertical_tabs.kl-style-1 .tabbable .nav>li.active>a,.services_box_element .box .list li,.shop-latest .tabbable .nav li.active a,.product-list-item:hover .details h3,.product-category .product-list-item:hover h3,.eBlog .itemContainer:not(.featured-post) .post_details .catItemAuthor a,.theHoverBorder:hover,.text-custom,.text-custom-hover:hover,.statbox h4 , #bbpress-forums .bbp-topics li.bbp-body .bbp-topic-title > a,.ib2-text-color-light-theme .ib2-info-message:before,.tbk--color-theme.tbk-symbol--icon .tbk__icon,.pricing-table-element .plan-column .plan-title,.process_steps--style2 .process_steps__step-icon,.vertical_tabs.kl-style-2 .tabbable .nav>li>a:hover,.vertical_tabs.kl-style-2 .tabbable .nav>li.active>a [data-zn_icon]:before,.vertical_tabs.kl-style-2 .tabbable .nav>li>a:hover [data-zn_icon]:before,.services_box--boxed .services_box__fonticon,.services_box--boxed .services_box__list li,.woocommerce ul.product_list_widget li .star-rating,.woocommerce .woocommerce-product-rating .star-rating,body .static-content__infopop .sc-infopop__btn, .hg_accordion_element.style3 .th-accordion .acc-group > a, .grid-ibx__item:hover .grid-ibx__icon, .kl-iconbox__title, .full-portfolio .hg-portfolio-sortable #portfolio-nav li a:hover, .full-portfolio .hg-portfolio-sortable #portfolio-nav li.current a, ul.thumbs.style2 .appreciate::before, .product-list-item:hover .kw-details-title, .kl-store-page ul.products li.product .product-list-item:hover .kw-details-title, .kl-store.widget ul.product_list_widget li .star-rating, .testimonial_slider.quoter-style .testimonialbox .who strong, .hg_accordion_element.default-style .th-accordion .acc-group > button, .team-member .mmb-position, .kl-iconbox.stage:hover .kl-iconbox__icon, .priceListElement-itemPrice, .hg_accordion_element.style2 .th-accordion .acc-group > button, .fun-fact .fun-number, .site-header .kl-header-toptext a, .testimonial_slider__carousel-wrapper .testimonialbox .who strong, .image-boxes__carousel-wrapper .inner-slide:hover a {color: #f0aa1d; } .tcolor, .vertical_tabs .tabbable .nav>li.active>a, .vertical_tabs .tabbable .nav>li>a:hover, .vertical_tabs .tabbable .nav>li.active>a>span, .vertical_tabs .tabbable .nav>li>a:hover>span, .services_boxes_wgt li:hover .kl-icon, .works_carousel.stl-simple .inner-slide:hover a, .works_carousel.stl-simple .inner-slide a:hover, .orange, .blue, .works_carousel .cfs--navigation a:hover::before, .vertical_tabs .tabbable .nav>li>a.active, .vertical_tabs .tabbable .nav>li>a.active>span, .hg_accordion_element.style4 .th-accordion .acc-group a {color: #f0aa1d !important; } .tbg, .photo-wall .pw-item::after, .bg-default, .site-header .kl-cart-button .fas:after, .logo-container .logo-infocard .right-side, .hg_accordion_element.style5 .th-accordion a::before, .image-boxes__carousel-wrapper .inner-slide .imgprev, .hg_accordion_element.style4 > h3, .hg_accordion_element.style3 .th-accordion .acc-group a:before, .keywordbox.keywordbox-4 {background-color: #f0aa1d !important;} .acc--style4,#page-loading:after,.ib2-text-color-light-theme .ib2-info-message:before,.itemThumbnail .overlay__inner a:hover,.acc--style4 .acc-tgg-button .acc-icon, .btn-lined.lined-custom, .hg_accordion_element.style4 .th-accordion {border-color: #f0aa1d; } .btn-lined.lined-custom:hover {border-color: rgba(241,196,15,0.7);} .acc--style3 .acc-tgg-button:hover,.acc--style3 .acc-tgg-button:hover:after,.acc--default-style .acc-tgg-button,.acc--style2 .acc-tgg-button,.acc--style3 .acc-tgg-button,.acc--style4 .acc-tgg-button, .btn-lined.lined-custom {color: #f0aa1d ; } .tabs_style5 > ul.nav > li.active > a, .wgt-title > span, .tabs_style5 > ul.nav > li > a.active {border-bottom: 2px solid #f0aa1d; } header.style1,header.style2 .site-logo a,header.style3 .site-logo a {border-top: 3px solid #f0aa1d; } .tabs_style1 > ul.nav > li.active > a, .tabs_style1 > ul.nav > li > a.active {box-shadow: inset 0 3px 0 #f0aa1d; } .main-nav > ul > li > a:before,.main-nav .zn_mega_container li a:not(.zn_mega_title):before,.social-icons.sc--normal li a:hover,.action_box,body .circlehover,body .kl-flex--classic .zn_general_carousel-arr:hover,body .kl-ioscaption--style1 .more:before,body .kl-ioscaption--style1 .more:after,body .kl-ioscaption--style2 .more,body .nivo-directionNav a:hover,body .th-wowslider a.ws_next:hover,body .th-wowslider a.ws_prev:hover,body .ca-more,body .title_circle,body .title_circle:before,body ul.links li a,.hg-portfolio-sortable #portfolio-nav li a:hover, .hg-portfolio-sortable #portfolio-nav li.current a,.kl-ioscaption--style1 .more:before, .kl-ioscaption--style1 .more:after,.btn-flat ,.zn_limited_offers li:after,.login-panel .login_facebook ,.imgboxes_style1 .hoverBorder h6,.circlehover:before,.kl-cta-ribbon,.newsletter-signup input[type=submit],.recentwork_carousel--1 .recentwork_carousel__bg,.zn-acc--style4 .acc-title,.zn-acc--style3 .acc-tgg-button:before,.process_box .content:before,#bbpress-forums div.bbp-search-form input[type=submit], #bbpress-forums .bbp-submit-wrapper button, #bbpress-forums #bbp-your-profile fieldset.submit button,.bg-custom,.bg-custom-hover:hover,.site-header.style8 .kl-main-header .kl-cta-lined,.site-header.style9 .kl-cta-lined,.latest_posts.default-style.kl-style-2 .lp-title,.latest_posts.default-style.kl-style-2 .post:not(.lp-title) .m_title:after,.latest_posts.default-style .hoverBorder h6,.itemThumbnail .overlay__inner a:hover,.elm-searchbox--normal .elm-searchbox__submit,.elm-searchbox--transparent .elm-searchbox__submit,.itemThumbnail .overlay__inner a:hover,.zn-acc--style4 .acc-tgg-button .acc-icon:before,span.zn_badge_sale,span.zn_badge_sale:after,.zn_limited_offers li:before,.style3 .action_box_inner,.style3 .action_box_inner:before,.action_box.style3:before,.circlehover.style2,.circlehover.style2:before,body .kl-flex--classic .zn_simple_carousel-arr:hover, .main-nav .hg_mega_container li a:not(.zn_mega_title):before {background-color: #f0aa1d; } .breadcrumbs li:after,.ib2-text-color-light-theme .ib2-inner, .breadcrumbs li:after, .breadcrumbs2 li:after, .photogallery-widget .pg-thumb:nth-child(even) .pg-caption::before, .portfolio-item-details.travel li::before {border-left-color: #f0aa1d; } .kl-cta-ribbon .trisvg path,.kl-bottommask .bmask-customfill,.kl-slideshow .kl-loader svg path,.kl-slideshow.kl-loadersvg rect,.kl-diagram circle, .kl-cta-ribbon .trisvg {fill: #f0aa1d; } .how_to_shop .number, .newsletter-signup input[type=submit], .th-map_controls, .hg-portfolio-sortable #portfolio-nav li.current a, .ptcarousel .controls > a:hover, .itemLinks span a:hover, .product-list-item .kw-actions a, .woocommerce ul.products li.product .product-list-item .kw-actions a, .shop-features .shop-feature:hover, .btn-flat, .redbtn, .imgboxes_style1 .hoverBorder h6, .feature_box.style3 .box:hover, .services_box--classic:hover .services_box__icon, services_box_element:hover .box .icon, .latest_posts.default-style .hoverBorder h6, .process_steps--style1 .process_steps__intro, .process_steps--style2 .process_steps__intro, .recentwork_carousel.style2 li a .details .plus, .gobox.ok:before, .gobox.ok:after, .gobox.ok, .recentwork_carousel--1 .recentwork_carousel__bg, .circlehover:before,.kl-ioscaption--style1 .more:before, .kl-ioscaption--style1 .more:after ,.kl-ioscaption--style2 .more {background-color: #f0aa1d; } .hover-box:hover {background-color: #f0aa1d !important;} .vertical_tabs.kl-style-1 .tabbable .nav>li.active>a, .vertical_tabs.kl-style-1 .tabbable .nav >li > a.active {box-shadow: inset -3px 0 0 0 #f0aa1d !important;} .action_box:before, .action_box:after, .site-header.style1, .site-header.style6, .site-header.style4 .site-logo a, .site-header.style5 {border-top-color: #f0aa1d; } .process_steps--style1 .process_steps__intro:after,body .nivo-caption,body .kl-flex--classic .flex-caption,body .th-wowslider .ws-title,.process_box[data-align=left] .content:after,body .ls--laptop .ls__item-caption {border-left-color: #f0aa1d; } .process_box[data-align=right] .content:after, .photogallery-widget .pg-thumb:nth-child(odd) .pg-caption::before {border-right-color: #f0aa1d; } .theHoverBorder:hover {box-shadow: 0 0 0 5px #f0aa1d inset; } .vertical_tabs.kl-style-1 .tabbable .nav>li.active>a {box-shadow: inset -3px 0 0 0 #f0aa1d inset; } .offline-page .containerbox {border-bottom: 5px solid #f0aa1d; } .offline-page .containerbox:after {border-top: 20px solid #f0aa1d; } .site-header.style2 .site-logo a, .site-header.style5, .site-header.style6 .site-logo a {border-top: 3px solid #f0aa1d; } body .kl-ioscaption--style2 .title_big, body .kl-ioscaption--style2 .title_small {border-left: 5px solid #f0aa1d; } body .kl-ioscaption--style2.fromright .title_big, body .kl-ioscaption--style2.fromright .title_small {border-right: 5px solid #f0aa1d ; } #buddypress form#whats-new-form p.activity-greeting:after {border-top-color: #f0aa1d; } #buddypress input[type=submit],#buddypress input[type=button],#buddypress input[type=reset] ,#buddypress .activity-list li.load-more a, .stg-bigblog .bb-title .bb-category, .product-list-item .kw-actions a, .kl-store-page ul.products li.product .product-list-item .kw-actions a, .btn-flat, .kl-store-page a.button, .kl-store-page button.button, .kl-store-page button.button.alt, .kl-store-page input.button, .kl-store-page input#button, .kl-store-page #review_form #submit, .fancy-list li:hover::before, .testimonial_slider.quoter-style .cfs--pagination a.selected, .photogallery-widget .pg-thumb .pg-caption, ul.dash-list li::before, .kl-iconbox--sh-circle span.kl-iconbox__icon, .process-list .processitems li:hover .ico-wrapper > span, .works_carousel.stl-simple .inner-slide .imgprev {background: #f0aa1d; } #buddypress div.item-list-tabs ul li.selected a,#buddypress div.item-list-tabs ul li.current a {border-top: 2px solid #f0aa1d; } #buddypress form#whats-new-form p.activity-greeting,.widget.buddypress ul.item-list li:hover {background-color: #f0aa1d; } .widget.buddypress div.item-options a.selected ,#buddypress div.item-list-tabs ul li.selected a,#buddypress div.item-list-tabs ul li.current a ,#buddypress div.activity-meta a ,#buddypress div.activity-meta a:hover,#buddypress .acomment-options a {color: #f0aa1d; } .keywordbox.keywordbox-2, .hg_post_image, .hg_full_image {border-bottom: 5px solid #f0aa1d;} {border-bottom: solid 5px #f0aa1d; } .keywordbox.keywordbox-3 {border-bottom: solid 10px #f0aa1d; } .process_box4 .number:before,.loginbox-popup input[type=submit],.login-panel .login_facebook {background: #f0aa1d; } .statistics-horizontal .v-line {border-bottom: dotted 1px #f0aa1d; } .statistics-vertical::before {border-left: dotted 1px #f0aa1d; } .circle-text-box.style3 .wpk-circle-span,.circle-text-box.style2 .wpk-circle-span::before {background: #f0aa1d; } .circle-text-box:not(.style3) .wpk-circle-span:after {background-color: #f0aa1d; } .circle-text-box .wpk-circle-title,.media-container .media-container__link--style-borderanim2 .media-container__text:hover {color: #f0aa1d; } .services_box--modern .services_box__icon {box-shadow: inset 0 0 0 2px #f0aa1d; } .services_box--modern:hover .services_box__icon {box-shadow: inset 0 0 0 40px #f0aa1d; } .services_box--modern .services_box__fonticon {color: #f0aa1d; } .services_box--modern .services_box__list li:before {box-shadow: 0 0 0 2px #f0aa1d; } .services_box--modern .services_box__list li:hover:before {box-shadow: 0 0 0 3px #f0aa1d; } .kl-has-overlay .img-intro:hover .overlay {box-shadow: inset 0 -8px 0 0 #f0aa1d; } .kl-cta-ribbon, .hg_accordion_element.style3 .th-accordion .acc-group > a:before, .tbk-symbol--line_border .tbk__symbol span, .stl-hoverstyle .cfs--navigation a:hover {background-color: #f0aa1d} .kl-cta-ribbon .trisvg path {fill: #f0aa1d} .logo-container .logo-infocard {background: #f0aa1d} body .kl-ioscaption--style4 .more:before {border-color: #f0aa1d; background: rgba(241,196,15,0.7)} body .kl-ioscaption--style4 .more:hover:before, .cart-container .buttons .button.wc-forward:hover, .logo-container .logo-infocard .left-side, .kl-ios-selectors-block.bullets2 .item.selected::before, .kl-ios-selectors-block.bullets2 .item:hover:before {background: rgba(241,196,15,0.9)} .timeline_box:hover:before {background-color: #f0aa1d} body .kl-ioscaption--style3.s3ext .main_title::before,body .kl-ios-selectors-block.bullets2 .item.selected::before,.iosslider__item .kl-ioscaption--style5 .klios-separator-line span,.btn-fullcolor,.btn-fullcolor:focus,.btn-fullcolor.btn-skewed:before,.cart-container .buttons .button.wc-forward,body .kl-flex--modern .flex-underbar,.tbk--color-theme.tbk-symbol--line .tbk__symbol span,.tbk--color-theme.tbk-symbol--line_border .tbk__symbol span,.ls__nav-item.selected,.site-header.style7 .kl-cart-button .glyphicon:after,.how_to_shop .number,.recentwork_carousel--2 .recentwork_carousel__title:after,.recentwork_carousel_v3 .btn::before,.recentwork_carousel--2 .recentwork_carousel__cat,.recentwork_carousel_v2 .recentwork_carousel__plus,.recentwork_carousel_v3 .recentwork_carousel__cat,.pricing-table-element .plan-column.featured .subscription-price .inner-cell,.shop-latest .tabbable .nav li.active a:before,.product-list-item .kw-actions a, .woocommerce ul.products li.product .product-list-item .kw-actions a,.latest_posts.style2 ul.posts .details span.date,.eBlog .related-articles .rta-post > a:after,.shop-features .shop-feature:hover,.cart-container .buttons .button.wc-forward,.media-container__link--style-borderanim1 > i,.site-header .kl-cart-button .glyphicon:after,.chaser .main-menu li.active > a,.imgboxes_style4 .imgboxes-title:after,.woocommerce a.button,.woocommerce button.button,.woocommerce button.button.alt,.woocommerce input.button,.woocommerce input#button,.woocommerce #review_form #submit {background-color: #f0aa1d; } .borderanim2-svg__shape {stroke: #f0aa1d !important; } .btn-fullcolor.btn-skewed:hover:before,.woocommerce a.button:hover,.woocommerce button.button:hover,.woocommerce button.button.alt:hover,.woocommerce input.button:hover,.woocommerce input#button:hover,.woocommerce #review_form #submit:hover {background-color: #a41a1b } .site-header.style8 .kl-main-header,.site-header.style9,.shop-latest .tabbable .nav li.active a:after,.zn_post_image,.zn_full_image,.sidebar .widget .widgettitle:after,.imgboxes_style4.kl-title_style_bottom .imgboxes-border-helper,.imgboxes_style4.kl-title_style_bottom:hover .imgboxes-border-helper,.statistic-box__line, .read-more-link:hover {border-bottom-color: #f0aa1d} .fake-loading:after {border: 2px solid rgba(241,196,15,0.15); border-top-color: #f0aa1d; border-right-color: #f0aa1d; } .latest_posts.style2 ul.posts .details span.date:after {border-top-color: #f0aa1d; } .eluidf3608cd8 .kl-bg-source__overlay {background: #f0aa1d ; } .kl-iconbox--sh-circle:hover span.kl-iconbox__icon:after, .kl-iconbox--sh-circle:hover span.kl-iconbox__icon, .btn-fullcolor:hover {background: rgba(241,196,15,0.7) } .btn-fullcolor.btn-skewed:hover:before, .section-video-icons .right-side {background-color: rgba(241,196,15,0.7) !important; } .skills_wgt .skill-bar > i {background: #f0aa1d !important;} .works_carousel .inner-slide:hover .imgprev::after {border-bottom: 8px solid #f0aa1d !important;} .site-header.style2 .kl-main-header, .site-header.style3, .site-header.style10 {border-bottom: 3px solid #f0aa1d;} </style>
+        <!--end::Layout Skins -->
+        {% styles %}
+    </head>
+
+    <body class="preloader sticky-header {% if currentLang == 'ar'%}rtl{% endif %}">
+
+    	<!-- Support Panel -->
+    	<input type="checkbox" id="support_p" class="panel-checkbox">
+    	<div class="support_panel">
+    		<div class="support-close-inner">
+    			<label for="support_p" class="spanel-label inner">
+    				<span class="support-panel-close">×</span>
+    			</label>
+    		</div>
+    		<div class="container">
+    			<div class="row">
+    				<div class="col-sm-12 col-md-12 col-lg-9">
+    					<!-- Title -->
+    					<h4 class="m_title mb-20">
+    						{{'HOW TO ORDER'|__}}
+    					</h4>
+
+    					<!-- Content - how to shop steps -->
+    					<div class="m_content how_to_shop">
+    						<div class="row">
+    							<div class="col-sm-4">
+    								<span class="number">1</span> {{'Login or create new account'|__}}.
+    							</div>
+    							<!--/ col-sm-4 -->
+
+    							<div class="col-sm-4">
+    								<span class="number">2</span> {{'Place your shipment request'|__}}.
+    							</div>
+    							<!--/ col-sm-4 -->
+
+    							<div class="col-sm-4">
+    								<span class="number">3</span> {{'Other steps on us'|__}}.
+    							</div>
+    							<!--/ col-sm-4 -->
+    						</div>
+    						<!--/ row -->
+
+    						<p>
+    							{{'If you still have problems, please let us know, by sending an email to'|__}} {{settings.company.primary_email}} . {{'Thank you!'|__}}
+    						</p>
+    					</div>
+    					<!--/ Content - how to shop steps -->
+    				</div>
+    				<!--/ col-sm-12 col-md-12 col-lg-9 -->
+
+    				<div class="col-sm-12 col-md-12 col-lg-3">
+    					<!-- Title -->
+    					<h4 class="m_title mb-20">
+    						{{'Contact Us'|__}}
+    					</h4>
+
+    					<!-- Content -->
+    					<div class="m_content">
+    						{{settings.company.company_phone}}<br />
+    						{{settings.company.address}}
+    					</div>
+    					<!--/ Content -->
+    				</div>
+    				<!--/ col-sm-12 col-md-12 col-lg-3 -->
+    			</div>
+    			<!--/ row -->
+    		</div>
+    		<!--/ container -->
+    	</div>
+    	<!--/ Support Panel -->
+
+
+    	<!-- Page Wrapper -->
+    	<div id="page_wrapper">
+    		<!-- Header style 1 -->
+    		<header id="header" class="site-header cta_button" data-header-style="1">
+    			<!-- Header background -->
+    			<div class="kl-header-bg"></div>
+    			<!--/ Header background -->
+
+    			<!-- Header wrapper -->
+    			<div class="site-header-wrapper">
+    				<!-- Header Top wrapper -->
+    				<div class="site-header-top-wrapper">
+    					<!-- Header Top container -->
+    					<div class="siteheader-container container">
+    						<!-- Header Top -->
+    						<div class="site-header-row site-header-top d-flex flex-row">
+    							<!-- Header Top Left Side -->
+    							<div class="site-header-top-left w-md-60 w-50 d-flex justify-content-start">
+    								<!-- Header Top Social links -->
+    								<ul class="topnav social-icons sc--clean align-self-center">
+                                        {% if settings.company.facebook %}
+    									<li>
+    										<a href="{{ settings.company.facebook }}" target="_self" title="{{'Facebook'|__}}">
+    											<i class="fab fa-facebook-f"></i>
+    										</a>
+    									</li>
+                                        {% endif %}
+                                        {% if settings.company.twitter %}
+    									<li>
+    										<a href="{{ settings.company.twitter }}" target="_self" title="{{'Twitter'|__}}">
+    											<i class="fab fa-twitter"></i>
+    										</a>
+    									</li>
+                                        {% endif %}
+                                        {% if settings.company.instagram %}
+    									<li>
+    										<a href="{{ settings.company.instagram }}" target="_self" title="{{'Instagram'|__}}">
+    											<i class="fab fa-instagram"></i>
+    										</a>
+    									</li>
+                                        {% endif %}
+    								</ul>
+    								<!--/ Header Top Social links -->
+
+    								<div class="clearfix visible-xxs">
+    								</div>
+
+    								<!-- Top Header contact text -->
+    								<div class="kl-header-toptext align-self-center">
+    									<span class="topnav-item--text">{{'QUESTIONS? CALL'|__}}: </span>
+    									<i class="phone-header fas fa-phone ml-5 visible-xs visible-sm visible-md"></i>
+    									<a href="tel:{{ settings.company.company_phone }}" class="fw-bold">{{ settings.company.company_phone }}</a>
+    								</div>
+    								<!--/ Top Header contact text -->
+    							</div>
+    							<!--/ .site-header-top-left -->
+
+    							<!-- Header Top Right Side -->
+    							<div class="site-header-top-right w-md-40 w-50 d-flex justify-content-end">
+                                    {% if locales %}
+        								<!-- Languages -->
+        								<div class="topnav topnav--lang align-self-center">
+        									<div class="languages drop">
+        										<a href="javascript:;" class="topnav-item">
+        											<span class="fas fa-globe xs-icon"></span>
+        											<span class="topnav-item--text">{{'LANGUAGES'|__}}</span>
+        										</a>
+        										<div class="pPanel">
+        											<ul class="inner">
+                                                        {% for code, name in locales %}
+            												<li class="toplang-item {% if activeLocale == code %}active{% endif %}">
+            													<a href="javascript:;" class="locale" rel="{{code}}">
+            														<img src="./front/images/{{code}}.svg" alt="{{name}}" class="toplang-flag"> {{name|capitalize}}
+            													</a>
+            												</li>
+                                                        {% endfor %}
+        											</ul>
+        										</div>
+        									</div>
+        								</div>
+        								<!--/ Languages -->
+                                    {% endif %}
+
+    								<div class="topnav support--panel align-self-center">
+    									<!-- Support panel trigger -->
+    									<label for="support_p" class="topnav-item spanel-label">
+    										<i class="fas fa-info-circle support-info"></i>
+    										<span class="topnav-item--text">{{'SUPPORT'|__}}</span>
+    									</label>
+    									<!--/ Support panel trigger -->
+    								</div>
+
+                                    {% if user %}
+                                    <div class="topnav topnav--lang align-self-center">
+                                        <div class="languages drop">
+                                            <a href="javascript:;" class="topnav-item">
+                                                <span class="fas far fa-user-circle xs-icon"></span>
+                                                <span class="topnav-item--text">{{'ACCOUNT'|__}}</span>
+                                            </a>
+                                            <div class="pPanel">
+                                                <ul class="inner">
+                                                    <li class="toplang-item">
+                                                        <a href="{{'dashboard/dashboard'|page}}">
+                                                            <img src="./front/images/set-03-01.svg" alt="{{'Dashboard'|__}}" class="toplang-flag"> {{'Dashboard'|__}}
+                                                        </a>
+                                                    </li>
+                                                    <li class="toplang-item">
+                                                        <a href="{{'dashboard/profile'|page}}">
+                                                            <img src="./front/images/set-03-04.svg" alt="{{'Profile'|__}}" class="toplang-flag"> {{'Profile'|__}}
+                                                        </a>
+                                                    </li>
+                                                    <li class="toplang-item">
+                                                        <a href="javascript:;" data-request="onLogout" data-request-data="redirect: '/'">
+                                                            <img src="./front/images/set-03-03.svg" alt="{{'Logout'|__}}" class="toplang-flag"> {{'Logout'|__}}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% else %}
+    								<!-- Login trigger -->
+    								<div class="topnav login--panel align-self-center">
+    									<a class="topnav-item popup-with-form" href="#login_panel">
+    										<i class="login-icon fas fa-sign-in-alt visible-xs xs-icon"></i>
+    										<span class="topnav-item--text">{{'LOGIN'|__}}</span>
+    									</a>
+    								</div>
+    								<!--/ Login trigger -->
+                                    {% endif %}
+    							</div>
+    							<!--/ .site-header-top-right -->
+    						</div>
+    						<!--/ .site-header-row .site-header-top -->
+
+    						<!-- Header separator -->
+    						<div class="separator site-header-separator"></div>
+    						<!--/ Header separator -->
+    					</div>
+    					<!--/ .siteheader-container .container -->
+    				</div>
+    				<!--/ Header Top wrapper -->
+
+    				<!-- Header Main wrapper -->
+    				<div class="site-header-main-wrapper d-flex">
+    					<!-- Header Main container -->
+    					<div class="siteheader-container container align-self-center">
+    						<!-- Header Main -->
+    						<div class="site-header-row site-header-main d-flex flex-row justify-content-between">
+    							<!-- Header Main Left Side -->
+    							<div class="site-header-main-left d-flex justify-content-start align-items-center">
+    								<!-- Logo container-->
+    								<div class="logo-container hasInfoCard logosize--yes">
+    									<!-- Logo -->
+    									<h1 class="site-logo logo" id="logo">
+    										<a href="{{url('/'~currentLang)}}" title="">
+    											<img src="{% if settings.mobile_logo %}{{ settings.mobile_logo.path }}{% else %}./admin/media/logos/logo.svg{% endif %}" class="logo-img" alt="{{ settings.company.title|__ }}" title="{{ settings.company.title|__ }}" />
+    										</a>
+    									</h1>
+    									<!--/ Logo -->
+
+    									<!-- InfoCard -->
+    									<div id="infocard" class="logo-infocard">
+    										<div class="custom">
+    											<div class="row">
+    												<div class="col-sm-6 left-side d-flex">
+    													<div class="align-self-center">
+    														<div class="infocard-wrapper text-center">
+    															<img src="{% if settings.favicon %}{{ settings.favicon.thumb(72,72) }}{% else %}./admin/media/logos/logo.svg{% endif %}" class="mb-25" alt="{ settings.company.title|__ }}" title="{ settings.company.title|__ }}" />
+    															<p>
+    																{{ settings.company.description|__ }}.
+    															</p>
+    														</div>
+    														<!--/ infocard-wrapper -->
+    													</div>
+    													<!--/ .align-self-center -->
+    												</div>
+    												<!--/ col-sm-6 left-side d-flex -->
+
+    												<div class="col-sm-6 right-side">
+    													<div class="custom contact-details">
+    														<p>
+    															{{ settings.company.contact_phone }} <br>
+    															{{ settings.company.address }} <br>
+    															<a href="mailto:{{ settings.company.primary_email }}">{{ settings.company.primary_email }}</a>
+    														</p>
+    													</div>
+    													<div style="height:20px;">
+    													</div>
+    													<!-- Social links clean style -->
+    													<ul class="social-icons sc--clean">
+                                                            {% if settings.company.twitter %}
+    														<li><a href="{{ settings.company.twitter }}" target="_blank" class="fab fa-twitter" title="Twitter"></a></li>
+                                                            {% endif %}
+                                                            {% if settings.company.facebook %}
+    														<li><a href="{{ settings.company.facebook }}" target="_blank" class="fab fa-facebook-f" title="Facebook"></a></li>
+                                                            {% endif %}
+                                                            {% if settings.company.instagram %}
+    														<li><a href="{{ settings.company.instagram }}" target="_blank" class="fab fa-instagram" title="Instagram"></a></li>
+                                                            {% endif %}
+    													</ul>
+    													<!--/ Social links clean style -->
+    												</div>
+    												<!--/ col-sm-6 right-side -->
+    											</div>
+    											<!--/ row -->
+    										</div>
+    										<!--/ custom -->
+    									</div>
+    									<!--/ InfoCard -->
+    								</div>
+    								<!--/ logo container-->
+
+    								<!-- Separator -->
+    								<div class="separator visible-xxs"></div>
+    								<!--/ Separator -->
+    							</div>
+    							<!--/ .site-header-main-left -->
+
+    							<!-- Header Main Center Side -->
+    							<div class="site-header-main-center d-flex justify-content-center align-items-center">
+    								<!-- Main Menu wrapper -->
+    								<div class="main-menu-wrapper">
+    									<!-- Responsive menu trigger -->
+    									<div id="zn-res-menuwrapper">
+    										<a href="javascript:;" class="zn-res-trigger "></a>
+    									</div>
+    									<!--/ responsive menu trigger -->
+
+    									<!-- Main menu -->
+                            			{% if mainMenu.menuItems %}
+        									<div id="main-menu" class="main-nav zn_mega_wrapper">
+        										<ul id="menu-main-menu" class="main-menu zn_mega_menu">
+                                                    {% for item in mainMenu.menuItems if not item.viewBag.isHidden %}
+                                                        {% if user.hasUserPermission(item.code, 'r') or item.code is empty %}
+                											<li class="{% if item.items %}menu-item-has-children{% endif %} {{ item.isActive or item.isChildActive ? 'active' : '' }}">
+                                                                <a href="{% if item.url %}{{ item.url }}{% else %}#{% endif %}"  {{ item.viewBag.isExternal ? 'target="_blank"' }}>{{ item.title|__ }}</a>
+                                                                {% if item.items %}
+                    												<ul class="sub-menu clearfix">
+                                                                        {% for item in item.items if not item.viewBag.isHidden %}
+                                                                            {% if user.hasUserPermission(item.code, 'r') or item.code is empty %}
+                            													<li>
+                                                                                    <a href="{% if item.url %}{{ item.url }}{% else %}#{% endif %}">{{ item.title|__ }}</a>
+                                                                                    {% if item.items %}
+                                														<ul class="sub-menu clearfix">
+                                                                                            {% for item in item.items if not item.viewBag.isHidden %}
+                                                                                                {% if user.hasUserPermission(item.code, 'r') or item.code is empty %}
+                                        															<li><a href="{% if item.url %}{{ item.url }}{% else %}#{% endif %}">{{ item.title|__ }}</a></li>
+                                                                                                {% endif %}
+                                                                                            {% endfor %}
+                                														</ul>
+                                                                                    {% endif %}
+                            													</li>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                    												</ul>
+                                                                {% endif %}
+                											</li>
+                                                        {% endif %}
+                                                    {% endfor %}
+        										</ul>
+        									</div>
+                                        {% endif %}<!--/ Main menu -->
+    								</div>
+    								<!--/ .main-menu-wrapper -->
+    							</div>
+    							<!--/ .site-header-main-center -->
+
+    							<!-- Header Main Right Side -->
+    							<div class="site-header-main-right d-flex justify-content-end align-items-center">
+    								<!-- Call to action ribbon Free Quote (Contact form pop-up element) -->
+    								<div class="quote-ribbon">
+    									<a href="#contact_panel" id="ctabutton" class="ctabutton kl-cta-ribbon" title="GET A FREE QUOTE" target="_self">
+    										<strong>{{'TRACK'|__}}</strong>{{'package'|__}}
+    										<svg version="1.1" class="trisvg"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" preserveaspectratio="none" width="14px" height="5px" viewbox="0 0 14 5" enable-background="new 0 0 14 5" xml:space="preserve">
+    											<polygon fill-rule="nonzero" points="14 0 7 5 0 0"></polygon>
+    										</svg>
+    									</a>
+    								</div>
+    								<!--/ Call to action ribbon Free Quote (Contact form pop-up element) -->
+    							</div>
+    							<!--/ .site-header-main-right -->
+    						</div>
+    						<!--/ .site-header-row .site-header-main -->
+    					</div>
+    					<!--/ .siteheader-container .container -->
+    				</div>
+    				<!--/ Header Main wrapper -->
+    			</div>
+    			<!--/ Header wrapper -->
+    		</header>
+    		<!-- / Header style 1 -->
+
+            {% page %}
+
+            <footer id="footer" data-footer-style="4">
+            	<div class="container contact-details">
+            		<div class="row">
+            			<div class="row w-100 d-flex justify-content-between text-center">
+                            <div class="col-sm-4">
+                                <a href="mailto:{{ settings.company.primary_email }}" target="_blank" class="footer-links">
+                                    <i class="glyphicon glyphicon-user icon-size-xxs"></i>
+                                    <span>{{ settings.company.primary_email }}</span>
+                                </a>
+                            </div>
+
+            				<div class="col-sm-4">
+            					<a href="javascript:;" target="_blank" class="footer-links">
+            						<i class="glyphicon glyphicon-flag icon-size-xxs"></i>
+            						<span>{{ settings.company.address }}</span>
+            					</a>
+            				</div>
+
+            				<div class="col-sm-4">
+            					<a href="tel:{{ settings.company.company_phone }}" target="_blank" class="footer-links">
+            						<i class="glyphicon glyphicon-earphone icon-size-xxs"></i>
+            						<span>{{ settings.company.company_phone }}</span>
+            					</a>
+            				</div>
+            			</div>
+
+            			<div class="col-sm-12 d-flex justify-content-between">
+            				<!-- Social icons colored background, aligned center and rounded style -->
+            				<div class="elm-socialicons m-auto">
+            					<ul class="elm-social-icons sc--colored sh--rounded clearfix">
+                                    {% if settings.company.facebook %}
+            						<li>
+            							<a href="{{ settings.company.facebook }}" class="elm-sc-icon elm-sc-icon-0 fab fa-facebook-f bg-icon" target="_self" title="Facebook"></a>
+            						</li>
+                                    {% endif %}
+                                    {% if settings.company.twitter %}
+            						<li>
+            							<a href="{{ settings.company.twitter }}" class="elm-sc-icon elm-sc-icon-1 fab fa-twitter bg-icon" target="_self" title="Twitter"></a>
+            						</li>
+                                    {% endif %}
+                                    {% if settings.company.instagram %}
+            						<li>
+            							<a href="{{ settings.company.instagram }}" class="elm-sc-icon elm-sc-icon-2 fab fa-instagram bg-icon" target="_self" title="Instagram"></a>
+            						</li>
+                                    {% endif %}
+            					</ul>
+            				</div>
+            				<!--/ Social icons colored background, aligned center and rounded style -->
+            			</div>
+            			<!--/ col-sm-offset-2 col-md-8 col-sm-8 -->
+            		</div>
+            		<!--/ row -->
+
+            		<div class="row">
+            			<div class="col-sm-12 footer-area--bottom"></div>
+
+            			<!-- Left side Copyright -->
+            			<div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-start">
+            				<div class="d-flex mr-30">
+            					<a href="{{url('/')}}">
+                                    <img src="{% if settings.mobile_logo %}{{ settings.mobile_logo.path }}{% else %}./admin/media/logos/logo.svg{% endif %}" alt="{{ settings.company.title|__ }}" class="footer-logo" title="{{ settings.company.title|__ }}" />
+            					</a>
+            				</div>
+
+            				<div class="d-flex">
+            					<p>
+            						© {{'now'|date('Y')}} {{'All rights reserved'|__}}.
+            					</p>
+            				</div>
+            			</div>
+            			<!--/ Left side Copyright -->
+
+            			<!-- Right side -->
+            			<div class="col-sm-12 col-md-6 col-lg-6">
+            				<div class="d-block text-right">
+                                {{'Developed By'|__}} &nbsp;<a href="https://spotlayer.com" target="_blank">{{'Spotlayer'|__}}</a>.
+                			</div>
+            			</div>
+            			<!--/ Right side -->
+            		</div>
+            		<!--/ row -->
+            	</div>
+            	<!--/ container -->
+            </footer>
+    	</div>
+    	<!--/ Page Wrapper -->
+
+
+    	<!-- Login Panel content -->
+    	<div id="login_panel" class="mfp-hide loginbox-popup auth-popup">
+    		<div class="inner-container login-panel auth-popup-panel">
+    			<h3 class="m_title m_title_ext text-custom auth-popup-title tcolor">
+    				{{'SIGN IN YOUR ACCOUNT TO HAVE ACCESS TO DIFFERENT FEATURES'|__}}
+    			</h3>
+
+    			<form class="login_panel" name="login_panel" method="get" action="{{url('login')}}">
+    				<div class=" kl-fancy-form">
+    					<input type="text" id="userSigninLogin" name="login" class="form-control inputbox kl-fancy-form-input kl-fw-input" placeholder="{{'eg'|__}}: james_smith" required>
+    					<label class="kl-font-alt kl-fancy-form-label">
+    						{{ loginAttributeLabel|__ }}
+    					</label>
+    				</div>
+
+    				<div class=" kl-fancy-form">
+    					<input type="password" id="userSigninPassword" name="password" class="form-control inputbox kl-fancy-form-input kl-fw-input" placeholder="{{'type password'|__}}" required>
+    					<label class="kl-font-alt kl-fancy-form-label">
+    						{{'Password'|__}}
+    					</label>
+    				</div>
+
+                    {% if rememberLoginMode == 'ask' %}
+        				<label class="auth-popup-remember" for="kl-rememberme">
+                            <input name="remember" type="checkbox" value="1" id="kl-rememberme" class="auth-popup-remember-chb"> {{'Remember me'|__}}
+        				</label>
+                    {% endif %}
+
+    				<input type="submit" name="submit_button" class="btn zn_sub_button btn-fullcolor btn-md" value="{{'Sign In'|__}}">
+
+    				<div class="links auth-popup-links">
+                        {% if canRegister %}
+							<a href="#register_panel" class="create_account auth-popup-createacc kl-login-box auth-popup-link">
+								{{'CREATE AN ACCOUNT'|__}}
+							</a>
+
+							<span class="sep auth-popup-sep"></span>
+                        {% endif %}
+    				</div>
+    			</form>
+    		</div>
+    		<button title="Close (Esc)" type="button" class="mfp-close">×</button>
+    	</div>
+        {% if canRegister %}
+    	<div id="register_panel" class="mfp-hide loginbox-popup auth-popup">
+    		<div class="inner-container register-panel auth-popup-panel">
+    			<h3 class="m_title m_title_ext text-custom auth-popup-title">
+    				{{"CREATE ACCOUNT"|__}}
+    			</h3>
+
+    			<form class="register_panel" name="register_panel" method="post" action="#">
+    				<div class=" kl-fancy-form ">
+    					<input type="text" id="registerName" name="name" class="form-control inputbox kl-fancy-form-input kl-fw-input" placeholder="{{'type your name'|__}}" required>
+    					<label class="kl-font-alt kl-fancy-form-label">{{"FULL NAME"|__}}</label>
+    				</div>
+                    {% if loginAttribute == "username" %}
+    				<div class=" kl-fancy-form ">
+    					<input type="text" id="registerUsername" name="username" class="form-control inputbox kl-fancy-form-input kl-fw-input" placeholder="{{'type desired username'|__}}" required>
+    					<label class="kl-font-alt kl-fancy-form-label">{{"USERNAME"|__}}</label>
+    				</div>
+                    {% endif %}
+
+    				<div class="kl-fancy-form">
+    					<input type="text" id="registerEmail" name="email" class="form-control inputbox kl-fancy-form-input kl-fw-input" placeholder="your-email@website.com" required>
+    					<label class="kl-font-alt kl-fancy-form-label">
+    						{{'EMAIL'|__}}
+    					</label>
+    				</div
+    				>
+    				<div class=" kl-fancy-form">
+    					<input type="password" id="registerPassword" name="password" class="form-control inputbox kl-fancy-form-input kl-fw-input" placeholder="*****" required>
+    					<label class="kl-font-alt kl-fancy-form-label">
+    						{{'PASSWORD'|__}}
+    					</label>
+    				</div>
+
+    				<div class="kl-fancy-form">
+    					<input type="password" id="rpassword" name="rpassword" class="form-control inputbox kl-fancy-form-input kl-fw-input" placeholder="*****" required>
+    					<label class="kl-font-alt kl-fancy-form-label">
+    						{{'CONFIRM PASSWORD'|__}}
+    					</label>
+    				</div>
+
+    				<label class="auth-popup-remember" for="agreement">
+                        <input name="agree" type="checkbox" value="1" id="agreement" class="auth-popup-remember-chb" required> {{'I Agree the'|__}} <a href="#" data-toggle="modal" data-target="#kt_modal_6" class="kt-link kt-login__link kt-font-bold">{{'terms and conditions'|__}}</a>
+    				</label>
+
+    				<div class="">
+    					<input type="submit" id="signup" name="submit" class="btn zn_sub_button btn-block btn-fullcolor btn-md" value="{{'CREATE MY ACCOUNT'|__}}">
+    				</div>
+
+    				<div class="links auth-popup-links">
+    					<a href="#login_panel" class="kl-login-box auth-popup-link">
+    						{{'ALREADY HAVE AN ACCOUNT?'|__}}
+    					</a>
+    				</div>
+    			</form>
+    		</div>
+    	</div>
+        {% endif %}
+    	<div id="forgot_panel" class="mfp-hide loginbox-popup auth-popup forgot-popup">
+    		<div class="inner-container forgot-panel auth-popup-panel">
+    			<h3 class="m_title m_title_ext text-custom auth-popup-title">
+    				{{'FORGOT YOUR PASSWORD?'|__}}
+    			</h3>
+
+    			<form class="forgot_form" data-request="{{ __SELF__ }}::onRestorePassword" data-request-update="'{{ __SELF__ }}::reset': '#partialUserResetForm'">
+    				<div class=" kl-fancy-form">
+    					<input type="email" id="userRestoreEmail" name="email" class="form-control inputbox kl-fancy-form-input kl-fw-input" placeholder="..." required>
+    					<label class="kl-font-alt kl-fancy-form-label">
+    						{{"EMAIL"|__}}
+    					</label>
+    				</div>
+
+    				<div class="">
+    					<input type="submit" id="kt_login_forgot_submit" name="submit" class="btn btn-block zn_sub_button btn-fullcolor btn-md" value="{{'SEND MY DETAILS!'|__}}">
+    				</div>
+
+    				<div class="links auth-popup-links">
+    					<a href="#login_panel" class="kl-login-box auth-popup-link">
+    						{{'AAH, WAIT, I REMEMBER NOW!'|__}}
+    					</a>
+    				</div>
+    			</form>
+    		</div>
+    		<button title="Close (Esc)" type="button" class="mfp-close">×</button>
+    	</div>
+    	<!--/ Login Panel content -->
+
+    	<!-- Contact form pop-up element content -->
+    	<div id="contact_panel" class="mfp-hide contact-popup">
+    		<div class="contact-popup-panel">
+    			<div class="container-fluid">
+    				<div class="row">
+    					<div class="col-md-12 col-sm-12">
+    						<!-- Contact form pop-up element -->
+    						<div class="contactForm pop-up-form">
+    						
+    							<!-- Title -->
+    							<h3 class="m_title m_title_ext text-custom contact-popup-title tcolor">
+    								{{'TRACK A PACKAGE'|__}}
+    							</h3>
+    							<h4 class="tbk__subtitle fw-thin">
+    								{{"Just type the tracking code and we'll do everything"|__}}!
+    							</h4>
+
+    							<form action="{{url('tracking')}}" method="get" class="contact_form row mt-40">
+                                    {{form_token()}}
+                                    {{form_sessionKey()}}
+    								<div class="col-sm-12 kl-fancy-form">
+    									<input type="text" name="number" id="cf_name-pop-up" class="form-control" placeholder="{{'Please enter a valid tracking number'|__}}" value="" tabindex="1" maxlength="35" required>
+    									<label class="control-label">
+    										{{'Tracking numbers'|__}}
+    									</label>
+    								</div>
+
+    								<div class="col-sm-12">
+    									<!-- Contact form send button -->
+    									<button class="btn btn-fullcolor" type="submit">
+    										{{'Track'|__}}
+    									</button>
+    								</div>
+    							</form>
+    						</div>
+    						<!--/ Contact form pop-up element -->
+    					</div>
+    					<!--/ col-md-12 col-sm-12 -->
+    				</div>
+    				<!--/ .row -->
+    			</div>
+    			<!--/ .container -->
+    		</div>
+    		<!--/ .contact-popup-panel -->
+    		<button title="{{'Close (Esc)'|__}}" type="button" class="mfp-close">×</button>
+    	</div>
+    	<!--/ Contact form pop-up element content -->
+
+
+    	<!-- ToTop trigger -->
+    	<a href="javascript:;" id="totop">{{'TOP'|__}}</a>
+    	<!--/ ToTop trigger -->
+
+
+
+    	<!-- JS FILES // These should be loaded in every page -->
+    	<script type="text/javascript" src="./front/js/bootstrap.min.js"></script>
+    	<script type="text/javascript" src="./front/js/kl-plugins.js"></script>
+
+    	<!-- JS FILES // Loaded on this page -->
+    	<!-- Requried js script for Slideshow Scroll effect (uncomment bellow script to activate) -->
+    	<!-- <script type="text/javascript" src="./front/js/plugins/scrollme/jquery.scrollme.js"></script> -->
+
+    	<!-- Required js script for iOS Slider element -->
+    	<script type="text/javascript" src="./front/js/plugins/_sliders/ios/jquery.iosslider.min.js"></script>
+
+    	<!-- Required js trigger script file for iOS Slider element -->
+    	<script type="text/javascript" src="./front/js/trigger/slider/ios/kl-ios-slider.js"></script>
+
+    	<!-- Slick required js script for Partners Carousel element -->
+    	<script type="text/javascript" src="./front/js/plugins/_sliders/slick/slick.js"></script>
+
+    	<!-- Required js trigger script file for Partners Carousel element -->
+    	<script type="text/javascript" src="./front/js/trigger/kl-slick-slider.js"></script>
+
+    	<!-- Required js trigger for World Map element Popup -->
+    	<script type="text/javascript">
+    		var wmOffices = jQuery('.world-map-offices'),
+    			wmTrig = jQuery('.world-map-triggers'),
+    			wmOffice = wmOffices.children('.world-office'),
+    			wmTriga = wmTrig.find('.office-name'),
+    			clicked;
+
+    		wmOffice.each(function(index, el) {
+    			var $el = jQuery(el);
+    			$el.css({
+    				top: parseInt($el.attr('data-fromtop')),
+    				left: parseInt($el.attr('data-fromleft'))
+    			})
+    			.on('mouseover', function() {
+    				wmTrig.find("[data-office='" + $el.attr('data-office') + "']").addClass('selected');
+    			})
+    			.on('mouseout', function() {
+    				wmTriga.removeClass('selected');
+    			});;
+    		});
+
+    		wmTriga.on('mouseover', function() {
+    			wmOffices.find("[data-office='" + jQuery(this).attr('data-office') + "']").addClass('selected');
+    		})
+    		.on('mouseout', function() {
+    			wmOffice.removeClass('selected');
+    		});
+    	</script>
+
+
+    	<!-- Custom Kallyas JS codes -->
+    	<script type="text/javascript" src="./front/js/kl-scripts.js"></script>
+
+
+    	<!-- Google Analytics: change UA-XXXXX-X to be your site's ID.
+    	<script>
+    	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    	  ga('create', 'UA-XXXXX-X', 'auto');
+    	  ga('send', 'pageview');
+    	</script>
+    	-->
+
+        <!-- begin::Global Config(global config for global JS sciprts) -->
+        <script>
+            var KTAppOptions = {
+                "colors":{
+                    "state":{
+                        "brand":"#5d78ff",
+                        "light":"#ffffff",
+                        "dark":"#282a3c",
+                        "primary":"#5867dd",
+                        "success":"#34bfa3",
+                        "info":"#36a3f7",
+                        "warning":"#ffb822",
+                        "danger":"#fd3995"
+                    },
+                    "base":{
+                        "label":[
+                            "#c5cbe3",
+                            "#a1a8c3",
+                            "#3d4465",
+                            "#3e4466"
+                        ],
+                        "shape":[
+                            "#f0f3ff",
+                            "#d9dffa",
+                            "#afb4d4",
+                            "#646c9a"
+                        ]
+                    }
+                },
+                "text":{
+                    'loading' : '{{"Loading ..."|__}}'
+                },
+                "dateformat": "{{settings.dateformat|replace({'d':'dd', 'm':'mm', 'Y':'yyyy'})}}",
+                "daterangeformat": "{{settings.dateformat|replace({'d':'DD', 'm':'MM', 'M':'MMM'})}}"
+            };
+
+        </script>
+        <!-- end::Global Config -->
+
+        <!--begin::Page Scripts(used by this page) -->
+            {% framework extras %}
+            {% scripts %}
+            <script type="text/javascript">
+                jQuery(document).ready(function() {
+                    $('body').on('click', '.locale', function(e){
+                        e.preventDefault();
+                        var selected = $(this).attr('rel');
+                        if(selected != ''){
+                            $.request('onSwitchLocale', {
+                                data: {locale: selected}
+                            });
+                        }
+                    });
+
+
+                    // Form Validation & Send Mail code
+                    	if(typeof($('#register_panel form')) != 'undefined') {
+                    		$.each($('#register_panel form'), function(index, el) {
+                    			var cform = $(el),
+                    				cResponse = $('<div class="cf_response"></div>');
+                    			cform.prepend(cResponse);
+                    			cform.h5Validate();
+
+                    			cform.submit(function(e) {
+                    				e.preventDefault();
+                    				if(cform.h5Validate('allValid')) {
+
+                                        $.request('onRegister', {
+                                            {% if loginAttribute == "username" %}
+                                                data: {name: $('#registerName').val(), email: $('#registerEmail').val(), username: $('#registerUsername').val(), password: $('#registerPassword').val(), password_confirmation: $('#rpassword').val()},
+                                            {% else %}
+                                                data: {name: $('#registerName').val(), email: $('#registerEmail').val(), password: $('#registerPassword').val(), password_confirmation: $('#rpassword').val()},
+                                            {% endif %}
+                                            error: function(e,response) {
+                                                cform.find('.cf_response').addClass('alert alert-danger error');
+                                                cform.find('.cf_response').html(e.responseJSON.X_OCTOBER_ERROR_MESSAGE);
+                            					cResponse.show();
+                                            },
+                                            success: function(response, status, xhr, $form) {
+                                                cform.find('.cf_response').addClass('alert alert-success');
+                                                {% if (requireActivation and automaticActivation is null) %}
+                                                    cform.find('.cf_response').html('{{"Thank you. To complete your registration please check your email"|__}}.');
+                                					cResponse.show();
+                                                 {% else %}
+                                                    cform.find('.cf_response').html('{{"Successfully registered, you are being redirect"|__}}.');
+                                					cResponse.show();
+                                                    window.location.href = "{{'dashboard/dashboard'|page}}";
+                                                {% endif %}
+                                            }
+                                        });
+                    				}
+                    				return false;
+                    			});
+                    		});
+                    	}
+                    	if(typeof($('.contactForm form, .contactForm.pop-up-form form')) != 'undefined') {
+                    		$.each($('.contactForm form, .contactForm.pop-up-form form'), function(index, el) {
+                    			var cform = $(el),
+                    				cResponse = $('<div class="cf_response"></div>');
+                    			if(cform.find('.cf_response').length > 0){
+                    				cform.find('.cf_response').remove();
+                    			}
+                    			cform.prepend(cResponse);
+                    			cform.h5Validate();
+
+                    			cform.on('click', 'button', function(e) {
+                    				e.preventDefault();
+                    				if(cform.h5Validate('allValid')) {
+                    					cResponse.hide();
+                    					cform.submit();
+                    				}
+                    				return false;
+                    			});
+                    		});
+                    	}
+                    // END Form Validation
+                    $('body').on('click','#agree', function(e){
+                        $( "#agreement" ).prop( "checked", true );
+                    });
+                });
+            </script>
+        <!--end::Page Scripts -->
+    </body>
+</html>

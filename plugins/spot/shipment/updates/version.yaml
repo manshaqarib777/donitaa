@@ -1,0 +1,25 @@
+1.0.1: 'First version of Plugin'
+1.0.27:
+    - 'Created table spot_shipment_container'
+    - builder_table_create_spot_shipment_container.php
+1.0.28:
+    - 'Drop table spot_shipment_container'
+    - builder_table_delete_spot_shipment_container.php
+1.0.29:
+    - 'Created table spot_shipment_payment_v2'
+    - builder_table_create_spot_shipment_payment_v2.php
+1.0.30:
+    - 'Created table spot_shipment_transaction'
+    - builder_table_create_spot_shipment_transaction.php
+1.0.31:
+    - 'Updated table spot_shipment_payment_v2'
+    - builder_table_update_spot_shipment_payment_v2.php
+1.0.32:
+    - 'Updated table spot_shipment_transaction'
+    - builder_table_update_spot_shipment_transaction.php
+1.0.33:
+    - 'Updated table spot_shipment_transaction'
+    - builder_table_update_spot_shipment_transaction_2.php
+1.0.34:
+    - 'Updated table spot_shipment_transaction'
+    - builder_table_update_spot_shipment_transaction_3.php

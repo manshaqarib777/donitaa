@@ -1,0 +1,44 @@
+1610353927a:1:{s:37:"dashboard/shipment-payment-result.htm";a:17:{s:8:"fileName";s:37:"dashboard/shipment-payment-result.htm";s:7:"content";s:369:"title = "Shipment Payment Result"
+url = "/dashboard/shipments/success"
+layout = "admin"
+is_hidden = 0
+child_of = "dashboard/shipments"
+hide_crumb = 0
+remove_crumb_trail = 0
+crumb_disabled = 0
+role = 0
+permission = 0
+anonymous_only = 0
+logged_only = 1
+==
+
+<?php
+
+function onStart(){
+	$value = $this->param('last_name');
+	
+	dd($value);
+}
+
+
+?>
+
+<div>
+	tset tes t
+</div>
+
+
+";s:5:"mtime";i:1605729191;s:6:"markup";s:111:"<?php
+
+function onStart(){
+	$value = $this->param('last_name');
+	
+	dd($value);
+}
+
+
+?>
+
+<div>
+	tset tes t
+</div>";s:4:"code";N;s:5:"title";s:23:"Shipment Payment Result";s:3:"url";s:28:"/dashboard/shipments/success";s:6:"layout";s:5:"admin";s:9:"is_hidden";s:1:"0";s:8:"child_of";s:19:"dashboard/shipments";s:10:"hide_crumb";s:1:"0";s:18:"remove_crumb_trail";s:1:"0";s:14:"crumb_disabled";s:1:"0";s:4:"role";s:1:"0";s:10:"permission";s:1:"0";s:14:"anonymous_only";s:1:"0";s:11:"logged_only";s:1:"1";}}
