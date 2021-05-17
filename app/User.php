@@ -24,7 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
     * @var array
     */
     protected $fillable = [
-        'name', 'email', 'password', 'address', 'city', 'postal_code', 'phone', 'country', 'provider_id', 'email_verified_at', 'verification_code'
+        'name', 'email', 'password', 'address', 'city', 'postal_code', 'phone', 'country', 'provider_id', 'email_verified_at', 'verification_code','country_id','state_id','area_id'
     ];
 
     /**
@@ -117,5 +117,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userBranch(){
 		return $this->hasOne('App\UserBranch', 'user_id' , 'id');
 	}
-
+    public function country(){
+		return $this->belongsTo('App\Country', 'country_id','id');
+	}
+    public function state(){
+		return $this->belongsTo('App\State', 'state_id','id');
+	}
+    public function area(){
+		return $this->belongsTo('App\Area', 'area_id','id');
+	}
 }

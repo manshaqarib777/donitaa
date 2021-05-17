@@ -8,7 +8,7 @@ use App\Role;
 use App\User;
 use Hash;
 use App\Events\AddStaff;
-
+use Auth;
 class StaffController extends Controller
 {
     /**
@@ -30,7 +30,10 @@ class StaffController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('backend.staff.staffs.create', compact('roles'));
+        $countries = \App\Country::where('covered',1)->get();
+        $user_type = Auth::user()->user_type;
+        $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
+        return view('backend.staff.staffs.create', compact('roles','countries','user_type','staff_permission'));
     }
 
     /**
@@ -41,6 +44,7 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         if (env('DEMO_MODE') == 'On') {
             flash(translate('This action is disabled in demo mode'))->error();
             return back();
@@ -51,6 +55,10 @@ class StaffController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone = $request->mobile;
+            $user->country_id = $request->country_id;
+            $user->state_id = $request->state_id;
+            $user->area_id = $request->area_id;
+
             $user->user_type = "staff";
             $user->password = Hash::make($request->password);
             if($user->save()){
@@ -94,7 +102,10 @@ class StaffController extends Controller
         }
         $staff = Staff::findOrFail(decrypt($id));
         $roles = Role::all();
-        return view('backend.staff.staffs.edit', compact('staff', 'roles'));
+        $countries = \App\Country::where('covered',1)->get();
+        $user_type = Auth::user()->user_type;
+        $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
+        return view('backend.staff.staffs.edit', compact('staff', 'roles','countries','user_type','staff_permission'));
     }
 
     /**
@@ -115,6 +126,9 @@ class StaffController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->mobile;
+        $user->country_id = $request->country_id;
+        $user->state_id = $request->state_id;
+        $user->area_id = $request->area_id;
         if(strlen($request->password) > 0){
             $user->password = Hash::make($request->password);
         }

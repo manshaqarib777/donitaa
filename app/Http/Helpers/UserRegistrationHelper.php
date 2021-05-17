@@ -24,6 +24,18 @@ class UserRegistrationHelper{
 		}
 	}
 
+	public function setCountryID($country_id){
+		$this->user->country_id = $country_id;
+	}
+
+	public function setStateID($state_id){
+		$this->user->state_id = $state_id;
+	}
+
+	public function setAreaID($area_id){
+		$this->user->area_id = $area_id;
+	}
+
 	public function setFirstName($first_name){
 		$this->user->first_name = $first_name;
 	}

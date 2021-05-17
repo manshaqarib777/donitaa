@@ -8,4 +8,8 @@ class UserBranch extends Model
 {
     protected $table = "user_branch";
     public $timestamps = false;
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

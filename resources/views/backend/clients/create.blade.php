@@ -49,8 +49,8 @@
                         <label>الفرع المسؤول:</label>
                         <select class="form-control kt-select2" id="select-responsible-branch" name="Client[responsible_branch_id]">
                             <option></option>
-                           
-                           
+
+
                         </select>
                     </div>
                 </div>

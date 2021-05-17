@@ -52,7 +52,7 @@ class ClientController extends Controller
             $model->img = $_POST['img'];
 	      
 			if (!$model->save()){
-				throw new \Exception();
+				throw new \Exception("Email already Exist");
 			}
             $auth_user = Auth::user();
             if($auth_user->user_type == 'admin'){
@@ -67,9 +67,9 @@ class ClientController extends Controller
             }
 			$model->code = $model->id;
 			if (!$model->save()){
-				throw new \Exception();
+				throw new \Exception("Record Could Not Saved Successfully");
 			}
-			$userRegistrationHelper = new UserRegistrationHelper();
+            $userRegistrationHelper = new UserRegistrationHelper();
 			$userRegistrationHelper->setEmail($model->email); 
 			$userRegistrationHelper->setName($model->name);
 			$userRegistrationHelper->setApiToken();
@@ -87,7 +87,7 @@ class ClientController extends Controller
 			$userClient->user_id = $response['user_id'];
 			$userClient->client_id = $model->id;
 			if (!$userClient->save()){
-				throw new \Exception();
+                throw new \Exception("Record Could Not Saved Successfully");
 			}
 
             event(new AddClient($model));
@@ -96,11 +96,8 @@ class ClientController extends Controller
             $route = 'admin.clients.index';
             return execute_redirect($request,$route);
 		}catch(\Exception $e){
-			DB::rollback();
-			print_r($e->getMessage());
-			exit;
-			
-			flash(translate("Error"))->error();
+			DB::rollback();	
+			flash($e->getMessage())->error();
             return back();
 		}
     }
@@ -159,11 +156,11 @@ class ClientController extends Controller
             $model->img = $_POST['img'];
 	      
 			if (!$model->save()){
-				throw new \Exception();
+				throw new \Exception("Email already Exist");
 			}
 			$model->code = $model->id;
 			if (!$model->save()){
-				throw new \Exception();
+				throw new \Exception("Record Could Not Saved");
 			}
             $userId = $model->userClient->user_id;
 			$userRegistrationHelper = new UserRegistrationHelper($userId);
@@ -184,11 +181,8 @@ class ClientController extends Controller
             $route = 'admin.clients.index';
             return execute_redirect($request,$route);
 		}catch(\Exception $e){
-			DB::rollback();
-			print_r($e->getMessage());
-			exit;
-			
-			flash(translate("Error"))->error();
+			DB::rollback();	
+			flash($e->getMessage())->error();
             return back();
 		}
     }

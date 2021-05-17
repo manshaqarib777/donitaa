@@ -8,6 +8,7 @@ use App\Http\Helpers\UserRegistrationHelper;
 use App\User;
 use App\UserBranch;
 use DB;
+use Auth;
 class BranchController extends Controller
 {
     /**
@@ -28,7 +29,10 @@ class BranchController extends Controller
      */
     public function create()
     {
-        return view('backend.branchs.create');
+        $countries = \App\Country::where('covered',1)->get();
+        $user_type = Auth::user()->user_type;
+        $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
+        return view('backend.branchs.create', compact('countries', 'user_type', 'staff_permission'));
     }
 
     /**
@@ -66,6 +70,9 @@ class BranchController extends Controller
 			$userRegistrationHelper->setEmail($model->email); 
 			$userRegistrationHelper->setName($model->name);
 			$userRegistrationHelper->setApiToken();
+            $userRegistrationHelper->setCountryID($request->country_id); 
+			$userRegistrationHelper->setStateID($request->state_id); 
+			$userRegistrationHelper->setAreaID($request->area_id);
 			if ($_POST['User']['password'] != '' || $_POST['User']['password'] != null){
 				$userRegistrationHelper->setPassword($_POST['User']['password']);
 			}else{
@@ -130,8 +137,11 @@ class BranchController extends Controller
             return back();
         }
         $branch = Branch::where('id', $id)->first();
+        $countries = \App\Country::where('covered',1)->get();
+        $user_type = Auth::user()->user_type;
+        $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
         if($branch != null){
-            return view('backend.branchs.edit',compact('branch'));
+            return view('backend.branchs.edit',compact('branch','countries','user_type','staff_permission'));
         }
         abort(404);
     }
@@ -170,6 +180,10 @@ class BranchController extends Controller
 			$userRegistrationHelper->setEmail($model->email); 
 			$userRegistrationHelper->setName($model->name);
 			$userRegistrationHelper->setApiToken();
+            $userRegistrationHelper->setApiToken();
+            $userRegistrationHelper->setCountryID($request->country_id); 
+			$userRegistrationHelper->setStateID($request->state_id); 
+			$userRegistrationHelper->setAreaID($request->area_id);
 			if ($_POST['User']['password'] != '' || $_POST['User']['password'] != null){
 				$userRegistrationHelper->setPassword($_POST['User']['password']);
 			}

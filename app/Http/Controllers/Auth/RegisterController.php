@@ -15,7 +15,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Cookie;
 use Nexmo;
-use Twilio\Rest\Client;
+use App\Client;
+use App\Http\Helpers\UserRegistrationHelper;
+use DB;
+use App\UserClient;
+use App\Events\AddClient;
+
 
 class RegisterController extends Controller
 {
@@ -37,7 +42,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/admin';
 
     /**
      * Create a new controller instance.
@@ -58,7 +63,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'Client.name' => 'required|string|max:255',
+            'Client.email' => 'required|string|max:255',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -71,45 +77,67 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        if (filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            $user = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-            ]);
+        //dd($data);
+        try{	
+			DB::beginTransaction();
+			$model = new Client();
+			
+			
+			$model->fill($data['Client']);
+			$model->code = -1;
+          
+			if (!$model->save()){
+                throw new \Exception("Email already Exist");
+			}
+            $model->created_by_type = 'admin';
+            $model->created_by = 1;
+            
+			$model->code = $model->id;
+			if (!$model->save()){
+				throw new \Exception("Record Could Not Saved Successfully");
 
-            $customer = new Customer;
-            $customer->user_id = $user->id;
-            $customer->save();
-        }
-        else {
-            if (\App\Addon::where('unique_identifier', 'otp_system')->first() != null && \App\Addon::where('unique_identifier', 'otp_system')->first()->activated){
-                $user = User::create([
-                    'name' => $data['name'],
-                    'phone' => '+'.$data['country_code'].$data['phone'],
-                    'password' => Hash::make($data['password']),
-                    'verification_code' => rand(100000, 999999)
-                ]);
-
-                $customer = new Customer;
-                $customer->user_id = $user->id;
-                $customer->save();
-
-                $otpController = new OTPVerificationController;
-                $otpController->send_code($user);
+			}
+            $userRegistrationHelper = new UserRegistrationHelper();
+			$userRegistrationHelper->setEmail($model->email); 
+			$userRegistrationHelper->setName($model->name);
+			$userRegistrationHelper->setApiToken();
+            
+			if ($data['password'] != '' || $data['password'] != null){
+				$userRegistrationHelper->setPassword($data['password']);
+			}else{
+				$userRegistrationHelper->generatePassword();
+			}
+			$userRegistrationHelper->setRoleID(UserRegistrationHelper::MAINCLIENT);
+			if(Cookie::has('referral_code')){
+                $referral_code = Cookie::get('referral_code');
+                $referred_by_user = User::where('referral_code', $referral_code)->first();
+                if($referred_by_user != null){
+                    $userRegistrationHelper->referred_by = $referred_by_user->id;
+                }
             }
-        }
+            $response = $userRegistrationHelper->save();
+            if(!$response['success']){
+                //dd($response);
+				throw new \Exception($response['error_msg']);
+			}
+			$userClient = new UserClient();
+			$userClient->user_id = $response['user_id'];
+			$userClient->client_id = $model->id;
+			if (!$userClient->save()){
+				throw new \Exception("Record Could Not Saved Successfully");
+			}
+            
 
-        if(Cookie::has('referral_code')){
-            $referral_code = Cookie::get('referral_code');
-            $referred_by_user = User::where('referral_code', $referral_code)->first();
-            if($referred_by_user != null){
-                $user->referred_by = $referred_by_user->id;
-                $user->save();
-            }
-        }
+            event(new AddClient($model));
+			DB::commit();
+            $user=User::find($response['user_id']);
+            return $user;
+		}catch(\Exception $e){
+            DB::rollback();	
+			flash('Email Already Exist')->error();
+            return false;             
+		}
 
-        return $user;
     }
 
     public function register(Request $request)
@@ -128,7 +156,9 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
 
         $user = $this->create($request->all());
-
+        if(!$user){    
+            return redirect()->route('register')->withInput();
+        }
         $this->guard()->login($user);
 
         if($user->email != null){
@@ -153,7 +183,7 @@ class RegisterController extends Controller
             return redirect()->route('verification');
         }
         else {
-            return redirect()->route('home');
+            return redirect('admin');
         }
     }
 }

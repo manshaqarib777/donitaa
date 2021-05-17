@@ -37,7 +37,10 @@ class CaptainController extends Controller
     public function create()
     {
         $branchs = Branch::where('is_archived',0)->get();
-        return view('backend.captains.create',compact('branchs'));
+        $countries = \App\Country::where('covered',1)->get();
+        $user_type = Auth::user()->user_type;
+        $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
+        return view('backend.captains.create',compact('branchs','countries','user_type','staff_permission'));
     }
 
     /**
@@ -71,7 +74,11 @@ class CaptainController extends Controller
 			$userRegistrationHelper->setEmail($model->email); 
 			$userRegistrationHelper->setName($model->name);
 			$userRegistrationHelper->setApiToken();
-			if ($_POST['User']['password'] != '' || $_POST['User']['password'] != null){
+            $userRegistrationHelper->setCountryID($request->country_id); 
+			$userRegistrationHelper->setStateID($request->state_id); 
+			$userRegistrationHelper->setAreaID($request->area_id); 
+
+            if ($_POST['User']['password'] != '' || $_POST['User']['password'] != null){
 				$userRegistrationHelper->setPassword($_POST['User']['password']);
 			}else{
 				$userRegistrationHelper->generatePassword();
@@ -129,8 +136,11 @@ class CaptainController extends Controller
     {
         $captain = Captain::where('id', $id)->first();
         $branchs = Branch::where('is_archived',0)->get();
+        $countries = \App\Country::where('covered',1)->get();
+        $user_type = Auth::user()->user_type;
+        $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
         if($captain != null){
-            return view('backend.captains.edit',compact('captain','branchs'));
+            return view('backend.captains.edit',compact('captain','branchs','countries','user_type','staff_permission'));
         }
         abort(404);
     }
@@ -169,6 +179,10 @@ class CaptainController extends Controller
 			$userRegistrationHelper->setEmail($model->email); 
 			$userRegistrationHelper->setName($model->name);
 			$userRegistrationHelper->setApiToken();
+            $userRegistrationHelper->setApiToken();
+            $userRegistrationHelper->setCountryID($request->country_id); 
+			$userRegistrationHelper->setStateID($request->state_id); 
+			$userRegistrationHelper->setAreaID($request->area_id);
 			if ($_POST['User']['password'] != '' || $_POST['User']['password'] != null){
 				$userRegistrationHelper->setPassword($_POST['User']['password']);
 			}

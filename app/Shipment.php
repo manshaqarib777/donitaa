@@ -46,6 +46,30 @@ class Shipment extends Model
     const CLIENT_STATUS_DELIVERED = 7;
     const CLIENT_STATUS_SUPPLIED = 8;
 
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('restriction', function ($builder) {
+            if(auth()->user()->staff && auth()->user()->staff->role_id == 1)
+                $builder->where('from_country_id', auth()->user()->country_id)
+                ->orWhere('to_country_id', auth()->user()->country_id);
+            if(auth()->user()->staff && auth()->user()->staff->role_id == 2)
+                $builder
+                ->where(function($query) {
+                    $query->where('from_country_id', auth()->user()->country_id)
+                    ->where('from_state_id', auth()->user()->state_id)
+                    ->where('from_area_id', auth()->user()->area_id);
+                })
+                ->orWhere(function($query) {
+                    $query->where('to_country_id', auth()->user()->country_id)
+                    ->where('to_state_id', auth()->user()->state_id)
+                    ->where('to_area_id', auth()->user()->area_id);
+                });
+        });
+    }
+    
     static public function client_status_info()
     {
         $array = [
