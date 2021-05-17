@@ -8,4 +8,8 @@ class UserClient extends Model
 {
     protected $table = "user_client";
     public $timestamps = false;
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

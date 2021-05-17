@@ -23,6 +23,32 @@ class Mission extends Model
     CONST CLOSED_STATUS = 4;
     CONST RECIVED_STATUS = 5;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('restriction', function ($builder) {
+            if(auth()->user()->staff && auth()->user()->staff->role_id == 1)
+                $builder
+                ->join('captains', 'captains.id', '=', 'missions.captain_id')
+                ->join('user_captain','user_captain.captain_id','=' ,'captains.id')
+                ->join('users', 'users.id', '=', 'user_captain.user_id')
+                ->where('users.country_id', auth()->user()->country_id);
+            if(auth()->user()->staff && auth()->user()->staff->role_id == 2)
+            {
+                $builder
+                ->join('captains', 'captains.id', '=', 'missions.captain_id')
+                ->join('user_captain','user_captain.captain_id','=' ,'captains.id')
+                ->join('users', 'users.id', '=', 'user_captain.user_id')
+                ->where('users.country_id', auth()->user()->country_id)
+                ->where('users.state_id', auth()->user()->state_id)
+                ->where('users.area_id', auth()->user()->area_id);
+                
+            }
+                
+        });
+    }
+
     static public function status_info()
     {
        $array = [

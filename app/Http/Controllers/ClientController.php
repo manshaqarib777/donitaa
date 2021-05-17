@@ -31,7 +31,10 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('backend.clients.create');
+        $countries = \App\Country::where('covered',1)->get();
+        $user_type = Auth::user()->user_type;
+        $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
+        return view('backend.clients.create',compact('countries','user_type','staff_permission'));
     }
 
     /**
@@ -73,6 +76,9 @@ class ClientController extends Controller
 			$userRegistrationHelper->setEmail($model->email); 
 			$userRegistrationHelper->setName($model->name);
 			$userRegistrationHelper->setApiToken();
+            $userRegistrationHelper->setCountryID($request->country_id); 
+			$userRegistrationHelper->setStateID($request->state_id); 
+			$userRegistrationHelper->setAreaID($request->area_id);
 			if ($_POST['User']['password'] != '' || $_POST['User']['password'] != null){
 				$userRegistrationHelper->setPassword($_POST['User']['password']);
 			}else{
@@ -127,8 +133,11 @@ class ClientController extends Controller
     public function edit($id)
     {
         $client = Client::where('id', $id)->first();
+        $countries = \App\Country::where('covered',1)->get();
+        $user_type = Auth::user()->user_type;
+        $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
         if($client != null){
-            return view('backend.clients.edit',compact('client'));
+            return view('backend.clients.edit',compact('client','countries','user_type','staff_permission'));
         }
         abort(404);
     }
@@ -167,6 +176,9 @@ class ClientController extends Controller
 			$userRegistrationHelper->setEmail($model->email); 
 			$userRegistrationHelper->setName($model->name);
 			$userRegistrationHelper->setApiToken();
+            $userRegistrationHelper->setCountryID($request->country_id); 
+			$userRegistrationHelper->setStateID($request->state_id); 
+			$userRegistrationHelper->setAreaID($request->area_id);
 			if ($_POST['User']['password'] != '' || $_POST['User']['password'] != null){
 				$userRegistrationHelper->setPassword($_POST['User']['password']);
 			}
