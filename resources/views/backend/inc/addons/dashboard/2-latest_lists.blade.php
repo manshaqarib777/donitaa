@@ -20,7 +20,7 @@
                         <table class="table mb-0 aiz-table">
                             <thead>
                                 <tr>
-                                    
+
                                     <th>{{translate('Code')}}</th>
                                     <th>{{translate('Status')}}</th>
                                     <th>{{translate('Type')}}</th>
@@ -42,12 +42,20 @@
                                 @foreach($shipments as $key=>$shipment)
 
                                 <tr>
-                                    
+
                                     <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
                                     <td>{{$shipment->getStatus()}}</td>
                                     <td>{{$shipment->type}}</td>
-                                    <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
-                                    <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
+                                    <td>
+                                        @if($shipment->client)
+                                            <a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($shipment->branch)
+                                        <a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a>
+                                        @endif
+                                    </td>
                                     <td>{{format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}</td>
                                     <td>{{$shipment->pay->name}}</td>
                                     <td>{{$shipment->shipping_date}}</td>
@@ -65,7 +73,7 @@
 
             </div>
         </div>
-    @endif 
+    @endif
 
     {{-- Admin With All Permission And Admin With Captian Index Permission  --}}
     @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1007', $staff_permission) )
@@ -86,7 +94,7 @@
                         <table class="table mb-0 aiz-table">
                             <thead>
                                 <tr>
-                                    
+
                                     <th>{{translate('Code')}}</th>
                                     <th>{{translate('Name')}}</th>
                                     <th>{{translate('Wallet')}}</th>
@@ -101,14 +109,14 @@
                                     @endphp
                                     @if($captain->wallet > 0 ?? 0)
 
-                                        <tr>                    
+                                        <tr>
                                             <td><a href="{{route('admin.captains.show',$captain->id)}}">{{$captain->code}}</a></td>
                                             <td>{{$captain->name}}</td>
                                             <td>{{format_price(convert_price($captain->wallet))}}</td>
                                         </tr>
-                                        
+
                                     @endif
-                                    
+
                                 @endforeach
 
                             </tbody>
@@ -134,7 +142,7 @@
                         <table class="table mb-0 aiz-table">
                             <thead>
                                 <tr>
-                                    
+
                                     <th>{{translate('Code')}}</th>
                                     <th>{{translate('Status')}}</th>
                                     <th>{{translate('Type')}}</th>
@@ -156,12 +164,20 @@
                                     @foreach($shipments as $key=>$shipment)
 
                                     <tr>
-                                        
+
                                         <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
                                         <td>{{$shipment->getStatus()}}</td>
                                         <td>{{$shipment->type}}</td>
-                                        <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
-                                        <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
+                                        <td>
+                                            @if($shipment->client)
+                                                <a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($shipment->branch)
+                                            <a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a>
+                                            @endif
+                                        </td>
                                         <td>{{format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}</td>
                                         <td>{{$shipment->pay->name}}</td>
                                         <td>{{$shipment->shipping_date}}</td>
@@ -198,7 +214,7 @@
                         <table class="table mb-0 aiz-table">
                             <thead>
                                 <tr>
-                                    
+
                                     <th>{{translate('Code')}}</th>
                                     <th>{{translate('Status')}}</th>
                                     <th>{{translate('Type')}}</th>
@@ -220,7 +236,7 @@
                                 @foreach($shipments as $key=>$shipment)
 
                                 <tr>
-                                    
+
                                     <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
                                     <td>{{$shipment->getStatus()}}</td>
                                     <td>{{$shipment->type}}</td>
@@ -244,7 +260,7 @@
 
             </div>
         </div>
-        
+
         @php
             $captains = App\Captain::where('branch_id', Auth::user()->id)->withCount(['transaction AS wallet' => function ($query) { $query->select(DB::raw("SUM(value)")); }])->get();
         @endphp
@@ -261,7 +277,7 @@
                         <table class="table mb-0 aiz-table">
                             <thead>
                                 <tr>
-                                    
+
                                     <th>{{translate('Code')}}</th>
                                     <th>{{translate('Name')}}</th>
                                     <th>{{translate('Wallet')}}</th>
@@ -276,14 +292,14 @@
                                     @endphp
                                     @if($captain->wallet > 0 ?? 0)
 
-                                        <tr>                    
+                                        <tr>
                                             <td><a href="{{route('admin.captains.show',$captain->id)}}">{{$captain->code}}</a></td>
                                             <td>{{$captain->name}}</td>
                                             <td>{{format_price(convert_price($captain->wallet))}}</td>
                                         </tr>
-                                        
+
                                     @endif
-                                    
+
                                 @endforeach
 
                             </tbody>
@@ -309,7 +325,7 @@
                         <table class="table mb-0 aiz-table">
                             <thead>
                                 <tr>
-                                    
+
                                     <th>{{translate('Code')}}</th>
                                     <th>{{translate('Status')}}</th>
                                     <th>{{translate('Type')}}</th>
@@ -331,7 +347,7 @@
                                     @foreach($shipments as $key=>$shipment)
 
                                     <tr>
-                                        
+
                                         <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
                                         <td>{{$shipment->getStatus()}}</td>
                                         <td>{{$shipment->type}}</td>
@@ -370,7 +386,7 @@
                     <table class="table mb-0 aiz-table">
                         <thead>
                             <tr>
-                                
+
                                 <th>{{translate('Code')}}</th>
                                 <th>{{translate('Status')}}</th>
                                 <th>{{translate('Type')}}</th>
@@ -392,7 +408,7 @@
                             @foreach($shipments as $key=>$shipment)
 
                             <tr>
-                                
+
                                 <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
                                 <td>{{$shipment->getStatus()}}</td>
                                 <td>{{$shipment->type}}</td>
@@ -464,7 +480,7 @@
                                         <div style="width: 55%;height: 30px;border: 1px solid;border-radius: 3px;"></div>
                                     </td>
 
-                                    
+
                                 </tr>
 
                                 @endforeach
@@ -479,7 +495,7 @@
 
         </div>
     </div>
-    
+
     <div class="mt-20 row">
         <div class="col-md-12">
             <div class="card card-custom card-stretch">
@@ -507,7 +523,7 @@
                             @endphp
                             @foreach($missions as $key=>$mission)
 
-                            <tr> 
+                            <tr>
                                 <td width="5%"><a href="{{route('admin.missions.show',$mission->id)}}">{{$mission->code}}</a></td>
                                 <td>{{$mission->getStatus()}}</td>
                                 <td>{{$mission->type}}</td>
@@ -529,4 +545,4 @@
 
         </div>
     </div>
-@endif 
+@endif

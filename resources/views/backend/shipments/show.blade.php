@@ -65,7 +65,7 @@ $d = new DNS1D();
                 <div class="pb-6 d-flex justify-content-between">
                     <div class="d-flex flex-column flex-root">
                         <span class="mb-4 text-dark font-weight-bold">{{translate('Client/Sender')}}</span>
-                        <a class="text-danger font-weight-boldest font-size-lg" href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a>
+                        <a class="text-danger font-weight-boldest font-size-lg" href="{{route('admin.clients.show',$shipment->client_id)}}">{{@$shipment->client->name}}</a>
                         <span class="text-muted font-size-md">{{$shipment->client_phone}}</span>
                         <span class="text-muted font-size-md">{{$shipment->client_address}}</span>
                     </div>
@@ -94,7 +94,7 @@ $d = new DNS1D();
                     </div>
                     <div class="d-flex flex-column flex-root">
                         <span class="mb-2 font-weight-bolder">{{translate('Current branch')}}</span>
-                        <a class="opacity-70" href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a>
+                        <a class="opacity-70" href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{@$shipment->branch->name}}</a>
                     </div>
                     <div class="d-flex flex-column flex-root">
                         <span class="mb-2 font-weight-bolder">{{translate('Created date')}}</span>

@@ -29,21 +29,24 @@ class Mission extends Model
 
         static::addGlobalScope('restriction', function ($builder) {
             if(auth()->user()->staff && auth()->user()->staff->role_id == 1)
-                $builder
-                ->join('captains', 'captains.id', '=', 'missions.captain_id')
-                ->join('user_captain','user_captain.captain_id','=' ,'captains.id')
-                ->join('users', 'users.id', '=', 'user_captain.user_id')
-                ->where('users.country_id', auth()->user()->country_id);
+            {
+                $builder->whereHas('captain.userCaptain.user', function($query) {
+                    return $query->where('users.country_id', auth()->user()->country_id);
+                })->orWhereHas('client.userClient.user', function($query) {
+                    return $query->where('users.country_id', auth()->user()->country_id);
+                });
+            }    
             if(auth()->user()->staff && auth()->user()->staff->role_id == 2)
             {
-                $builder
-                ->join('captains', 'captains.id', '=', 'missions.captain_id')
-                ->join('user_captain','user_captain.captain_id','=' ,'captains.id')
-                ->join('users', 'users.id', '=', 'user_captain.user_id')
-                ->where('users.country_id', auth()->user()->country_id)
-                ->where('users.state_id', auth()->user()->state_id)
-                ->where('users.area_id', auth()->user()->area_id);
-                
+                $builder->whereHas('captain.userCaptain.user', function($query) {
+                    return $query->where('users.country_id', auth()->user()->country_id)
+                    ->where('users.state_id', auth()->user()->state_id)
+                    ->where('users.area_id', auth()->user()->area_id);
+                 })->orWhereHas('client.userClient.user', function($query) {
+                    return $query->where('users.country_id', auth()->user()->country_id)
+                    ->where('users.state_id', auth()->user()->state_id)
+                    ->where('users.area_id', auth()->user()->area_id);
+                 });
             }
                 
         });

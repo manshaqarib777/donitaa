@@ -27,6 +27,8 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
+    'country' => env('DEFAULT_COUNTRY', 'US'),
+
 
     /*
     |--------------------------------------------------------------------------

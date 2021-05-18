@@ -62,6 +62,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
 
     //Currency
     Route::get('/currency', 'CurrencyController@currency')->name('currency.index');
+    Route::post('/currency/change', 'CurrencyController@changeCurrency')->name('currency.change');
     Route::post('/currency/update', 'CurrencyController@updateCurrency')->name('currency.update');
     Route::post('/your-currency/update', 'CurrencyController@updateYourCurrency')->name('your_currency.update');
     Route::get('/currency/create', 'CurrencyController@create')->name('currency.create');

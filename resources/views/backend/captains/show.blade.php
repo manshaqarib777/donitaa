@@ -2,7 +2,7 @@
 @php
     $captain_wallet   = App\Transaction::where('captain_id' , $captain->id)->sum('value');
     $captain_wallet   = abs($captain_wallet);
-    
+
     $captain_missions = App\Mission::where('captain_id' , $captain->id)->count();
 @endphp
 
@@ -128,7 +128,7 @@
                         <table class="table mb-0 aiz-table">
                             <thead>
                                 <tr>
-                                    
+
                                     <th>{{translate('Code')}}</th>
                                     <th>{{translate('Status')}}</th>
                                     <th>{{translate('Type')}}</th>
@@ -145,12 +145,12 @@
                                     @foreach($shipments as $key=>$shipment)
 
                                         <tr>
-                                            
+
                                             <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
                                             <td>{{$shipment->getStatus()}}</td>
                                             <td>{{$shipment->type}}</td>
-                                            <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
-                                            <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
+                                            <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{@$shipment->client->name}}</a></td>
+                                            <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{@$shipment->branch->name}}</a></td>
                                             <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
                                             <td>{{$shipment->pay->name}}</td>
                                             <td>{{$shipment->shipping_date}}</td>

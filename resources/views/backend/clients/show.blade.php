@@ -131,7 +131,7 @@
                         <div class="tab-content mt-5" id="myTabTables11">
                             <!--begin::Table-->
                             <div class="table-responsive">
-                            
+
                                 <table class="table mb-0 aiz-table">
                                     <thead>
                                         <tr>
@@ -157,13 +157,13 @@
                                         @foreach($shipments as $key=>$shipment)
 
                                         <tr>
-                                            <td><label class="checkbox checkbox-success"><input data-clientaddress="{{$shipment->client_address}}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
+                                            <td><label class="checkbox checkbox-success"><input data-clientaddress="{{$shipment->client_address}}" data-clientid="{{@$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{@$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
                                             <td width="3%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</a></td>
                                             <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
                                             <td>{{$shipment->getStatus()}}</td>
                                             <td>{{$shipment->type}}</td>
-                                            <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
-                                            <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
+                                            <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{@$shipment->client->name}}</a></td>
+                                            <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{@$shipment->branch->name}}</a></td>
 
                                             <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
                                             <td>{{$shipment->pay->name ?? ""}}</td>

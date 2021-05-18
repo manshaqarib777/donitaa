@@ -214,9 +214,9 @@
                             <td><label class="checkbox checkbox-success"><input type="checkbox" onclick="check_client(this,{{$shipment->client_id}})"/><span></span></label></td>
                             <th colspan="4">
                                 @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1005', $staff_permission) )
-                                    <a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a>
+                                    <a href="{{route('admin.clients.show',$shipment->client_id)}}">{{@$shipment->client->name}}</a>
                                 @else
-                                    {{$shipment->client->name}}
+                                    {{@$shipment->client->name}}
                                 @endif
                             </th>
                         </tr>
@@ -224,13 +224,13 @@
                             $client_id = $shipment->client_id;
                         @endphp
                     @endif
-                    
+
                     <tr>
                         <td>
                             @if($shipment->mission_id)
                                 -
                             @else
-                                <label class="checkbox checkbox-success"><input data-missionid="{{$shipment->mission_id}}" data-clientaddresssender="{{$shipment->client_address}}" data-clientaddress="{{$shipment->reciver_address}}" data-clientname="{{$shipment->reciver_name}}" data-clientstatehidden="{{$shipment->to_state_id}}" data-clientstate="{{$shipment->to_state->name ?? '' }}" data-clientareahidden="{{$shipment->to_area_id}}" data-clientarea="{{$shipment->to_area->name ?? '' }}" data-clientid="{{$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{$shipment->branch->name}}"  type="checkbox" class="sh-check checkbox-client-id-{{$shipment->client_id}}" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label>
+                                <label class="checkbox checkbox-success"><input data-missionid="{{$shipment->mission_id}}" data-clientaddresssender="{{$shipment->client_address}}" data-clientaddress="{{$shipment->reciver_address}}" data-clientname="{{$shipment->reciver_name}}" data-clientstatehidden="{{$shipment->to_state_id}}" data-clientstate="{{$shipment->to_state->name ?? '' }}" data-clientareahidden="{{$shipment->to_area_id}}" data-clientarea="{{$shipment->to_area->name ?? '' }}" data-clientid="{{@$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{@$shipment->branch->name}}"  type="checkbox" class="sh-check checkbox-client-id-{{$shipment->client_id}}" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label>
                             @endif
                         </td>
                         @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1009', $staff_permission) )
@@ -240,13 +240,13 @@
                             <td width="3%">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</td>
                             <td width="5%">{{$shipment->code}}</td>
                         @endif
-                        
+
                         @if($status == "all") <td>{{$shipment->getStatus()}}</td> @endif
                         <td>{{$shipment->type}}</td>
                         @if( in_array($user_type ,['admin','customer']) || in_array('1100', $staff_permission) || in_array('1006', $staff_permission) )
-                            <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a></td>
+                            <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{@$shipment->branch->name}}</a></td>
                         @else
-                            <td>{{$shipment->branch->name}}</td>
+                            <td>{{@$shipment->branch->name}}</td>
                         @endif
 
                         <td>{{format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}</td>
@@ -262,7 +262,7 @@
                         <td class="text-center">
                             {{$shipment->created_at->format('Y-m-d')}}
                         </td>
-                        @if($status != "all") 
+                        @if($status != "all")
                             <td class="text-center">
                                 <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.print', ['shipment'=>$shipment->id, 'invoice'])}}" title="{{ translate('Show') }}">
                                     <i class="las la-print"></i>
@@ -277,7 +277,7 @@
                                     </a>
                                 @endif
 
-                            </td> 
+                            </td>
                         @endif
                     </tr>
 
@@ -625,7 +625,7 @@
             selected_area.push($(this).data('clientarea'));
             selected_area_hidden.push($(this).data('clientareahidden'));
             selected_branch_hidden.push($(this).data('branchid'));
-            
+
             mission_id.push($(this).data('missionid'));
         });
 
@@ -655,7 +655,7 @@
             Swal.fire("{{translate('This Shipment Already In Mission')}}", "", "error");
         }
 
-        
+
     }
 
     function openTransferShipmentCaptainModel(element, e) {

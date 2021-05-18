@@ -141,7 +141,7 @@
 
                                 @else
                                     <!--begin::Nav-->
-                                    <div class="d-flex flex-center text-center text-muted min-h-200px">{{translate('All caught up!')}} 
+                                    <div class="d-flex flex-center text-center text-muted min-h-200px">{{translate('All caught up!')}}
                                     <br>{{translate('No new notifications')}}.</div>
                                     <!--end::Nav-->
                                 @endif
@@ -195,6 +195,51 @@
                                             alt="{{ $language->name }}" />
                                     </span>
                                     <span class="navi-text">{{ $language->name }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <!--end::Nav-->
+                </div>
+
+                <!--end::Dropdown-->
+            </div>
+            <div class="dropdown">
+                @php
+                    if(Session::has('country')){
+                        $country = Session::get('country', Config::get('app.country'));
+                    }
+                    else{
+                        $country = Config::get('app.country');
+                    }
+                @endphp
+
+                <!--begin::Toggle-->
+                <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px">
+                    <div class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1">
+                        <img class="h-20px w-20px rounded-sm"
+                            src="https://lipis.github.io/flag-icon-css/flags/1x1/{{ strtolower($country) }}.svg"
+                            alt="" />
+                    </div>
+                </div>
+
+                <!--end::Toggle-->
+
+                <!--begin::Dropdown-->
+                <div
+                    class="dropdown-menu p-0 m-0 dropdown-menu-anim-up dropdown-menu-sm dropdown-menu-right" id="country-change">
+
+                    <!--begin::Nav-->
+                    <ul class="navi navi-hover py-4">
+                        @foreach (\App\Country::where('covered',1)->get() as $key => $country)
+                            <li class="navi-item">
+                                <a href="javascript:void(0)" data-flag="{{ $country->iso2 }}" class="navi-link">
+                                    <span class="symbol symbol-20 mr-3">
+                                        <img src="https://lipis.github.io/flag-icon-css/flags/1x1/{{ strtolower($country->iso2) }}.svg"
+                                            alt="{{ $country->name }}" />
+                                    </span>
+                                    <span class="navi-text">{{ $country->name }}</span>
                                 </a>
                             </li>
                         @endforeach

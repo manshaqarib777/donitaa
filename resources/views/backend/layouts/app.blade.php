@@ -24,7 +24,7 @@
 	<!--end::Fonts-->
 
 	@if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
-		
+
 	<link href="https://fonts.googleapis.com/css2?family=Cairo" rel="stylesheet">
 	<!--begin::Page Vendors Styles(used by this page)-->
 	<link href="{{ static_asset('assets/dashboard/plugins/custom/fullcalendar/fullcalendar.bundle.rtl.css') }}"
@@ -77,7 +77,7 @@
 	<!--end::Layout Themes-->
 	@endif
 	<link href="{{ static_asset('assets/css/custom-style.css?v=7.2.3') }}" rel="stylesheet" type="text/css" />
-	
+
 	@yield('style')
 
 	<script>
@@ -150,7 +150,7 @@
 
 		<!--begin::Page-->
 		<div class="flex-row d-flex flex-column-fluid page">
-			
+
 			@include('backend.inc.admin_sidenav')
 
 			<!--begin::Wrapper-->
@@ -163,9 +163,9 @@
 
 				<!--begin::Content-->
 				<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-					
 
-					
+
+
 					<!--begin::Entry-->
 					<div class="d-flex flex-column-fluid">
 
@@ -199,11 +199,11 @@
 						</div>
 
 						<!--end::Copyright-->
-					
+
 						<!--begin::Nav-->
 						<div class="nav nav-dark">
 						</div>
-				
+
 						<!--end::Nav-->
 					</div>
 
@@ -224,7 +224,7 @@
 	<!--begin::Scrolltop-->
 	<div id="kt_scrolltop" class="scrolltop">
 		<span class="svg-icon">
-	
+
 			<!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Up-2.svg-->
 			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
 				viewBox="0 0 24 24" version="1.1">
@@ -236,7 +236,7 @@
 						fill="#000000" fill-rule="nonzero" />
 				</g>
 			</svg>
-	
+
 			<!--end::Svg Icon-->
 		</span>
 	</div>
@@ -341,7 +341,7 @@
 		@if ($msg = Session::get('status'))
 			AIZ.plugins.notify('success', '{{ $msg }}');
 		@endif
-		
+
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -354,6 +354,18 @@
                     var $this = $(this);
                     var locale = $this.data('flag');
                     $.post('{{ route('language.change') }}',{_token:'{{ csrf_token() }}', locale:locale}, function(data){
+                        location.reload();
+                    });
+                });
+            });
+        }
+        if ($('#country-change').length > 0) {
+            $('#country-change .navi-item a').each(function() {
+                $(this).on('click', function(e){
+                    e.preventDefault();
+                    var $this = $(this);
+                    var country = $this.data('flag');
+                    $.post('{{ route('currency.change') }}',{_token:'{{ csrf_token() }}', country:country}, function(data){
                         location.reload();
                     });
                 });

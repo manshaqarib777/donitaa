@@ -14,9 +14,25 @@ class CurrencyController extends Controller
             flash(translate('This action is disabled in demo mode'))->error();
             return back();
         }
-    	$request->session()->put('currency_code', $request->currency_code);
-        $currency = Currency::where('code', $request->currency_code)->first();
-    	flash(translate('Currency changed to ').$currency->name)->success();
+        
+    	$request->session()->put('country', $request->country);
+
+        $country=\App\Country::where('iso2',$request->country)->get()->first();
+        //dd($country->iso3);
+
+        $currency = Currency::where('code', $country->currency)->first();
+        if(!$currency)
+        {
+            $currency = Currency::get()->first();
+            $request->session()->put('currency_code', $currency->code);
+            flash(translate('Currency changed to ').$currency->name)->success();
+        }
+        else
+        {
+            $request->session()->put('currency_code', $currency->code);
+            flash(translate('Currency changed to ').$currency->name)->success();
+            
+        }
     }
 
     public function currency(Request $request)

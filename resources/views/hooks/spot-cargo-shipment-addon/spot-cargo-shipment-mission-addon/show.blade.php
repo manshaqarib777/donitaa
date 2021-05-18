@@ -14,7 +14,7 @@
                 <button type="button" class="px-3 btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModalCenter" id="modal_open">
                     {{translate('Reschedule')}}
                 </button>
-            
+
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -33,7 +33,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>{{translate('Reason')}}:</label>
-                                                
+
                                                 <select name="reason" class="form-control captain_id kt-select2">
                                                     @foreach ($data['reasons'] as $reason)
                                                         <option value="{{$reason->id}}">{{$reason->name}}</option>
@@ -77,7 +77,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                   
+
                 @foreach(\App\ShipmentMission::where('mission_id',$data['mission']->id)->get() as $shipment_mission)
                     <tr class="font-weight-boldest @if(in_array($shipment_mission->shipment->status_id ,[\App\Shipment::RETURNED_STATUS,\App\Shipment::RETURNED_STOCK,\App\Shipment::RETURNED_CLIENT_GIVEN])) table-danger @endif">
                         @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1005', $staff_permission) )
@@ -87,8 +87,8 @@
                         @endif
                         <td class="pl-5 pt-7">{{$shipment_mission->shipment->getStatus()}}</td>
                         <td class="text-right pt-7">{{$shipment_mission->shipment->type}}</td>
-                        <td class="text-right pt-7">{{$shipment_mission->shipment->branch->name}}</td>
-                        <td class="text-right  pt-7">{{$shipment_mission->shipment->client->name}}</td>
+                        <td class="text-right pt-7">{{@$shipment_mission->shipment->branch->name}}</td>
+                        <td class="text-right  pt-7">{{@$shipment_mission->shipment->client->name}}</td>
                         <td class="text-right  pt-7">{{translate($shipment_mission->shipment->pay['name'])}} ({{$shipment_mission->shipment->getPaymentType()}})</td>
                         <td class="text-right  pt-7">{{format_price(convert_price($shipment_mission->shipment->tax + $shipment_mission->shipment->shipping_cost + $shipment_mission->shipment->insurance)) }}</td>
                         <td class="pr-5 text-right text-danger pt-7 no-print">
@@ -104,7 +104,7 @@
                         <td class="text-center print-only"><input type="checkbox" class="form-control" /></td>
                     </tr>
                 @endforeach
-                
+
                 </tbody>
             </table>
         </div>
@@ -131,7 +131,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>{{translate('Reason')}}:</label>
-                                
+
                                 <select name="reason" class="form-control captain_id kt-select2" required>
                                     @foreach ($data['reasons'] as $reason)
                                         <option value="{{$reason->id}}">{{$reason->name}}</option>
