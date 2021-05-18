@@ -2,7 +2,7 @@
 
 @section('content')
 @php
-    $auth_user = Auth::user();    
+    $auth_user = Auth::user();
 @endphp
 <style>
     label {
@@ -35,6 +35,44 @@
                                         <input type="radio" name="Shipment[type]" @if($shipment->type == \App\Shipment::getType(\App\Shipment::DROPOFF)) checked @endif value="{{\App\Shipment::DROPOFF}}" />
                                         <span></span>
                                         {{translate("Drop off (For delivery package from branch directly)")}}
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">{{translate('Shipment Zone')}}</label>
+                            <div class="col-9 col-form-label">
+                                <div class="radio-inline">
+                                    <label class="radio radio-success btn btn-default">
+                                        <input @if($shipment->zone == \App\Shipment::getZone(\App\Shipment::ZONEDOMESTIC)) checked @endif value="{{ \App\Shipment::ZONEDOMESTIC }}" type="radio" name="Shipment[zone]" checked="checked" />
+                                        <span></span>
+                                        {{translate("Domestic")}}
+                                    </label>
+                                    <label class="radio radio-success btn btn-default">
+                                        <input @if($shipment->zone == \App\Shipment::getZone(\App\Shipment::ZONEINTERNATIONAL)) checked @endif value="{{ \App\Shipment::ZONEINTERNATIONAL }}" type="radio" name="Shipment[zone]" />
+                                        <span></span>
+                                        {{translate("International")}}
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">{{translate('Shipment Material')}}</label>
+                            <div class="col-9 col-form-label">
+                                <div class="radio-inline">
+                                    <label class="radio radio-success btn btn-default">
+                                        <input @if($shipment->material == \App\Shipment::getMaterial(\App\Shipment::MATERIALFRAGILE)) checked @endif value="{{ \App\Shipment::MATERIALFRAGILE }}" type="radio" name="Shipment[material]" checked="checked" />
+                                        <span></span>
+                                        {{translate("Fragile")}}
+                                    </label>
+                                    <label class="radio radio-success btn btn-default">
+                                        <input @if($shipment->material == \App\Shipment::getMaterial(\App\Shipment::MATERIALNONFRAGILE)) checked @endif value="{{ \App\Shipment::MATERIALNONFRAGILE }}" type="radio" name="Shipment[material]" />
+                                        <span></span>
+                                        {{translate("Non Fragile")}}
                                     </label>
                                 </div>
 
@@ -124,7 +162,7 @@
 
                                 </div>
                             </div>
-                            
+
                         </div>
                         <hr>
                         <div class="row">
@@ -147,7 +185,7 @@
                                     <label>{{translate('Payment Method')}}:</label>
                                     <select class="form-control kt-select2" id="select-how" name="Shipment[payment_method_id]">
                                         @forelse (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
-                                            <option @if($shipment->payment_method_id == $gateway->id) selected @endif value="{{$gateway->id}}">{{$gateway->name}}</option>  
+                                            <option @if($shipment->payment_method_id == $gateway->id) selected @endif value="{{$gateway->id}}">{{$gateway->name}}</option>
                                         @empty
                                             <option value="11">{{translate('Cash')}}</option>
                                         @endforelse
@@ -160,7 +198,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Attachments')}}:</label>
-        
+
                                     <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
@@ -175,7 +213,7 @@
                             {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Attachments After Shipping')}}:</label>
-        
+
                                     <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
@@ -305,7 +343,7 @@
                                         <label>{{translate('Return Cost')}}:</label>
                                         <input id="kt_touchspin_3_3" type="text" class="form-control" value="{{convert_price($shipment->return_cost)}}" name="Shipment[return_cost]" />
                                     </div>
-                                </div>                               
+                                </div>
                             </div>
                             <hr>
                             <div class="row">
@@ -620,8 +658,8 @@
             }
         );
     });
-    
-    
+
+
 
 </script>
 @endsection

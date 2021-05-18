@@ -2,7 +2,7 @@
 
 @section('content')
 @php
-    $auth_user = Auth::user();    
+    $auth_user = Auth::user();
 @endphp
 
 @section('sub_title'){{translate('Create New Shipment')}}@endsection
@@ -109,6 +109,44 @@
                             </div>
                         </div>
                         <hr>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">{{translate('Shipment Zone')}}</label>
+                            <div class="col-9 col-form-label">
+                                <div class="radio-inline">
+                                    <label class="radio radio-success btn btn-default">
+                                        <input @if(\App\ShipmentSetting::getVal('def_zone')=='1' ) checked @endif type="radio" name="Shipment[zone]" checked="checked" value="1" />
+                                        <span></span>
+                                        {{translate("Domestic")}}
+                                    </label>
+                                    <label class="radio radio-success btn btn-default">
+                                        <input @if(\App\ShipmentSetting::getVal('def_zone')=='2' ) checked @endif type="radio" name="Shipment[zone]" value="2" />
+                                        <span></span>
+                                        {{translate("International")}}
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">{{translate('Shipment Material')}}</label>
+                            <div class="col-9 col-form-label">
+                                <div class="radio-inline">
+                                    <label class="radio radio-success btn btn-default">
+                                        <input @if(\App\ShipmentSetting::getVal('def_material')=='1' ) checked @endif type="radio" name="Shipment[material]" checked="checked" value="1" />
+                                        <span></span>
+                                        {{translate("Domestic")}}
+                                    </label>
+                                    <label class="radio radio-success btn btn-default">
+                                        <input @if(\App\ShipmentSetting::getVal('def_material')=='2' ) checked @endif type="radio" name="Shipment[material]" value="2" />
+                                        <span></span>
+                                        {{translate("International")}}
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <hr>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -135,7 +173,7 @@
                                             }else{
                                                 $shipping_data = \Carbon\Carbon::now()->addDays($defult_shipping_date);
                                             }
-                                            
+
                                         @endphp
                                         <input type="text" placeholder="{{translate('Shipping Date')}}" value="{{ $shipping_data->toDateString() }}" name="Shipment[shipping_date]" autocomplete="off" class="form-control" id="kt_datepicker_3" />
                                         <div class="input-group-append">
@@ -300,12 +338,12 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Attachments')}}:</label>
-        
+
                                     <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
@@ -320,7 +358,7 @@
                             {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Attachments After Shipping')}}:</label>
-        
+
                                     <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
@@ -469,7 +507,7 @@
                         <button type="button" class="btn btn-sm btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter" id="modal_open">
                             {{translate('Save')}}
                         </button>
-                    
+
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -482,24 +520,24 @@
                                     </div>
                                     <div class="text-left modal-body">
                                         <div class="row">
-                                            <div class="col-6">{{translate('Shipping Cost')}} :</div> 
+                                            <div class="col-6">{{translate('Shipping Cost')}} :</div>
                                             <div class="col-6" id="shipping_cost"></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-6">{{translate('Tax & Duty')}} :</div> 
+                                            <div class="col-6">{{translate('Tax & Duty')}} :</div>
                                             <div class="col-6" id="tax_duty"></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-6">{{translate('Insurance')}} :</div> 
+                                            <div class="col-6">{{translate('Insurance')}} :</div>
                                             <div class="col-6" id="insurance"></div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-6">{{translate('Return Cost')}} :</div> 
+                                            <div class="col-6">{{translate('Return Cost')}} :</div>
                                             <div class="col-6" id="return_cost"></div>
                                         </div>
                                         <hr>
                                         <div class="row">
-                                            <div class="col-6">{{translate('TOTAL COST')}} :</div> 
+                                            <div class="col-6">{{translate('TOTAL COST')}} :</div>
                                             <div class="col-6" id="total_cost"></div>
                                         </div>
                                     </div>
@@ -559,7 +597,7 @@
         placeholder: "Payment Type",
     });
 
-    
+
 
     $('.delivery-time').select2({
         placeholder: "Delivery Time",
@@ -641,8 +679,8 @@
         var from_country_id = document.getElementsByName("Shipment[from_country_id]")[0].value;
         var to_country_id = document.getElementsByName("Shipment[to_country_id]")[0].value;
         var from_state_id = document.getElementsByName("Shipment[from_state_id]")[0].value;
-        var to_state_id = document.getElementsByName("Shipment[to_state_id]")[0].value;        
-        var from_area_id = document.getElementsByName("Shipment[from_area_id]")[0].value;        
+        var to_state_id = document.getElementsByName("Shipment[to_state_id]")[0].value;
+        var from_area_id = document.getElementsByName("Shipment[from_area_id]")[0].value;
         var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
 
         var package_ids = [];
@@ -655,15 +693,15 @@
                 return 0;
             }
         }
-        var request_data = {_token : '{{ csrf_token() }}', 
-                                package_ids : package_ids, 
-                                total_weight : total_weight, 
-                                from_country_id : from_country_id, 
-                                to_country_id : to_country_id, 
-                                from_state_id : from_state_id, 
-                                to_state_id : to_state_id, 
-                                from_area_id : from_area_id, 
-                                to_area_id : to_area_id, 
+        var request_data = {_token : '{{ csrf_token() }}',
+                                package_ids : package_ids,
+                                total_weight : total_weight,
+                                from_country_id : from_country_id,
+                                to_country_id : to_country_id,
+                                from_state_id : from_state_id,
+                                to_state_id : to_state_id,
+                                from_area_id : from_area_id,
+                                to_area_id : to_area_id,
                             };
         $.post('{{ route('admin.shipments.get-estimation-cost') }}', request_data, function(response){
             document.getElementById("shipping_cost").innerHTML = response.shipping_cost;
@@ -779,7 +817,7 @@
 
             show: function() {
                 $(this).slideDown();
-                
+
                 $('.package-type-select').select2({
                     placeholder: "Package Type",
                     language: {

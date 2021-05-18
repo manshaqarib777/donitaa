@@ -12,6 +12,15 @@ class Shipment extends Model
     const PICKUP = 1;
     const DROPOFF = 2;
 
+    //Zone Types 
+    const ZONEDOMESTIC = 1;
+    const ZONEINTERNATIONAL = 2;
+
+
+    //Zone Types 
+    const MATERIALFRAGILE = 1;
+    const MATERIALNONFRAGILE = 2;
+
     //Payment Methods 
     const CASH_METHOD = 1;
     const PAYPAL_METHOD = 2;
@@ -283,6 +292,47 @@ class Shipment extends Model
             return translate('Dropoff');
         } elseif ($value == Self::PICKUP) {
             return translate('Pickup');
+        } else {
+            return null;
+        }
+    }
+
+
+    public function getZoneAttribute($value)
+    {
+        if ($value == Self::ZONEINTERNATIONAL) {
+            return translate('International');
+        } elseif ($value == Self::ZONEDOMESTIC) {
+            return translate('Domestic');
+        }
+    }
+
+    static public function getZone($value)
+    {
+        if ($value == Self::ZONEINTERNATIONAL) {
+            return translate('International');
+        } elseif ($value == Self::ZONEDOMESTIC) {
+            return translate('Domestic');
+        } else {
+            return null;
+        }
+    }
+
+    public function getMaterialAttribute($value)
+    {
+        if ($value == Self::MATERIALFRAGILE) {
+            return translate('Fragile');
+        } elseif ($value == Self::MATERIALNONFRAGILE) {
+            return translate('Non Fragile');
+        }
+    }
+
+    static public function getMaterial($value)
+    {
+        if ($value == Self::MATERIALFRAGILE) {
+            return translate('Fragile');
+        } elseif ($value == Self::MATERIALNONFRAGILE) {
+            return translate('Non Fragile');
         } else {
             return null;
         }

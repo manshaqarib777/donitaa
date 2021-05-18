@@ -93,6 +93,14 @@ $d = new DNS1D();
                         <span class="opacity-70">{{$shipment->type}}</span>
                     </div>
                     <div class="d-flex flex-column flex-root">
+                        <span class="mb-2 font-weight-bolder">{{translate('Shipment Zone')}}</span>
+                        <span class="opacity-70">{{$shipment->zone}}</span>
+                    </div>
+                    <div class="d-flex flex-column flex-root">
+                        <span class="mb-2 font-weight-bolder">{{translate('Shipment Material')}}</span>
+                        <span class="opacity-70">{{$shipment->material}}</span>
+                    </div>
+                    <div class="d-flex flex-column flex-root">
                         <span class="mb-2 font-weight-bolder">{{translate('Current branch')}}</span>
                         <a class="opacity-70" href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{@$shipment->branch->name}}</a>
                     </div>
