@@ -13,7 +13,7 @@
             <div class="alert alert-info">
                 - Calculation equation = Default Costs or Custom Covered Area Cost + Extra fees for Kg + Extra Fees for Package Types
                 <br />
-            
+
             </div>
         </div>
     </div>
@@ -171,7 +171,7 @@
                         </div>
                     </div>
                 @endif
-                
+
 
 
 
@@ -208,6 +208,8 @@
 
                                         <td>
 
+                                            <input type="number" min="0" name="package_insurance_fee[]" class="form-control" id="" value="{{convert_price($package->insurance_fee)}}" />
+                                            <input type="number" min="0" name="package_return_fee[]" class="form-control" id="" value="{{convert_price($package->return_fee)}}" />
                                             <input type="number" min="0" name="package_extra[]" class="form-control" id="" value="{{convert_price($package->cost)}}" />
                                             <input type="hidden" name="package_id[]" value="{{$package->id}}">
 

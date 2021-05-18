@@ -1093,6 +1093,8 @@ class ShipmentController extends Controller
         foreach ($request->package_id as $package) {
             $pack = Package::find($request->package_id[$counter]);
             $pack->cost = $request->package_extra[$counter];
+            $pack->insurance_fee = $request->package_insurance_fee[$counter];
+            $pack->return_fee = $request->package_return_fee[$counter];
             $pack->save();
             $counter++;
         }
