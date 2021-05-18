@@ -622,14 +622,26 @@ class ShipmentController extends Controller
         if ($covered_cost != null) {
            
             $package_extras = 0;
+            $return_fee= 0;
+            $insurance_fee= 0;
             foreach ($packages as $pack) {
-                $extra = Package::find($pack['package_id'])->cost;
-                $package_extras += $extra;
+                $package = Package::find($pack['package_id']);
+                $package_extras += $package->cost;
+                $return_fee += $package->return_fee;
+                $insurance_fee += $package->insurance_fee;
+            }
+            if($return_fee==0)
+            {
+                $return_fee=(float) $covered_cost->return_cost;
+            }
+            if($insurance_fee==0)
+            {
+                $insurance_fee=(float) $covered_cost->insurance;
             }
 
             if($weight > 1){
-                $return_cost = (float) $covered_cost->return_cost + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
-                $insurance = (float) $covered_cost->insurance + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
+                $return_cost =  $return_fee + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
+                $insurance = $insurance_fee + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
 
                 $shipping_cost_first_one = (float) $covered_cost->shipping_cost + $package_extras;
                 $tax_for_first_one = (($covered_cost->tax * $shipping_cost_first_one) / 100 );
@@ -654,15 +666,26 @@ class ShipmentController extends Controller
         } else {
             
             $package_extras = 0;
-            
+            $return_fee= 0;
+            $insurance_fee= 0;
             foreach ($packages as $pack) {
-                $extra = Package::find($pack['package_id'])->cost;
-                $package_extras += $extra;
+                $package = Package::find($pack['package_id']);
+                $package_extras += $package->cost;
+                $return_fee += $package->return_fee;
+                $insurance_fee += $package->insurance_fee;
+            }
+            if($return_fee==0)
+            {
+                $return_fee=ShipmentSetting::getCost('def_return_cost');
+            }
+            if($insurance_fee==0)
+            {
+                $insurance_fee=ShipmentSetting::getCost('def_insurance');
             }
             
             if($weight > 1){
-                $return_cost = ShipmentSetting::getCost('def_return_cost') + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
-                $insurance = ShipmentSetting::getCost('def_insurance') + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
+                $return_cost = $return_fee + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
+                $insurance = $insurance_fee + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
 
                 $shipping_cost_first_one = ShipmentSetting::getCost('def_shipping_cost') + $package_extras;
                 $tax_for_first_one = ((ShipmentSetting::getCost('def_tax') * $shipping_cost_first_one) / 100 );

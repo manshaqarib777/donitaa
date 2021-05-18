@@ -36,7 +36,7 @@
                         <span class="menu-text">{{translate('Dashboard')}}</span>
                     </a>
                 </li>
-               
+
                 @if(count(\File::files(base_path('resources/views/backend/inc/addons/'))) > 0)
                     <li class="menu-section">
                         <h4 class="menu-text">{{translate('Addons')}}</h4>
@@ -47,7 +47,7 @@
                         @include('backend.inc.addons.'.str_replace('.blade','',pathinfo($path)['filename']))
                     @endforeach
                 @endif
-            
+
 
                 <li class="menu-section">
                     <h4 class="menu-text">{{translate('Administration')}}</h4>
@@ -159,7 +159,7 @@
                 @endif
 
                 @if($user_type == 'admin' || in_array('14', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-                    <li class="menu-item menu-item-submenu {{ areActiveRoutes(['general_setting.index','activation.index', 'notifications.index', 'email_settings.index','sms_gateways.index', 'languages.index', 'languages.import', 'languages.export', 'languages.import_parse', 'languages.create', 'languages.store', 'languages.show', 'languages.edit','file_system.index','google_analytics.index','facebook_chat.index','google_recaptcha.index','currency.index', 'currency.create', 'currency.store', 'currency.show', 'currency.edit'])}}" aria-haspopup="true" data-menu-toggle="hover">
+                    <li class="menu-item menu-item-submenu {{ areActiveRoutes(['general_setting.index','activation.index', 'notifications.index', 'email_settings.index','sms_gateways.index', 'languages.index', 'languages.import', 'languages.export', 'languages.import_parse', 'languages.create', 'languages.store', 'languages.show', 'languages.edit','file_system.index','google_analytics.index','facebook_chat.index','google_recaptcha.index','currency.index', 'currency.create', 'currency.store', 'currency.show', 'currency.edit','admin.countries.index', 'admin.countries.create', 'admin.countries.store', 'admin.countries.show', 'admin.countries.edit'])}}" aria-haspopup="true" data-menu-toggle="hover">
                         <a href="javascript:;" class="menu-link menu-toggle">
                             <i class="menu-icon flaticon2-gear"></i>
                             <span class="menu-text">{{translate('Settings')}}</span>
@@ -211,6 +211,14 @@
                                             <span></span>
                                         </i>
                                         <span class="menu-text">{{translate('Currencies')}}</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item  {{ areActiveRoutes(['admin.countries.index', 'admin.countries.create', 'admin.countries.store', 'admin.countries.show', 'admin.countries.edit'])}}" aria-haspopup="true">
+                                    <a href="{{ route('admin.countries.index') }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{translate('Countries')}}</span>
                                     </a>
                                 </li>
                                 <li class="menu-item {{ areActiveRoutes(['notifications.index'])}}" aria-haspopup="true">
