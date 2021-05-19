@@ -15,19 +15,19 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-from-label" for="name">{{translate('Name')}}</label>
                     <div class="col-sm-9">
-                        <input type="text" placeholder="{{translate('Name')}}" id="name" name="name" value="{{ $staff->user->name }}" class="form-control" required>
+                        <input type="text" placeholder="{{translate('Name')}}" id="name" name="name" value="{{ @$staff->user->name }}" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-from-label" for="email">{{translate('Email')}}</label>
                     <div class="col-sm-9">
-                        <input type="text" placeholder="{{translate('Email')}}" id="email" name="email" value="{{ $staff->user->email }}" class="form-control" required>
+                        <input type="text" placeholder="{{translate('Email')}}" id="email" name="email" value="{{ @$staff->user->email }}" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-from-label" for="mobile">{{translate('Phone')}}</label>
                     <div class="col-sm-9">
-                        <input type="text" placeholder="{{translate('Phone')}}" id="mobile" name="mobile" value="{{ $staff->user->phone }}" class="form-control" required>
+                        <input type="text" placeholder="{{translate('Phone')}}" id="mobile" name="mobile" value="{{ @$staff->user->phone }}" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -52,7 +52,7 @@
                         <select id="change-country" name="country_id" class="form-control select-country">
                             <option value=""></option>
                             @foreach ($countries as $country)
-                                <option value="{{ $country->id }}" {{ ($staff->user->country_id==$country->id)?'selected':'' }}>{{ $country->name }}</option>
+                                <option value="{{ $country->id }}" {{ (@$staff->user->country_id==$country->id)?'selected':'' }}>{{ $country->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -61,7 +61,7 @@
                     <label class="col-sm-3 col-from-label" for="state_id">{{ translate('Region') }}:</label>
                     <div class="col-sm-9">
                         <select id="change-state" name="state_id" class="form-control select-state">
-                            <option value="{{ $staff->user->state_id }}" selected>{{ $staff->user->state->name }}</option>
+                            <option value="{{ @$staff->user->state_id }}" selected>{{ @$staff->user->state->name }}</option>
 
                         </select>
                     </div>
@@ -70,7 +70,7 @@
                     <label class="col-sm-3 col-from-label" for="area_id">{{ translate('Area') }}:</label>
                     <div class="col-sm-9">
                         <select name="area_id" class="form-control select-area">
-                            <option value="{{ $staff->user->area_id }}" selected>{{ $staff->user->area->name }}</option>
+                            <option value="{{ @$staff->user->area_id }}" selected>{{ @$staff->user->area->name }}</option>
 
                         </select>
                     </div>
