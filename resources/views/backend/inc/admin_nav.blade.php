@@ -166,16 +166,14 @@
                         $locale = Session::get('locale', Config::get('app.locale'));
                     }
                     else{
-                        $locale = env('DEFAULT_LANGUAGE');
+                        $locale = 'Select Language';
                     }
                 @endphp
 
                 <!--begin::Toggle-->
                 <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px">
                     <div class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1">
-                        <img class="h-20px w-20px rounded-sm"
-                            src="{{ static_asset('assets/img/flags/'.$locale.'.svg') }}"
-                            alt="" />
+                        {{ $locale }}
                     </div>
                 </div>
 

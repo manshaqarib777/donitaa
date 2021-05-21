@@ -135,12 +135,12 @@
                                     <label class="radio radio-success btn btn-default">
                                         <input @if(\App\ShipmentSetting::getVal('def_material')=='1' ) checked @endif type="radio" name="Shipment[material]" checked="checked" value="1" />
                                         <span></span>
-                                        {{translate("Domestic")}}
+                                        {{translate("Fragile")}}
                                     </label>
                                     <label class="radio radio-success btn btn-default">
                                         <input @if(\App\ShipmentSetting::getVal('def_material')=='2' ) checked @endif type="radio" name="Shipment[material]" value="2" />
                                         <span></span>
-                                        {{translate("International")}}
+                                        {{translate("Non Fragile")}}
                                     </label>
                                 </div>
 
