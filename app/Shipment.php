@@ -61,10 +61,10 @@ class Shipment extends Model
         parent::boot();
 
         static::addGlobalScope('restriction', function ($builder) {
-            if(auth()->user()->staff && auth()->user()->staff->role_id == 1)
+            if(isset(auth()->user()->staff) && auth()->user()->staff->role_id == 1)
                 $builder->where('from_country_id', auth()->user()->country_id)
                 ->orWhere('to_country_id', auth()->user()->country_id);
-            if(auth()->user()->staff && auth()->user()->staff->role_id == 2)
+            if(isset(auth()->user()->staff) && auth()->user()->staff->role_id == 2)
                 $builder
                 ->where(function($query) {
                     $query->where('from_country_id', auth()->user()->country_id)

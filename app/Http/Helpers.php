@@ -483,11 +483,11 @@ if (! function_exists('convert_price')) {
             $currency = Currency::where('code', request()->session()->get('currency_code', $code))->first();
             $price = floatval($price) * floatval($currency->exchange_rate);
         }
-        // else{
-        //     $currency = Currency::where('code', $code)->first();
-        // }
-
-        // $price = floatval($price) * floatval($currency->exchange_rate);
+        else{
+            $currency = Currency::where('code', $code)->first();
+            $price = floatval($price) * floatval($currency->exchange_rate);
+        }
+        
 
         return $price;
     }
@@ -497,17 +497,29 @@ if (! function_exists('convert_price')) {
 if (! function_exists('format_price')) {
     function format_price($price)
     {
-        if (BusinessSetting::where('type', 'decimal_separator')->first()->value == 1) {
-            $fomated_price = number_format($price, BusinessSetting::where('type', 'no_of_decimals')->first()->value);
+
+        $code = \App\Currency::findOrFail(\App\BusinessSetting::where('type', 'system_default_currency')->first()->value)->code;
+        if(request()->session()->get('currency_code')){
+            $currency = Currency::where('code', request()->session()->get('currency_code', $code))->first();
         }
-        else {
-            $fomated_price = number_format($price, BusinessSetting::where('type', 'no_of_decimals')->first()->value , ',' , ' ');
+        else{
+            $currency = Currency::where('code', $code)->first();
         }
 
-        if(BusinessSetting::where('type', 'symbol_format')->first()->value == 1){
-            return currency_symbol().$fomated_price;
+        if ($currency->decimal_separator == 1) {
+            $fomated_price = number_format($price, $currency->no_of_decimals);
         }
-        return $fomated_price.currency_symbol();
+        else {
+            $fomated_price = number_format($price, $currency->no_of_decimals , ',' , ' ');
+        }
+        $space='';
+        if($currency->symbol_space == 1){
+            $space=' ';
+        }
+        if($currency->symbol_format == 1){
+            return currency_symbol().$space.$fomated_price;
+        }
+        return $fomated_price.$space.currency_symbol();
     }
 }
 

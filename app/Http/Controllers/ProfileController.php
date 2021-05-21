@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\user;
-use Hash;
+use Hash,Auth;
 
 class ProfileController extends Controller
 {
@@ -15,7 +15,10 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('backend.admin_profile.index');
+        $countries = \App\Country::where('covered',1)->get();
+        $user_type = Auth::user()->user_type;
+        $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
+        return view('backend.admin_profile.index',compact('countries','user_type','staff_permission'));
     }
 
     /**
@@ -104,6 +107,9 @@ class ProfileController extends Controller
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->country_id = $request->country_id;
+        $user->state_id = $request->state_id;
+        $user->area_id = $request->area_id;
         if($request->new_password != null && ($request->new_password == $request->confirm_password)){
             $user->password = Hash::make($request->new_password);
         }

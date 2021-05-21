@@ -13,13 +13,13 @@ class Branch extends Model
         parent::boot();
   
         static::addGlobalScope('restriction', function ($builder) {
-            if(auth()->user()->staff && auth()->user()->staff->role_id == 1)
+            if(isset(auth()->user()->staff) && auth()->user()->staff->role_id == 1)
             {
                 $builder->whereHas('userBranch.user', function($query) {
                     return $query->where('users.country_id', auth()->user()->country_id);
                 });
             }    
-            if(auth()->user()->staff && auth()->user()->staff->role_id == 2)
+            if(isset(auth()->user()->staff) && auth()->user()->staff->role_id == 2)
             {
                 $builder->whereHas('userBranch.user', function($query) {
                     return $query->where('users.country_id', auth()->user()->country_id)

@@ -87,7 +87,7 @@ class RegisterController extends Controller
 			$model->code = -1;
           
 			if (!$model->save()){
-                throw new \Exception("Email already Exist");
+                throw new \Exception();
 			}
             $model->created_by_type = 'admin';
             $model->created_by = 1;
@@ -133,8 +133,8 @@ class RegisterController extends Controller
             $user=User::find($response['user_id']);
             return $user;
 		}catch(\Exception $e){
-            DB::rollback();	
-			flash('Email Already Exist')->error();
+            DB::rollback();
+            flash('Email Already Exist')->error();
             return false;             
 		}
 

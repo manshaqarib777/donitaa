@@ -30,6 +30,52 @@
                 <input type="number" step="0.01" min="0" placeholder="{{translate('Exchange Rate')}}" id="exchange_rate" name="exchange_rate" class="form-control" required>
             </div>
         </div>
+        <div class="form-group row">
+            <div class="col-lg-3">
+                <label class="control-label">{{translate('Symbol Format')}}</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="form-control aiz-selectpicker" name="symbol_format">
+                    <option value="1">[Symbol] [Amount]</option>
+                    <option value="2">[Amount] [Symbol]</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-3">
+                <label class="control-label">{{translate('Show Space With Symbol')}}</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="form-control aiz-selectpicker" name="symbol_space">
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-3">
+                <label class="control-label">{{translate('Decimal Separator')}}</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="form-control aiz-selectpicker" name="decimal_separator">
+                    <option value="1">1,23,456.70</option>
+                    <option value="2">1.23.456,70</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-3">
+                <label class="control-label">{{translate('No of decimals')}}</label>
+            </div>
+            <div class="col-lg-6">
+                <select class="form-control aiz-selectpicker" name="no_of_decimals">
+                    <option value="0">12345</option>
+                    <option value="1">1234.5</option>
+                    <option value="2">123.45</option>
+                    <option value="3">12.345</option>
+                </select>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-sm btn-primary">{{translate('Save')}}</button>

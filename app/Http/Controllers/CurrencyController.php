@@ -61,6 +61,10 @@ class CurrencyController extends Controller
         $currency->code = $request->code;
         $currency->exchange_rate = $request->exchange_rate;
         $currency->status = $currency->status;
+        $currency->symbol_format = $request->symbol_format;
+        $currency->decimal_separator = $request->decimal_separator;
+        $currency->no_of_decimals = $request->no_of_decimals;
+        $currency->symbol_space = $request->symbol_space;
         if($currency->save()){
             flash(translate('Currency updated successfully'))->success();
             return redirect()->route('currency.index');
@@ -93,6 +97,10 @@ class CurrencyController extends Controller
         $currency->symbol = $request->symbol;
         $currency->code = $request->code;
         $currency->exchange_rate = $request->exchange_rate;
+        $currency->symbol_format = $request->symbol_format;
+        $currency->decimal_separator = $request->decimal_separator;
+        $currency->no_of_decimals = $request->no_of_decimals;
+        $currency->symbol_space = $request->symbol_space;
         $currency->status = '0';
         if($currency->save()){
             flash(translate('Currency updated successfully'))->success();
