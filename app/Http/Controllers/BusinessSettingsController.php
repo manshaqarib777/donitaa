@@ -144,7 +144,6 @@ class BusinessSettingsController extends Controller
             flash(translate('This action is disabled in demo mode'))->error();
             return back();
         }
-        dd($request->types);
         foreach ($request->types as $key => $type) {
             $this->overWriteEnvFile($type, $request[$type]);
         }
