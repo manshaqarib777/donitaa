@@ -53,7 +53,7 @@
                 </form>
             </div>
         </div>
-        
+
     </div>
 </div>
 <div class="row">
@@ -129,7 +129,7 @@
                                 <label class="col-from-label">{{translate('MAIL PASSWORD')}}</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="MAIL_PASSWORD" value="{{  env('MAIL_PASSWORD') }}" placeholder="{{ translate('MAIL PASSWORD') }}">
+                                <input type="text" class="form-control" name="MAIL_PASSWORD" placeholder="{{ translate('MAIL PASSWORD') }}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -209,7 +209,7 @@
                             }
                         }
                     },
-                    
+
 
                     plugins: {
                         autoFocus: new FormValidation.plugins.AutoFocus(),
@@ -302,7 +302,7 @@
                             }
                         },
                     },
-                    
+
 
                     plugins: {
                         autoFocus: new FormValidation.plugins.AutoFocus(),
