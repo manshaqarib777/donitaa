@@ -643,7 +643,7 @@ class ShipmentController extends Controller
                 $return_cost =  $return_fee + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
                 $insurance = $insurance_fee + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
 
-                $shipping_cost_first_one = (float) $covered_cost->shipping_cost + $package_extras;
+                $shipping_cost_first_one = ((float) $covered_cost->shipping_cost * ($weight)) + $package_extras;
                 $tax_for_first_one = (($covered_cost->tax * $shipping_cost_first_one) / 100 );
                 
                 $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($weight));
@@ -687,7 +687,7 @@ class ShipmentController extends Controller
                 $return_cost = $return_fee + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
                 $insurance = $insurance_fee + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
 
-                $shipping_cost_first_one = ShipmentSetting::getCost('def_shipping_cost') + $package_extras;
+                $shipping_cost_first_one = (ShipmentSetting::getCost('def_shipping_cost') * ($weight)) + $package_extras;
                 $tax_for_first_one = ((ShipmentSetting::getCost('def_tax') * $shipping_cost_first_one) / 100 );
                 
                 $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($weight));
