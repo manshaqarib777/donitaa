@@ -46,7 +46,7 @@
                             </div>
 
                             <div class="form-group col-md-3">
-                                <label>{{translate('Extra Costs For Kg')}} ({{currency_symbol()}}):</label>
+                                <label>{{translate('Fees For Extra Kg')}} ({{currency_symbol()}}):</label>
                                 <input type="number" onchange="changeExtraShippingCosts(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->extra_shipping_cost)){echo convert_price($default_country_cost->extra_shipping_cost);}else{ echo 0;} @endphp" name="extra_shipping_cost[]">
                             </div>
                             <div class="form-group col-md-3">
@@ -131,7 +131,7 @@
                                 <input type="number" min="0" id="name" class="form-control return_cost" placeholder="{{translate('Here')}}" value="`+return_cost+`" name="return_cost[]">
                             </div>
                             <div class="form-group col-md-3">
-                                <label>{{translate('Extra Costs For Kg')}} ({{currency_symbol()}}):</label>
+                                <label>{{translate('Fees For Extra Kg')}} ({{currency_symbol()}}):</label>
                                 <input type="number" min="0" id="name" class="form-control extra_shipp_cost" placeholder="{{translate('Here')}}" value="`+extra_shipping_cost+`" name="extra_shipping_cost[]">
                             </div>
                             <div class="form-group col-md-3">
