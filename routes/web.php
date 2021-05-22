@@ -79,6 +79,7 @@ Route::get('/bkash/success', 'BkashController@success')->name('bkash.success');
 
 //Nagad
 Route::get('/nagad/callback', 'NagadController@verify')->name('nagad.callback');
+Route::post('/currency/change', 'CurrencyController@changeCurrency')->name('currency.change');
 
 
 //demo
