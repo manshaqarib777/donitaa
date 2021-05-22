@@ -44,6 +44,23 @@
                                 <label>{{translate(' Returned Shipment Cost')}} ({{currency_symbol()}}):</label>
                                 <input type="number" onchange="changeReturnCosts(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->return_cost)){echo convert_price($default_country_cost->return_cost);}else{ echo 0;} @endphp" name="return_cost[]">
                             </div>
+
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Extra Shipping Cost')}} ({{currency_symbol()}}):</label>
+                                <input type="number" onchange="changeExtraShippingCosts(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->extra_shipping_cost)){echo convert_price($default_country_cost->extra_shipping_cost);}else{ echo 0;} @endphp" name="extra_shipping_cost[]">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Extra Tax')}} %:</label>
+                                <input type="number" onchange="changeExtraTax(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->extra_tax)){echo $default_country_cost->extra_tax;}else{ echo 0;} @endphp" name="extra_tax[]">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Extra Insurance')}} ({{currency_symbol()}}):</label>
+                                <input type="number" onchange="changeExtraInsurance(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->extra_insurance)){echo convert_price($default_country_cost->extra_insurance);}else{ echo 0;} @endphp" name="extra_insurance[]">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Extra Returned Shipment Cost')}} ({{currency_symbol()}}):</label>
+                                <input type="number" onchange="changeExtraReturnCosts(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->extra_return_cost)){echo convert_price($default_country_cost->extra_return_cost);}else{ echo 0;} @endphp" name="extra_return_cost[]">
+                            </div>
                         </div>
                         <hr>
                         <button type="button" class="btn btn-secondary spinner spinner-dark spinner-right evenAjaxRemove">
@@ -73,7 +90,7 @@
 @section('script')
 <script>
     $('.evenAjaxButton').hide();
-    function cost_block(from_name,to_name,from_id,to_id,from_city_name,to_city_name,from_city_id,to_city_id,shipping_cost,tax,return_cost,insurance) {
+    function cost_block(from_name,to_name,from_id,to_id,from_city_name,to_city_name,from_city_id,to_city_id,shipping_cost,tax,return_cost,insurance,extra_shipping_cost,extra_tax,extra_return_cost,extra_insurance) {
         return `<div class="row">
                     <div class="col-lg-12">
                         <div class="row">
@@ -113,6 +130,22 @@
                                 <label>{{translate(' Returned Shipment Cost')}} ({{currency_symbol()}}):</label>
                                 <input type="number" min="0" id="name" class="form-control return_cost" placeholder="{{translate('Here')}}" value="`+return_cost+`" name="return_cost[]">
                             </div>
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Extra Shipping Cost')}} ({{currency_symbol()}}):</label>
+                                <input type="number" min="0" id="name" class="form-control extra_shipp_cost" placeholder="{{translate('Here')}}" value="`+extra_shipping_cost+`" name="extra_shipping_cost[]">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Extra Tax')}} %:</label>
+                                <input type="number" min="0" id="name" class="form-control extra_tax_cost" placeholder="{{translate('Here')}}" value="`+extra_tax+`" name="extra_tax[]">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Extra Insurance')}} ({{currency_symbol()}}):</label>
+                                <input type="number" min="0" id="name" class="form-control extra_insurance_cost" placeholder="{{translate('Here')}}" value="`+extra_insurance+`" name="extra_insurance[]">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Extra Returned Shipment Cost')}} ({{currency_symbol()}}):</label>
+                                <input type="number" min="0" id="name" class="form-control extra_return_cost" placeholder="{{translate('Here')}}" value="`+extra_return_cost+`" name="extra_return_cost[]">
+                            </div>
                         </div>
                         <hr>
                     </div>
@@ -122,7 +155,7 @@
     $.ajax( "{{route('admin.shipments.config.costs.ajax')}}?from_country={{$from->id}}&to_country={{$to->id}}" )
     .done(function(data) {
         $.each(data, function(k, v) {
-            $('#placeholder_cost').append(cost_block(v.from_country,v.to_country,v.from_country_id,v.to_country_id,v.from_state,v.to_state,v.from_state_id,v.to_state_id,v.shipping_cost,v.tax,v.return_cost,v.insurance));
+            $('#placeholder_cost').append(cost_block(v.from_country,v.to_country,v.from_country_id,v.to_country_id,v.from_state,v.to_state,v.from_state_id,v.to_state_id,v.shipping_cost,v.tax,v.return_cost,v.insurance,v.extra_shipping_cost,v.extra_tax,v.extra_return_cost,v.extra_insurance));
         });
         $('.evenAjaxRemove').remove();
         $('.evenAjaxButton').show();
@@ -159,6 +192,25 @@
     {
         $('.return_cost').val($(element).val());
     }
-    
+
+
+
+    function changeExtraShippingCosts(element)
+    {
+        $('.extra_shipp_cost').val($(element).val());
+    }
+    function changeExtraTax(element)
+    {
+        $('.extra_tax_cost').val($(element).val());
+    }
+    function changeExtraInsurance(element)
+    {
+        $('.extra_insurance_cost').val($(element).val());
+    }
+    function changeExtraReturnCosts(element)
+    {
+        $('.extra_return_cost').val($(element).val());
+    }
+
 </script>
 @endsection

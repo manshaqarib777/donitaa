@@ -497,11 +497,11 @@
                     {!! hookView('shipment_addon',$currentView) !!}
 
                     <div class="mb-0 text-right form-group">
-                        <button type="button" class="btn btn-sm btn-primary" onclick="get_estimation_cost()">{{translate('Save')}}</button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="get_estimation_cost()">{{translate('Get Rates')}}</button>
 
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-sm btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter" id="modal_open">
-                            {{translate('Save')}}
+                            {{translate('Get Rates')}}
                         </button>
 
                         <!-- Modal -->

@@ -643,13 +643,13 @@ class ShipmentController extends Controller
                 $return_cost =  $return_fee + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
                 $insurance = $insurance_fee + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
 
-                $shipping_cost_first_one = ((float) $covered_cost->shipping_cost * ($weight)) + $package_extras;
+                $shipping_cost_first_one = ((float) $covered_cost->shipping_cost * ($weight));
                 $tax_for_first_one = (($covered_cost->tax * $shipping_cost_first_one) / 100 );
                 
-                $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($weight));
+                $shipping_cost_for_extra = (float) ($covered_cost->extra_shipping_cost * ($weight));
                 $tax_for_exrea = ((ShipmentSetting::getCost('def_tax_gram') * $shipping_cost_for_extra) / 100 );
 
-                $shipping_cost = $shipping_cost_first_one + $shipping_cost_for_extra;
+                $shipping_cost = $shipping_cost_first_one + $shipping_cost_for_extra+ $package_extras;
                 $tax = $tax_for_first_one + $tax_for_exrea;
 
             }else{
@@ -687,13 +687,13 @@ class ShipmentController extends Controller
                 $return_cost = $return_fee + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
                 $insurance = $insurance_fee + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
 
-                $shipping_cost_first_one = (ShipmentSetting::getCost('def_shipping_cost') * ($weight)) + $package_extras;
+                $shipping_cost_first_one = (ShipmentSetting::getCost('def_shipping_cost') * ($weight));
                 $tax_for_first_one = ((ShipmentSetting::getCost('def_tax') * $shipping_cost_first_one) / 100 );
                 
                 $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($weight));
                 $tax_for_exrea = ((ShipmentSetting::getCost('def_tax_gram') * $shipping_cost_for_extra) / 100 );
 
-                $shipping_cost = $shipping_cost_first_one + $shipping_cost_for_extra;
+                $shipping_cost = $shipping_cost_first_one + $shipping_cost_for_extra + $package_extras;
                 $tax = $tax_for_first_one + $tax_for_exrea;
 
             }else{
@@ -1040,11 +1040,12 @@ class ShipmentController extends Controller
         {
             foreach ($to_cities as $to_city){
                 $from_costs = \App\Cost::where('from_country_id', $from->id)->where('to_country_id', $to->id)->where('from_state_id', $city->id)->where('to_state_id', $to_city->id)->first();
+                //dd($from_costs);
                 if($from_costs != null){
-                    array_push($costBlocks,['from_country'=>$from->name,'from_country_id'=>$from->id,'to_country'=>$to->name,'to_country_id'=>$to->id,'from_state'=>$city->name,'from_state_id'=>$city->id,'to_state'=>$to_city->name,'to_state_id'=>$to_city->id,'shipping_cost'=>convert_price($from_costs->shipping_cost),'tax'=>$from_costs->tax,'return_cost'=>convert_price($from_costs->return_cost),'insurance'=>convert_price($from_costs->insurance)]);
+                    array_push($costBlocks,['from_country'=>$from->name,'from_country_id'=>$from->id,'to_country'=>$to->name,'to_country_id'=>$to->id,'from_state'=>$city->name,'from_state_id'=>$city->id,'to_state'=>$to_city->name,'to_state_id'=>$to_city->id,'shipping_cost'=>convert_price($from_costs->shipping_cost),'tax'=>$from_costs->tax,'return_cost'=>convert_price($from_costs->return_cost),'insurance'=>convert_price($from_costs->insurance),'extra_shipping_cost'=>convert_price($from_costs->extra_shipping_cost),'extra_tax'=>$from_costs->extra_tax,'extra_return_cost'=>convert_price($from_costs->extra_return_cost),'extra_insurance'=>convert_price($from_costs->extra_insurance)]);
                 }else
                 {
-                    array_push($costBlocks,['from_country'=>$from->name,'from_country_id'=>$from->id,'to_country'=>$to->name,'to_country_id'=>$to->id,'from_state'=>$city->name,'from_state_id'=>$city->id,'to_state'=>$to_city->name,'to_state_id'=>$to_city->id,'shipping_cost'=>0,'tax'=>0,'return_cost'=>0,'insurance'=>0]);
+                    array_push($costBlocks,['from_country'=>$from->name,'from_country_id'=>$from->id,'to_country'=>$to->name,'to_country_id'=>$to->id,'from_state'=>$city->name,'from_state_id'=>$city->id,'to_state'=>$to_city->name,'to_state_id'=>$to_city->id,'shipping_cost'=>0,'tax'=>0,'return_cost'=>0,'insurance'=>0,'extra_shipping_cost'=>0,'extra_tax'=>0,'extra_return_cost'=>0,'extra_insurance'=>0]);
                 }
             }
             
@@ -1071,6 +1072,12 @@ class ShipmentController extends Controller
         $tax = $request->tax[$counter];
         $insurance = $request->insurance[$counter];
         $return_cost = $request->return_cost[$counter];
+
+        $extra_shipping_cost = $request->extra_shipping_cost[$counter];
+        $extra_tax = $request->extra_tax[$counter];
+        $extra_insurance = $request->extra_insurance[$counter];
+        $extra_return_cost = $request->extra_return_cost[$counter];
+
         $newCost = new Cost();
         $newCost->from_country_id = $from_country;
         $newCost->to_country_id = $to_country;
@@ -1079,6 +1086,11 @@ class ShipmentController extends Controller
         $newCost->tax = $tax;
         $newCost->insurance = $insurance;
         $newCost->return_cost = $return_cost;
+
+        $newCost->extra_shipping_cost = $extra_shipping_cost;
+        $newCost->extra_tax = $extra_tax;
+        $newCost->extra_insurance = $extra_insurance;
+        $newCost->extra_return_cost = $extra_return_cost;
         $newCost->save();
         $counter = 1;
         foreach ($request->from_country_h as $cost_data) {
@@ -1094,6 +1106,12 @@ class ShipmentController extends Controller
                 $tax = $request->tax[$counter];
                 $insurance = $request->insurance[$counter];
                 $return_cost = $request->return_cost[$counter];
+
+                $extra_shipping_cost = $request->extra_shipping_cost[$counter];
+                $extra_tax = $request->extra_tax[$counter];
+                $extra_insurance = $request->extra_insurance[$counter];
+                $extra_return_cost = $request->extra_return_cost[$counter];
+
                 $newCost = new Cost();
                 $newCost->from_country_id = $from_country;
                 $newCost->to_country_id = $to_country;
@@ -1103,6 +1121,10 @@ class ShipmentController extends Controller
                 $newCost->tax = $tax;
                 $newCost->insurance = $insurance;
                 $newCost->return_cost = $return_cost;
+                $newCost->extra_shipping_cost = $extra_shipping_cost;
+                $newCost->extra_tax = $extra_tax;
+                $newCost->extra_insurance = $extra_insurance;
+                $newCost->extra_return_cost = $extra_return_cost;
                 $newCost->save();
                 $counter++;
             }

@@ -9,7 +9,7 @@
 		</div>
 		<div class="col-md-6 text-md-right">
 			<a href="{{ route('admin.countries.create') }}" class="btn btn-circle btn-info">
-				<span>{{translate('Add New Branch')}}</span>
+				<span>{{translate('Add New Country')}}</span>
 			</a>
 		</div>
 	</div>
