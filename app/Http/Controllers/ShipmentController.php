@@ -647,7 +647,7 @@ class ShipmentController extends Controller
                 $tax_for_first_one = (($covered_cost->tax * $shipping_cost_first_one) / 100 );
                 
                 $shipping_cost_for_extra = (float) ($covered_cost->extra_shipping_cost * ($weight));
-                $tax_for_exrea = ((ShipmentSetting::getCost('def_tax_gram') * $shipping_cost_for_extra) / 100 );
+                $tax_for_exrea = (($covered_cost->extra_tax * $shipping_cost_for_extra) / 100 );
 
                 $shipping_cost = $shipping_cost_first_one + $shipping_cost_for_extra+ $package_extras;
                 $tax = $tax_for_first_one + $tax_for_exrea;
