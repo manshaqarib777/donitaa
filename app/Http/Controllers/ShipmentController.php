@@ -643,14 +643,12 @@ class ShipmentController extends Controller
                 $return_cost =  $return_fee + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
                 $insurance = $insurance_fee + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
 
-                $shipping_cost_first_one = ((float) $covered_cost->shipping_cost * ($weight));
-                $tax_for_first_one = (($covered_cost->tax * $shipping_cost_first_one) / 100 );
                 
                 $shipping_cost_for_extra = (float) ($covered_cost->extra_shipping_cost * ($weight));
                 $tax_for_exrea = (($covered_cost->extra_tax * $shipping_cost_for_extra) / 100 );
 
-                $shipping_cost = $shipping_cost_first_one + $shipping_cost_for_extra+ $package_extras;
-                $tax = $tax_for_first_one + $tax_for_exrea;
+                $shipping_cost = $shipping_cost_for_extra+ $package_extras;
+                $tax = $tax_for_exrea;
 
             }else{
                 $return_cost = (float) $covered_cost->return_cost;
@@ -687,14 +685,12 @@ class ShipmentController extends Controller
                 $return_cost = $return_fee + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
                 $insurance = $insurance_fee + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
 
-                $shipping_cost_first_one = (ShipmentSetting::getCost('def_shipping_cost') * ($weight));
-                $tax_for_first_one = ((ShipmentSetting::getCost('def_tax') * $shipping_cost_first_one) / 100 );
                 
                 $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($weight));
                 $tax_for_exrea = ((ShipmentSetting::getCost('def_tax_gram') * $shipping_cost_for_extra) / 100 );
 
-                $shipping_cost = $shipping_cost_first_one + $shipping_cost_for_extra + $package_extras;
-                $tax = $tax_for_first_one + $tax_for_exrea;
+                $shipping_cost =  $shipping_cost_for_extra + $package_extras;
+                $tax =  $tax_for_exrea;
 
             }else{
                 $return_cost = ShipmentSetting::getCost('def_return_cost');
