@@ -195,7 +195,9 @@
 
                                     <th>{{translate('Name')}}</th>
 
-                                    <th>{{translate('Extra Cost')}}</th>
+                                    <th>{{translate('Package Cost')}}</th>
+                                    <th>{{translate('Insurance Cost')}}</th>
+                                    <th>{{translate('Return Cost')}}</th>
 
                                 </tr>
                             </thead>
@@ -205,15 +207,17 @@
                                     <tr>
                                         <td>{{$package->name}} ({{currency_symbol()}}):</td>
 
-
                                         <td>
-
-                                            <input type="number" min="0" name="package_insurance_fee[]" class="form-control" id="" value="{{convert_price($package->insurance_fee)}}" />
-                                            <input type="number" min="0" name="package_return_fee[]" class="form-control" id="" value="{{convert_price($package->return_fee)}}" />
                                             <input type="number" min="0" name="package_extra[]" class="form-control" id="" value="{{convert_price($package->cost)}}" />
                                             <input type="hidden" name="package_id[]" value="{{$package->id}}">
-
                                         </td>
+                                        <td>
+                                            <input type="number" min="0" name="package_insurance_fee[]" class="form-control" id="" value="{{convert_price($package->insurance_fee)}}" />
+                                        </td>
+                                        <td>
+                                            <input type="number" min="0" name="package_return_fee[]" class="form-control" id="" value="{{convert_price($package->return_fee)}}" />
+                                        </td>
+
                                     </tr>
 
                                 @endforeach
