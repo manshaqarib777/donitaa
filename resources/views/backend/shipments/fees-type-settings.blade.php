@@ -83,6 +83,13 @@
                                 <label>{{translate('Default Returned Shipment Cost')}}({{currency_symbol()}}):</label>
                                 <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Returned Shipment Cost')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_return_cost'))}}" name="Setting[def_return_cost]">
                             </div>
+                            <div class="form-group col-md-4">
+                                <label>{{translate('Default Tax Not Include')}}:</label>
+                                <label class="checkbox">
+                                    <input type="checkbox" onchange="update_currency_status(this)" placeholder="{{translate('Default Tax Include')}}" class="form-control" id="" {{(\App\ShipmentSetting::getVal('default_cost')==1)?'checked':''}} name="Setting[default_cost]" />
+                                    <span></span>
+                                </label>
+                            </div>
                         </div>
                         <hr>
 
@@ -116,6 +123,14 @@
                         <label>{{translate('Fixed Returned Shipment Cost/Kg')}}:</label>
                         <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Fixed Returned Shipment Cost/Kg')}}" value="{{\App\ShipmentSetting::getVal('def_return_cost_gram')}}" name="Setting[def_return_cost_gram]">
                     </div>
+                    <div class="form-group col-md-4">
+                        <label>{{translate('Fixed Tax Include')}}:</label>
+                        <label class="checkbox">
+                            <input type="checkbox" onchange="update_currency_status(this)" placeholder="{{translate('Fixed Tax Not Include')}}" class="form-control" id="" {{(\App\ShipmentSetting::getVal('extra_default_cost')==1)?'checked':''}} name="Setting[extra_default_cost]" />
+                            <span></span>
+                        </label>
+                    </div>
+
 
                 </div>
 
@@ -198,6 +213,7 @@
                                     <th>{{translate('Package Cost')}}</th>
                                     <th>{{translate('Insurance Cost')}}</th>
                                     <th>{{translate('Return Cost')}}</th>
+                                    <th>{{translate('Use On Checkout')}}</th>
 
                                 </tr>
                             </thead>
@@ -216,6 +232,12 @@
                                         </td>
                                         <td>
                                             <input type="number" min="0" name="package_return_fee[]" class="form-control" id="" value="{{convert_price($package->return_fee)}}" />
+                                        </td>
+                                        <td>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="package_default_cost[]" class="form-control" id="" {{($package->default_cost==1)?'checked':''}} />
+                                                <span></span>
+                                            </label>
                                         </td>
 
                                     </tr>
@@ -248,6 +270,15 @@
 
 @section('script')
 <script>
+    function update_currency_status(el){
+            if(el.checked){
+                el.value = 1;
+            }
+            else{
+                el.value = 0;
+            }
+
+        }
     $('.select-country').select2({
         placeholder: "Select country"
     });

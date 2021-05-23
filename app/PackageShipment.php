@@ -8,6 +8,9 @@ class PackageShipment extends Model
 {
     protected $guarded = [];
     protected $table = 'package_shipment';
+    protected $casts = [
+        'package_list' => 'object'
+    ];
     
     
     public function package(){

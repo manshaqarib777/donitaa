@@ -120,6 +120,16 @@ class LoginController extends Controller
      */
     public function authenticated()
     {
+        if(auth()->user()->country_id){
+            $country=\App\Country::find(auth()->user()->country_id);
+            request()->session()->put('country', $country->iso2);
+
+            $currency = \App\Currency::where('code', $country->currency)->first();
+            if($currency)
+            {
+                request()->session()->put('currency_code', $currency->code);   
+            }
+        }
         $user_type = auth()->user()->user_type;
         if( in_array($user_type, ['admin','staff','customer','captain','branch']) )
         {

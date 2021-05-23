@@ -27,6 +27,7 @@
                                 <input disabled readonly class="form-control disabled" value="{{$to->name}}">
                                 <input type="hidden" name="to_country_h[]" value="{{$to->id}}">
                             </div>
+                            <div class="row col-md-12">
 
                             <div class="form-group col-md-3">
                                 <label>{{translate(' Fees For The First KG')}} ({{currency_symbol()}}):</label>
@@ -44,7 +45,15 @@
                                 <label>{{translate(' Returned Shipment Cost')}} ({{currency_symbol()}}):</label>
                                 <input type="number" onchange="changeReturnCosts(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->return_cost)){echo convert_price($default_country_cost->return_cost);}else{ echo 0;} @endphp" name="return_cost[]">
                             </div>
-
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Tax Not Include')}}:</label>
+                                <label class="checkbox">
+                                    <input type="checkbox" onchange="changeTaxIncluded(this)" id="name" class="form-control" placeholder="{{translate('Here')}}" {{(@$default_country_cost->default_cost==1)?'checked':''}}  name="default_cost[]">
+                                    <span></span>
+                                </label>
+                            </div>
+                            </div>
+                            <div class="row col-md-12">
                             <div class="form-group col-md-3">
                                 <label>{{translate('Fees For Extra Kg')}} ({{currency_symbol()}}):</label>
                                 <input type="number" onchange="changeExtraShippingCosts(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->extra_shipping_cost)){echo convert_price($default_country_cost->extra_shipping_cost);}else{ echo 0;} @endphp" name="extra_shipping_cost[]">
@@ -60,6 +69,14 @@
                             <div class="form-group col-md-3">
                                 <label>{{translate('Extra Returned Shipment Cost')}} ({{currency_symbol()}}):</label>
                                 <input type="number" onchange="changeExtraReturnCosts(this)" min="0" id="name" class="form-control" placeholder="{{translate('Here')}}" value="@php if(isset($default_country_cost->extra_return_cost)){echo convert_price($default_country_cost->extra_return_cost);}else{ echo 0;} @endphp" name="extra_return_cost[]">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Extra Tax Not Include')}}:</label>
+                                <label class="checkbox">
+                                    <input type="checkbox" onchange="changeExtraTaxIncluded(this)"  id="name" class="form-control" placeholder="{{translate('Here')}}" {{(@$default_country_cost->extra_default_cost==1)?'checked':''}}  name="extra_default_cost[]">
+                                    <span></span>
+                                </label>
+                            </div>
                             </div>
                         </div>
                         <hr>
@@ -90,7 +107,18 @@
 @section('script')
 <script>
     $('.evenAjaxButton').hide();
-    function cost_block(from_name,to_name,from_id,to_id,from_city_name,to_city_name,from_city_id,to_city_id,shipping_cost,tax,return_cost,insurance,extra_shipping_cost,extra_tax,extra_return_cost,extra_insurance) {
+    function cost_block(limit,from_name,to_name,from_id,to_id,from_city_name,to_city_name,from_city_id,to_city_id,shipping_cost,tax,return_cost,insurance,extra_shipping_cost,extra_tax,extra_return_cost,extra_insurance,default_cost,extra_default_cost) {
+        limit=limit+1;
+        var default_cost_show="";
+        if(default_cost==1)
+        {
+            default_cost_show="checked";
+        }
+        var extra_default_cost_show="";
+        if(extra_default_cost==1)
+        {
+            extra_default_cost_show="checked";
+        }
         return `<div class="row">
                     <div class="col-lg-12">
                         <div class="row">
@@ -114,6 +142,8 @@
                                 <input disabled readonly class="form-control disabled" value="`+to_city_name+`">
                                 <input type="hidden" name="to_state[]" value="`+to_city_id+`">
                             </div>
+                            <div class="row col-md-12">
+
                             <div class="form-group col-md-3">
                                 <label>{{translate(' Fees For The First KG')}} ({{currency_symbol()}}):</label>
                                 <input type="number" min="0" id="name" class="form-control shipp_cost" placeholder="{{translate('Here')}}" value="`+shipping_cost+`" name="shipping_cost[]">
@@ -130,6 +160,19 @@
                                 <label>{{translate(' Returned Shipment Cost')}} ({{currency_symbol()}}):</label>
                                 <input type="number" min="0" id="name" class="form-control return_cost" placeholder="{{translate('Here')}}" value="`+return_cost+`" name="return_cost[]">
                             </div>
+
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Tax Not Include')}}:</label>
+                                <label class="checkbox">
+                                    <input type="checkbox" id="name" class="form-control default_cost" placeholder="{{translate('Here')}}" `+default_cost_show+`   name="default_cost[`+limit+`]">
+                                    <span></span>
+                                </label>
+                            </div>
+
+                            <div>
+                                <div class="row col-md-12">
+
+
                             <div class="form-group col-md-3">
                                 <label>{{translate('Fees For Extra Kg')}} ({{currency_symbol()}}):</label>
                                 <input type="number" min="0" id="name" class="form-control extra_shipp_cost" placeholder="{{translate('Here')}}" value="`+extra_shipping_cost+`" name="extra_shipping_cost[]">
@@ -144,7 +187,18 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label>{{translate('Extra Returned Shipment Cost')}} ({{currency_symbol()}}):</label>
-                                <input type="number" min="0" id="name" class="form-control extra_return_cost" placeholder="{{translate('Here')}}" value="`+extra_return_cost+`" name="extra_return_cost[]">
+                                <input type="number" min="0" id="name" class="form-control extra_return_cost" placeholder="{{translate('Here')}}" value="`+extra_return_cost+`" name="extra_return_cost[`+limit+`]">
+                            </div>
+
+
+                            <div class="form-group col-md-3">
+                                <label>{{translate('Extra Tax Not Include')}}:</label>
+                                <label class="checkbox">
+                                    <input type="checkbox" id="name" class="form-control extra_default_cost" placeholder="{{translate('Here')}}" `+extra_default_cost_show+`   name="extra_default_cost[`+limit+`]">
+                                    <span></span>
+                                </label>
+                            </div>
+
                             </div>
                         </div>
                         <hr>
@@ -155,7 +209,7 @@
     $.ajax( "{{route('admin.shipments.config.costs.ajax')}}?from_country={{$from->id}}&to_country={{$to->id}}" )
     .done(function(data) {
         $.each(data, function(k, v) {
-            $('#placeholder_cost').append(cost_block(v.from_country,v.to_country,v.from_country_id,v.to_country_id,v.from_state,v.to_state,v.from_state_id,v.to_state_id,v.shipping_cost,v.tax,v.return_cost,v.insurance,v.extra_shipping_cost,v.extra_tax,v.extra_return_cost,v.extra_insurance));
+            $(document).find('#placeholder_cost').append(cost_block(k,v.from_country,v.to_country,v.from_country_id,v.to_country_id,v.from_state,v.to_state,v.from_state_id,v.to_state_id,v.shipping_cost,v.tax,v.return_cost,v.insurance,v.extra_shipping_cost,v.extra_tax,v.extra_return_cost,v.extra_insurance,v.default_cost,v.extra_default_cost));
         });
         $('.evenAjaxRemove').remove();
         $('.evenAjaxButton').show();
@@ -211,6 +265,61 @@
     {
         $('.extra_return_cost').val($(element).val());
     }
+
+    function changeTaxIncluded(element)
+    {
+        // if(element.checked){
+        //     $('.default_cost').each(function(){
+        //         $(this).attr("checked",checked);
+        //         $(this).val(1);
+        //     });
+        // }
+        // else{
+        //     $('.default_cost').each(function(){
+        //         $(this).removeAttr("checked");
+        //         $(this).val(0);
+        //     });
+        // }
+        if(element.checked){
+                element.value = 1;
+            }
+            else{
+                element.value = 0;
+            }
+    }
+    function changeExtraTaxIncluded(element)
+    {
+        // if(element.checked){
+        //     $('.extra_default_cost').each(function(){
+        //         $(this).attr("checked",checked);
+        //         $(this).val(1);
+        //     });
+        // }
+        // else{
+        //     $('.extra_default_cost').each(function(){
+        //         $(this).removeAttr("checked");
+        //         $(this).val(0);
+        //     });
+        // }
+        if(element.checked){
+                element.value = 1;
+            }
+            else{
+                element.value = 0;
+            }
+
+    }
+
+    function changeCheckBox(element)
+    {
+        if(el.checked){
+                el.value = 1;
+            }
+            else{
+                el.value = 0;
+            }
+    }
+
 
 </script>
 @endsection

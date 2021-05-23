@@ -562,15 +562,57 @@ class ShipmentController extends Controller
             flash(translate('This action is disabled in demo mode'))->error();
             return back();
         }
+        if(!isset($_POST['Setting']['default_cost']))
+        {
+            $_POST['Setting']['default_cost']=0;
+        }
+        if(!isset($_POST['Setting']['extra_default_cost']))
+        {
+            $_POST['Setting']['extra_default_cost']=0;
+        }
         foreach ($_POST['Setting'] as $key => $value) {
             if (ShipmentSetting::where('key',$key)->count() == 0) {
                 $set = new ShipmentSetting();
                 $set->key = $key;
-                $set->value = $value;
+                if($key == 'default_cost')
+                {
+                    $set->value=0;
+                    if(isset($value))
+                    {
+                        $set->value = (bool) $value;
+                    }
+                }
+                else if($key == 'extra_default_cost')
+                {
+                    $set->value=0;
+                    if(isset($value))
+                    {
+                        $set->value = (bool) $value;
+                    }
+                }
+                else{
+                    $set->value = $value;   
+                }
                 $set->save();
             } else {
                 $set = ShipmentSetting::where('key', $key)->first();
-                $set->value = $value;
+                if($set->key == 'default_cost')
+                {
+                    if(isset($value))
+                    {
+                        $set->value = (bool)$value;
+                    }
+                }
+                else if($set->key == 'extra_default_cost')
+                {
+                    if(isset($value))
+                    {
+                        $set->value = (bool) $value;
+                    }
+                }
+                else{
+                    $set->value = $value;   
+                }
                 $set->save();
             }
         }
@@ -617,44 +659,105 @@ class ShipmentController extends Controller
             $covered_cost = $covered_cost->where('from_state_id', 0)->where('to_state_id', 0);
         }
 
+        if (isset($request['from_area_id']) && isset($request['to_area_id'])) {
+            $covered_cost = $covered_cost->where('from_area_id', $from_area_id)->where('to_area_id', $to_area_id);
+        } else {
+            $covered_cost = $covered_cost->where('from_area_id', 0)->where('to_area_id', 0);
+        }
+
         $covered_cost = $covered_cost->first();
-      
+        //dd($covered_cost);
         if ($covered_cost != null) {
            
             $package_extras = 0;
             $return_fee= 0;
             $insurance_fee= 0;
+            $shipping_cost= 0;
+            $tax= 0;
+            $insurance= 0;
+     
             foreach ($packages as $pack) {
                 $package = Package::find($pack['package_id']);
                 $package_extras += $package->cost;
                 $return_fee += $package->return_fee;
                 $insurance_fee += $package->insurance_fee;
-            }
-            if($return_fee==0)
-            {
-                $return_fee=(float) $covered_cost->return_cost;
-            }
-            if($insurance_fee==0)
-            {
-                $insurance_fee=(float) $covered_cost->insurance;
+
+                if($package->default_cost)
+                {
+                    if($pack['package_weight'] > 1){
+
+                        if(!$covered_cost->extra_default_cost)
+                        {
+                            $tax = $tax + (($covered_cost->extra_tax * (float) ($package->cost)) / 100 );
+                        }                        
+ 
+                        $shipping_cost = $shipping_cost + (float) ($package->cost);
+        
+                    }else{
+                                        
+                        if(!$covered_cost->default_cost)
+                        {
+                            $tax = $tax + (($covered_cost->tax * (float) ($package->cost)) / 100 );
+                        }
+                        $shipping_cost = $shipping_cost + (float) ($package->cost);
+                        
+                    }
+
+                }
+                else
+                {
+                    if($pack['package_weight'] > 1){
+
+                                
+                        $shipping_cost_for_extra = (float) ($covered_cost->extra_shipping_cost * ($pack['package_weight']));
+
+                        if(!$covered_cost->extra_default_cost)
+                        {
+                            $tax = $tax + (($covered_cost->extra_tax * $shipping_cost_for_extra) / 100 );
+                        }
+        
+                        $shipping_cost = $shipping_cost+ $shipping_cost_for_extra + (float)$package->cost;
+        
+                    }else{
+                        $shipping_cost = $shipping_cost + (float) $covered_cost->shipping_cost + (float)$package->cost;
+                        if(!$covered_cost->default_cost)
+                        {
+                            $tax = $tax + (($covered_cost->tax * $shipping_cost) / 100 );
+                        }
+                    }
+                }
+
             }
 
             if($weight > 1){
-                $return_cost =  $return_fee + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
-                $insurance = $insurance_fee + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
 
-                
-                $shipping_cost_for_extra = (float) ($covered_cost->extra_shipping_cost * ($weight));
-                $tax_for_exrea = (($covered_cost->extra_tax * $shipping_cost_for_extra) / 100 );
+                if($return_fee==0)
+                {
+                    $return_fee=(float) $covered_cost->extra_return_cost;
+                }
+                if($insurance_fee==0)
+                {
+                    $insurance_fee=(float) $covered_cost->extra_insurance;
+                }
 
-                $shipping_cost = $shipping_cost_for_extra+ $package_extras;
-                $tax = $tax_for_exrea;
+                $return_cost =  ( $return_fee * (float) ($weight));
+                if($request['shipment_insurance']==1)
+                $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
+            }
+            else
+            {
+                if($return_fee==0)
+                {
+                    $return_fee=(float) $covered_cost->return_cost;
+                }
+                if($insurance_fee==0)
+                {
+                    $insurance_fee=(float) $covered_cost->insurance;
+                }
+                $return_cost = (float) $return_fee;
+                if($request['shipment_insurance']==1)
+                $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
 
-            }else{
-                $return_cost = (float) $covered_cost->return_cost;
-                $insurance = (float) $covered_cost->insurance;
-                $shipping_cost = (float) $covered_cost->shipping_cost + $package_extras;
-                $tax = (($covered_cost->tax * $shipping_cost) / 100 );
             }
 
             $array['return_cost'] = $return_cost;
@@ -666,37 +769,92 @@ class ShipmentController extends Controller
             $package_extras = 0;
             $return_fee= 0;
             $insurance_fee= 0;
-            foreach ($packages as $pack) {
+            $shipping_cost= 0;
+            $tax= 0;
+            $insurance = 0;
+
+            //dd($request->all());
+
+
+            foreach ($packages as $key => $pack) {
                 $package = Package::find($pack['package_id']);
                 $package_extras += $package->cost;
                 $return_fee += $package->return_fee;
                 $insurance_fee += $package->insurance_fee;
-            }
-            if($return_fee==0)
-            {
-                $return_fee=ShipmentSetting::getCost('def_return_cost');
-            }
-            if($insurance_fee==0)
-            {
-                $insurance_fee=ShipmentSetting::getCost('def_insurance');
+
+
+                if($package->default_cost)
+                {
+                    if($pack['package_weight'] > 1){
+
+                        if(!ShipmentSetting::getCost('extra_default_cost'))
+                        {
+                            $tax = $tax + ((ShipmentSetting::getCost('def_tax_gram') * $package->cost) / 100 );
+                        }   
+        
+                        $shipping_cost = $shipping_cost + $package->cost;
+        
+                    }else{
+                        if(!ShipmentSetting::getCost('default_cost'))
+                        {    
+                            $tax = $tax + ((ShipmentSetting::getCost('def_tax') * $package->cost) / 100 );
+                        }
+                        $shipping_cost = $shipping_cost + $package->cost; 
+                    }
+
+
+                }
+                else
+                {
+                    if($pack['package_weight'] > 1){
+
+                        
+                        $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($pack['package_weight']));
+                        if(!ShipmentSetting::getCost('extra_default_cost'))
+                        {
+                            $tax = $tax + ((ShipmentSetting::getCost('def_tax_gram') * $shipping_cost_for_extra) / 100 );
+                        }   
+        
+                        $shipping_cost = $shipping_cost +  $shipping_cost_for_extra + (float) $package->cost;        
+
+                    }else{
+
+                        if(!ShipmentSetting::getCost('default_cost'))
+                        {    
+                            $tax = $tax + ((ShipmentSetting::getCost('def_tax') * ShipmentSetting::getCost('def_shipping_cost')) / 100 );
+                        }
+                        $shipping_cost = $shipping_cost + ShipmentSetting::getCost('def_shipping_cost') + (float) $package->cost;
+                    }
+                }
             }
             
             if($weight > 1){
-                $return_cost = $return_fee + (float) (ShipmentSetting::getCost('def_return_cost_gram') * ($weight));
-                $insurance = $insurance_fee + (float) (ShipmentSetting::getCost('def_insurance_gram') * ($weight));
 
-                
-                $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($weight));
-                $tax_for_exrea = ((ShipmentSetting::getCost('def_tax_gram') * $shipping_cost_for_extra) / 100 );
-
-                $shipping_cost =  $shipping_cost_for_extra + $package_extras;
-                $tax =  $tax_for_exrea;
+                if($return_fee==0)
+                {
+                    $return_fee=ShipmentSetting::getCost('def_return_cost_gram');
+                }
+                if($insurance_fee==0)
+                {
+                    $insurance_fee=ShipmentSetting::getCost('def_insurance_gram');
+                }
+                $return_cost = ( $return_fee * (float)($weight));
+                if($request['shipment_insurance']==1)
+                $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
 
             }else{
-                $return_cost = ShipmentSetting::getCost('def_return_cost');
-                $insurance = ShipmentSetting::getCost('def_insurance');
-                $shipping_cost = ShipmentSetting::getCost('def_shipping_cost') + $package_extras;
-                $tax = ((ShipmentSetting::getCost('def_tax') * $shipping_cost) / 100 );
+                if($return_fee==0)
+                {
+                    $return_fee=ShipmentSetting::getCost('def_return_cost');
+                }
+                if($insurance_fee==0)
+                {
+                    $insurance_fee=ShipmentSetting::getCost('def_insurance');
+                }
+                $return_cost = $return_fee;
+                if($request['shipment_insurance']==1)
+                $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
+
             }
 
             $array['return_cost'] = $return_cost;
@@ -758,6 +916,7 @@ class ShipmentController extends Controller
 
     private function storeShipment($request)
     {
+        //dd($request->all());
         $model = new Shipment();
 
 
@@ -1038,10 +1197,10 @@ class ShipmentController extends Controller
                 $from_costs = \App\Cost::where('from_country_id', $from->id)->where('to_country_id', $to->id)->where('from_state_id', $city->id)->where('to_state_id', $to_city->id)->first();
                 //dd($from_costs);
                 if($from_costs != null){
-                    array_push($costBlocks,['from_country'=>$from->name,'from_country_id'=>$from->id,'to_country'=>$to->name,'to_country_id'=>$to->id,'from_state'=>$city->name,'from_state_id'=>$city->id,'to_state'=>$to_city->name,'to_state_id'=>$to_city->id,'shipping_cost'=>convert_price($from_costs->shipping_cost),'tax'=>$from_costs->tax,'return_cost'=>convert_price($from_costs->return_cost),'insurance'=>convert_price($from_costs->insurance),'extra_shipping_cost'=>convert_price($from_costs->extra_shipping_cost),'extra_tax'=>$from_costs->extra_tax,'extra_return_cost'=>convert_price($from_costs->extra_return_cost),'extra_insurance'=>convert_price($from_costs->extra_insurance)]);
+                    array_push($costBlocks,['from_country'=>$from->name,'from_country_id'=>$from->id,'to_country'=>$to->name,'to_country_id'=>$to->id,'from_state'=>$city->name,'from_state_id'=>$city->id,'to_state'=>$to_city->name,'to_state_id'=>$to_city->id,'shipping_cost'=>convert_price($from_costs->shipping_cost),'tax'=>$from_costs->tax,'return_cost'=>convert_price($from_costs->return_cost),'insurance'=>convert_price($from_costs->insurance),'extra_shipping_cost'=>convert_price($from_costs->extra_shipping_cost),'extra_tax'=>$from_costs->extra_tax,'extra_return_cost'=>convert_price($from_costs->extra_return_cost),'extra_insurance'=>convert_price($from_costs->extra_insurance),'default_cost'=>$from_costs->default_cost,'extra_default_cost'=>$from_costs->extra_default_cost]);
                 }else
                 {
-                    array_push($costBlocks,['from_country'=>$from->name,'from_country_id'=>$from->id,'to_country'=>$to->name,'to_country_id'=>$to->id,'from_state'=>$city->name,'from_state_id'=>$city->id,'to_state'=>$to_city->name,'to_state_id'=>$to_city->id,'shipping_cost'=>0,'tax'=>0,'return_cost'=>0,'insurance'=>0,'extra_shipping_cost'=>0,'extra_tax'=>0,'extra_return_cost'=>0,'extra_insurance'=>0]);
+                    array_push($costBlocks,['from_country'=>$from->name,'from_country_id'=>$from->id,'to_country'=>$to->name,'to_country_id'=>$to->id,'from_state'=>$city->name,'from_state_id'=>$city->id,'to_state'=>$to_city->name,'to_state_id'=>$to_city->id,'shipping_cost'=>0,'tax'=>0,'return_cost'=>0,'insurance'=>0,'extra_shipping_cost'=>0,'extra_tax'=>0,'extra_return_cost'=>0,'extra_insurance'=>0,'default_cost'=>0,'extra_default_cost'=>0]);
                 }
             }
             
@@ -1051,6 +1210,7 @@ class ShipmentController extends Controller
 
     public function post_config_costs(Request $request)
     {
+        //dd($request->input('extra_default_cost'));
         if (env('DEMO_MODE') == 'On') {
             flash(translate('This action is disabled in demo mode'))->error();
             return back();
@@ -1068,11 +1228,17 @@ class ShipmentController extends Controller
         $tax = $request->tax[$counter];
         $insurance = $request->insurance[$counter];
         $return_cost = $request->return_cost[$counter];
+        $default_cost =0;
+        if(isset($request->default_cost[$counter]))
+        $default_cost = $request->default_cost[$counter];
 
         $extra_shipping_cost = $request->extra_shipping_cost[$counter];
         $extra_tax = $request->extra_tax[$counter];
         $extra_insurance = $request->extra_insurance[$counter];
         $extra_return_cost = $request->extra_return_cost[$counter];
+        $extra_default_cost =0;
+        if(isset($request->extra_default_cost[$counter]))
+        $extra_default_cost = $request->extra_default_cost[$counter];
 
         $newCost = new Cost();
         $newCost->from_country_id = $from_country;
@@ -1082,11 +1248,13 @@ class ShipmentController extends Controller
         $newCost->tax = $tax;
         $newCost->insurance = $insurance;
         $newCost->return_cost = $return_cost;
+        $newCost->default_cost = $default_cost;
 
         $newCost->extra_shipping_cost = $extra_shipping_cost;
         $newCost->extra_tax = $extra_tax;
         $newCost->extra_insurance = $extra_insurance;
         $newCost->extra_return_cost = $extra_return_cost;
+        $newCost->extra_default_cost = $extra_default_cost;
         $newCost->save();
         $counter = 1;
         foreach ($request->from_country_h as $cost_data) {
@@ -1102,11 +1270,19 @@ class ShipmentController extends Controller
                 $tax = $request->tax[$counter];
                 $insurance = $request->insurance[$counter];
                 $return_cost = $request->return_cost[$counter];
+                $default_cost =0;
+                if(isset($request->default_cost[$counter]))
+                $default_cost = $request->default_cost[$counter];
 
                 $extra_shipping_cost = $request->extra_shipping_cost[$counter];
                 $extra_tax = $request->extra_tax[$counter];
                 $extra_insurance = $request->extra_insurance[$counter];
                 $extra_return_cost = $request->extra_return_cost[$counter];
+                
+                $extra_default_cost =0;                
+                if(isset($request->extra_default_cost[$counter]))
+                $extra_default_cost = $request->extra_default_cost[$counter];
+
 
                 $newCost = new Cost();
                 $newCost->from_country_id = $from_country;
@@ -1117,10 +1293,12 @@ class ShipmentController extends Controller
                 $newCost->tax = $tax;
                 $newCost->insurance = $insurance;
                 $newCost->return_cost = $return_cost;
+                $newCost->default_cost = $default_cost;
                 $newCost->extra_shipping_cost = $extra_shipping_cost;
                 $newCost->extra_tax = $extra_tax;
                 $newCost->extra_insurance = $extra_insurance;
                 $newCost->extra_return_cost = $extra_return_cost;
+                $newCost->extra_default_cost = $extra_default_cost;
                 $newCost->save();
                 $counter++;
             }
@@ -1130,12 +1308,17 @@ class ShipmentController extends Controller
     }
     public function post_config_package_costs(Request $request)
     {
+        //dd($request->all());
         $counter = 0;
         foreach ($request->package_id as $package) {
             $pack = Package::find($request->package_id[$counter]);
             $pack->cost = $request->package_extra[$counter];
             $pack->insurance_fee = $request->package_insurance_fee[$counter];
             $pack->return_fee = $request->package_return_fee[$counter];
+            $pack->default_cost =0;
+            if(isset($request->package_default_cost[$counter]))
+            $pack->default_cost = $request->package_default_cost[$counter];
+
             $pack->save();
             $counter++;
         }

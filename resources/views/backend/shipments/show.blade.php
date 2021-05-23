@@ -172,13 +172,13 @@ $d = new DNS1D();
                     @if($shipment->captain_id != null)
                         <div class="d-flex flex-column flex-root">
                             <span class="mb-4 text-dark font-weight-bold">{{translate('Captain')}}</span>
-                            <a class="text-danger font-weight-boldest font-size-lg" href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->captain->name}} </a>
+                            <a class="text-danger font-weight-boldest font-size-lg" href="{{route('admin.clients.show',$shipment->client_id)}}">{{@$shipment->client->name}} </a>
                         </div>
                     @endif
                     @if ($shipment->mission_id != null)
                         <div class="d-flex flex-column flex-root">
                             <span class="mb-4 text-dark font-weight-bold">{{translate('Mission')}}</span>
-                            <a class="text-muted font-weight-bolder font-size-lg" href="{{route('admin.missions.show',$shipment->mission_id)}}">{{$shipment->current_mission->code}}</a>
+                            <a class="text-muted font-weight-bolder font-size-lg" href="{{route('admin.missions.show',$shipment->mission_id)}}">{{@$shipment->current_mission->code}}</a>
                         </div>
                     @endif
                 </div>
@@ -211,7 +211,6 @@ $d = new DNS1D();
                         <thead>
                             <tr>
                                 <th class="pl-0 font-weight-bold text-muted text-uppercase">{{translate('Package Items')}}</th>
-                                <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Qty')}}</th>
                                 <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Type')}}</th>
                                 <th class="pr-0 text-right font-weight-bold text-muted text-uppercase">{{translate('Weight x Length x Width x Height')}}</th>
                             </tr>
@@ -222,10 +221,28 @@ $d = new DNS1D();
 
                                 <tr class="font-weight-boldest">
                                     <td class="pl-0 border-0 pt-7 d-flex align-items-center">{{$package->description}}</td>
-                                    <td class="text-right align-middle pt-7">{{$package->qty}}</td>
                                     <td class="text-right align-middle pt-7">@if(isset($package->package->name)){{$package->package->name}} @else - @endif</td>
                                     <td class="pr-0 text-right align-middle text-primary pt-7">{{$package->weight." ".translate('KG')." x ".$package->length." ".translate('CM')." x ".$package->width." ".translate('CM')." x ".$package->height." ".translate('CM')}}</td>
                                 </tr>
+                                @foreach($package->package_list as $key => $list)
+                                <tr>
+                                    @if ($loop->first)
+                                    <tr>
+                                        <td rowspan="{{$key+2}}" class="font-weight-boldest">Package Items</td>
+                                        <td><span class="font-weight-boldest">{{translate('Item Name')}}</span></td>
+                                        <td><span class="font-weight-boldest">{{translate('Item Description')}}</span></td>
+                                        <td><span class="font-weight-boldest">{{translate('Item Quantity')}}</span></td>
+                                    <tr>
+                                    @endif
+                                    <tr>
+                                        <td></td>
+                                    <td>{{$list->item_name}}</td>
+                                    <td>{{$list->description}}</td>
+                                    <td>{{$list->qty}}</td>
+                                    <tr>
+
+                                 </tr>
+                                 @endforeach
                             @endforeach
 
                         </tbody>

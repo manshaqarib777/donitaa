@@ -1,216 +1,250 @@
 @extends('backend.layouts.app')
 
 @section('content')
-@php
+    @php
     $auth_user = Auth::user();
-@endphp
-<style>
-    label {
-        font-weight: bold !important;
-    }
-</style>
-<div class="mx-auto col-lg-12">
-    <div class="card">
-        <div class="card-header">
-            <h5 class="mb-0 h6">{{translate('Shipment Info')}}</h5>
-        </div>
+    @endphp
+    <style>
+        label {
+            font-weight: bold !important;
+        }
 
-        <form class="form-horizontal" action="{{ route('admin.shipments.update-shipment',['shipment'=>$shipment->id]) }}" id="kt_form_1" method="POST" enctype="multipart/form-data">
-            @csrf
-            {{ method_field('PATCH') }}
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-lg-12">
+    </style>
+    <div class="mx-auto col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0 h6">{{ translate('Shipment Info') }}</h5>
+            </div>
 
-                        <div class="form-group row">
-                            <label class="col-2 col-form-label">{{translate('Shipment Type')}}</label>
-                            <div class="col-9 col-form-label">
-                                <div class="radio-inline">
-                                    <label class="radio radio-success btn btn-default">
-                                        <input type="radio" name="Shipment[type]" @if($shipment->type == \App\Shipment::getType(\App\Shipment::PICKUP)) checked @endif value="{{\App\Shipment::PICKUP}}" />
-                                        <span></span>
-                                        {{translate("Pickup (For door to door delivery)")}}
-                                    </label>
-                                    <label class="radio radio-success btn btn-default">
-                                        <input type="radio" name="Shipment[type]" @if($shipment->type == \App\Shipment::getType(\App\Shipment::DROPOFF)) checked @endif value="{{\App\Shipment::DROPOFF}}" />
-                                        <span></span>
-                                        {{translate("Drop off (For delivery package from branch directly)")}}
-                                    </label>
-                                </div>
+            <form class="form-horizontal"
+                action="{{ route('admin.shipments.update-shipment', ['shipment' => $shipment->id]) }}" id="kt_form_1"
+                method="POST" enctype="multipart/form-data">
+                @csrf
+                {{ method_field('PATCH') }}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
 
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="form-group row">
-                            <label class="col-2 col-form-label">{{translate('Shipment Zone')}}</label>
-                            <div class="col-9 col-form-label">
-                                <div class="radio-inline">
-                                    <label class="radio radio-success btn btn-default">
-                                        <input @if($shipment->zone == \App\Shipment::getZone(\App\Shipment::ZONEDOMESTIC)) checked @endif value="{{ \App\Shipment::ZONEDOMESTIC }}" type="radio" name="Shipment[zone]" checked="checked" />
-                                        <span></span>
-                                        {{translate("Domestic")}}
-                                    </label>
-                                    <label class="radio radio-success btn btn-default">
-                                        <input @if($shipment->zone == \App\Shipment::getZone(\App\Shipment::ZONEINTERNATIONAL)) checked @endif value="{{ \App\Shipment::ZONEINTERNATIONAL }}" type="radio" name="Shipment[zone]" />
-                                        <span></span>
-                                        {{translate("International")}}
-                                    </label>
-                                </div>
-
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="form-group row">
-                            <label class="col-2 col-form-label">{{translate('Shipment Material')}}</label>
-                            <div class="col-9 col-form-label">
-                                <div class="radio-inline">
-                                    <label class="radio radio-success btn btn-default">
-                                        <input @if($shipment->material == \App\Shipment::getMaterial(\App\Shipment::MATERIALFRAGILE)) checked @endif value="{{ \App\Shipment::MATERIALFRAGILE }}" type="radio" name="Shipment[material]" checked="checked" />
-                                        <span></span>
-                                        {{translate("Fragile")}}
-                                    </label>
-                                    <label class="radio radio-success btn btn-default">
-                                        <input @if($shipment->material == \App\Shipment::getMaterial(\App\Shipment::MATERIALNONFRAGILE)) checked @endif value="{{ \App\Shipment::MATERIALNONFRAGILE }}" type="radio" name="Shipment[material]" />
-                                        <span></span>
-                                        {{translate("Non Fragile")}}
-                                    </label>
-                                </div>
-
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>{{translate('Branch')}}:</label>
-                                    <select class="form-control kt-select2 select-branch" id="select-how" name="Shipment[branch_id]">
-
-                                        @foreach($branchs as $branch)
-                                        <option @if($shipment->branch_id == $branch->id) selected @endif value="{{$branch->id}}">{{$branch->name}}</option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                            @if(\App\ShipmentSetting::getVal('is_date_required') == '1' || \App\ShipmentSetting::getVal('is_date_required') == null)
-                                <div class="form-group">
-                                    <label>{{translate('Shipping Date')}}:</label>
-                                    <div class="input-group date">
-                                        <input type="text" name="Shipment[shipping_date]" value="{{$shipment->shipping_date}}" class="form-control" id="kt_datepicker_3" />
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">
-                                                <i class="la la-calendar"></i>
-                                            </span>
-                                        </div>
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label">{{ translate('Shipment Type') }}</label>
+                                <div class="col-9 col-form-label">
+                                    <div class="radio-inline">
+                                        <label class="radio radio-success btn btn-default">
+                                            <input type="radio" name="Shipment[type]" @if ($shipment->type == \App\Shipment::getType(\App\Shipment::PICKUP)) checked @endif value="{{ \App\Shipment::PICKUP }}" />
+                                            <span></span>
+                                            {{ translate('Pickup (For door to door delivery)') }}
+                                        </label>
+                                        <label class="radio radio-success btn btn-default">
+                                            <input type="radio" name="Shipment[type]" @if ($shipment->type == \App\Shipment::getType(\App\Shipment::DROPOFF)) checked @endif
+                                                value="{{ \App\Shipment::DROPOFF }}" />
+                                            <span></span>
+                                            {{ translate('Drop off (For delivery package from branch directly)') }}
+                                        </label>
                                     </div>
 
                                 </div>
-                                @endif
                             </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label">{{ translate('Shipment Zone') }}</label>
+                                <div class="col-9 col-form-label">
+                                    <div class="radio-inline">
+                                        <label class="radio radio-success btn btn-default">
+                                            <input @if ($shipment->zone == \App\Shipment::getZone(\App\Shipment::ZONEDOMESTIC)) checked @endif
+                                                value="{{ \App\Shipment::ZONEDOMESTIC }}" type="radio"
+                                                name="Shipment[zone]" checked="checked" />
+                                            <span></span>
+                                            {{ translate('Domestic') }}
+                                        </label>
+                                        <label class="radio radio-success btn btn-default">
+                                            <input @if ($shipment->zone == \App\Shipment::getZone(\App\Shipment::ZONEINTERNATIONAL)) checked @endif
+                                                value="{{ \App\Shipment::ZONEINTERNATIONAL }}" type="radio"
+                                                name="Shipment[zone]" />
+                                            <span></span>
+                                            {{ translate('International') }}
+                                        </label>
+                                    </div>
 
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>{{translate('Client/Sender')}}:</label>
-                                    @if($auth_user->user_type == "customer")
-                                        <input type="text" placeholder="" class="form-control" name="" value="{{$auth_user->name}}" disabled>
-                                    @else
-                                        <select class="form-control kt-select2 select-client" id="select-how" name="Shipment[client_id]">
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label">{{ translate('Shipment Material') }}</label>
+                                <div class="col-9 col-form-label">
+                                    <div class="radio-inline">
+                                        <label class="radio radio-success btn btn-default">
+                                            <input @if ($shipment->material == \App\Shipment::getMaterial(\App\Shipment::MATERIALFRAGILE)) checked @endif
+                                                value="{{ \App\Shipment::MATERIALFRAGILE }}" type="radio"
+                                                name="Shipment[material]" checked="checked" />
+                                            <span></span>
+                                            {{ translate('Fragile') }}
+                                        </label>
+                                        <label class="radio radio-success btn btn-default">
+                                            <input @if ($shipment->material == \App\Shipment::getMaterial(\App\Shipment::MATERIALNONFRAGILE)) checked @endif
+                                                value="{{ \App\Shipment::MATERIALNONFRAGILE }}" type="radio"
+                                                name="Shipment[material]" />
+                                            <span></span>
+                                            {{ translate('Non Fragile') }}
+                                        </label>
+                                    </div>
 
-                                            @foreach($clients as $client)
-                                            <option @if($shipment->client_id == $client->id) selected @endif data-phone="{{$client->responsible_mobile}}" value="{{$client->id}}">{{$client->name}}</option>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Branch') }}:</label>
+                                        <select class="form-control kt-select2 select-branch" id="select-how"
+                                            name="Shipment[branch_id]">
+
+                                            @foreach ($branchs as $branch)
+                                                <option @if ($shipment->branch_id == $branch->id) selected @endif value="{{ $branch->id }}">
+                                                    {{ $branch->name }}</option>
                                             @endforeach
 
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    @if (\App\ShipmentSetting::getVal('is_date_required') == '1' || \App\ShipmentSetting::getVal('is_date_required') == null)
+                                        <div class="form-group">
+                                            <label>{{ translate('Shipping Date') }}:</label>
+                                            <div class="input-group date">
+                                                <input type="text" name="Shipment[shipping_date]"
+                                                    value="{{ $shipment->shipping_date }}" class="form-control"
+                                                    id="kt_datepicker_3" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">
+                                                        <i class="la la-calendar"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     @endif
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>{{translate('Client Phone')}}:</label>
-                                    <input name="Shipment[client_phone]" class="form-control" id="client_phone" value="{{$shipment->client_phone}}" id="">
 
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Client/Sender') }}:</label>
+                                        @if ($auth_user->user_type == 'customer')
+                                            <input type="text" placeholder="" class="form-control" name=""
+                                                value="{{ $auth_user->name }}" disabled>
+                                        @else
+                                            <select class="form-control kt-select2 select-client" id="select-how"
+                                                name="Shipment[client_id]">
+
+                                                @foreach ($clients as $client)
+                                                    <option @if ($shipment->client_id == $client->id) selected @endif
+                                                        data-phone="{{ $client->responsible_mobile }}"
+                                                        value="{{ $client->id }}">{{ $client->name }}</option>
+                                                @endforeach
+
+                                            </select>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Client Phone') }}:</label>
+                                        <input name="Shipment[client_phone]" class="form-control" id="client_phone"
+                                            value="{{ $shipment->client_phone }}" id="">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{ translate('Client Address') }}:</label>
+                                        <input name="Shipment[client_address]" class="form-control"
+                                            value="{{ $shipment->client_address }}" id="">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Receiver Name') }}:</label>
+                                        <input type="text" name="Shipment[reciver_name]" class="form-control"
+                                            value="{{ $shipment->reciver_name }}" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Receiver Phone') }}:</label>
+                                        <input type="text" name="Shipment[reciver_phone]" class="form-control"
+                                            value="{{ $shipment->reciver_phone }}" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{ translate('Receiver Address') }}:</label>
+                                        <input type="text" name="Shipment[reciver_address]" class="form-control"
+                                            value="{{ $shipment->reciver_address }}" />
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Payment Type') }}:</label>
+                                        <select class="form-control kt-select2" id="select-how"
+                                            name="Shipment[payment_type]">
+
+
+                                            <option @if ($shipment->payment_type == 1) selected @endif value="1">
+                                                {{ translate('Postpaid') }}</option>
+                                            <option @if ($shipment->payment_type == 2) selected @endif value="2">{{ translate('Prepaid') }}
+                                            </option>
+
+
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Payment Method') }}:</label>
+                                        <select class="form-control kt-select2" id="select-how"
+                                            name="Shipment[payment_method_id]">
+                                            @forelse (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
+                                                <option @if ($shipment->payment_method_id == $gateway->id) selected @endif value="{{ $gateway->id }}">
+                                                    {{ $gateway->name }}</option>
+                                            @empty
+                                                <option value="11">{{ translate('Cash') }}</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>{{translate('Client Address')}}:</label>
-                                    <input name="Shipment[client_address]" class="form-control" value="{{$shipment->client_address}}" id="">
 
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>{{translate('Receiver Name')}}:</label>
-                                    <input type="text" name="Shipment[reciver_name]" class="form-control" value="{{$shipment->reciver_name}}" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Attachments') }}:</label>
 
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>{{translate('Receiver Phone')}}:</label>
-                                    <input type="text" name="Shipment[reciver_phone]" class="form-control" value="{{$shipment->reciver_phone}}" />
-
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>{{translate('Receiver Address')}}:</label>
-                                    <input type="text" name="Shipment[reciver_address]" class="form-control" value="{{$shipment->reciver_address}}" />
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>{{translate('Payment Type')}}:</label>
-                                    <select class="form-control kt-select2" id="select-how" name="Shipment[payment_type]">
-
-
-                                        <option @if($shipment->payment_type == 1) selected @endif value="1">{{translate('Postpaid')}}</option>
-                                        <option @if($shipment->payment_type == 2) selected @endif  value="2">{{translate('Prepaid')}}</option>
-
-
-                                    </select>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>{{translate('Payment Method')}}:</label>
-                                    <select class="form-control kt-select2" id="select-how" name="Shipment[payment_method_id]">
-                                        @forelse (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
-                                            <option @if($shipment->payment_method_id == $gateway->id) selected @endif value="{{$gateway->id}}">{{$gateway->name}}</option>
-                                        @empty
-                                            <option value="11">{{translate('Cash')}}</option>
-                                        @endforelse
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>{{translate('Attachments')}}:</label>
-
-                                    <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
+                                        <div class="input-group " data-toggle="aizuploader" data-type="image"
+                                            data-multiple="true">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                    {{ translate('Browse') }}</div>
+                                            </div>
+                                            <div class="form-control file-amount">{{ translate('Choose File') }}</div>
+                                            <input type="hidden" name="Shipment[attachments_before_shipping]"
+                                                class="selected-files" value="{{ $shipment->attachments_before_shipping }}"
+                                                max="3">
                                         </div>
-                                        <div class="form-control file-amount">{{ translate('Choose File') }}</div>
-                                        <input type="hidden" name="Shipment[attachments_before_shipping]" class="selected-files" value="{{$shipment->attachments_before_shipping}}" max="3">
-                                    </div>
-                                    <div class="file-preview">
+                                        <div class="file-preview">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            {{-- <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Attachments After Shipping')}}:</label>
 
@@ -225,164 +259,240 @@
                                     </div>
                                 </div>
                             </div> --}}
-                        </div>
+                            </div>
 
-                        <hr>
+                            <hr>
 
-                        <div id="kt_repeater_1">
-                            <div class="row" id="kt_repeater_1">
-                                <h2 class="text-left">{{translate('Package Info')}}:</h2>
-                                <div data-repeater-list="Package" class="col-lg-12">
-                                    @foreach(\App\PackageShipment::where('shipment_id',$shipment->id)->get() as $pack)
-                                    <div data-repeater-item class="row align-items-center" style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;">
-
-
-
-                                        <div class="col-md-3">
-
-                                            <label>{{translate('Category')}}:</label>
-                                            <select class="form-control kt-select2" id="select-how" name="package_id" >
-                                                <option></option>
-                                                @foreach(\App\Package::all() as $package)
-                                                <option @if($pack->package_id == $package->id) selected @endif value="{{$package->id}}">{{$package->name}}</option>
-                                                @endforeach
-                                            </select>
-                                            <div class="mb-2 d-md-none"></div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>{{translate('description')}}:</label>
-                                            <input type="text" value="{{$pack->description}}" class="form-control" name="description">
-                                            <div class="mb-2 d-md-none"></div>
-                                        </div>
-                                        <div class="col-md-3">
-
-                                            <label>{{translate('Quantity')}}:</label>
-
-                                            <input id="kt_touchspin_qty" type="text" name="qty" class="form-control" value="{{$pack->qty}}" />
-                                            <div class="mb-2 d-md-none"></div>
-
-                                        </div>
-
-                                        <div class="col-md-3">
-
-                                            <label>{{translate('Weight')}}:</label>
-
-                                            <input id="kt_touchspin_weight" type="text" name="weight" class="form-control" value="{{$pack->weight}}" />
-                                            <div class="mb-2 d-md-none"></div>
-
-                                        </div>
+                            <div id="kt_repeater_1">
+                                <div class="row" id="kt_repeater_1">
+                                    <h2 class="text-left">{{ translate('Package Info') }}:</h2>
+                                    <div data-repeater-list="Package" class="col-lg-12">
+                                        @foreach (\App\PackageShipment::where('shipment_id', $shipment->id)->get() as $pack)
+                                            <div data-repeater-item class="row align-items-center"
+                                                style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;">
 
 
-                                        <div class="col-md-12" style="margin-top: 10px;">
-                                            <label>{{translate('Dimensions [Length x Width x Height] (cm):')}}:</label>
-                                        </div>
-                                        <div class="col-md-2">
 
-                                            <input class="dimensions_r" type="text" class="form-control" placeholder="{{translate('Length')}}" value="{{$pack->length}}"  name="length"/>
+                                                <div class="col-md-4">
 
-                                        </div>
-                                        <div class="col-md-2">
+                                                    <label>{{ translate('Category') }}:</label>
+                                                    <select class="form-control kt-select2" id="select-how"
+                                                        name="package_id">
+                                                        <option></option>
+                                                        @foreach (\App\Package::all() as $package)
+                                                            <option @if ($pack->package_id == $package->id) selected @endif
+                                                                value="{{ $package->id }}">{{ $package->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div class="mb-2 d-md-none"></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>{{ translate('description') }}:</label>
+                                                    <input type="text" value="{{ $pack->description }}"
+                                                        class="form-control" name="description">
+                                                    <div class="mb-2 d-md-none"></div>
+                                                </div>
 
-                                            <input class="dimensions_r" type="text" class="form-control" placeholder="{{translate('Width')}}" value="{{$pack->width}}" name="width" />
+                                                <div class="col-md-4">
 
-                                        </div>
-                                        <div class="col-md-2">
+                                                    <label>{{ translate('Weight') }}:</label>
 
-                                            <input class="dimensions_r" type="text" class="form-control " placeholder="{{translate('Height')}}" value="{{$pack->height}}" name="height" />
+                                                    <input id="kt_touchspin_weight" type="text" name="weight"
+                                                        class="form-control" value="{{ $pack->weight }}" />
+                                                    <div class="mb-2 d-md-none"></div>
 
-                                        </div>
+                                                </div>
 
 
-                                        <div class="row">
-                                            <div class="col-md-12">
+                                                <div class="col-md-12 row">
+                                                    <div class="col-md-12" style="margin-top: 10px;">
+                                                        <label>{{ translate('Dimensions [Length x Width x Height] (cm):') }}:</label>
+                                                    </div>
+                                                    <div class="col-md-4">
 
-                                                <div>
-                                                    <a href="javascript:;" data-repeater-delete="" class="btn btn-sm font-weight-bolder btn-light-danger">
-                                                        <i class="la la-trash-o"></i>{{translate('Delete')}}
-                                                    </a>
+                                                        <input class="dimensions_r" type="text" class="form-control"
+                                                            placeholder="{{ translate('Length') }}"
+                                                            value="{{ $pack->length }}" name="length" />
+
+                                                    </div>
+                                                    <div class="col-md-4">
+
+                                                        <input class="dimensions_r" type="text" class="form-control"
+                                                            placeholder="{{ translate('Width') }}"
+                                                            value="{{ $pack->width }}" name="width" />
+
+                                                    </div>
+                                                    <div class="col-md-4">
+
+                                                        <input class="dimensions_r" type="text" class="form-control "
+                                                            placeholder="{{ translate('Height') }}"
+                                                            value="{{ $pack->height }}" name="height" />
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="inner-repeater">
+                                                        <div data-repeater-list="package_list">
+                                                            @foreach ($pack->package_list as $list)
+                                                            <div data-repeater-item >
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <label>{{ translate('Item Name') }}:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            placeholder="{{ translate('Item Name') }}"
+                                                                            name="item_name" value="{{$list->item_name}}" />
+
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label>{{ translate('Item Description') }}:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            placeholder="{{ translate('Description') }}"
+                                                                            name="description" value="{{$list->description}}" />
+                                                                    </div>
+                                                                    <div class="col-md-4">
+
+                                                                        <label>{{ translate('Quantity') }}:</label>
+
+                                                                        <input class="kt_touchspin_qty"
+                                                                            placeholder="{{ translate('Quantity') }}"
+                                                                            type="number" min="1" name="qty"
+                                                                            class="form-control" value="{{$list->qty}}" />
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mt-2">
+                                                                    <div class="col-md-12">
+
+                                                                        <div>
+                                                                            <a href="javascript:;" data-repeater-delete=""
+                                                                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item">
+                                                                                <i class="la la-trash-o"></i>{{ translate('Delete List') }}
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                           
+
+                                                            </div>
+                                                            @endforeach
+
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="">
+                                                                <label class="text-right col-form-label">{{ translate('Add List') }}</label>
+                                                                <div>
+                                                                    <a href="javascript:;" data-repeater-create=""
+                                                                        class="btn btn-sm font-weight-bolder btn-light-primary">
+                                                                        <i class="la la-plus"></i>{{ translate('Add List') }}
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+
+                                                        <div>
+                                                            <a href="javascript:;" data-repeater-delete=""
+                                                                class="btn btn-sm font-weight-bolder btn-light-danger">
+                                                                <i class="la la-trash-o"></i>{{ translate('Delete') }}
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="">
+                                        <label class="text-right col-form-label">{{ translate('Add') }}</label>
+                                        <div>
+                                            <a href="javascript:;" data-repeater-create=""
+                                                class="btn btn-sm font-weight-bolder btn-light-primary">
+                                                <i class="la la-plus"></i>{{ translate('Add') }}
+                                            </a>
                                         </div>
                                     </div>
-                                    @endforeach
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{ translate('Tax & Duty') }}:</label>
+
+                                            <input id="kt_touchspin_2" type="text" class="form-control"
+                                                value="{{ $shipment->tax }}" name="Shipment[tax]" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{ translate('Insurance') }}:</label>
+                                            <input id="kt_touchspin_2_2" type="text" class="form-control"
+                                                value="{{ $shipment->insurance }}" name="Shipment[insurance]" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{ translate('Shipping Cost') }}:</label>
+                                            <input id="kt_touchspin_3" type="text" class="form-control"
+                                                value="{{ convert_price($shipment->shipping_cost) }}"
+                                                name="Shipment[shipping_cost]" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{ translate('Return Cost') }}:</label>
+                                            <input id="kt_touchspin_3_3" type="text" class="form-control"
+                                                value="{{ convert_price($shipment->return_cost) }}"
+                                                name="Shipment[return_cost]" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{ translate('Delivery Time') }}:</label>
+                                            <select class="form-control kt-select2" id="select-how"
+                                                name="Shipment[delivery_time]">
+                                                <option @if ($shipment->delivery_time == '1-2 Days') selected @endif value="1-2 Days">
+                                                    {{ translate('1-2 Days') }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{ translate('Total Weight') }}:</label>
+                                            <input id="kt_touchspin_4" type="text" class="form-control"
+                                                value="{{ $shipment->total_weight }}" value="0"
+                                                name="Shipment[total_weight]" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
                             </div>
-                            <div class="form-group row">
-                                <div class="">
-                                    <label class="text-right col-form-label">{{translate('Add')}}</label>
-                                    <div>
-                                        <a href="javascript:;" data-repeater-create="" class="btn btn-sm font-weight-bolder btn-light-primary">
-                                            <i class="la la-plus"></i>{{translate('Add')}}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{translate('Tax & Duty')}}:</label>
-
-                                        <input id="kt_touchspin_2" type="text" class="form-control" value="{{$shipment->tax}}" name="Shipment[tax]" />
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{translate('Insurance')}}:</label>
-                                        <input id="kt_touchspin_2_2" type="text" class="form-control" value="{{$shipment->insurance}}" name="Shipment[insurance]" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{translate('Shipping Cost')}}:</label>
-                                        <input id="kt_touchspin_3" type="text" class="form-control" value="{{convert_price($shipment->shipping_cost)}}" name="Shipment[shipping_cost]" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{translate('Return Cost')}}:</label>
-                                        <input id="kt_touchspin_3_3" type="text" class="form-control" value="{{convert_price($shipment->return_cost)}}" name="Shipment[return_cost]" />
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{translate('Delivery Time')}}:</label>
-                                        <select class="form-control kt-select2" id="select-how" name="Shipment[delivery_time]">
-                                            <option @if($shipment->delivery_time == "1-2 Days") selected @endif value="1-2 Days">{{translate('1-2 Days')}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{translate('Total Weight')}}:</label>
-                                        <input id="kt_touchspin_4" type="text" class="form-control" value="{{$shipment->total_weight}}" value="0" name="Shipment[total_weight]" />
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-
 
                         </div>
 
+
+
+                        {!! hookView('shipment_addon', $currentView) !!}
+
+                        <div class="mb-0 text-right form-group">
+                            <button type="submit" class="btn btn-sm btn-primary">{{ translate('Save') }}</button>
+                        </div>
                     </div>
+            </form>
 
-
-
-                    {!! hookView('shipment_addon',$currentView) !!}
-
-                    <div class="mb-0 text-right form-group">
-                        <button type="submit" class="btn btn-sm btn-primary">{{translate('Save')}}</button>
-                    </div>
-                </div>
-        </form>
-
+        </div>
     </div>
-</div>
 
 @endsection
 
@@ -391,7 +501,7 @@
     $('.select-client').select2({
         placeholder: "Select Client",
     });
-    $('.select-client').change(function(){
+    $('.select-client').change(function() {
         var client_phone = $(this).find(':selected').data('phone');
         document.getElementById("client_phone").value = client_phone;
     })
@@ -418,7 +528,7 @@
             format: 'yyyy-mm-dd',
             todayBtn: true,
             todayHighlight: true,
-			startDate: new Date(),
+            startDate: new Date(),
         });
         $('#kt_repeater_1').repeater({
             initEmpty: false,
@@ -426,6 +536,31 @@
             defaultValues: {
                 'text-input': 'foo'
             },
+            repeaters: [{
+                // (Required)
+                // Specify the jQuery selector for this nested repeater
+                selector: '.inner-repeater',
+                show: function() {
+                    $(this).slideDown();
+
+                    $('.kt_touchspin_qty').TouchSpin({
+                        buttondown_class: 'btn btn-secondary',
+                        buttonup_class: 'btn btn-secondary',
+
+                        min: 1,
+                        max: 1000000000,
+                        stepinterval: 50,
+                        maxboostedstep: 10000000,
+                        initval: 1,
+                    });
+                },
+
+                hide: function(deleteElement) {
+                    $(this).slideUp(deleteElement);
+                },
+                isFirstItemUndeletable: true
+
+            }],
 
             show: function() {
                 $(this).slideDown();
@@ -442,7 +577,9 @@
 
             hide: function(deleteElement) {
                 $(this).slideUp(deleteElement);
-            }
+            },
+            isFirstItemUndeletable: true
+
         });
 
         $('#kt_touchspin_2, #kt_touchspin_2_2').TouchSpin({
@@ -463,7 +600,7 @@
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
-            prefix: '{{currency_symbol()}}'
+            prefix: '{{ currency_symbol() }}'
         });
         $('#kt_touchspin_3_3').TouchSpin({
             buttondown_class: 'btn btn-secondary',
@@ -473,7 +610,7 @@
             max: 1000000000,
             stepinterval: 50,
             maxboostedstep: 10000000,
-            prefix: '{{currency_symbol()}}'
+            prefix: '{{ currency_symbol() }}'
         });
         $('#kt_touchspin_4').TouchSpin({
             buttondown_class: 'btn btn-secondary',
@@ -505,7 +642,7 @@
             maxboostedstep: 10000000,
         });
 
-        $('#kt_touchspin_qty').TouchSpin({
+        $('.kt_touchspin_qty').TouchSpin({
             buttondown_class: 'btn btn-secondary',
             buttonup_class: 'btn btn-secondary',
 
@@ -520,119 +657,119 @@
                     "Shipment[type]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[shipping_date]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[branch_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[client_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[client_address]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[client_phone]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[payment_type]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[payment_method_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[tax]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[insurance]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[shipping_cost]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[delivery_time]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[delivery_time]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[total_weight]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[reciver_name]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[reciver_phone]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[reciver_address]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
@@ -658,8 +795,6 @@
             }
         );
     });
-
-
 
 </script>
 @endsection
