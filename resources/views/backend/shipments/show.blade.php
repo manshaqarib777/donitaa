@@ -224,6 +224,8 @@ $d = new DNS1D();
                                     <td class="text-right align-middle pt-7">@if(isset($package->package->name)){{$package->package->name}} @else - @endif</td>
                                     <td class="pr-0 text-right align-middle text-primary pt-7">{{$package->weight." ".translate('KG')." x ".$package->length." ".translate('CM')." x ".$package->width." ".translate('CM')." x ".$package->height." ".translate('CM')}}</td>
                                 </tr>
+                                @if($package->package_list!=null)
+
                                 @foreach($package->package_list as $key => $list)
                                 <tr>
                                     @if ($loop->first)
@@ -236,13 +238,13 @@ $d = new DNS1D();
                                     @endif
                                     <tr>
                                         <td></td>
-                                    <td>{{$list->item_name}}</td>
-                                    <td>{{$list->description}}</td>
-                                    <td>{{$list->qty}}</td>
+                                        <td>{{$list->item_name}}</td>
+                                        <td>{{$list->description}}</td>
+                                        <td>{{$list->qty}}</td>
                                     <tr>
-
-                                 </tr>
-                                 @endforeach
+                                </tr>
+                                @endforeach
+                                @endif
                             @endforeach
 
                         </tbody>
