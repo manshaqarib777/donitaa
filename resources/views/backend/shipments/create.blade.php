@@ -771,7 +771,7 @@
         // var from_area_id = document.getElementsByName("Shipment[from_area_id]")[0].value;
         // var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
         //$("#change-country").val(client_country).trigger('change');
-        $("#change-country").empty().append('<option value="' + client_country +
+        $("#change-country").append('<option value="' + client_country +
                     '" selected>' + client_country_name + '</option>');
         $("#change-state-from").empty().append('<option value="' + client_state +
                     '" selected>' + client_state_name + '</option>');
@@ -1015,7 +1015,7 @@
             },
         });
 
-        $('.select-address').trigger('change');
+        //$('.select-address').trigger('change');
         $('.select-country').trigger('change');
         $('.select-state').trigger('change');
         $('#kt_datepicker_3').datepicker({
