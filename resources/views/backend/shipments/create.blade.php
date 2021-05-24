@@ -234,8 +234,13 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>{{ translate('Client Address') }}:</label>
-                                        <input placeholder="{{ translate('Client Address') }}"
-                                            name="Shipment[client_address]" class="form-control" id="" />
+                                        <div class="form-group select-address">
+                                            <label>{{ translate('Client/Sender') }}:</label>
+                                            <select class="form-control kt-select2 select-address"
+                                                name="Shipment[client_address]">
+                                                <option></option>
+                                            </select>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -320,7 +325,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{ translate('From Area') }}:</label>
-                                        <select name="Shipment[from_area_id]" class="form-control select-area">
+                                        <select id='change-area-from' name="Shipment[from_area_id]" class="form-control select-area">
                                             <option value=""></option>
 
                                         </select>
@@ -379,9 +384,8 @@
                                 </div>
                                 <div class="form-group col-md-6" id="show_shipment" style="display:none">
                                     <label>{{ translate('Shipment Price') }}:</label>
-                                        <input type="text"
-                                            placeholder="{{ translate('Shipment Insurance') }}"
-                                            class="form-control" id="" name="Shipment[shipment_price]" value="0" />
+                                    <input type="text" placeholder="{{ translate('Shipment Insurance') }}"
+                                        class="form-control" id="" name="Shipment[shipment_price]" value="0" />
                                 </div>
                             </div>
 
@@ -728,9 +732,78 @@
         });
     @endif
 
+    // $('.select-client').change(function() {
+    //     var client_phone = $(this).find(':selected').data('phone');
+    //     document.getElementById("client_phone").value = client_phone;
+    // })
+
     $('.select-client').change(function() {
+        // var client_phone = $(this).find(':selected').data('phone');
+        // document.getElementById("client_phone").value = client_phone;
+        $.get("{{ route('admin.shipments.get-client-address-ajax') }}?client_id=" + $(this).find(':selected')
+            .val(),
+            function(data) {
+                $('select[name ="Shipment[client_address]"]').empty();
+                $('select[name ="Shipment[client_address]"]').append('<option value=""></option>');
+                for (let index = 0; index < data.length; index++) {
+                    const element = data[index];
+                    $('select[name ="Shipment[client_address]"]').append('<option value="' + element[
+                        'name'] + '" data-id="' + element['id'] + '" data-phone="' + element['phone'] +
+                        '" data-country_id="' + element['country_id'] + '" data-country_name="' + element['country']['name'] + '" data-state_id="' + element[
+                            'state_id'] + '" data-state_name="' + element[
+                            'state']['name'] + '" data-area_id="' + element['area_id'] + '" data-area_name="' + element['area']['name'] + '">' + element[
+                            'name'] + '</option>');
+                }
+
+
+            });
+    })
+
+    $('.select-address').select2({
+        placeholder: "Select Client Address",
+    })
+    @if ($user_type == 'admin' || in_array('1005', $staff_permission))
+        .on('select2:open', () => {
+        $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%"
+                href="{{ route('admin.client-addresses.create') }}?redirect=admin.shipments.create" class="btn btn-primary">+
+                {{ translate('Add New Client Address') }}</a>
+        </li>`);
+        });
+    @endif
+
+    $('.select-address').change(function() {
         var client_phone = $(this).find(':selected').data('phone');
-        document.getElementById("client_phone").value = client_phone;
+        var client_country = $(this).find(':selected').data('country_id');
+        var client_state = $(this).find(':selected').data('state_id');
+        var client_area = $(this).find(':selected').data('area_id');
+        var client_area_name = $(this).find(':selected').data('area_name');
+        var client_state_name = $(this).find(':selected').data('state_name');
+        var client_country_name = $(this).find(':selected').data('country_name');
+        $("#client_phone").val(client_phone);
+        // var from_country_id = document.getElementsByName("Shipment[from_country_id]")[0].value;
+        // var to_country_id = document.getElementsByName("Shipment[to_country_id]")[0].value;
+        // var from_state_id = document.getElementsByName("Shipment[from_state_id]")[0].value;
+        // var to_state_id = document.getElementsByName("Shipment[to_state_id]")[0].value;
+        // var from_area_id = document.getElementsByName("Shipment[from_area_id]")[0].value;
+        // var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
+        //$("#change-country").val(client_country).trigger('change');
+        $("#change-country").empty().append('<option value="' + client_country +
+                    '" selected>' + client_country_name + '</option>');
+        $("#change-state-from").empty().append('<option value="' + client_state +
+                    '" selected>' + client_state_name + '</option>');
+        $("#change-area-from").empty().append('<option value="' + client_area +
+                    '" selected>' + client_area_name + '</option>');
+
+        // $.get("{{ route('admin.shipments.get-client-address-ajax') }}?client_id=" + $(this).find(':selected').val(), function(data) {
+        //     $('select[name ="Shipment[client_address]"]').empty();
+        //     $('select[name ="Shipment[client_address]"]').append('<option value=""></option>');
+        //     for (let index = 0; index < data.length; index++) {
+        //         const element = data[index];
+        //         $('select[name ="Shipment[client_address]"]').append('<option value="' + element['name'] + '" data-id="' + element['id'] + '" data-phone="' + element['phone'] + '" data-country_id="' + element['country_id'] + '" data-state_id="' + element['state_id'] + '" data-area_id="' + element['area_id'] + '">' + element['name'] + '</option>');
+        //     }
+
+
+        // });
     })
 
     $('.payment-method').select2({
@@ -864,7 +937,7 @@
             document.getElementById("shipping_cost").innerHTML = response.shipping_cost;
             document.getElementById("tax_duty").innerHTML = response.tax;
             document.getElementById("insurance").innerHTML = response.insurance;
-            document.getElementById("return_cost").innerHTML = response.return_cost+ ' ( Not Included )';
+            document.getElementById("return_cost").innerHTML = response.return_cost + ' ( Not Included )';
             document.getElementById("total_cost").innerHTML = response.total_cost;
             document.getElementById('modal_open').click();
             console.log(response);

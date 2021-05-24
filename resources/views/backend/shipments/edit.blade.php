@@ -30,7 +30,8 @@
                                 <div class="col-9 col-form-label">
                                     <div class="radio-inline">
                                         <label class="radio radio-success btn btn-default">
-                                            <input type="radio" name="Shipment[type]" @if ($shipment->type == \App\Shipment::getType(\App\Shipment::PICKUP)) checked @endif value="{{ \App\Shipment::PICKUP }}" />
+                                            <input type="radio" name="Shipment[type]" @if ($shipment->type == \App\Shipment::getType(\App\Shipment::PICKUP)) checked @endif
+                                                value="{{ \App\Shipment::PICKUP }}" />
                                             <span></span>
                                             {{ translate('Pickup (For door to door delivery)') }}
                                         </label>
@@ -160,6 +161,14 @@
                                         <label>{{ translate('Client Address') }}:</label>
                                         <input name="Shipment[client_address]" class="form-control"
                                             value="{{ $shipment->client_address }}" id="">
+                                        <div class="form-group select-address">
+                                            <label>{{ translate('Client/Sender') }}:</label>
+                                            <select class="form-control kt-select2 select-address"
+                                                name="Shipment[client_address]">
+                                                <option value="{{ $shipment->client_address }}">
+                                                    {{ $shipment->client_address }}</option>
+                                            </select>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -200,7 +209,8 @@
 
                                             <option @if ($shipment->payment_type == 1) selected @endif value="1">
                                                 {{ translate('Postpaid') }}</option>
-                                            <option @if ($shipment->payment_type == 2) selected @endif value="2">{{ translate('Prepaid') }}
+                                            <option @if ($shipment->payment_type == 2) selected @endif value="2">
+                                                {{ translate('Prepaid') }}
                                             </option>
 
 
@@ -237,8 +247,8 @@
                                             </div>
                                             <div class="form-control file-amount">{{ translate('Choose File') }}</div>
                                             <input type="hidden" name="Shipment[attachments_before_shipping]"
-                                                class="selected-files" value="{{ $shipment->attachments_before_shipping }}"
-                                                max="3">
+                                                class="selected-files"
+                                                value="{{ $shipment->attachments_before_shipping }}" max="3">
                                         </div>
                                         <div class="file-preview">
                                         </div>
@@ -281,7 +291,8 @@
                                                         <option></option>
                                                         @foreach (\App\Package::all() as $package)
                                                             <option @if ($pack->package_id == $package->id) selected @endif
-                                                                value="{{ $package->id }}">{{ $package->name }}</option>
+                                                                value="{{ $package->id }}">{{ $package->name }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                     <div class="mb-2 d-md-none"></div>
@@ -334,57 +345,65 @@
                                                 <div class="col-md-12">
                                                     <div class="inner-repeater">
                                                         <div data-repeater-list="package_list">
-                                                            @foreach ($pack->package_list as $list)
-                                                            <div data-repeater-item >
-                                                                <div class="row">
-                                                                    <div class="col-md-4">
-                                                                        <label>{{ translate('Item Name') }}:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            placeholder="{{ translate('Item Name') }}"
-                                                                            name="item_name" value="{{$list->item_name}}" />
+                                                            @if (isset($pack->package_list))
+                                                                @foreach ($pack->package_list as $list)
+                                                                    <div data-repeater-item>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <label>{{ translate('Item Name') }}:</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    placeholder="{{ translate('Item Name') }}"
+                                                                                    name="item_name"
+                                                                                    value="{{ $list->item_name }}" />
 
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <label>{{ translate('Item Description') }}:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            placeholder="{{ translate('Description') }}"
-                                                                            name="description" value="{{$list->description}}" />
-                                                                    </div>
-                                                                    <div class="col-md-4">
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <label>{{ translate('Item Description') }}:</label>
+                                                                                <input type="text" class="form-control"
+                                                                                    placeholder="{{ translate('Description') }}"
+                                                                                    name="description"
+                                                                                    value="{{ $list->description }}" />
+                                                                            </div>
+                                                                            <div class="col-md-4">
 
-                                                                        <label>{{ translate('Quantity') }}:</label>
+                                                                                <label>{{ translate('Quantity') }}:</label>
 
-                                                                        <input class="kt_touchspin_qty"
-                                                                            placeholder="{{ translate('Quantity') }}"
-                                                                            type="number" min="1" name="qty"
-                                                                            class="form-control" value="{{$list->qty}}" />
+                                                                                <input class="kt_touchspin_qty"
+                                                                                    placeholder="{{ translate('Quantity') }}"
+                                                                                    type="number" min="1" name="qty"
+                                                                                    class="form-control"
+                                                                                    value="{{ $list->qty }}" />
 
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mt-2">
-                                                                    <div class="col-md-12">
-
-                                                                        <div>
-                                                                            <a href="javascript:;" data-repeater-delete=""
-                                                                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item">
-                                                                                <i class="la la-trash-o"></i>{{ translate('Delete List') }}
-                                                                            </a>
+                                                                            </div>
                                                                         </div>
+                                                                        <div class="row mt-2">
+                                                                            <div class="col-md-12">
+
+                                                                                <div>
+                                                                                    <a href="javascript:;"
+                                                                                        data-repeater-delete=""
+                                                                                        class="btn btn-sm font-weight-bolder btn-light-danger delete_item">
+                                                                                        <i
+                                                                                            class="la la-trash-o"></i>{{ translate('Delete List') }}
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
                                                                     </div>
-                                                                </div>
-                                                           
-
-                                                            </div>
-                                                            @endforeach
-
+                                                                @endforeach
+                                                            @endif
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="">
-                                                                <label class="text-right col-form-label">{{ translate('Add List') }}</label>
+                                                                <label
+                                                                    class="text-right col-form-label">{{ translate('Add List') }}</label>
                                                                 <div>
                                                                     <a href="javascript:;" data-repeater-create=""
                                                                         class="btn btn-sm font-weight-bolder btn-light-primary">
-                                                                        <i class="la la-plus"></i>{{ translate('Add List') }}
+                                                                        <i
+                                                                            class="la la-plus"></i>{{ translate('Add List') }}
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -501,9 +520,79 @@
     $('.select-client').select2({
         placeholder: "Select Client",
     });
+    // $('.select-client').change(function() {
+    //     var client_phone = $(this).find(':selected').data('phone');
+    //     document.getElementById("client_phone").value = client_phone;
+    // })
+
     $('.select-client').change(function() {
+        // var client_phone = $(this).find(':selected').data('phone');
+        // document.getElementById("client_phone").value = client_phone;
+        $.get("{{ route('admin.shipments.get-client-address-ajax') }}?client_id=" + $(this).find(':selected')
+            .val(),
+            function(data) {
+                $('select[name ="Shipment[client_address]"]').empty();
+                $('select[name ="Shipment[client_address]"]').append('<option value=""></option>');
+                for (let index = 0; index < data.length; index++) {
+                    const element = data[index];
+                    $('select[name ="Shipment[client_address]"]').append('<option value="' + element[
+                            'name'] + '" data-id="' + element['id'] + '" data-phone="' + element[
+                            'phone'] +
+                        '" data-country_id="' + element['country_id'] + '" data-country_name="' +
+                        element['country']['name'] + '" data-state_id="' + element[
+                            'state_id'] + '" data-state_name="' + element[
+                            'state']['name'] + '" data-area_id="' + element['area_id'] +
+                        '" data-area_name="' + element['area']['name'] + '">' + element[
+                            'name'] + '</option>');
+                }
+
+
+            });
+    })
+    $('.select-address').select2({
+        placeholder: "Select Client Address",
+    })
+    @if ($user_type == 'admin' || in_array('1005', $staff_permission))
+        .on('select2:open', () => {
+        $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%"
+                href="{{ route('admin.client-addresses.create') }}?redirect=admin.shipments.create" class="btn btn-primary">+
+                {{ translate('Add New Client Address') }}</a>
+        </li>`);
+        });
+    @endif
+    $('.select-address').change(function() {
         var client_phone = $(this).find(':selected').data('phone');
-        document.getElementById("client_phone").value = client_phone;
+        var client_country = $(this).find(':selected').data('country_id');
+        var client_state = $(this).find(':selected').data('state_id');
+        var client_area = $(this).find(':selected').data('area_id');
+        var client_area_name = $(this).find(':selected').data('area_name');
+        var client_state_name = $(this).find(':selected').data('state_name');
+        var client_country_name = $(this).find(':selected').data('country_name');
+        $("#client_phone").val(client_phone);
+        // var from_country_id = document.getElementsByName("Shipment[from_country_id]")[0].value;
+        // var to_country_id = document.getElementsByName("Shipment[to_country_id]")[0].value;
+        // var from_state_id = document.getElementsByName("Shipment[from_state_id]")[0].value;
+        // var to_state_id = document.getElementsByName("Shipment[to_state_id]")[0].value;
+        // var from_area_id = document.getElementsByName("Shipment[from_area_id]")[0].value;
+        // var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
+        //$("#change-country").val(client_country).trigger('change');
+        $("#change-country").empty().append('<option value="' + client_country +
+            '" selected>' + client_country_name + '</option>');
+        $("#change-state-from").empty().append('<option value="' + client_state +
+            '" selected>' + client_state_name + '</option>');
+        $("#change-area-from").empty().append('<option value="' + client_area +
+            '" selected>' + client_area_name + '</option>');
+
+        // $.get("{{ route('admin.shipments.get-client-address-ajax') }}?client_id=" + $(this).find(':selected').val(), function(data) {
+        //     $('select[name ="Shipment[client_address]"]').empty();
+        //     $('select[name ="Shipment[client_address]"]').append('<option value=""></option>');
+        //     for (let index = 0; index < data.length; index++) {
+        //         const element = data[index];
+        //         $('select[name ="Shipment[client_address]"]').append('<option value="' + element['name'] + '" data-id="' + element['id'] + '" data-phone="' + element['phone'] + '" data-country_id="' + element['country_id'] + '" data-state_id="' + element['state_id'] + '" data-area_id="' + element['area_id'] + '">' + element['name'] + '</option>');
+        //     }
+
+
+        // });
     })
     $('.select-branch').select2({
         placeholder: "Select Branch",
