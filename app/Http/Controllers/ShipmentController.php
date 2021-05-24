@@ -659,11 +659,11 @@ class ShipmentController extends Controller
             $covered_cost = $covered_cost->where('from_state_id', 0)->where('to_state_id', 0);
         }
 
-        if (isset($request['from_area_id']) && isset($request['to_area_id'])) {
-            $covered_cost = $covered_cost->where('from_area_id', $from_area_id)->where('to_area_id', $to_area_id);
-        } else {
-            $covered_cost = $covered_cost->where('from_area_id', 0)->where('to_area_id', 0);
-        }
+        // if (isset($request['from_area_id']) && isset($request['to_area_id'])) {
+        //     $covered_cost = $covered_cost->where('from_area_id', $from_area_id)->where('to_area_id', $to_area_id);
+        // } else {
+        //     $covered_cost = $covered_cost->where('from_area_id', 0)->where('to_area_id', 0);
+        // }
 
         $covered_cost = $covered_cost->first();
         //dd($covered_cost);
@@ -710,20 +710,20 @@ class ShipmentController extends Controller
 
                                 
                         $shipping_cost_for_extra = (float) ($covered_cost->extra_shipping_cost * ($pack['package_weight']));
-
                         if(!$covered_cost->extra_default_cost)
                         {
                             $tax = $tax + (($covered_cost->extra_tax * $shipping_cost_for_extra) / 100 );
                         }
         
-                        $shipping_cost = $shipping_cost+ $shipping_cost_for_extra + (float)$package->cost;
+                        $shipping_cost = $shipping_cost + $shipping_cost_for_extra + (float)$package->cost;
         
                     }else{
-                        $shipping_cost = $shipping_cost + (float) $covered_cost->shipping_cost + (float)$package->cost;
+                        $shipping_cost = $shipping_cost + (float) $covered_cost->shipping_cost;
                         if(!$covered_cost->default_cost)
                         {
                             $tax = $tax + (($covered_cost->tax * $shipping_cost) / 100 );
                         }
+                        $shipping_cost = $shipping_cost+ (float)$package->cost;
                     }
                 }
 
