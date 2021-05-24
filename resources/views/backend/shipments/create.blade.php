@@ -236,8 +236,7 @@
                                         <label>{{ translate('Client Address') }}:</label>
                                         <div class="form-group">
                                             <label>{{ translate('Client/Sender') }}:</label>
-                                            <select class="form-control select-address"
-                                                name="Shipment[client_address]">
+                                            <select class="form-control select-address" name="Shipment[client_address]">
                                                 <option></option>
                                             </select>
                                         </div>
@@ -325,7 +324,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{ translate('From Area') }}:</label>
-                                        <select id='change-area-from' name="Shipment[from_area_id]" class="form-control select-area">
+                                        <select id='change-area-from' name="Shipment[from_area_id]"
+                                            class="form-control select-area">
                                             <option value=""></option>
 
                                         </select>
@@ -736,7 +736,8 @@
     $('.select-client').change(function() {
         // var client_phone = $(this).find(':selected').data('phone');
         // document.getElementById("client_phone").value = client_phone;
-        $.get("{{ route('admin.shipments.get-client-address-ajax') }}?client_id=" + $(this).find(':selected')
+        $.get("{{ route('admin.shipments.get-client-address-ajax') }}?client_id=" + $(this).find(
+                ':selected')
             .val(),
             function(data) {
                 $('select[name ="Shipment[client_address]"]').empty();
@@ -744,10 +745,13 @@
                 for (let index = 0; index < data.length; index++) {
                     const element = data[index];
                     $('select[name ="Shipment[client_address]"]').append('<option value="' + element[
-                        'name'] + '" data-id="' + element['id'] + '" data-phone="' + element['phone'] +
-                        '" data-country_id="' + element['country_id'] + '" data-country_name="' + element['country']['name'] + '" data-state_id="' + element[
+                            'name'] + '" data-id="' + element['id'] + '" data-phone="' + element[
+                            'phone'] +
+                        '" data-country_id="' + element['country_id'] + '" data-country_name="' +
+                        element['country']['name'] + '" data-state_id="' + element[
                             'state_id'] + '" data-state_name="' + element[
-                            'state']['name'] + '" data-area_id="' + element['area_id'] + '" data-area_name="' + element['area']['name'] + '">' + element[
+                            'state']['name'] + '" data-area_id="' + element['area_id'] +
+                        '" data-area_name="' + element['area']['name'] + '">' + element[
                             'name'] + '</option>');
                 }
 
@@ -764,31 +768,22 @@
         var client_state_name = $(this).find(':selected').data('state_name');
         var client_country_name = $(this).find(':selected').data('country_name');
         $("#client_phone").val(client_phone);
-        // var from_country_id = document.getElementsByName("Shipment[from_country_id]")[0].value;
-        // var to_country_id = document.getElementsByName("Shipment[to_country_id]")[0].value;
-        // var from_state_id = document.getElementsByName("Shipment[from_state_id]")[0].value;
-        // var to_state_id = document.getElementsByName("Shipment[to_state_id]")[0].value;
-        // var from_area_id = document.getElementsByName("Shipment[from_area_id]")[0].value;
-        // var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
-        //$("#change-country").val(client_country).trigger('change');
-        $("#change-country").append('<option value="' + client_country +
-                    '" selected>' + client_country_name + '</option>');
-        $("#change-state-from").empty().append('<option value="' + client_state +
-                    '" selected>' + client_state_name + '</option>');
-        $("#change-area-from").empty().append('<option value="' + client_area +
-                    '" selected>' + client_area_name + '</option>');
-
-        // $.get("{{ route('admin.shipments.get-client-address-ajax') }}?client_id=" + $(this).find(':selected').val(), function(data) {
-        //     $('select[name ="Shipment[client_address]"]').empty();
-        //     $('select[name ="Shipment[client_address]"]').append('<option value=""></option>');
-        //     for (let index = 0; index < data.length; index++) {
-        //         const element = data[index];
-        //         $('select[name ="Shipment[client_address]"]').append('<option value="' + element['name'] + '" data-id="' + element['id'] + '" data-phone="' + element['phone'] + '" data-country_id="' + element['country_id'] + '" data-state_id="' + element['state_id'] + '" data-area_id="' + element['area_id'] + '">' + element['name'] + '</option>');
-        //     }
 
 
-        // });
-    })
+        $("#change-country").val(client_country).trigger('change');
+        setTimeout(
+            function(){
+                $("#change-state-from").val(client_state).trigger('change');
+            },1000
+        );
+        setTimeout(
+            function(){
+                $("#change-area-from").val(client_area).trigger('change');
+            },2000
+        );
+
+
+    });
 
     $('.payment-method').select2({
         placeholder: "Payment Method",
@@ -964,8 +959,8 @@
                 noResults: function() {
                     @if ($user_type == 'admin' || in_array('1105', $staff_permission))
                         return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                                href="{{ route('admin.client-addresses.create') }}"
-                                class="btn btn-primary">Manage {{ translate('Client Addresses') }}</a>
+                                href="{{ route('admin.client-addresses.create') }}" class="btn btn-primary">Manage
+                                {{ translate('Client Addresses') }}</a>
                         </li>`;
                     @else
                         return ``;

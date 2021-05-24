@@ -564,31 +564,22 @@
         var client_state_name = $(this).find(':selected').data('state_name');
         var client_country_name = $(this).find(':selected').data('country_name');
         $("#client_phone").val(client_phone);
-        // var from_country_id = document.getElementsByName("Shipment[from_country_id]")[0].value;
-        // var to_country_id = document.getElementsByName("Shipment[to_country_id]")[0].value;
-        // var from_state_id = document.getElementsByName("Shipment[from_state_id]")[0].value;
-        // var to_state_id = document.getElementsByName("Shipment[to_state_id]")[0].value;
-        // var from_area_id = document.getElementsByName("Shipment[from_area_id]")[0].value;
-        // var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
-        //$("#change-country").val(client_country).trigger('change');
-        $("#change-country").append('<option value="' + client_country +
-            '" selected>' + client_country_name + '</option>');
-        $("#change-state-from").empty().append('<option value="' + client_state +
-            '" selected>' + client_state_name + '</option>');
-        $("#change-area-from").empty().append('<option value="' + client_area +
-            '" selected>' + client_area_name + '</option>');
-
-        // $.get("{{ route('admin.shipments.get-client-address-ajax') }}?client_id=" + $(this).find(':selected').val(), function(data) {
-        //     $('select[name ="Shipment[client_address]"]').empty();
-        //     $('select[name ="Shipment[client_address]"]').append('<option value=""></option>');
-        //     for (let index = 0; index < data.length; index++) {
-        //         const element = data[index];
-        //         $('select[name ="Shipment[client_address]"]').append('<option value="' + element['name'] + '" data-id="' + element['id'] + '" data-phone="' + element['phone'] + '" data-country_id="' + element['country_id'] + '" data-state_id="' + element['state_id'] + '" data-area_id="' + element['area_id'] + '">' + element['name'] + '</option>');
-        //     }
 
 
-        // });
-    })
+        $("#change-country").val(client_country).trigger('change');
+        setTimeout(
+            function(){
+                $("#change-state-from").val(client_state).trigger('change');
+            },1000
+        );
+        setTimeout(
+            function(){
+                $("#change-area-from").val(client_area).trigger('change');
+            },2000
+        );
+
+
+    });
 
     $('.select-address').select2({
         placeholder: "Select Address",
