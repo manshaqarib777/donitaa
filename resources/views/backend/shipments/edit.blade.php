@@ -159,16 +159,11 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>{{ translate('Client Address') }}:</label>
-                                        <input name="Shipment[client_address]" class="form-control"
-                                            value="{{ $shipment->client_address }}" id="">
-                                        <div class="form-group select-address">
-                                            <label>{{ translate('Client/Sender') }}:</label>
-                                            <select class="form-control kt-select2 select-address"
-                                                name="Shipment[client_address]">
-                                                <option value="{{ $shipment->client_address }}">
-                                                    {{ $shipment->client_address }}</option>
-                                            </select>
-                                        </div>
+                                        <select class="form-control select-address"
+                                            name="Shipment[client_address]">
+                                            <option value="{{ $shipment->client_address }}">
+                                                {{ $shipment->client_address }}</option>
+                                        </select>
 
                                     </div>
                                 </div>
@@ -552,7 +547,7 @@
     $('.select-address').select2({
         placeholder: "Select Client Address",
     })
-    @if ($user_type == 'admin' || in_array('1005', $staff_permission))
+    @if ($auth_user->user_type == 'admin' || in_array('1005', $staff_permission))
         .on('select2:open', () => {
         $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%"
                 href="{{ route('admin.client-addresses.create') }}?redirect=admin.shipments.create" class="btn btn-primary">+
@@ -594,6 +589,25 @@
 
         // });
     })
+
+    $('.select-address').select2({
+        placeholder: "Select Address",
+        language: {
+            noResults: function() {
+                @if ($auth_user->user_type == 'admin' || in_array('1105', $staff_permission))
+                    return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
+                            href="{{ route('admin.client-addresses.create') }}"
+                            class="btn btn-primary">Manage {{ translate('Client Addresses') }}</a>
+                    </li>`;
+                @else
+                    return ``;
+                @endif
+            },
+        },
+        escapeMarkup: function(markup) {
+            return markup;
+        },
+    });
     $('.select-branch').select2({
         placeholder: "Select Branch",
     });

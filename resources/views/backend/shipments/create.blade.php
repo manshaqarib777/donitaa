@@ -234,9 +234,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>{{ translate('Client Address') }}:</label>
-                                        <div class="form-group select-address">
+                                        <div class="form-group">
                                             <label>{{ translate('Client/Sender') }}:</label>
-                                            <select class="form-control kt-select2 select-address"
+                                            <select class="form-control select-address"
                                                 name="Shipment[client_address]">
                                                 <option></option>
                                             </select>
@@ -732,10 +732,6 @@
         });
     @endif
 
-    // $('.select-client').change(function() {
-    //     var client_phone = $(this).find(':selected').data('phone');
-    //     document.getElementById("client_phone").value = client_phone;
-    // })
 
     $('.select-client').change(function() {
         // var client_phone = $(this).find(':selected').data('phone');
@@ -755,21 +751,9 @@
                             'name'] + '</option>');
                 }
 
-
             });
     })
 
-    $('.select-address').select2({
-        placeholder: "Select Client Address",
-    })
-    @if ($user_type == 'admin' || in_array('1005', $staff_permission))
-        .on('select2:open', () => {
-        $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                href="{{ route('admin.client-addresses.create') }}?redirect=admin.shipments.create" class="btn btn-primary">+
-                {{ translate('Add New Client Address') }}</a>
-        </li>`);
-        });
-    @endif
 
     $('.select-address').change(function() {
         var client_phone = $(this).find(':selected').data('phone');
@@ -974,6 +958,25 @@
             },
         });
 
+        $('.select-address').select2({
+            placeholder: "Select Address",
+            language: {
+                noResults: function() {
+                    @if ($user_type == 'admin' || in_array('1105', $staff_permission))
+                        return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
+                                href="{{ route('admin.client-addresses.create') }}"
+                                class="btn btn-primary">Manage {{ translate('Client Addresses') }}</a>
+                        </li>`;
+                    @else
+                        return ``;
+                    @endif
+                },
+            },
+            escapeMarkup: function(markup) {
+                return markup;
+            },
+        });
+
         $('.select-state').select2({
             placeholder: "Select state",
             language: {
@@ -1012,6 +1015,7 @@
             },
         });
 
+        $('.select-address').trigger('change');
         $('.select-country').trigger('change');
         $('.select-state').trigger('change');
         $('#kt_datepicker_3').datepicker({
