@@ -18,6 +18,7 @@ class CreateReceiversTable extends Migration
 		$table->increments('id')->unsigned();
 		$table->integer('code');
 		$table->tinyInteger('type')->default(1);
+		$table->integer('user_id')->unsigned();
 		$table->string('img')->nullable();
 		$table->string('name');
 		$table->string('email');
