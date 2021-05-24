@@ -26,6 +26,10 @@ class ClientAddress extends Model
                     ->where('users.area_id', auth()->user()->area_id);
                  });
             }
+            if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+            {
+                $builder->where('client_id',auth()->user()->id);
+            }
                 
         });
     }

@@ -34,6 +34,7 @@
                         </div>
                     </div>
 
+                    @if(auth()->user()->user_type !='customer')
 
                     <div class="form-group row">
                         <label class="col-sm-3 col-from-label" for="client_id">{{ translate('Client') }}:</label>
@@ -47,6 +48,10 @@
                             </select>
                         </div>
                     </div>
+                    @else
+                    <input type="hidden" class="form-control" value="{{ auth()->user()->id }}"
+                        name="ClientAddress[client_id]">
+                    @endif
 
                     <div class="form-group row">
                         <label class="col-sm-3 col-from-label" for="country_id">{{ translate('Country') }}:</label>
@@ -98,6 +103,7 @@
 
 
         $(document).ready(function() {
+
             $('.select-client').select2({
                 placeholder: "Select Client",
                 language: {

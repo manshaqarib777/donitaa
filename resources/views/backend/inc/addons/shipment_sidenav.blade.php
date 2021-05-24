@@ -86,6 +86,51 @@ $user_type = Auth::user()->user_type;
                         @endif
                         @endforeach
                     </ul>
+
+                    <ul class="menu-subnav">
+                        <li class="menu-item menu-item-parent" aria-haspopup="true">
+                            <span class="menu-link">
+                                <span class="menu-text">{{translate('Shipments')}}</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        @endif
+    @endif
+@endif
+
+@if ($addon != null)
+    @if($addon->activated)
+        @if( in_array($user_type,['customer']) || in_array('2009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.client-addresses.index','admin.client-addresses.update','admin.client-addresses.create','admin.client-addresses.show'])}} @foreach(\App\Shipment::status_info() as $item) {{ areActiveRoutes([$item['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
+                <a href="javascript:;" class="menu-link menu-toggle">
+                    <i class="menu-icon fas fa-box-open"></i>
+                    <span class="menu-text">{{translate('Client Address')}}</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="menu-submenu">
+                    <i class="menu-arrow"></i>
+                    <ul class="menu-subnav">
+                        <li class="menu-item {{ areActiveRoutes(['admin.client-addresses.create'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.client-addresses.create') }}" class="menu-link">
+                                    <i class="menu-bullet menu-icon flaticon2-plus" style="font-size: 10px;"></i>
+                                <span class="menu-text">{{translate('Add Shipment')}}</span>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.client-addresses.index','admin.client-addresses.show',])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.client-addresses.index') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('All Client Adresses')}}</span>
+
+                            </a>
+                        </li>
+
+
+
+                    </ul>
                 </div>
             </li>
         @endif
