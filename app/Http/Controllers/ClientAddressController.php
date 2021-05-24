@@ -28,6 +28,7 @@ class ClientAddressController extends Controller
      */
     public function create()
     {
+
         $clients = Client::all();
 
         $countries = \App\Country::where('covered',1)->get();

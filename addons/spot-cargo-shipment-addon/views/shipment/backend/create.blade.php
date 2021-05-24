@@ -179,7 +179,12 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>{{translate('Client Address')}}:</label>
-                                    <input placeholder="{{translate('Client Address')}}" name="Shipment[client_address]" class="form-control" id="" />
+                                    <div class="form-group client-select">
+                                        <label>{{translate('Client/Sender')}}:</label>
+                                        <select class="form-control kt-select2 select-address" name="Shipment[client_address]">
+                                            <option></option>    
+                                        </select>    
+                                    </div>
 
                                 </div>
                             </div>
@@ -547,8 +552,40 @@
     @endif
 
     $('.select-client').change(function(){
+        // var client_phone = $(this).find(':selected').data('phone');
+        // document.getElementById("client_phone").value = client_phone;
+        $.get("{{route('admin.shipments.get-client-address-ajax')}}?client_id=" + $(this).find(':selected').val(), function(data) {
+            $('select[name ="Shipment[client_address]"]').empty();
+            $('select[name ="Shipment[client_address]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                $('select[name ="Shipment[client_address]"]').append('<option value="' + element['name'] + '" data-id="' + element['id'] + '" data-phone="' + element['phone'] + '" data-country_id="' + element['country_id'] + '" data-state_id="' + element['state_id'] + '" data-area_id="' + element['area_id'] + '">' + element['name'] + '</option>');
+            }
+
+
+        });
+    })
+
+    $('.select-address').change(function(){
         var client_phone = $(this).find(':selected').data('phone');
-        document.getElementById("client_phone").value = client_phone;
+        var client_country = $(this).find(':selected').data('country_id');
+        var client_state = $(this).find(':selected').data('state_id');
+        var client_area = $(this).find(':selected').data('area_id');
+        $("#client_phone").value = client_phone;
+        $("#from_country_id").val(client_country).trigger('change');
+        $("#from_state_id").val(client_state).trigger('change');
+        $("#from_state_id").val(client_area).trigger('change');
+
+        // $.get("{{route('admin.shipments.get-client-address-ajax')}}?client_id=" + $(this).find(':selected').val(), function(data) {
+        //     $('select[name ="Shipment[client_address]"]').empty();
+        //     $('select[name ="Shipment[client_address]"]').append('<option value=""></option>');
+        //     for (let index = 0; index < data.length; index++) {
+        //         const element = data[index];
+        //         $('select[name ="Shipment[client_address]"]').append('<option value="' + element['name'] + '" data-id="' + element['id'] + '" data-phone="' + element['phone'] + '" data-country_id="' + element['country_id'] + '" data-state_id="' + element['state_id'] + '" data-area_id="' + element['area_id'] + '">' + element['name'] + '</option>');
+        //     }
+
+
+        // });
     })
 
     $('.payment-method').select2({

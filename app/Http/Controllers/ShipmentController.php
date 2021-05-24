@@ -6,6 +6,7 @@ use Auth;
 use App\Area;
 use App\Branch;
 use App\Client;
+use App\ClientAddress;
 use App\Cost;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ShipmentActionHelper;
@@ -503,6 +504,12 @@ class ShipmentController extends Controller
     {
         $country_id = $_GET['country_id'];
         $states = State::where('country_id', $country_id)->where('covered',1)->get();
+        return response()->json($states);
+    }
+    public function ajaxGetAddresses()
+    {
+        $country_id = $_GET['client_id'];
+        $states = ClientAddress::where('client_id', $country_id)->with('country','state','area')->get();
         return response()->json($states);
     }
     public function ajaxGetAreas()

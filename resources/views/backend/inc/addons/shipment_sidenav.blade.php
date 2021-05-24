@@ -86,6 +86,51 @@ $user_type = Auth::user()->user_type;
                         @endif
                         @endforeach
                     </ul>
+
+                    <ul class="menu-subnav">
+                        <li class="menu-item menu-item-parent" aria-haspopup="true">
+                            <span class="menu-link">
+                                <span class="menu-text">{{translate('Shipments')}}</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        @endif
+    @endif
+@endif
+
+@if ($addon != null)
+    @if($addon->activated)
+        @if( in_array($user_type,['customer']) || in_array('2009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.client-addresses.index','admin.client-addresses.update','admin.client-addresses.create','admin.client-addresses.show'])}} @foreach(\App\Shipment::status_info() as $item) {{ areActiveRoutes([$item['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
+                <a href="javascript:;" class="menu-link menu-toggle">
+                    <i class="menu-icon fas fa-box-open"></i>
+                    <span class="menu-text">{{translate('Client Address')}}</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="menu-submenu">
+                    <i class="menu-arrow"></i>
+                    <ul class="menu-subnav">
+                        <li class="menu-item {{ areActiveRoutes(['admin.client-addresses.create'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.client-addresses.create') }}" class="menu-link">
+                                    <i class="menu-bullet menu-icon flaticon2-plus" style="font-size: 10px;"></i>
+                                <span class="menu-text">{{translate('Add Shipment')}}</span>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.client-addresses.index','admin.client-addresses.show',])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.client-addresses.index') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('All Client Adresses')}}</span>
+
+                            </a>
+                        </li>
+
+
+
+                    </ul>
                 </div>
             </li>
         @endif
@@ -93,7 +138,7 @@ $user_type = Auth::user()->user_type;
 @endif
 
 <!-- Missions-->
-@php 
+@php
 $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->first();
 $user_type = Auth::user()->user_type;
 @endphp
@@ -114,11 +159,11 @@ $user_type = Auth::user()->user_type;
                                 <span class="menu-text">{{translate('Missions')}}</span>
                             </span>
                         </li>
-                        
-                        
-                        
+
+
+
                         @foreach(\App\Mission::status_info() as $item)
-                        
+
                             @if(in_array($user_type, $item['user_role']) || in_array($item['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                                 <li class="menu-item {{ areActiveRoutes([$item['route_name']])}}" aria-haspopup="true">
                                     <a href="{{ route($item['route_name'],['status'=>$item['status']]) }}" class="menu-link">
@@ -126,12 +171,12 @@ $user_type = Auth::user()->user_type;
                                             <span></span>
                                         </i>
                                         <span class="menu-text">{{$item['text']}}</span>
-                                        
+
                                     </a>
                                 </li>
                             @endif
                         @endforeach
-                        
+
                     </ul>
                 </div>
             </li>
@@ -155,7 +200,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 @if ($addon != null)
     @if($addon->activated)
         @if(in_array($user_type, ['admin','branch']) || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.clients.index','admin.clients.update','admin.clients.create','admin.clients.show'])}}" aria-haspopup="true" data-menu-toggle="hover">
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.clients.index','admin.clients.update','admin.clients.create','admin.clients.show','admin.client-addresses.index','admin.client-addresses.update','admin.client-addresses.create','admin.client-addresses.show'])}}" aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon fas fa-users"></i>
                     <span class="menu-text">{{translate('Clients')}}</span>
@@ -190,6 +235,27 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                                 </a>
                             </li>
                         @endif
+
+                        @if(in_array($user_type, ['admin','branch']) || in_array('2005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                        <li class="menu-item {{ areActiveRoutes(['admin.client-addresses.index','admin.client-addresses.update','admin.client-addresses.show'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.client-addresses.index') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('All Clients Addresses')}}</span>
+
+                            </a>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.client-addresses.create'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.client-addresses.create') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('Add Client Addresses')}}</span>
+
+                            </a>
+                        </li>
+                    @endif
                     </ul>
                 </div>
             </li>
@@ -264,7 +330,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 @endif
 
 <!-- Captains-->
-@php 
+@php
 $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->first();
 $user_type = Auth::user()->user_type;
 @endphp
@@ -285,7 +351,7 @@ $user_type = Auth::user()->user_type;
                                 <span class="menu-text">{{translate('Captains')}}</span>
                             </span>
                         </li>
-                    
+
                         @if(in_array($user_type,['admin','branch']) || in_array('1007', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                             <li class="menu-item {{ areActiveRoutes(['admin.captains.index','admin.captains.update','admin.captains.create'])}}" aria-haspopup="true">
                                 <a href="{{ route('admin.captains.index') }}" class="menu-link">
@@ -293,7 +359,7 @@ $user_type = Auth::user()->user_type;
                                         <span></span>
                                     </i>
                                     <span class="menu-text">{{translate('All Captains')}}</span>
-                                    
+
                                 </a>
                             </li>
                             <li class="menu-item {{ areActiveRoutes(['admin.captains.create'])}}" aria-haspopup="true">
@@ -302,7 +368,7 @@ $user_type = Auth::user()->user_type;
                                         <span></span>
                                     </i>
                                     <span class="menu-text">{{translate('Add Captain')}}</span>
-                                    
+
                                 </a>
                             </li>
                         @endif
@@ -314,7 +380,7 @@ $user_type = Auth::user()->user_type;
 @endif
 
 <!-- Branches -->
-@php 
+@php
 $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->first();
 @endphp
 @if ($addon != null)
@@ -334,7 +400,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                                 <span class="menu-text">{{translate('Branches')}}</span>
                             </span>
                         </li>
-                    
+
                         @if(Auth::user()->user_type == 'admin' || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                             <li class="menu-item {{ areActiveRoutes(['admin.branchs.index','admin.branchs.update','admin.branchs.show'])}}" aria-haspopup="true">
                                 <a href="{{ route('admin.branchs.index') }}" class="menu-link">
@@ -342,7 +408,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                                         <span></span>
                                     </i>
                                     <span class="menu-text">{{translate('All Branches')}}</span>
-                                    
+
                                 </a>
                             </li>
                             <li class="menu-item {{ areActiveRoutes(['admin.branchs.create'])}}" aria-haspopup="true">
@@ -351,7 +417,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                                         <span></span>
                                     </i>
                                     <span class="menu-text">{{translate('Add Branch')}}</span>
-                                    
+
                                 </a>
                             </li>
                         @endif

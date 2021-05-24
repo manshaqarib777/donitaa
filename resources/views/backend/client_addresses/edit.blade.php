@@ -32,7 +32,8 @@
                             <input type="text" class="form-control" placeholder="{{ translate('Here') }}"
                                 value="{{ $client_address->phone }}" name="ClientAddress[phone]">
                         </div>
-                    <div class="form-group row">
+                        @if(auth()->user()->user_type !='customer')
+                        <div class="form-group row">
                         <label class="col-sm-3 col-from-label" for="client_id">{{ translate('Client') }}:</label>
                         <div class="col-sm-9">
                             <select id="change-client" name="ClientAddress[client_id]" class="form-control select-client">
@@ -45,6 +46,10 @@
                             </select>
                         </div>
                     </div>
+                    @else
+                    <input type="hidden" class="form-control" value="{{ auth()->user()->id }}"
+                        name="ClientAddress[client_id]">
+                    @endif
 
                     <div class="form-group row">
                         <label class="col-sm-3 col-from-label" for="country_id">{{ translate('Country') }}:</label>
