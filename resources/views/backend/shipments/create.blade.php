@@ -232,7 +232,7 @@
                                 @else
                                     <div style="display: none">
                                         <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
-                                            <option value="{{ auth()->user()->id }}"></option>
+                                            <option value="{{ auth()->user()->userClient->client->id }}">{{ auth()->user()->userClient->client->name }}</option>
 
                                         </select>
                                     </div>
@@ -906,7 +906,7 @@
             if (select_packages[index].value) {
                 package_ids[index] = new Object();
                 package_ids[index]["package_id"] = select_packages[index].value;
-                package_ids[index]["package_weight"] = select_weights[index].value;
+                package_ids[index]["weight"] = select_weights[index].value;
             } else {
                 AIZ.plugins.notify('danger', '{{ translate('Please select package type') }} ' + (index + 1));
                 return 0;
@@ -949,7 +949,7 @@
     $(document).ready(function() {
 
         @if (auth()->user()->user_type == 'customer')
-            $('.select-client').trigger('change');
+            $('.select-client').val("{{ auth()->user()->userClient->client->id }}").trigger('change');
         @endif
         $('.select-country').select2({
             placeholder: "Select country",
@@ -1250,22 +1250,22 @@
                             }
                         }
                     },
-                    "Shipment[client_id]": {
-                        validators: {
-                            callback: {
-                                message: '{{ translate('This is required!') }}',
-                                callback: function(input) {
-                                    // Get the selected options
-                                    if ((input.value !== "")) {
-                                        $('.client-select').removeClass('has-errors');
-                                    } else {
-                                        $('.client-select').addClass('has-errors');
-                                    }
-                                    return (input.value !== "");
-                                }
-                            }
-                        }
-                    },
+                    // "Shipment[client_id]": {
+                    //     validators: {
+                    //         callback: {
+                    //             message: '{{ translate('This is required!') }}',
+                    //             callback: function(input) {
+                    //                 // Get the selected options
+                    //                 if ((input.value !== "")) {
+                    //                     $('.client-select').removeClass('has-errors');
+                    //                 } else {
+                    //                     $('.client-select').addClass('has-errors');
+                    //                 }
+                    //                 return (input.value !== "");
+                    //             }
+                    //         }
+                    //     }
+                    // },
                     "Shipment[client_address]": {
                         validators: {
                             notEmpty: {

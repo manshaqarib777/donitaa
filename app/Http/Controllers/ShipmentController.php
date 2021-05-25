@@ -691,7 +691,7 @@ class ShipmentController extends Controller
 
                 if($package->default_cost)
                 {
-                    if($pack['package_weight'] > 1){
+                    if($pack['weight'] > 1){
 
                         if(!$covered_cost->extra_default_cost)
                         {
@@ -713,10 +713,10 @@ class ShipmentController extends Controller
                 }
                 else
                 {
-                    if($pack['package_weight'] > 1){
+                    if($pack['weight'] > 1){
 
                                 
-                        $shipping_cost_for_extra = (float) ($covered_cost->extra_shipping_cost * ($pack['package_weight']));
+                        $shipping_cost_for_extra = (float) ($covered_cost->extra_shipping_cost * ($pack['weight']));
                         if(!$covered_cost->extra_default_cost)
                         {
                             $tax = $tax + (($covered_cost->extra_tax * $shipping_cost_for_extra) / 100 );
@@ -748,7 +748,7 @@ class ShipmentController extends Controller
                 }
 
                 $return_cost =  ( $return_fee * (float) ($weight));
-                if($request['shipment_insurance']==1)
+                if(@$request['shipment_insurance']==1)
                 $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
             }
             else
@@ -762,7 +762,7 @@ class ShipmentController extends Controller
                     $insurance_fee=(float) $covered_cost->insurance;
                 }
                 $return_cost = (float) $return_fee;
-                if($request['shipment_insurance']==1)
+                if(@$request['shipment_insurance']==1)
                 $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
 
             }
@@ -792,7 +792,7 @@ class ShipmentController extends Controller
 
                 if($package->default_cost)
                 {
-                    if($pack['package_weight'] > 1){
+                    if($pack['weight'] > 1){
 
                         if(!ShipmentSetting::getCost('extra_default_cost'))
                         {
@@ -813,10 +813,10 @@ class ShipmentController extends Controller
                 }
                 else
                 {
-                    if($pack['package_weight'] > 1){
+                    if($pack['weight'] > 1){
 
                         
-                        $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($pack['package_weight']));
+                        $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($pack['weight']));
                         if(!ShipmentSetting::getCost('extra_default_cost'))
                         {
                             $tax = $tax + ((ShipmentSetting::getCost('def_tax_gram') * $shipping_cost_for_extra) / 100 );
@@ -846,7 +846,7 @@ class ShipmentController extends Controller
                     $insurance_fee=ShipmentSetting::getCost('def_insurance_gram');
                 }
                 $return_cost = ( $return_fee * (float)($weight));
-                if($request['shipment_insurance']==1)
+                if(@$request['shipment_insurance']==1)
                 $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
 
             }else{
@@ -859,7 +859,7 @@ class ShipmentController extends Controller
                     $insurance_fee=ShipmentSetting::getCost('def_insurance');
                 }
                 $return_cost = $return_fee;
-                if($request['shipment_insurance']==1)
+                if(@$request['shipment_insurance']==1)
                 $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
 
             }
@@ -879,6 +879,7 @@ class ShipmentController extends Controller
      */
     public function create()
     {
+        //dd(auth()->user()->userClient->client);
         $branchs = Branch::where('is_archived', 0)->get();
         $clients = Client::where('is_archived', 0)->get();
         return view('backend.shipments.create', compact('branchs', 'clients'));
@@ -951,7 +952,7 @@ class ShipmentController extends Controller
         if (!$model->save()) {
             throw new \Exception();
         }
-
+        //dd($request->Shipment);
         $costs = $this->applyShipmentCost($request->Shipment,$request->Package);
 
         $model->fill($costs);

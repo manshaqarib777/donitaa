@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     @else
-                    <input type="hidden" class="form-control" value="{{ auth()->user()->id }}"
+                    <input type="hidden" class="form-control" value="{{ auth()->user()->userClient->client->id }}"
                         name="ClientAddress[client_id]">
                     @endif
 
