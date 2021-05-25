@@ -128,13 +128,10 @@
 
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('Client/Sender') }}:</label>
-                                        @if ($auth_user->user_type == 'customer')
-                                            <input type="text" placeholder="" class="form-control" name=""
-                                                value="{{ $auth_user->name }}" disabled>
-                                        @else
+                                @if (auth()->user()->user_type != 'customer')
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>{{ translate('Client/Sender') }}:</label>
                                             <select class="form-control kt-select2 select-client" id="select-how"
                                                 name="Shipment[client_id]">
 
@@ -145,9 +142,16 @@
                                                 @endforeach
 
                                             </select>
-                                        @endif
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    <div style="display: none">
+                                        <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
+                                            <option value="{{ auth()->user()->id }}"></option>
+
+                                        </select>
+                                    </div>
+                                @endif
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{ translate('Client Phone') }}:</label>
@@ -159,8 +163,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>{{ translate('Client Address') }}:</label>
-                                        <select class="form-control select-address"
-                                            name="Shipment[client_address]">
+                                        <select class="form-control select-address" name="Shipment[client_address]">
                                             <option value="{{ $shipment->client_address }}">
                                                 {{ $shipment->client_address }}</option>
                                         </select>
@@ -538,7 +541,7 @@
                             'state_id'] + '" data-state_name="' + element[
                             'state']['name'] + '" data-area_id="' + element['area_id'] +
                         '" data-area_name="' + element['area']['name'] + '">' + element[
-                            'name'] + '</option>');
+                            'type'] + '</option>');
                 }
 
 
@@ -550,7 +553,8 @@
     @if ($auth_user->user_type == 'admin' || in_array('1005', $staff_permission))
         .on('select2:open', () => {
         $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                href="{{ route('admin.client-addresses.create') }}?redirect=admin.shipments.create" class="btn btn-primary">+
+                href="{{ route('admin.client-addresses.create') }}?redirect=admin.shipments.create"
+                class="btn btn-primary">+
                 {{ translate('Add New Client Address') }}</a>
         </li>`);
         });
@@ -568,14 +572,14 @@
 
         $("#change-country").val(client_country).trigger('change');
         setTimeout(
-            function(){
+            function() {
                 $("#change-state-from").val(client_state).trigger('change');
-            },1000
+            }, 1000
         );
         setTimeout(
-            function(){
+            function() {
                 $("#change-area-from").val(client_area).trigger('change');
-            },2000
+            }, 2000
         );
 
 
@@ -587,8 +591,8 @@
             noResults: function() {
                 @if ($auth_user->user_type == 'admin' || in_array('1105', $staff_permission))
                     return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                            href="{{ route('admin.client-addresses.create') }}"
-                            class="btn btn-primary">Manage {{ translate('Client Addresses') }}</a>
+                            href="{{ route('admin.client-addresses.create') }}" class="btn btn-primary">Manage
+                            {{ translate('Client Addresses') }}</a>
                     </li>`;
                 @else
                     return ``;
@@ -603,6 +607,12 @@
         placeholder: "Select Branch",
     });
     $(document).ready(function() {
+
+
+        @if (auth()->user()->user_type == 'customer')
+            $('.select-client').trigger('change');
+        @endif
+
         var inputs = document.getElementsByTagName('input');
 
         for (var i = 0; i < inputs.length; i++) {

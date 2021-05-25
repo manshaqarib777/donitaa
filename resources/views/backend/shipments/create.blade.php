@@ -207,22 +207,36 @@
 
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group client-select">
-                                        <label>{{ translate('Client/Sender') }}:</label>
+                                @if (auth()->user()->user_type != 'customer')
 
+                                    <div class="col-md-6">
+                                        <div class="form-group client-select">
+                                            <label>{{ translate('Client/Sender') }}:</label>
+
+
+
+                                            <select class="form-control kt-select2 select-client"
+                                                name="Shipment[client_id]">
+                                                <option></option>
+                                                @foreach ($clients as $client)
+                                                    <option value="{{ $client->id }}"
+                                                        data-phone="{{ $client->responsible_mobile }}">
+                                                        {{ $client->name }}
+                                                    </option>
+                                                @endforeach
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                @else
+                                    <div style="display: none">
                                         <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
-                                            <option></option>
-                                            @foreach ($clients as $client)
-                                                <option value="{{ $client->id }}"
-                                                    data-phone="{{ $client->responsible_mobile }}">{{ $client->name }}
-                                                </option>
-                                            @endforeach
+                                            <option value="{{ auth()->user()->id }}"></option>
 
                                         </select>
-
                                     </div>
-                                </div>
+                                @endif
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{ translate('Client Phone') }}:</label>
@@ -752,7 +766,7 @@
                             'state_id'] + '" data-state_name="' + element[
                             'state']['name'] + '" data-area_id="' + element['area_id'] +
                         '" data-area_name="' + element['area']['name'] + '">' + element[
-                            'name'] + '</option>');
+                            'type'] + '</option>');
                 }
 
             });
@@ -769,17 +783,16 @@
         var client_country_name = $(this).find(':selected').data('country_name');
         $("#client_phone").val(client_phone);
 
-
         $("#change-country").val(client_country).trigger('change');
         setTimeout(
-            function(){
+            function() {
                 $("#change-state-from").val(client_state).trigger('change');
-            },1000
+            }, 1000
         );
         setTimeout(
-            function(){
+            function() {
                 $("#change-area-from").val(client_area).trigger('change');
-            },2000
+            }, 2000
         );
 
 
@@ -934,6 +947,10 @@
         $('.total-weight').val(sumWeight);
     }
     $(document).ready(function() {
+
+        @if (auth()->user()->user_type == 'customer')
+            $('.select-client').trigger('change');
+        @endif
         $('.select-country').select2({
             placeholder: "Select country",
             language: {
