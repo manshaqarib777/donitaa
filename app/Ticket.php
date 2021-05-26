@@ -11,13 +11,20 @@ class Ticket extends Model
         parent::boot();
 
         static::addGlobalScope('restriction', function ($builder) {
-            if(auth()->user()->staff && auth()->user()->staff->role_id == 1)
+            if(isset(auth()->user()->staff->role) && (auth()->user()->staff->role->id  == '1' || auth()->user()->staff->role->name  == 'Manager'))
             {
                 $builder->whereHas('user', function($query) {
                     return $query->where('country_id', auth()->user()->country_id);
                 });
             }    
-            if(auth()->user()->staff && auth()->user()->staff->role_id == 2)
+            if(isset(auth()->user()->staff->role) && (auth()->user()->staff->role->id  == '2' || auth()->user()->staff->role->name  == 'Supervisor'))
+            {
+                $builder->whereHas('user', function($query) {
+                    return $query->where('country_id', auth()->user()->country_id)
+                    ->where('state_id', auth()->user()->state_id);
+                 });
+            }
+            if(isset(auth()->user()->staff->role) && (auth()->user()->staff->role->id  == '4' || auth()->user()->staff->role->name  == 'Agent'))
             {
                 $builder->whereHas('user', function($query) {
                     return $query->where('country_id', auth()->user()->country_id)
