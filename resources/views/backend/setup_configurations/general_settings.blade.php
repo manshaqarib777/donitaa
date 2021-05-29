@@ -130,7 +130,7 @@
                     },
 
                 },
-                
+
 
                 plugins: {
                     autoFocus: new FormValidation.plugins.AutoFocus(),

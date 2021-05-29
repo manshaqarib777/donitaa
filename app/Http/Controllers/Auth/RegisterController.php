@@ -101,7 +101,9 @@ class RegisterController extends Controller
 			$userRegistrationHelper->setEmail($model->email); 
 			$userRegistrationHelper->setName($model->name);
 			$userRegistrationHelper->setApiToken();
-            
+            $userRegistrationHelper->setCountryID($data['country_id']); 
+			$userRegistrationHelper->setStateID($data['state_id']); 
+			$userRegistrationHelper->setAreaID($data['area_id']);
 			if ($data['password'] != '' || $data['password'] != null){
 				$userRegistrationHelper->setPassword($data['password']);
 			}else{
@@ -179,6 +181,16 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
+        if($user->country_id){
+            $country=\App\Country::find($user->country_id);
+            request()->session()->put('country', $country->iso2);
+
+            $currency = \App\Currency::where('code', $country->currency)->first();
+            if($currency)
+            {
+                request()->session()->put('currency_code', $currency->code);   
+            }
+        }
         if ($user->email == null) {
             return redirect()->route('verification');
         }

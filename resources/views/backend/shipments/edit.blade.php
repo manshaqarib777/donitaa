@@ -3,6 +3,8 @@
 @section('content')
     @php
     $auth_user = Auth::user();
+    $user_type = Auth::user()->user_type;
+    $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? "[]");
     @endphp
     <style>
         label {
@@ -147,7 +149,7 @@
                                 @else
                                     <div style="display: none">
                                         <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
-                                            <option value="{{ auth()->user()->id }}"></option>
+                                            <option value="{{ auth()->user()->userClient->client->id }}"></option>
 
                                         </select>
                                     </div>
@@ -164,8 +166,6 @@
                                     <div class="form-group">
                                         <label>{{ translate('Client Address') }}:</label>
                                         <select class="form-control select-address" name="Shipment[client_address]">
-                                            <option value="{{ $shipment->client_address }}">
-                                                {{ $shipment->client_address }}</option>
                                         </select>
 
                                     </div>
@@ -237,7 +237,7 @@
                                     <div class="form-group">
                                         <label>{{ translate('Attachments') }}:</label>
 
-                                        <div class="input-group " data-toggle="aizuploader" data-type="image"
+                                        <div class="input-group " data-toggle="aizuploader" data-type="all"
                                             data-multiple="true">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text bg-soft-secondary font-weight-medium">
@@ -283,8 +283,8 @@
 
                                                 <div class="col-md-4">
 
-                                                    <label>{{ translate('Category') }}:</label>
-                                                    <select class="form-control kt-select2" id="select-how"
+                                                    <label>{{ translate('Package Type') }}:</label>
+                                                    <select class="form-control kt-select2 package-type-select" id="select-how"
                                                         name="package_id">
                                                         <option></option>
                                                         @foreach (\App\Package::all() as $package)
@@ -307,7 +307,7 @@
                                                     <label>{{ translate('Weight') }}:</label>
 
                                                     <input id="kt_touchspin_weight" type="text" name="weight"
-                                                        class="form-control" value="{{ $pack->weight }}" />
+                                                        class="form-control weight-listener" onchange="calcTotalWeight()" value="{{ $pack->weight }}" />
                                                     <div class="mb-2 d-md-none"></div>
 
                                                 </div>
@@ -337,6 +337,20 @@
                                                             placeholder="{{ translate('Height') }}"
                                                             value="{{ $pack->height }}" name="height" />
 
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label>{{ translate('Shipment Insurance') }}:</label>
+                                                        <label class="checkbox">
+                                                            <input type="checkbox" onchange="update_currency_status(this)"
+                                                                placeholder="{{ translate('Include Shipment Insurance') }}"
+                                                                class="form-control insurance-listener" value="{{$pack->shipment_insurance}}"  {{($pack->shipment_insurance==1)?'checked':'' }} name="shipment_insurance" />
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label>{{ translate('Package Value') }}:</label>
+                                                        <input type="text" placeholder="{{ translate('Package Value') }}"
+                                                            class="form-control value-listener" value="{{ $pack->shipment_price }}" name="shipment_price" />
                                                     </div>
                                                 </div>
 
@@ -391,6 +405,52 @@
 
                                                                     </div>
                                                                 @endforeach
+                                                            @else
+                                                            <div data-repeater-item>
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <label>{{ translate('Item Name') }}:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            placeholder="{{ translate('Item Name') }}"
+                                                                            name="item_name" />
+
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label>{{ translate('Item Description') }}:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            placeholder="{{ translate('Description') }}"
+                                                                            name="description"
+                                                                             />
+                                                                    </div>
+                                                                    <div class="col-md-4">
+
+                                                                        <label>{{ translate('Quantity') }}:</label>
+
+                                                                        <input class="kt_touchspin_qty"
+                                                                            placeholder="{{ translate('Quantity') }}"
+                                                                            type="number" min="1" name="qty"
+                                                                            class="form-control"
+                                                                            value="1" />
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mt-2">
+                                                                    <div class="col-md-12">
+
+                                                                        <div>
+                                                                            <a href="javascript:;"
+                                                                                data-repeater-delete=""
+                                                                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item">
+                                                                                <i
+                                                                                    class="la la-trash-o"></i>{{ translate('Delete List') }}
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+
                                                             @endif
                                                         </div>
                                                         <div class="form-group row">
@@ -425,16 +485,16 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="">
-                                        <label class="text-right col-form-label">{{ translate('Add') }}</label>
+                                        <label class="text-right col-form-label">{{ translate('Add Package') }}</label>
                                         <div>
                                             <a href="javascript:;" data-repeater-create=""
                                                 class="btn btn-sm font-weight-bolder btn-light-primary">
-                                                <i class="la la-plus"></i>{{ translate('Add') }}
+                                                <i class="la la-plus"></i>{{ translate('Add Package') }}
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{ translate('Tax & Duty') }}:</label>
@@ -467,7 +527,7 @@
                                                 name="Shipment[return_cost]" />
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -483,7 +543,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{ translate('Total Weight') }}:</label>
-                                            <input id="kt_touchspin_4" type="text" class="form-control"
+                                            <input id="kt_touchspin_4" type="text" class="form-control total-weight"
                                                 value="{{ $shipment->total_weight }}" value="0"
                                                 name="Shipment[total_weight]" />
                                         </div>
@@ -503,7 +563,92 @@
                         {!! hookView('shipment_addon', $currentView) !!}
 
                         <div class="mb-0 text-right form-group">
-                            <button type="submit" class="btn btn-sm btn-primary">{{ translate('Save') }}</button>
+                            <button type="button" class="btn btn-sm btn-primary"
+                                onclick="get_estimation_cost()">{{ translate('Get Rates') }}</button>
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-sm btn-primary d-none" data-toggle="modal"
+                                data-target="#exampleModalCenter" id="modal_open">
+                                {{ translate('Get Rates') }}
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">
+                                                {{ translate('Estimation Cost') }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                                id="modal_close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="text-left modal-body">
+                                            <div class="row">
+                                                <div class="col-6">{{ translate('Shipping Cost') }} :</div>
+                                                <div class="col-6" id="shipping_cost"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">{{ translate('Tax & Duty') }} :</div>
+                                                <div class="col-6" id="tax_duty"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">{{ translate('Insurance') }} :</div>
+                                                <div class="col-6" id="insurance"></div>
+                                            </div>
+                                            <div class="row bg-warning">
+                                                <div class="col-6">{{ translate('Return Cost') }} :</div>
+                                                <div class="col-6" id="return_cost"></div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-6">{{ translate('TOTAL COST') }} :</div>
+                                                <div class="col-6" id="total_cost"></div>
+                                            </div>
+
+                                            <input type="hidden" class="form-control"
+                                                value="{{ $shipment->tax }}" name="Shipment[tax]" />
+                                            <input type="hidden" class="form-control"
+                                                value="{{ $shipment->insurance }}" name="Shipment[insurance]" />
+                                            <input type="hidden" class="form-control"
+                                                value="{{ convert_price($shipment->shipping_cost) }}"
+                                                name="Shipment[shipping_cost]" />
+                                            <input type="hidden" class="form-control"
+                                                value="{{ convert_price($shipment->return_cost) }}"
+                                                name="Shipment[return_cost]" />
+
+
+                                            <input type="hidden" class="form-control"
+                                                value="{{ $shipment->from_country_id }}" name="Shipment[from_country_id]" />
+
+                                            <input type="hidden" class="form-control"
+                                                value="{{ $shipment->to_country_id }}" name="Shipment[to_country_id]" />
+
+                                            <input type="hidden" class="form-control"
+                                                value="{{ $shipment->from_state_id }}" name="Shipment[from_state_id]" />
+
+                                            <input type="hidden" class="form-control"
+                                                value="{{ $shipment->to_state_id }}" name="Shipment[to_state_id]" />
+
+                                            <input type="hidden" class="form-control"
+                                                value="{{ $shipment->from_area_id }}" name="Shipment[from_area_id]" />
+
+                                            <input type="hidden" class="form-control"
+                                                value="{{ $shipment->to_area_id }}" name="Shipment[to_area_id]" />
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">{{ translate('Close') }}</button>
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ translate('Save') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
             </form>
@@ -515,13 +660,86 @@
 
 @section('script')
 <script type="text/javascript">
+    function update_currency_status(el) {
+        if (el.checked) {
+            el.value = 1;
+            $('#show_shipment').show();
+
+        } else {
+            el.value = 0;
+            $('#show_shipment').hide();
+
+        }
+
+    }
+
+function get_estimation_cost() {
+        var total_weight = document.getElementById('kt_touchspin_4').value;
+        var select_packages = document.getElementsByClassName('package-type-select');
+        var select_weights = document.getElementsByClassName('weight-listener');
+        var select_insurances = document.getElementsByClassName('insurance-listener');
+        var select_values = document.getElementsByClassName('value-listener');
+
+        var from_country_id = document.getElementsByName("Shipment[from_country_id]")[0].value;
+        var to_country_id = document.getElementsByName("Shipment[to_country_id]")[0].value;
+        var from_state_id = document.getElementsByName("Shipment[from_state_id]")[0].value;
+        var to_state_id = document.getElementsByName("Shipment[to_state_id]")[0].value;
+        var from_area_id = document.getElementsByName("Shipment[from_area_id]")[0].value;
+        var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
+
+        var package_ids = [];
+        for (let index = 0; index < select_packages.length; index++) {
+            if (select_packages[index].value) {
+                package_ids[index] = new Object();
+                package_ids[index]["package_id"] = select_packages[index].value;
+                package_ids[index]["weight"] = select_weights[index].value;
+                package_ids[index]["shipment_insurance"] = select_insurances[index].value;
+                package_ids[index]["shipment_price"] = select_values[index].value;
+            } else {
+                AIZ.plugins.notify('danger', '{{ translate('Please select package type') }} ' + (index + 1));
+                return 0;
+            }
+        }
+        var request_data = {
+            _token: '{{ csrf_token() }}',
+            package_ids: package_ids,
+            total_weight: total_weight,
+            from_country_id: from_country_id,
+            to_country_id: to_country_id,
+            from_state_id: from_state_id,
+            to_state_id: to_state_id,
+            from_area_id: from_area_id,
+            to_area_id: to_area_id,
+        };
+        $.post('{{ route('admin.shipments.get-estimation-cost') }}', request_data, function(response) {
+            document.getElementById("shipping_cost").innerHTML = response.shipping_cost;
+            document.getElementsByName("Shipment[shipping_cost]")[0].value=response.original_shipping_cost;
+            document.getElementById("tax_duty").innerHTML = response.tax;
+            document.getElementsByName("Shipment[tax]")[0].value=response.original_tax;
+            document.getElementById("insurance").innerHTML = response.insurance;
+            document.getElementsByName("Shipment[insurance]")[0].value=response.original_insurance;
+            document.getElementById("return_cost").innerHTML = response.return_cost + ' ( Not Included )';
+            document.getElementsByName("Shipment[return_cost]")[0].value=response.original_return_cost;
+            document.getElementById("total_cost").innerHTML = response.total_cost;
+            document.getElementById('modal_open').click();
+            console.log(response);
+        });
+    }
+
+    function calcTotalWeight() {
+        console.log('sds');
+        var elements = $('.weight-listener');
+        var sumWeight = 0;
+        elements.map(function() {
+            sumWeight += parseInt($(this).val());
+            console.log(sumWeight);
+        }).get();
+        $('.total-weight').val(sumWeight);
+    }
+
     $('.select-client').select2({
         placeholder: "Select Client",
     });
-    // $('.select-client').change(function() {
-    //     var client_phone = $(this).find(':selected').data('phone');
-    //     document.getElementById("client_phone").value = client_phone;
-    // })
 
     $('.select-client').change(function() {
         // var client_phone = $(this).find(':selected').data('phone');
@@ -533,15 +751,18 @@
                 $('select[name ="Shipment[client_address]"]').append('<option value=""></option>');
                 for (let index = 0; index < data.length; index++) {
                     const element = data[index];
-                    $('select[name ="Shipment[client_address]"]').append('<option value="' + element[
-                            'name'] + '" data-id="' + element['id'] + '" data-phone="' + element[
-                            'phone'] +
-                        '" data-country_id="' + element['country_id'] + '" data-country_name="' +
-                        element['country']['name'] + '" data-state_id="' + element[
-                            'state_id'] + '" data-state_name="' + element[
-                            'state']['name'] + '" data-area_id="' + element['area_id'] +
-                        '" data-area_name="' + element['area']['name'] + '">' + element[
-                            'type'] + '</option>');
+                    selected="";
+                    if(element['name']=="{{ $shipment->client_address }}")
+                    {
+                        selected="selected";
+                    }
+                    $('select[name ="Shipment[client_address]"]').append('<option value="' + element['name'] + '" data-id="' + element['id'] + '" data-phone="' +
+                    element['phone'] + '" data-country_id="' + element['country_id'] + '" data-country_name="' +
+                    element['country']['name'] + '" data-state_id="' + element[
+                        'state_id'] + '" data-state_name="' + element[
+                        'state']['name'] + '" data-area_id="' + element['area_id'] +
+                    '" data-area_name="' + element['area']['name'] + '" '+selected+'>' + element[
+                        'type'] + '</option>');
                 }
 
 
@@ -607,11 +828,14 @@
         placeholder: "Select Branch",
     });
     $(document).ready(function() {
-
-
         @if (auth()->user()->user_type == 'customer')
-            $('.select-client').trigger('change');
+            $('.select-client').val("{{ auth()->user()->userClient->client->id }}").trigger('change');
         @endif
+
+
+        // @if (auth()->user()->user_type == 'customer')
+        //     $('.select-client').trigger('change');
+        // @endif
 
         var inputs = document.getElementsByTagName('input');
 
@@ -676,6 +900,35 @@
                     max: 1000000000,
                     stepinterval: 50,
                     maxboostedstep: 10000000,
+                });
+                $('.kt_touchspin_qty').TouchSpin({
+                    buttondown_class: 'btn btn-secondary',
+                    buttonup_class: 'btn btn-secondary',
+
+                    min: 1,
+                    max: 1000000000,
+                    stepinterval: 50,
+                    maxboostedstep: 10000000,
+                    initval: 1,
+                });
+                $('.package-type-select').select2({
+                    placeholder: "Package Type",
+                    language: {
+                        noResults: function() {
+                            @if ($user_type == 'admin' || in_array('1105', $staff_permission))
+                                return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
+                                        href="{{ route('admin.packages.create') }}?redirect=admin.shipments.create"
+                                        class="btn btn-primary">Manage
+                                        {{ translate('Packages') }}</a>
+                                </li>`;
+                            @else
+                                return ``;
+                            @endif
+                        },
+                    },
+                    escapeMarkup: function(markup) {
+                        return markup;
+                    },
                 });
             },
 
@@ -755,6 +1008,25 @@
             stepinterval: 50,
             maxboostedstep: 10000000,
         });
+        $('.package-type-select').select2({
+                placeholder: "Package Type",
+                language: {
+                    noResults: function() {
+                        @if ($user_type == 'admin' || in_array('1105', $staff_permission))
+                            return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
+                                    href="{{ route('admin.packages.create') }}?redirect=admin.shipments.create"
+                                    class="btn btn-primary">Manage
+                                    {{ translate('Packages') }}</a>
+                            </li>`;
+                        @else
+                            return ``;
+                        @endif
+                    },
+                },
+                escapeMarkup: function(markup) {
+                    return markup;
+                },
+            });
         FormValidation.formValidation(
             document.getElementById('kt_form_1'), {
                 fields: {
@@ -779,13 +1051,13 @@
                             }
                         }
                     },
-                    "Shipment[client_id]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
+                    // "Shipment[client_id]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
                     "Shipment[client_address]": {
                         validators: {
                             notEmpty: {

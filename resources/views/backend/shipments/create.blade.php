@@ -249,7 +249,6 @@
                                     <div class="form-group">
                                         <label>{{ translate('Client Address') }}:</label>
                                         <div class="form-group">
-                                            <label>{{ translate('Client/Sender') }}:</label>
                                             <select class="form-control select-address" name="Shipment[client_address]">
                                                 <option></option>
                                             </select>
@@ -387,20 +386,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label>{{ translate('Shipment Insurance') }}:</label>
-                                    <label class="checkbox">
-                                        <input type="checkbox" onchange="update_currency_status(this)"
-                                            placeholder="{{ translate('Include Shipment Insurance') }}"
-                                            class="form-control" id="" name="Shipment[shipment_insurance]" />
-                                        <span></span>
-                                    </label>
-                                </div>
-                                <div class="form-group col-md-6" id="show_shipment" style="display:none">
-                                    <label>{{ translate('Shipment Price') }}:</label>
-                                    <input type="text" placeholder="{{ translate('Shipment Insurance') }}"
-                                        class="form-control" id="" name="Shipment[shipment_price]" value="0" />
-                                </div>
                             </div>
 
                             <div class="row">
@@ -408,7 +393,7 @@
                                     <div class="form-group">
                                         <label>{{ translate('Attachments') }}:</label>
 
-                                        <div class="input-group " data-toggle="aizuploader" data-type="image"
+                                        <div class="input-group " data-toggle="aizuploader" data-type="all"
                                             data-multiple="true">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text bg-soft-secondary font-weight-medium">
@@ -505,6 +490,20 @@
                                                         placeholder="{{ translate('Height') }}" name="height"
                                                         value="1" />
 
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>{{ translate('Shipment Insurance') }}:</label>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" onchange="update_currency_status(this)"
+                                                            placeholder="{{ translate('Include Shipment Insurance') }}"
+                                                            class="form-control insurance-listener" id="" name="shipment_insurance" />
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>{{ translate('Package Value') }}:</label>
+                                                    <input type="text" placeholder="{{ translate('Package Value') }}"
+                                                        class="form-control value-listener" id="" name="shipment_price" value="0" />
                                                 </div>
                                             </div>
 
@@ -890,6 +889,8 @@
         var total_weight = document.getElementById('kt_touchspin_4').value;
         var select_packages = document.getElementsByClassName('package-type-select');
         var select_weights = document.getElementsByClassName('weight-listener');
+        var select_insurances = document.getElementsByClassName('insurance-listener');
+        var select_values = document.getElementsByClassName('value-listener');
 
         var from_country_id = document.getElementsByName("Shipment[from_country_id]")[0].value;
         var to_country_id = document.getElementsByName("Shipment[to_country_id]")[0].value;
@@ -898,15 +899,14 @@
         var from_area_id = document.getElementsByName("Shipment[from_area_id]")[0].value;
         var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
 
-        var shipment_price = document.getElementsByName("Shipment[shipment_price]")[0].value;
-        var shipment_insurance = document.getElementsByName("Shipment[shipment_insurance]")[0].value;
-
         var package_ids = [];
         for (let index = 0; index < select_packages.length; index++) {
             if (select_packages[index].value) {
                 package_ids[index] = new Object();
                 package_ids[index]["package_id"] = select_packages[index].value;
                 package_ids[index]["weight"] = select_weights[index].value;
+                package_ids[index]["shipment_insurance"] = select_insurances[index].value;
+                package_ids[index]["shipment_price"] = select_values[index].value;
             } else {
                 AIZ.plugins.notify('danger', '{{ translate('Please select package type') }} ' + (index + 1));
                 return 0;
@@ -922,8 +922,6 @@
             to_state_id: to_state_id,
             from_area_id: from_area_id,
             to_area_id: to_area_id,
-            shipment_price: shipment_price,
-            shipment_insurance: shipment_insurance,
         };
         $.post('{{ route('admin.shipments.get-estimation-cost') }}', request_data, function(response) {
             document.getElementById("shipping_cost").innerHTML = response.shipping_cost;
