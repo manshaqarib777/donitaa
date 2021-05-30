@@ -725,10 +725,6 @@ class ShipmentController extends Controller
                 {
                     $insurance_fee=(float) $covered_cost->insurance;
                 }
-                if($insurance_fee==0)
-                {
-                    $insurance_fee=(float) $covered_cost->extra_insurance;
-                }
                 if(@$pack['shipment_insurance']==1)
                 {
                     $insurance = $insurance + ($insurance_fee * (float) $pack['shipment_price'])/100;
@@ -825,10 +821,6 @@ class ShipmentController extends Controller
                 if($insurance_fee==0)
                 {
                     $insurance_fee=(float) $covered_cost->insurance;
-                }
-                if($insurance_fee==0)
-                {
-                    $insurance_fee=(float) $covered_cost->extra_insurance;
                 }
                 if(@$pack['shipment_insurance']==1)
                 {
