@@ -1000,7 +1000,7 @@ class ShipmentController extends Controller
         {
             foreach ($all_packages as $k => $package) {
                 if(isset($package['shipment_insurance']))
-                $all_packages[$k]['shipment_insurance'] = $package['shipment_insurance'][$k];
+                $all_packages[$k]['shipment_insurance'] = $package['shipment_insurance'][0];
                 
             }
 
@@ -1023,7 +1023,7 @@ class ShipmentController extends Controller
 
                     foreach ($request->Package as $k => $package) {
                         if(isset($package['shipment_insurance']))
-                        $package['shipment_insurance'] = $package['shipment_insurance'][$k];
+                        $package['shipment_insurance'] = $package['shipment_insurance'][0];
                         $package_shipment = new PackageShipment();
                         $package_shipment->fill($package);
                         $package_shipment->shipment_id = $model->id;
@@ -1194,7 +1194,7 @@ class ShipmentController extends Controller
 
                         foreach ($_POST['Package'] as $k=> $package) {
                             if(isset($package['shipment_insurance']))
-                            $package['shipment_insurance'] = $package['shipment_insurance'][$k];
+                                $package['shipment_insurance'] = $package['shipment_insurance'][0];
                             $package_shipment = new PackageShipment();
                             $package_shipment->fill($package);
                             $package_shipment->shipment_id = $model->id;

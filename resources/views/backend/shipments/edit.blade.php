@@ -134,7 +134,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>{{ translate('Client/Sender') }}:</label>
-                                            <select class="form-control kt-select2 select-client" id="select-how"
+                                            <select class="form-control kt-select2 select-client"
                                                 name="Shipment[client_id]">
 
                                                 @foreach ($clients as $client)
@@ -229,6 +229,11 @@
                                             @endforelse
                                         </select>
                                     </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>{{ translate('Total Package Value') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Package Value') }}"
+                                        class="form-control total-price" id="" name="Shipment[shipment_price]" value="{{$shipment->shipment_price}}" readonly />
                                 </div>
                             </div>
 
@@ -350,7 +355,7 @@
                                                     <div class="form-group col-md-4">
                                                         <label>{{ translate('Package Value') }}:</label>
                                                         <input type="text" placeholder="{{ translate('Package Value') }}"
-                                                            class="form-control value-listener" value="{{ $pack->shipment_price }}" name="shipment_price" />
+                                                            class="form-control value-listener" onchange="calcTotalPrice()" value="{{ $pack->shipment_price }}" name="shipment_price" />
                                                     </div>
                                                 </div>
 
@@ -736,10 +741,28 @@ function get_estimation_cost() {
         }).get();
         $('.total-weight').val(sumWeight);
     }
+    function calcTotalPrice() {
+        console.log('sds');
+        var elements = $('.value-listener');
+        var sumPrice = 0;
+        elements.map(function() {
+            sumPrice += parseInt($(this).val());
+            console.log(sumPrice);
+        }).get();
+        $('.total-price').val(sumPrice);
+    }
 
     $('.select-client').select2({
         placeholder: "Select Client",
-    });
+    })
+    @if ($auth_user->user_type == 'admin' || in_array('1005', $staff_permission))
+        .on('select2:open', () => {
+        $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%"
+                href="{{ route('admin.clients.create') }}?redirect=admin.shipments.create" class="btn btn-primary">+
+                {{ translate('Add New Client') }}</a>
+        </li>`);
+        });
+    @endif
 
     $('.select-client').change(function() {
         // var client_phone = $(this).find(':selected').data('phone');
@@ -806,30 +829,33 @@ function get_estimation_cost() {
 
     });
 
-    $('.select-address').select2({
-        placeholder: "Select Address",
-        language: {
-            noResults: function() {
-                @if ($auth_user->user_type == 'admin' || in_array('1105', $staff_permission))
-                    return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                            href="{{ route('admin.client-addresses.create') }}" class="btn btn-primary">Manage
-                            {{ translate('Client Addresses') }}</a>
-                    </li>`;
-                @else
-                    return ``;
-                @endif
-            },
-        },
-        escapeMarkup: function(markup) {
-            return markup;
-        },
-    });
+    // $('.select-address').select2({
+    //     placeholder: "Select Address",
+    //     language: {
+    //         noResults: function() {
+    //             @if ($auth_user->user_type == 'admin' || in_array('1105', $staff_permission))
+    //                 return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
+    //                         href="{{ route('admin.client-addresses.create') }}" class="btn btn-primary">Manage
+    //                         {{ translate('Client Addresses') }}</a>
+    //                 </li>`;
+    //             @else
+    //                 return ``;
+    //             @endif
+    //         },
+    //     },
+    //     escapeMarkup: function(markup) {
+    //         return markup;
+    //     },
+    // });
     $('.select-branch').select2({
         placeholder: "Select Branch",
     });
     $(document).ready(function() {
         @if (auth()->user()->user_type == 'customer')
             $('.select-client').val("{{ auth()->user()->userClient->client->id }}").trigger('change');
+        @else
+        $('.select-client').val("{{ $shipment->client_id }}").trigger('change');
+
         @endif
 
 
@@ -930,6 +956,10 @@ function get_estimation_cost() {
                         return markup;
                     },
                 });
+
+                $(".value-listener:last").val(0);
+                calcTotalWeight();
+                calcTotalPrice();
             },
 
             hide: function(deleteElement) {
@@ -939,6 +969,13 @@ function get_estimation_cost() {
 
         });
 
+        $('body').on('click', '.delete_item', function() {
+            $('.total-weight').val("{{ translate('Calculated...') }}");
+            setTimeout(function() {
+                calcTotalWeight();
+                calcTotalPrice();
+            }, 500);
+        });
         $('#kt_touchspin_2, #kt_touchspin_2_2').TouchSpin({
             buttondown_class: 'btn btn-secondary',
             buttonup_class: 'btn btn-secondary',

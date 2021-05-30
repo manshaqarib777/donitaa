@@ -386,6 +386,11 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group col-md-6">
+                                    <label>{{ translate('Total Package Value') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Package Value') }}"
+                                        class="form-control total-price" id="" name="Shipment[shipment_price]" value="0" readonly />
+                                </div>
                             </div>
 
                             <div class="row">
@@ -503,7 +508,7 @@
                                                 <div class="col-md-4">
                                                     <label>{{ translate('Package Value') }}:</label>
                                                     <input type="text" placeholder="{{ translate('Package Value') }}"
-                                                        class="form-control value-listener" id="" name="shipment_price" value="0" />
+                                                        class="form-control value-listener" name="shipment_price" onchange="calcTotalPrice()" value="0" />
                                                 </div>
                                             </div>
 
@@ -944,6 +949,16 @@
         }).get();
         $('.total-weight').val(sumWeight);
     }
+    function calcTotalPrice() {
+        console.log('sds');
+        var elements = $('.value-listener');
+        var sumPrice = 0;
+        elements.map(function() {
+            sumPrice += parseInt($(this).val());
+            console.log(sumPrice);
+        }).get();
+        $('.total-price').val(sumPrice);
+    }
     $(document).ready(function() {
 
         @if (auth()->user()->user_type == 'customer')
@@ -1144,7 +1159,9 @@
                     maxboostedstep: 10000000,
                     initval: 1,
                 });
+                $(".value-listener:last").val(0);
                 calcTotalWeight();
+                calcTotalPrice();
             },
 
             hide: function(deleteElement) {
@@ -1158,6 +1175,7 @@
             $('.total-weight').val("{{ translate('Calculated...') }}");
             setTimeout(function() {
                 calcTotalWeight();
+                calcTotalPrice();
             }, 500);
         });
         $('#kt_touchspin_2, #kt_touchspin_2_2').TouchSpin({

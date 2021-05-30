@@ -169,6 +169,10 @@ $d = new DNS1D();
                         <span class="mb-4 text-dark font-weight-bold">{{translate('Max Delivery Days')}}</span>
                         <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->delivery_time}}</span>
                     </div>
+                    <div class="d-flex flex-column flex-root">
+                        <span class="mb-4 text-dark font-weight-bold">{{translate('Total Package Value')}}</span>
+                        <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price($shipment->shipment_price))}}</span>
+                    </div>
                     @if($shipment->captain_id != null)
                         <div class="d-flex flex-column flex-root">
                             <span class="mb-4 text-dark font-weight-bold">{{translate('Captain')}}</span>
