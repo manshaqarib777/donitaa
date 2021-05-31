@@ -213,7 +213,7 @@
                                     <th>{{translate('Package Cost')}}</th>
                                     <th>{{translate('Insurance Cost')}}</th>
                                     <th>{{translate('Return Cost')}}</th>
-                                    <th>{{translate('Use On Checkout')}}</th>
+                                    <th>{{translate('Fixed Price')}}</th>
 
                                 </tr>
                             </thead>
