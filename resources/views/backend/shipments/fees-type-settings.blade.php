@@ -235,7 +235,7 @@
                                         </td>
                                         <td>
                                             <label class="checkbox">
-                                                <input type="checkbox" name="package_default_cost[]" class="form-control" id="" {{($package->default_cost==1)?'checked':''}} />
+                                                <input type="checkbox" name="package_default_cost[{{$key}}]" class="form-control" id="" {{($package->default_cost==1)?'checked':''}} />
                                                 <span></span>
                                             </label>
                                         </td>
