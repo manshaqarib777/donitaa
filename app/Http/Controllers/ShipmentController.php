@@ -1283,7 +1283,9 @@ class ShipmentController extends Controller
         $counter = 0;
         $from_country = $request->from_country_h[$counter];
         $to_country = $request->to_country_h[$counter];
+        if(isset($request->from_state[$counter]))
         $from_state = $request->from_state[$counter];
+        if(isset($request->to_state[$counter]))
         $to_state = $request->to_state[$counter];
         $shipping_cost = $request->shipping_cost[$counter];
         $tax = $request->tax[$counter];
