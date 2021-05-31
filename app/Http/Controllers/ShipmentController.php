@@ -1269,6 +1269,8 @@ class ShipmentController extends Controller
 
     public function post_config_costs(Request $request)
     {
+
+        //dd($request->all());
         //dd($request->input('extra_default_cost'));
         if (env('DEMO_MODE') == 'On') {
             flash(translate('This action is disabled in demo mode'))->error();
@@ -1317,7 +1319,7 @@ class ShipmentController extends Controller
         $newCost->save();
         $counter = 1;
         foreach ($request->from_country_h as $cost_data) {
-            if ($counter < (count($request->from_country_h) - 1)) {
+            if ($counter <= (count($request->from_country_h) - 1)) {
                 $from_country = $request->from_country_h[$counter];
                 $to_country = $request->to_country_h[$counter];
          
