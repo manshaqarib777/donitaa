@@ -1,4 +1,0 @@
-title: Orders
-modelClass: spot\Container\Models\OrderContainer
-toolbar:
-    buttons: reorder_toolbar
