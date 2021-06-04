@@ -22,16 +22,13 @@ class Branch extends Model
             if(isset(auth()->user()->staff->role) && (auth()->user()->staff->role->id  == '2' || auth()->user()->staff->role->name  == 'Supervisor'))
             {
                 $builder->whereHas('userBranch.user', function($query) {
-                    return $query->where('users.country_id', auth()->user()->staff->country_id)
-                    ->where('users.state_id', auth()->user()->staff->state_id);
+                    return $query->where('users.country_id', auth()->user()->staff->country_id);
                  });
             }
             if(isset(auth()->user()->staff->role) && (auth()->user()->staff->role->id  == '4' || auth()->user()->staff->role->name  == 'Agent'))
             {
                 $builder->whereHas('userBranch.user', function($query) {
-                    return $query->where('users.country_id', auth()->user()->staff->country_id)
-                    ->where('users.state_id', auth()->user()->staff->state_id)
-                    ->where('users.area_id', auth()->user()->staff->area_id);
+                    return $query->where('users.country_id', auth()->user()->staff->country_id);
                  });
             }
                 

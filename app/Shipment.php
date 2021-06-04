@@ -70,26 +70,20 @@ class Shipment extends Model
             {
                 $builder
                 ->where(function($query) {
-                    $query->where('from_country_id', auth()->user()->country_id)
-                    ->where('from_state_id', auth()->user()->state_id);
+                    $query->where('from_country_id', auth()->user()->country_id);
                 })
                 ->orWhere(function($query) {
-                    $query->where('to_country_id', auth()->user()->country_id)
-                    ->where('to_state_id', auth()->user()->state_id);
+                    $query->where('to_country_id', auth()->user()->country_id);
                 });
             }
             if(isset(auth()->user()->staff->role) && (auth()->user()->staff->role->id  == '4' || auth()->user()->staff->role->name  == 'Agent'))
             {
                 $builder
                 ->where(function($query) {
-                    $query->where('from_country_id', auth()->user()->country_id)
-                    ->where('from_state_id', auth()->user()->state_id)
-                    ->where('from_area_id', auth()->user()->area_id);
+                    $query->where('from_country_id', auth()->user()->country_id);
                 })
                 ->orWhere(function($query) {
-                    $query->where('to_country_id', auth()->user()->country_id)
-                    ->where('to_state_id', auth()->user()->state_id)
-                    ->where('to_area_id', auth()->user()->area_id);
+                    $query->where('to_country_id', auth()->user()->country_id);
                 });
             }
             

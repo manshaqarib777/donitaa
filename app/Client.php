@@ -21,17 +21,14 @@ class Client extends Model
             if(isset(auth()->user()->staff->role) && (auth()->user()->staff->role->id  == '2' || auth()->user()->staff->role->name  == 'Supervisor'))
             {
                 $builder->whereHas('userClient.user', function($query) {
-                    return $query->where('users.country_id', auth()->user()->country_id)
-                    ->where('users.state_id', auth()->user()->state_id);
+                    return $query->where('users.country_id', auth()->user()->country_id);
                  });
             }
 
             if(isset(auth()->user()->staff->role) && (auth()->user()->staff->role->id  == '4' || auth()->user()->staff->role->name  == 'Agent'))
             {
                 $builder->whereHas('userClient.user', function($query) {
-                    return $query->where('users.country_id', auth()->user()->country_id)
-                    ->where('users.state_id', auth()->user()->state_id)
-                    ->where('users.area_id', auth()->user()->area_id);
+                    return $query->where('users.country_id', auth()->user()->country_id);
                  });
             }
                 
