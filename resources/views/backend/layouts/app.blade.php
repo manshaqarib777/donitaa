@@ -195,7 +195,7 @@
 						<div class="order-2 text-dark order-md-1">
 							<span class="mr-1 text-muted font-weight-bold">{{translate('Copyright')}} &copy; {{date('Y')}}</span>
 							<a href="http://keenthemes.com/metronic" target="_blank"
-								class="text-dark-75 text-hover-primary">{{ get_setting('site_name')  }}</a>
+								class="text-dark-75 text-hover-primary">{{ get_setting('site_name')  }}</a> <span class="mr-2 text-muted font-weight-bold">{{translate('v')}}{{ get_setting('current_version1') }}</span>
 						</div>
 
 						<!--end::Copyright-->

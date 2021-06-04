@@ -49,6 +49,13 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-sm-3 col-from-label">{{translate('Current Version')}}</label>
+                            <div class="col-sm-9">
+                                <input type="hidden" name="types[]" value="current_version1">
+                                <input type="text" name="current_version1"placeholder="{{translate('Current Version')}}" class="form-control" value="{{ get_setting('current_version1') }}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-sm-3 col-from-label">{{translate('System Logo - White')}}</label>
                             <div class="col-sm-9">
                                 <div class="input-group" data-toggle="aizuploader" data-type="image">
