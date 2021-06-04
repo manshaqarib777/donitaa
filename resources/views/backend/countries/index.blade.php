@@ -16,8 +16,17 @@
 </div>
 
 <div class="card">
-    <div class="card-header">
-        <h5 class="mb-0 h6">{{translate('Countries')}}</h5>
+    <div class="card-header row gutters-5">
+        <div class="text-center col text-md-left">
+            <h5 class="mb-md-0 h6">{{ translate('All Countries') }}</h5>
+        </div>
+        <div class="col-md-4">
+            <form class="" id="sort_countries" action="" method="GET">
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" id="search" name="search"@isset($sort_search) value="{{ $sort_search }}" @endisset placeholder="{{ translate('Type name & Enter') }}">
+                </div>
+            </form>
+        </div>
     </div>
     <div class="card-body">
         <table class="table aiz-table mb-0">
@@ -25,6 +34,7 @@
                 <tr>
                     <th  width="3%">#</th>
                     <th >{{translate('Name')}}</th>
+                    <th >{{translate('Code')}}</th>
                     <th >{{translate('Currency')}}</th>
                     <th  width="10%" class="text-center">{{translate('Options')}}</th>
                 </tr>
@@ -35,6 +45,7 @@
                         <tr>
                             <td  width="3%">{{ ($key+1) + ($countries->currentPage() - 1)*$countries->perPage() }}</td>
                             <td width="20%">{{$country->name}}</td>
+                            <td width="20%">{{$country->iso2}}</td>
                             <td width="20%">{{ in_array($country->currency,$currencies)?$country->currency:''}}</td>
 
                             <td class="text-center">

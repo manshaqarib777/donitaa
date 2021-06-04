@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Country;
 use App\Currency;
 use DB;
+use Illuminate\Validation\Rule;
+
 
 class CountryController extends Controller
 {
@@ -20,11 +22,17 @@ class CountryController extends Controller
         return view('backend.setup_configurations.countries.index', compact('countries'));
     }
 
-    public function index_()
+    public function index_(Request $request)
     {
-        $countries = Country::paginate(15);
+        $sort_search =null;
+        $countries = Country::orderBy('created_at', 'desc');
+        if ($request->has('search')){
+            $sort_search = $request->search;
+            $countries = $countries->where('name', 'like', '%'.$sort_search.'%');
+        }
+        $countries = $countries->paginate(10);
         $currencies = Currency::pluck('code')->toArray();
-        return view('backend.countries.index', compact('countries','currencies'));
+        return view('backend.countries.index', compact('countries','currencies','sort_search'));
     }
 
     /**
@@ -52,6 +60,7 @@ class CountryController extends Controller
         }
         $request->validate([
             'name' => 'required|unique:countries,name',
+            'code' => 'required|max:2',
             'currency' => 'required',
         ]);
         try{	
@@ -59,6 +68,7 @@ class CountryController extends Controller
 			$model = new Country();
 			$model->name = $request->name;
 			$model->currency = $request->currency;
+			$model->iso2 = $request->code;
 	      
 			if (!$model->save()){
 				throw new \Exception();
@@ -126,6 +136,14 @@ class CountryController extends Controller
      */
     public function update(Request $request, $Country)
     {
+        $request->validate([
+            'name' => [
+                        'required',
+                        Rule::unique('countries')->ignore($Country, 'id')
+                    ],
+            'code' => 'required|max:2',
+            'currency' => 'required',
+        ]);
         if (env('DEMO_MODE') == 'On') {
             flash(translate('This action is disabled in demo mode'))->error();
             return back();
@@ -135,6 +153,8 @@ class CountryController extends Controller
 			$model = Country::find($Country);
 			$model->name = $request->name;
 			$model->currency = $request->currency;
+			$model->iso2 = $request->code;
+
             			
 			if (!$model->save()){
 				throw new \Exception();

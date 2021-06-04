@@ -243,7 +243,7 @@
 
                         @if($status == "all") <td>{{$shipment->getStatus()}}</td> @endif
                         <td>{{$shipment->type}}</td>
-                        @if( in_array($user_type ,['admin','customer']) || in_array('1100', $staff_permission) || in_array('1006', $staff_permission) )
+                        @if( in_array($user_type ,['admin']) || in_array('1100', $staff_permission) || in_array('1006', $staff_permission) )
                             <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{@$shipment->branch->name}}</a></td>
                         @else
                             <td>{{@$shipment->branch->name}}</td>
@@ -264,10 +264,10 @@
                         </td>
                         @if($status != "all")
                             <td class="text-center">
-                                <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.print', ['shipment'=>$shipment->id, 'invoice'])}}" title="{{ translate('Show') }}">
+                                <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.print', ['shipment'=>$shipment->id, 'invoice'])}}" title="{{ translate('Print') }}">
                                     <i class="las la-print"></i>
                                 </a>
-                                <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.show', $shipment->id)}}" title="{{ translate('Show') }}">
+                                <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.shipments.show', $shipment->id)}}" title="{{ translate('View') }}">
                                     <i class="las la-eye"></i>
                                 </a>
 

@@ -18,6 +18,10 @@
                         <input type="text" id="name" class="form-control" value="{{ $country->name }}"
                             placeholder="{{ translate('Here') }}" name="name">
                     </div>
+                    <div class="form-group">
+                        <label>{{translate('Area Code')}}:</label>
+                        <input type="text" class="form-control" value="{{$country->iso2}}" name="code">
+                    </div>
 
                     <div class="form-group">
                         <label for="currency">{{ translate('Country') }}:</label>
@@ -48,6 +52,13 @@
                 document.getElementById('kt_form_1'), {
                     fields: {
                         "name": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "code": {
                             validators: {
                                 notEmpty: {
                                     message: '{{ translate('This is required!') }}'

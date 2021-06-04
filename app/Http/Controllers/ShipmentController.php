@@ -175,7 +175,19 @@ class ShipmentController extends Controller
             }
             $code   =   substr($code, 0, -strlen($model->id));
             $model->code = $code.$model->id;
-            $model->code = ShipmentSetting::getVal('mission_prefix').$code.$model->id;
+
+            $client=Client::with('userClient.user.country','userClient.user.area')->find($request->Mission['client_id']);    
+            if(isset($client->userClient->user->country) && isset($client->userClient->user->area))
+            {
+                $country_code= $client->userClient->user->country->iso2;
+                $area_code= $client->userClient->user->area->code;
+                $model->code = $country_code.$area_code.$code.$model->id;
+            }
+            else
+            {
+                $model->code = ShipmentSetting::getVal('mission_prefix').$code.$model->id;
+            }
+            
 
             if (!$model->save()) {
                 throw new \Exception();
@@ -232,7 +244,20 @@ class ShipmentController extends Controller
                 $code .= '0';
             }
             $code   =   substr($code, 0, -strlen($model->id));
-            $model->code = ShipmentSetting::getVal('mission_prefix').$code.$model->id;
+            
+            $client=Client::with('userClient.user.country','userClient.user.area')->find($request->Mission['client_id']);    
+            if(isset($client->userClient->user->country) && isset($client->userClient->user->area))
+            {
+                $country_code= $client->userClient->user->country->iso2;
+                $area_code= $client->userClient->user->area->code;
+                $model->code = $country_code.$area_code.$code.$model->id;
+            }
+            else
+            {
+                $model->code = ShipmentSetting::getVal('mission_prefix').$code.$model->id;
+            }
+            
+            
             if (!$model->save()) {
                 throw new \Exception();
             }
@@ -524,6 +549,7 @@ class ShipmentController extends Controller
         $request->validate([
             'total_weight' => 'required|integer|min:0',
         ]);
+        //dd($request->package_ids);
         $costs = $this->applyShipmentCost($request,$request->package_ids);
         
         $formated_cost["return_cost"] = format_price(convert_price($costs["return_cost"]));
@@ -531,6 +557,11 @@ class ShipmentController extends Controller
         $formated_cost["tax"] = format_price(convert_price($costs["tax"]));
         $formated_cost["insurance"] = format_price(convert_price($costs["insurance"]));
         $formated_cost["total_cost"] = format_price(convert_price($costs["shipping_cost"] + $costs["tax"] + $costs["insurance"]));
+
+        $formated_cost["original_return_cost"] = $costs["return_cost"];
+        $formated_cost["original_shipping_cost"] = $costs["shipping_cost"];
+        $formated_cost["original_tax"] = $costs["tax"];
+        $formated_cost["original_insurance"] = $costs["insurance"];
         return $formated_cost;
     }
 
@@ -641,6 +672,7 @@ class ShipmentController extends Controller
 
     public function applyShipmentCost($request,$packages)
     {
+        //dd($packages);
         $from_country_id = $request['from_country_id'];
         $to_country_id = $request['to_country_id'];
 
@@ -671,6 +703,7 @@ class ShipmentController extends Controller
         // } else {
         //     $covered_cost = $covered_cost->where('from_area_id', 0)->where('to_area_id', 0);
         // }
+        //dd($packages);
 
         $covered_cost = $covered_cost->first();
         //dd($covered_cost);
@@ -687,7 +720,15 @@ class ShipmentController extends Controller
                 $package = Package::find($pack['package_id']);
                 $package_extras += $package->cost;
                 $return_fee += $package->return_fee;
-                $insurance_fee += $package->insurance_fee;
+                $insurance_fee = $package->insurance_fee;
+                if($insurance_fee==0)
+                {
+                    $insurance_fee=(float) $covered_cost->insurance;
+                }
+                if(@$pack['shipment_insurance']==1)
+                {
+                    $insurance = $insurance + ($insurance_fee * (float) $pack['shipment_price'])/100;
+                }    
 
                 if($package->default_cost)
                 {
@@ -742,14 +783,9 @@ class ShipmentController extends Controller
                 {
                     $return_fee=(float) $covered_cost->extra_return_cost;
                 }
-                if($insurance_fee==0)
-                {
-                    $insurance_fee=(float) $covered_cost->extra_insurance;
-                }
 
                 $return_cost =  ( $return_fee * (float) ($weight));
-                if(@$request['shipment_insurance']==1)
-                $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
+                
             }
             else
             {
@@ -757,13 +793,7 @@ class ShipmentController extends Controller
                 {
                     $return_fee=(float) $covered_cost->return_cost;
                 }
-                if($insurance_fee==0)
-                {
-                    $insurance_fee=(float) $covered_cost->insurance;
-                }
                 $return_cost = (float) $return_fee;
-                if(@$request['shipment_insurance']==1)
-                $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
 
             }
 
@@ -787,7 +817,15 @@ class ShipmentController extends Controller
                 $package = Package::find($pack['package_id']);
                 $package_extras += $package->cost;
                 $return_fee += $package->return_fee;
-                $insurance_fee += $package->insurance_fee;
+                $insurance_fee = $package->insurance_fee;
+                if($insurance_fee==0)
+                {
+                    $insurance_fee=(float) $covered_cost->insurance;
+                }
+                if(@$pack['shipment_insurance']==1)
+                {
+                    $insurance = $insurance + ($insurance_fee * (float) $pack['shipment_price'])/100;
+                }
 
 
                 if($package->default_cost)
@@ -841,26 +879,14 @@ class ShipmentController extends Controller
                 {
                     $return_fee=ShipmentSetting::getCost('def_return_cost_gram');
                 }
-                if($insurance_fee==0)
-                {
-                    $insurance_fee=ShipmentSetting::getCost('def_insurance_gram');
-                }
                 $return_cost = ( $return_fee * (float)($weight));
-                if(@$request['shipment_insurance']==1)
-                $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
-
+            
             }else{
                 if($return_fee==0)
                 {
                     $return_fee=ShipmentSetting::getCost('def_return_cost');
                 }
-                if($insurance_fee==0)
-                {
-                    $insurance_fee=ShipmentSetting::getCost('def_insurance');
-                }
                 $return_cost = $return_fee;
-                if(@$request['shipment_insurance']==1)
-                $insurance = ($insurance_fee * (float) $request['shipment_price'])/100;
 
             }
 
@@ -924,7 +950,8 @@ class ShipmentController extends Controller
 
     private function storeShipment($request)
     {
-        //dd($request->all());
+        //dd($client);
+        
         $model = new Shipment();
 
 
@@ -944,16 +971,35 @@ class ShipmentController extends Controller
         }
         $code   =   substr($code, 0, -strlen($model->id));
         $model->barcode = $code.$model->id;
-        $model->code = ShipmentSetting::getVal('shipment_prefix').$code.$model->id;
-
-        if((Auth::user()->user_type ?? "") == 'customer'){
-            $model->client_id = Auth::user()->userClient->id;
+        $client=Client::with('userClient.user.country','userClient.user.area')->find($request->Shipment['client_id']);    
+        if(isset($client->userClient->user->country) && isset($client->userClient->user->area))
+        {
+            $country_code= $client->userClient->user->country->iso2;
+            $area_code= $client->userClient->user->area->code;
+            $model->code = $country_code.$area_code.$code.$model->id;
         }
+        else
+        {
+            $model->code = ShipmentSetting::getVal('shipment_prefix').$code.$model->id;
+        }
+   
+
         if (!$model->save()) {
             throw new \Exception();
         }
-        //dd($request->Shipment);
-        $costs = $this->applyShipmentCost($request->Shipment,$request->Package);
+        $all_packages=$request->Package;
+        if(isset($all_packages))
+        {
+            foreach ($all_packages as $k => $package) {
+                if(isset($package['shipment_insurance']))
+                $all_packages[$k]['shipment_insurance'] = $package['shipment_insurance'][0];
+                
+            }
+
+        }
+        //dd($all_packages);
+        $costs = $this->applyShipmentCost($request->Shipment,$all_packages);
+        //dd($costs);
 
         $model->fill($costs);
         if (!$model->save()) {
@@ -967,7 +1013,9 @@ class ShipmentController extends Controller
 
                 if (isset($request->Package[$counter]['package_id'])) {
 
-                    foreach ($request->Package as $package) {
+                    foreach ($request->Package as $k => $package) {
+                        if(isset($package['shipment_insurance']))
+                        $package['shipment_insurance'] = $package['shipment_insurance'][0];
                         $package_shipment = new PackageShipment();
                         $package_shipment->fill($package);
                         $package_shipment->shipment_id = $model->id;
@@ -1116,6 +1164,7 @@ class ShipmentController extends Controller
     {
         try {
             DB::beginTransaction();
+            //dd($request->all());
             $model = Shipment::find($shipment);
 
 
@@ -1135,7 +1184,9 @@ class ShipmentController extends Controller
 
                     if (isset($_POST['Package'][$counter]['package_id'])) {
 
-                        foreach ($_POST['Package'] as $package) {
+                        foreach ($_POST['Package'] as $k=> $package) {
+                            if(isset($package['shipment_insurance']))
+                                $package['shipment_insurance'] = $package['shipment_insurance'][0];
                             $package_shipment = new PackageShipment();
                             $package_shipment->fill($package);
                             $package_shipment->shipment_id = $model->id;
@@ -1218,6 +1269,8 @@ class ShipmentController extends Controller
 
     public function post_config_costs(Request $request)
     {
+
+        //dd($request->all());
         //dd($request->input('extra_default_cost'));
         if (env('DEMO_MODE') == 'On') {
             flash(translate('This action is disabled in demo mode'))->error();
@@ -1230,7 +1283,9 @@ class ShipmentController extends Controller
         $counter = 0;
         $from_country = $request->from_country_h[$counter];
         $to_country = $request->to_country_h[$counter];
+        if(isset($request->from_state[$counter]))
         $from_state = $request->from_state[$counter];
+        if(isset($request->to_state[$counter]))
         $to_state = $request->to_state[$counter];
         $shipping_cost = $request->shipping_cost[$counter];
         $tax = $request->tax[$counter];
@@ -1266,7 +1321,7 @@ class ShipmentController extends Controller
         $newCost->save();
         $counter = 1;
         foreach ($request->from_country_h as $cost_data) {
-            if ($counter < (count($request->from_country_h) - 1)) {
+            if ($counter <= (count($request->from_country_h) - 1)) {
                 $from_country = $request->from_country_h[$counter];
                 $to_country = $request->to_country_h[$counter];
          

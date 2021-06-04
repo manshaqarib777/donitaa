@@ -11,6 +11,7 @@
         "arrilot/laravel-widgets": "^3.13",
         "barryvdh/laravel-dompdf": "^0.8.2",
         "cinetpay/cinetpay-php": "^1.9",
+        "doctrine/dbal": "^2.0",
         "fideloper/proxy": "^4.0",
         "gabrielbull/ups-api": "^0.8.0",
         "guzzlehttp/guzzle": "^6.5",

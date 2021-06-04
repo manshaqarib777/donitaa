@@ -1,4 +1,0 @@
-title: Customers
-modelClass: spot\Container\Models\Customer
-toolbar:
-    buttons: reorder_toolbar

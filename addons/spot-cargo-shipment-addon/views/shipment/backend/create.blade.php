@@ -180,7 +180,6 @@
                                 <div class="form-group">
                                     <label>{{translate('Client Address')}}:</label>
                                     <div class="form-group client-select">
-                                        <label>{{translate('Client/Sender')}}:</label>
                                         <select class="form-control kt-select2 select-address" name="Shipment[client_address]">
                                             <option></option>    
                                         </select>    
@@ -311,7 +310,7 @@
                                 <div class="form-group">
                                     <label>{{translate('Attachments')}}:</label>
         
-                                    <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
+                                    <div class="input-group " data-toggle="aizuploader" data-type="all" data-multiple="true">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
                                         </div>

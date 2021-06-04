@@ -115,7 +115,7 @@ $user_type = Auth::user()->user_type;
                         <li class="menu-item {{ areActiveRoutes(['admin.client-addresses.create'])}}" aria-haspopup="true">
                             <a href="{{ route('admin.client-addresses.create') }}" class="menu-link">
                                     <i class="menu-bullet menu-icon flaticon2-plus" style="font-size: 10px;"></i>
-                                <span class="menu-text">{{translate('Add Shipment')}}</span>
+                                <span class="menu-text">{{translate('Add Client Address')}}</span>
                             </a>
                         </li>
                         <li class="menu-item {{ areActiveRoutes(['admin.client-addresses.index','admin.client-addresses.show',])}}" aria-haspopup="true">
@@ -123,7 +123,7 @@ $user_type = Auth::user()->user_type;
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
-                                <span class="menu-text">{{translate('All Client Adresses')}}</span>
+                                <span class="menu-text">{{translate('All Client Addresses')}}</span>
 
                             </a>
                         </li>
@@ -251,7 +251,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
-                                <span class="menu-text">{{translate('Add Client Addresses')}}</span>
+                                <span class="menu-text">{{translate('Add Client Address')}}</span>
 
                             </a>
                         </li>

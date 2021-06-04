@@ -18,6 +18,10 @@
                         <input type="text" id="name" class="form-control" placeholder="{{ translate('Country Name') }}"
                             name="name">
                     </div>
+                    <div class="form-group">
+                        <label>{{translate('Area Code')}}:</label>
+                        <input type="text" class="form-control" name="code">
+                    </div>
 
 
 
@@ -55,6 +59,13 @@
                 document.getElementById('kt_form_1'), {
                     fields: {
                         "name": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "code": {
                             validators: {
                                 notEmpty: {
                                     message: '{{ translate('This is required!') }}'
