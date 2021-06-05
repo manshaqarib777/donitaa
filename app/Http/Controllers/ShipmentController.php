@@ -719,7 +719,7 @@ class ShipmentController extends Controller
             foreach ($packages as $pack) {
                 $package = Package::find($pack['package_id']);
                 $package_extras += $package->cost;
-                $return_fee += $package->return_fee;
+                $return_fee = $package->return_fee;
                 $insurance_fee = $package->insurance_fee;
                 if($insurance_fee==0)
                 {
@@ -757,21 +757,20 @@ class ShipmentController extends Controller
                     if($pack['weight'] > 1){
 
                                 
-                        $shipping_cost_for_extra = (float) ($covered_cost->extra_shipping_cost * ($pack['weight']));
+                        $shipping_cost_for_extra = (float) ($covered_cost->extra_shipping_cost * ($pack['weight'])) + (float)$package->cost;
                         if(!$covered_cost->extra_default_cost)
                         {
                             $tax = $tax + (($covered_cost->extra_tax * $shipping_cost_for_extra) / 100 );
-                        }
-        
-                        $shipping_cost = $shipping_cost + $shipping_cost_for_extra + (float)$package->cost;
+                        }        
+                        $shipping_cost = $shipping_cost + $shipping_cost_for_extra;
         
                     }else{
-                        $shipping_cost = $shipping_cost + (float) $covered_cost->shipping_cost;
+                        $shipping_cost_for = (float) $covered_cost->shipping_cost + (float)$package->cost;
                         if(!$covered_cost->default_cost)
                         {
-                            $tax = $tax + (($covered_cost->tax * $shipping_cost) / 100 );
+                            $tax = $tax + (($covered_cost->tax * $shipping_cost_for) / 100 );
                         }
-                        $shipping_cost = $shipping_cost+ (float)$package->cost;
+                        $shipping_cost = $shipping_cost + $shipping_cost_for ;
                     }
                 }
 
@@ -816,7 +815,7 @@ class ShipmentController extends Controller
             foreach ($packages as $key => $pack) {
                 $package = Package::find($pack['package_id']);
                 $package_extras += $package->cost;
-                $return_fee += $package->return_fee;
+                $return_fee = $package->return_fee;
                 $insurance_fee = $package->insurance_fee;
                 if($insurance_fee==0)
                 {
@@ -854,21 +853,21 @@ class ShipmentController extends Controller
                     if($pack['weight'] > 1){
 
                         
-                        $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($pack['weight']));
+                        $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($pack['weight'])) + (float) $package->cost;
                         if(!ShipmentSetting::getCost('extra_default_cost'))
                         {
                             $tax = $tax + ((ShipmentSetting::getCost('def_tax_gram') * $shipping_cost_for_extra) / 100 );
-                        }   
-        
-                        $shipping_cost = $shipping_cost +  $shipping_cost_for_extra + (float) $package->cost;        
+                        }          
+                        $shipping_cost = $shipping_cost +  $shipping_cost_for_extra;        
 
                     }else{
+                        $shipping_cost_for = ShipmentSetting::getCost('def_shipping_cost') + (float) $package->cost;
 
                         if(!ShipmentSetting::getCost('default_cost'))
                         {    
-                            $tax = $tax + ((ShipmentSetting::getCost('def_tax') * ShipmentSetting::getCost('def_shipping_cost')) / 100 );
+                            $tax = $tax + ((ShipmentSetting::getCost('def_tax') * $shipping_cost_for) / 100 );
                         }
-                        $shipping_cost = $shipping_cost + ShipmentSetting::getCost('def_shipping_cost') + (float) $package->cost;
+                        $shipping_cost = $shipping_cost + $shipping_cost_for;
                     }
                 }
             }
