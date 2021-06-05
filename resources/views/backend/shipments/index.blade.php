@@ -368,8 +368,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Area')}}:</label>
-                                    <input type="hidden" name="Mission[area]" class="form-control" id="delivery_state_hidden" />
-                                    <input style="background:#f3f6f9;color:#3f4254;" type="text" class="form-control" id="delivery_area_hidden" disabled />
+                                    <input type="hidden" name="Mission[area]" class="form-control" id="delivery_area_hidden" />
+                                    <input style="background:#f3f6f9;color:#3f4254;" type="text" class="form-control" id="delivery_area" disabled />
                                 </div>
                             </div>
 
