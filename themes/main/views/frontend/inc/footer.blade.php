@@ -1,4 +1,4 @@
-<!--Site Footer Here-->
+{{-- <!--Site Footer Here-->
 <footer id="site-footer" class=" bgprimary padding_top">
     <div class="container">
         <div class="row">
@@ -7,7 +7,129 @@
                 if($item_number == 1){
                     $style = "col-lg-12";
                 }elseif ($item_number == 2) {
-                    $style = "col-lg-6";
+                    $style = "col-lg-6"<!-- header -->
+<header class="site-header" id="header">
+    <nav class="navbar navbar-expand-lg transparent-bg @if(setting()->get('main_header_stikcy_'.app()->getLocale())) static-nav @endif">
+        <div class="container">
+            <a class="navbar-brand" href="{{url('/')}}">
+                <img src="@if(setting()->get('main_header_logo_'.app()->getLocale()) && setting()->get('main_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('main_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo-transparent.svg')}} @endif" alt="logo" class="logo-default">
+                <img src="@if(setting()->get('sticky_header_logo_'.app()->getLocale()) && setting()->get('sticky_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('sticky_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo.svg')}} @endif" alt="logo" class="logo-scrolled">
+            </a>
+            <div class="collapse navbar-collapse">
+                @if(isset($navbar_menu))
+                    <ul class="navbar-nav">
+                        @forelse ($navbar_menu->items as $item)
+                            @include('frontend.inc.nav_links',['item' => $item])
+                        @empty
+                        @endforelse
+                        @if(\App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->first())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.shipments.track') }}">{{translate('Tracking')}}</a>
+                            </li>
+                        @endif
+                    </ul>
+                @endif
+                @if(null !==setting()->get('main_header_language_'.app()->getLocale()) && setting()->get('main_header_language_'.app()->getLocale()))
+                    <style>
+                        .drop-container:hover #lang-change .dropdown-menu{
+                            transform: inherit !important;
+                            visibility: visible !important;
+                        }
+                        .drop-container #lang-change .dropdown-menu .flag-img{
+                            max-width: 15px;
+                        }
+                    </style>
+                    <div class="drop-container">
+                        <div class="dropdown" id="lang-change">
+
+                            @php
+                                if(Session::has('locale')){
+                                    $locale = Session::get('locale', Config::get('app.locale'));
+                                }
+                                else{
+                                    $locale = env('DEFAULT_LANGUAGE');
+                                }
+                            @endphp
+
+                            <a class="btn btn-countries dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="img-holder">
+                                <img class="flag-img" src="{{ static_asset('assets/img/flags/'.$locale.'.svg') }}" alt="flag-img">
+                                </span>
+                            </a>
+
+                            <div  
+                            @if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
+                                class="dropdown-menu dropdown-menu-left"
+                            @else
+                                class="dropdown-menu dropdown-menu-right"
+                            @endif
+                            >
+                                @foreach (\App\Language::all() as $key => $language)
+                                    <a class="dropdown-item navi-link " href="javascript:void(0)" data-flag="{{ $language->code }}">
+                                        <span class="mr-2 img-holder">
+                                            <img class="flag-img" src="{{ static_asset('assets/img/flags/'.$language->code.'.svg') }}" alt="flag-img">
+                                        </span>
+                                        {{ $language->name }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </div>
+        @if(isset($navbar_menu) && !empty($navbar_menu->items->toArray()))
+            <!--side menu open button-->
+            <a href="javascript:void(0)" class="d-inline-block sidemenu_btn" id="sidemenu_toggle">
+                <span></span> <span></span> <span></span>
+            </a>
+        @endif
+    </nav>
+    <!-- side menu -->
+    <div class="opacity-0 side-menu bg-yellow">
+        <div class="overlay"></div>
+        <div class="inner-wrapper">
+            <span class="btn-close" id="btn_sideNavClose"><i></i><i></i></span>
+            <nav class="side-nav w-100">
+                <ul class="navbar-nav">
+                    @foreach ($sidebar_menu->items ?? [] as $item)
+                        <li class="nav-item">
+                            <a class="nav-link @if(count($item->child) > 0)collapsePagesSideMenu @endif" @if(count($item->child) > 0)data-toggle="collapse" @endif href="@if(count($item->child) > 0) #sideNavPages{{$item->id}} @else {{$item->link}} @endif"> {{$item->label}} @if(count($item->child) > 0) <i class="fas fa-chevron-down"></i> @endif </a>
+                            @if(count($item->child) > 0)
+                                <div id="sideNavPages{{$item->id}}" class="collapse sideNavPages">
+                                    <ul class="mt-2 navbar-nav">
+                                        @foreach ($item->child as $child)
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{$item->link}}">{{$item->label}}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
+            </nav>
+            <div class="side-footer w-100">
+                <ul class="social-icons-simple white top40">
+                    @if(isset($dark_social_links_name) && is_array($main_social_links_name))
+                        @foreach ($main_social_links_name as $key => $social_link_name)
+                            @if($social_link_name || $main_social_links_icon[$key])
+                                <li><a href="{{$main_social_links_name[$key]}}" class=""><i
+                                            class="{{$main_social_links_icon[$key]}}"></i> </a></li>
+                            @endif
+                        @endforeach
+                    @endif
+                </ul>
+                <p class="whitecolor">{{setting()->get('main_footer_copy_right_'.app()->getLocale())}}</p>
+            </div>
+        </div>
+    </div>
+    <div id="close_side_menu" class="tooltip"></div>
+    <!-- End side menu -->
+</header>
+<!-- header --> --}}
+;
                 }elseif ($item_number == 3) {
                     $style = "col-lg-4";
                 }else{
@@ -85,19 +207,19 @@
                     </ul>
                 </div>
             </div> --}}
-        </div>
+      {{--  </div>
         <div class="py-4 d-flex flex-lg-column" style="color: white">
             <!--begin::Container-->
             <div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
                 <!--begin::Copyright-->
                 <div class="order-2 order-md-1">
                     {{-- <a href="{{url('/')}}">{!! setting()->get('main_footer_copy_right_'.app()->getLocale()) ?? '' !!}</a> --}}
-                    @if(isset($footer_menu))
+      {{--                    @if(isset($footer_menu))
                         @forelse ($footer_menu->items as $item)
                             {{-- @if(count($item->child) > 0)
                                 {{$item->label}} has {{count($item->child)}} child <br> 
                             @endif --}}
-                            <a class="mr-2" href="{{$item->link}}">{{$item->label}}</a>
+      {{--                            <a class="mr-2" href="{{$item->link}}">{{$item->label}}</a>
                             @if(!$loop->last)
                                 |
                             @endif
@@ -121,4 +243,99 @@
         </div>
     </div>
 </footer>
-<!--Footer ends-->
+<!--Footer ends--> --}}
+<footer class="dark-footer">
+    <div class="footer-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <h4 class="title"><span>01</span>ABOUT US</h4>
+                    <p>You can use the icons above to access more information about our credentials, providing
+                        solutions in a
+                        host of specific industries. However, these are far from the only industries that
+                        SHIPPER has proudly
+                        served.</p>
+                    <ul class="social-media">
+                        <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                        <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                        <li><a href="#"><i class="ion-social-googleplus"></i></a></li>
+                        <li><a href="#"><i class="ion-social-youtube"></i></a></li>
+                        <li><a href="#"><i class="ion-social-vimeo"></i></a></li>
+                    </ul>
+                </div>
+                <!-- end col-5 -->
+                <div class="col-md-2 col-sm-3 col-xs-6">
+                    <h4 class="title"><span>02</span>SERVICES</h4>
+                    <ul class="footer-menu">
+                        <li><a href="#">Aceon Freight</a></li>
+                        <li><a href="#">Storeage</a></li>
+                        <li><a href="#">Package Security</a></li>
+                        <li><a href="#">Air Freight</a></li>
+                        <li><a href="#">Warehousing</a></li>
+                    </ul>
+                </div>
+                <!-- end col-2 -->
+                <div class="col-md-2 col-sm-3 col-xs-6">
+                    <h4 class="title"><span>03</span>SHIPPER</h4>
+                    <ul class="footer-menu">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Location</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Site Maps</a></li>
+                        <li><a href="#">Get a Quote</a></li>
+                    </ul>
+                </div>
+                <!-- end col-2 -->
+                <div class="col-md-4">
+                    <div class="newsletter">
+                        <h4 class="title"><span>04</span>NEWSLETTER</h4>
+                        <p>If you would like more information about our services we are eager to help.</p>
+                        <form>
+                            <input type="text" placeholder="Type your e-mail">
+                            <button type="submit">JOIN</button>
+                        </form>
+                        <small>I promise, we won’t spam you!</small>
+                    </div>
+                    <!-- end newsletter -->
+                </div>
+                <!-- end col-2 -->
+            </div>
+            <!-- end row -->
+            <div class="row middle-bar">
+                <div class="col-lg-4 col-md-3 hidden-sm hidden-xs"> <img src="images/logo-light.png" alt="Image"
+                        class="logo">
+                    <h4>INTERNATIONAL LOGISTIC</h4>
+                </div>
+                <!-- end col-4 -->
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <h3>MOBILE APP</h3>
+                    <p>Download our mobile applications from Google Play and Apple Store or decode QR Code just
+                        below and
+                        start using.</p>
+                </div>
+                <!-- end col-4 -->
+                <div class="col-lg-4 col-sm-6 col-md-5 col-xs-12">
+                    <ul>
+                        <li><img src="images/icon-appstore.png" alt="Image"></li>
+                        <li><img src="images/icon-googleplay.png" alt="Image"></li>
+                    </ul>
+                    <i class="icon-mobile responsive-icon"></i> <a rel='nofollow'
+                        href='http://www.themezinho.net'><img
+                            src='https://chart.googleapis.com/chart&#63;cht=qr&amp;chl=www.themezinho.net&amp;chs=90x90'
+                            alt=''></a>
+                </div>
+                <!-- end col-4 -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end footer-content -->
+    <div class="sub-footer">
+        <div class="container"> <span class="copyright">Copyright © 2015 , Shipper Logistic | Transportation
+                Template
+            </span></div>
+        <!-- end container -->
+    </div>
+    <!-- end sub-footer -->
+</footer>
