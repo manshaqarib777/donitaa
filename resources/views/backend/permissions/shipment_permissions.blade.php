@@ -1,11 +1,11 @@
 @php
 use App\Http\Helpers\ShipmentActionHelper;
 @endphp
-@php 
+@php
 $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->first();
 @endphp
 @if ($addon != null)
-    @if($addon->activated) 
+    @if($addon->activated)
         <label class="checkbox">
             <input type="checkbox" name="permissions[]" value="1009" @php if(isset($permissions) && in_array(1009, $permissions)) echo "checked"; @endphp>
             <span></span>{{ translate('Shipment Index') }}

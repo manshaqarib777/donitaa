@@ -113,6 +113,7 @@
                     <th width="3%"></th>
                     <th width="3%">#</th>
                     <th>{{translate('Code')}}</th>
+                    <th>{{translate('Shipment Code')}}</th>
                     <th>{{translate('Status')}}</th>
                     <th>{{translate('Captain')}}</th>
                     <th>{{translate('Type')}}</th>
@@ -132,9 +133,11 @@
                     @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1008', $staff_permission) )
                         <td width="3%"><a href="{{route('admin.missions.show', $mission->id)}}">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</a></td>
                         <td width="5%"><a href="{{route('admin.missions.show', $mission->id)}}">{{$mission->code}}</a></td>
+                        <td width="5%"><a href="{{route('admin.shipments.show', $mission->shipment_mission[0]->shipment->id)}}">{{$mission->shipment_mission[0]->shipment->code}}</a></td>
                     @else
                         <td width="3%">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</td>
                         <td width="5%">{{$mission->code}}</td>
+                        <td width="5%">{{@$mission->shipment_mission[0]->shipment->code}}</td>
                     @endif
 
                     <td><span class="btn btn-sm btn-{{\App\Mission::getStatusColor($mission->status_id)}}">{{$mission->getStatus()}}</span></td>

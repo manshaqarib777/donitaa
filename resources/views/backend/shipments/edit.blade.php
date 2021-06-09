@@ -96,20 +96,6 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('Branch') }}:</label>
-                                        <select class="form-control kt-select2 select-branch" id="select-how"
-                                            name="Shipment[branch_id]">
-
-                                            @foreach ($branchs as $branch)
-                                                <option @if ($shipment->branch_id == $branch->id) selected @endif value="{{ $branch->id }}">
-                                                    {{ $branch->name }}</option>
-                                            @endforeach
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
                                     @if (\App\ShipmentSetting::getVal('is_date_required') == '1' || \App\ShipmentSetting::getVal('is_date_required') == null)
                                         <div class="form-group">
                                             <label>{{ translate('Shipping Date') }}:</label>
@@ -229,11 +215,6 @@
                                             @endforelse
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>{{ translate('Total Package Value') }}:</label>
-                                    <input type="text" placeholder="{{ translate('Package Value') }}"
-                                        class="form-control total-price" id="" name="Shipment[shipment_price]" value="{{$shipment->shipment_price}}" readonly />
                                 </div>
                             </div>
 
@@ -552,6 +533,11 @@
                                                 value="{{ $shipment->total_weight }}" value="0"
                                                 name="Shipment[total_weight]" />
                                         </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>{{ translate('Total Package Value') }}:</label>
+                                        <input type="text" placeholder="{{ translate('Package Value') }}"
+                                            class="form-control total-price" id="" name="Shipment[shipment_price]" value="{{$shipment->shipment_price}}" readonly />
                                     </div>
 
                                 </div>

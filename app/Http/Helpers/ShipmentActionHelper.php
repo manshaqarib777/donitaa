@@ -82,7 +82,7 @@ class ShipmentActionHelper{
                 "permissions"=>1035,
             ],
             [
-                "text"=> translate('Assign to Captain'),
+                "text"=> translate('Create Delivery Mission'),
                 "permissions"=>1036,
             ],
             [

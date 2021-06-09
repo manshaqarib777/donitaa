@@ -44,6 +44,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
     
 });
 Route::get('shipments/ajaxed-get-states','ShipmentController@ajaxGetStates')->name('admin.shipments.get-states-ajax');
+Route::get('shipments/ajaxed-get-branches','ShipmentController@ajaxGetBranches')->name('admin.shipments.get-branches-ajax');
 Route::get('shipments/ajaxed-get-areas','ShipmentController@ajaxGetAreas')->name('admin.shipments.get-areas-ajax');
 
 

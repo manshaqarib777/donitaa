@@ -75,7 +75,7 @@
                                 $action_counter = 0;
                             @endphp
                             @foreach($actions as $action)
-                                @if(in_array($auth_user->user_type ,$action['user_role']) || in_array($item['permissions'] ?? "", json_decode($auth_user->staff->role->permissions ?? "[]")))
+                                @if(in_array($auth_user->user_type ,$action['user_role']) || in_array($action['permissions'] ?? "", json_decode($auth_user->staff->role->permissions ?? "[]")))
                                     @if($action['index'] == true)
                                         @php
                                             $action_counter++;

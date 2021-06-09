@@ -531,6 +531,14 @@ class ShipmentController extends Controller
         $states = State::where('country_id', $country_id)->where('covered',1)->get();
         return response()->json($states);
     }
+    public function ajaxGetBranches()
+    {
+        $country_id = $_GET['country_id'];
+        $states = Branch::whereHas('userBranch.user', function($query) use ($country_id) {
+            return $query->where('users.country_id', $country_id);
+         })->get();
+        return response()->json($states);
+    }
     public function ajaxGetAddresses()
     {
         $country_id = $_GET['client_id'];

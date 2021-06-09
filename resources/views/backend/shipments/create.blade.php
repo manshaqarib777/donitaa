@@ -163,20 +163,7 @@
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('Branch') }}:</label>
-                                        <select class="form-control kt-select2 select-branch" name="Shipment[branch_id]">
-                                            <option></option>
-                                            @foreach ($branchs as $branch)
-                                                <option @if (\App\ShipmentSetting::getVal('def_branch') == $branch->id) selected @endif value="{{ $branch->id }}">
-                                                    {{ $branch->name }}</option>
-                                            @endforeach
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     @if (\App\ShipmentSetting::getVal('is_date_required') == '1' || \App\ShipmentSetting::getVal('is_date_required') == null)
                                         <div class="form-group">
                                             <label>{{ translate('Shipping Date') }}:</label>
@@ -296,6 +283,37 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-6 show_branch">
+                                    <div class="form-group">
+                                        <label>{{ translate('Branch') }}:</label>
+                                        <select class="form-control kt-select2 select-branch" name="Shipment[branch_id]">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('From Region') }}:</label>
+                                        <select id="change-state-from" name="Shipment[from_state_id]"
+                                            class="form-control select-state">
+                                            <option value=""></option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('From Area') }}:</label>
+                                        <select id='change-area-from' name="Shipment[from_area_id]"
+                                            class="form-control select-area">
+                                            <option value=""></option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{ translate('To Country') }}:</label>
@@ -305,18 +323,6 @@
                                             @foreach ($countries as $country)
                                                 <option value="{{ $country->id }}">{{ $country->name }}</option>
                                             @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('From Region') }}:</label>
-                                        <select id="change-state-from" name="Shipment[from_state_id]"
-                                            class="form-control select-state">
-                                            <option value=""></option>
-
                                         </select>
                                     </div>
                                 </div>
@@ -330,19 +336,6 @@
                                         </select>
                                     </div>
 
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('From Area') }}:</label>
-                                        <select id='change-area-from' name="Shipment[from_area_id]"
-                                            class="form-control select-area">
-                                            <option value=""></option>
-
-                                        </select>
-                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -385,11 +378,6 @@
                                             @endforelse
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label>{{ translate('Total Package Value') }}:</label>
-                                    <input type="text" placeholder="{{ translate('Package Value') }}"
-                                        class="form-control total-price" id="" name="Shipment[shipment_price]" value="0" readonly />
                                 </div>
                             </div>
 
@@ -631,7 +619,11 @@
                                                 name="Shipment[total_weight]" />
                                         </div>
                                     </div>
-
+                                    <div class="form-group col-md-6">
+                                        <label>{{ translate('Total Package Value') }}:</label>
+                                        <input type="text" placeholder="{{ translate('Package Value') }}"
+                                            class="form-control total-price" id="" name="Shipment[shipment_price]" value="0" readonly />
+                                    </div>
                                 </div>
 
 
@@ -838,6 +830,18 @@
                 const element = data[index];
 
                 $('select[name ="Shipment[from_state_id]"]').append('<option value="' + element['id'] +
+                    '">' + element['name'] + '</option>');
+            }
+
+
+        });
+        $.get("{{ route('admin.shipments.get-branches-ajax') }}?country_id=" + id, function(data) {
+            $('select[name ="Shipment[branch_id]"]').empty();
+            $('select[name ="Shipment[branch_id]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+
+                $('select[name ="Shipment[branch_id]"]').append('<option value="' + element['id'] +
                     '">' + element['name'] + '</option>');
             }
 
@@ -1052,6 +1056,15 @@
             startDate: new Date(),
         });
         $(document).ready(function() {
+            $('.show_branch').hide();
+            $('input:radio[name="Shipment[type]"]').change(function() {
+                if ($(this).val() == '2') {
+                    $('.show_branch').show();
+                } else {
+                    $('.show_branch').hide();
+
+                }
+            });
             $('.package-type-select').select2({
                 placeholder: "Package Type",
                 language: {
