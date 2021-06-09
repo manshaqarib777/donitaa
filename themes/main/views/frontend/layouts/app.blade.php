@@ -61,19 +61,10 @@
     <link href="{{ static_asset('themes/main/frontend/shipper/css/style.css')}}" rel="stylesheet">
 
 
+    <script>
+        var AIZ = AIZ || {};
+    </script>
 
-    <style>
-        body{
-            /* font-family: 'Open Sans', sans-serif; */
-            font-family: "{{ setting()->get('primary_font_'.app()->getLocale()) ?? 'Open Sans' }}";
-            font-weight: 400;
-        }
-        :root{
-            --primary: {{ get_setting('base_color', '#e62d04') }};
-            --hov-primary: {{ get_setting('base_hov_color', '#c52907') }};
-            --soft-primary: {{ hex2rgba(get_setting('base_color','#e62d04'),.15) }};
-        }
-    </style>
 
     @if (\App\BusinessSetting::where('type', 'google_analytics')->first()->value == 1)
         <!-- Global site tag (gtag.js) - Google Analytics -->

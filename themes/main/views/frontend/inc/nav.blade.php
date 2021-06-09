@@ -7,14 +7,35 @@
                                     class="numbers">8.903</span> stores </div>
                             <!-- end col-6 -->
                             <div class="col-md-3 col-sm-2 col-xs-4">
-                                <div class="language dropdown"> <a class="dropdown-toggle" data-toggle="dropdown"
-                                        href="#"><img src="images/flag-en.jpg" alt="Image">Language</a>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">ENGLISH</a></li>
-                                        <li><a href="#">PORTUGUES</a></li>
-                                        <li><a href="#">SPANISH</a></li>
-                                    </ul>
-                                </div>
+                                    
+
+                                 @if(null !==setting()->get('main_header_language_'.app()->getLocale()) && setting()->get('main_header_language_'.app()->getLocale()))
+                                    <div class="drop-container">
+                                        <div class="dropdown" id="lang-change">
+                
+                                            @php
+                                                if(Session::has('locale')){
+                                                    $locale = Session::get('locale', Config::get('app.locale'));
+                                                }
+                                                else{
+                                                    $locale = env('DEFAULT_LANGUAGE');
+                                                }
+                                            @endphp
+                
+                                            <a class="dropdown-toggle" data-toggle="dropdown"
+                                        href="#"><img src="{{ static_asset('assets/img/flags/'.$locale.'.svg') }}" width="15" alt="flag-img"> Language</a>
+                
+                                            <ul class="dropdown-menu" role="menu">
+                                                @foreach (\App\Language::all() as $key => $language)
+                                                <li><a href="javascript:void(0)" data-flag="{{ $language->code }}">
+                                                            <img class="flag-img" src="{{ static_asset('assets/img/flags/'.$language->code.'.svg') }}" width="15" alt="flag-img">
+                                                        {{ $language->name }}
+                                                    </a></li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                             <!-- end col-3 -->
                             <div class="col-md-3 col-sm-4 col-xs-8"> <span class="date">12 Mar </span> <span
