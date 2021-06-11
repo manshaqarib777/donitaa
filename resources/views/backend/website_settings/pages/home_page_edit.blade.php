@@ -412,6 +412,59 @@
                         </form>
                     </div>
                 </div>
+                <div class="card shadow-none bg-light mt-5">
+                    <div class="card-header">
+                        <h6 class="mb-0">{{ translate('CALCULATE SHIPPING') }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3 ml-0">
+                            <label class="pt-2 mr-5">{{ translate('Show CALCULATE SHIPPING :') }}</label>
+                            <span class="switch">
+                                <label>
+                                    <input type="checkbox" name="checkbox" id="checkbox"
+                                        onchange="updateSettings(this, 'home_calculate_shipping_status')" @if (get_setting_by_lang('home_calculate_shipping_status', $lang) == 1) checked @endif />
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                        <form action="{{ route('business_settings.update') }}" method="POST"
+                            enctype="multipart/form-data" id="home_calculate_shipping" @if (get_setting_by_lang('home_calculate_shipping_status', $lang) != 1) style="display: none;" @endif>
+                            @csrf
+                            <input type="hidden" name="lang" value="{{ $lang }}">
+                
+                            <div class="form-group">
+                                <div class="home-calculate_shipping-target">
+                
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="input-group" data-toggle="aizuploader" data-type="image">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                        {{ translate('Choose File') }}</div>
+                                                </div>
+                                                <div class="form-control file-amount">{{ translate('Choose File') }}
+                                                </div>
+                                                <input type="hidden" name="types[]"
+                                                    value="home_calculate_shipping_image">
+                                                <input type="hidden" name="home_calculate_shipping_image"
+                                                    class="selected-files"
+                                                    value="{{ json_decode(get_setting_by_lang('home_calculate_shipping_image', $lang), true) }}">
+                                            </div>
+                                            <div class="file-preview box sm">
+                                            </div>
+                                        </div>
+                
+                                    </div>
+                
+                
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">{{ translate('Update') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
 
 
@@ -701,7 +754,7 @@
                         <form action="{{ route('business_settings.update') }}" method="POST"
                             enctype="multipart/form-data" id="home_header_information" @if (get_setting_by_lang('home_header_information_status', $lang) != 1) style="display: none;" @endif>
                             @csrf
-                            <input type="hidden" name="lang" value="{{ $lang }}">
+                            <input type="hidden" name="lang" value="{{ session()->get('country') }}">
                             <div class="form-group">
                                 <div class="home-header_information-target">
                                     <div class="row">
@@ -712,8 +765,8 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Opening Hours Title') }}"
                                                     name="home_header_information_opening_hours_title"
-                                                    value="{{ get_setting_by_lang('home_header_information_opening_hours_title', $lang) }}"
-                                                    required>
+                                                    value="{{ get_setting_by_lang('home_header_information_opening_hours_title', session()->get('country')) }}"
+                                                    >
                                             </div>
                                         </div>
                                         <div class="col">
@@ -723,8 +776,8 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Opening Hours') }}"
                                                     name="home_header_information_opening_hours_value"
-                                                    value="{{ get_setting_by_lang('home_header_information_opening_hours_value', $lang) }}"
-                                                    required>
+                                                    value="{{ get_setting_by_lang('home_header_information_opening_hours_value', session()->get('country')) }}"
+                                                    >
                                             </div>
                                         </div>
                                     </div>
@@ -736,8 +789,8 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Our Location Title') }}"
                                                     name="home_header_information_our_location_title"
-                                                    value="{{ get_setting_by_lang('home_header_information_our_location_title', $lang) }}"
-                                                    required>
+                                                    value="{{ get_setting_by_lang('home_header_information_our_location_title', session()->get('country')) }}"
+                                                    >
                                             </div>
                                         </div>
                                         <div class="col">
@@ -747,8 +800,8 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Our Location') }}"
                                                     name="home_header_information_our_location_value"
-                                                    value="{{ get_setting_by_lang('home_header_information_our_location_value', $lang) }}"
-                                                    required>
+                                                    value="{{ get_setting_by_lang('home_header_information_our_location_value', session()->get('country')) }}"
+                                                    >
                                             </div>
                                         </div>
                                     </div>
@@ -760,8 +813,8 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Quick Support Title') }}"
                                                     name="home_header_information_quick_support_title"
-                                                    value="{{ get_setting_by_lang('home_header_information_quick_support_title', $lang) }}"
-                                                    required>
+                                                    value="{{ get_setting_by_lang('home_header_information_quick_support_title', session()->get('country')) }}"
+                                                    >
                                             </div>
                                         </div>
                                         <div class="col">
@@ -771,8 +824,8 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Quick Support') }}"
                                                     name="home_header_information_quick_support_value"
-                                                    value="{{ get_setting_by_lang('home_header_information_quick_support_value', $lang) }}"
-                                                    required>
+                                                    value="{{ get_setting_by_lang('home_header_information_quick_support_value', session()->get('country')) }}"
+                                                    >
                                             </div>
                                         </div>
                                     </div>
@@ -784,13 +837,181 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Main Branch Contact Number') }}"
                                                     name="home_header_information_contact_number_title"
-                                                    value="{{ get_setting_by_lang('home_header_information_contact_number_title', $lang) }}"
-                                                    required>
+                                                    value="{{ get_setting_by_lang('home_header_information_contact_number_title', session()->get('country')) }}"
+                                                    >
                                             </div>
                                         </div>
                                     </div>
 
 
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">{{ translate('Update') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card shadow-none bg-light mt-5">
+                    <div class="card-header">
+                        <h6 class="mb-0">{{ translate('PACKING') }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3 ml-0">
+                            <label class="pt-2 mr-5">{{ translate('Show PACKING :') }}</label>
+                            <span class="switch">
+                                <label>
+                                    <input type="checkbox" name="checkbox" id="checkbox"
+                                        onchange="updateSettings(this, 'home_packing_status')" @if (get_setting_by_lang('home_packing_status', $lang) == 1) checked @endif />
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                        <form action="{{ route('business_settings.update') }}" method="POST"
+                            enctype="multipart/form-data" id="home_packing" @if (get_setting_by_lang('home_packing_status', $lang) != 1) style="display: none;" @endif>
+                            @csrf
+                            <input type="hidden" name="lang" value="{{ $lang }}">
+                
+                            <div class="form-group">
+                                <div class="home-packing-target">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_packing_title">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Title') }}"
+                                                    name="home_packing_title"
+                                                    value="{{ get_setting_by_lang('home_packing_title', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_packing_desc">
+                                                <textarea class="form-control"
+                                                    placeholder="{{ translate('Description') }}"
+                                                    name="home_packing_desc">{{ get_setting_by_lang('home_packing_desc', $lang) }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_packing_title1">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Title One') }}"
+                                                    name="home_packing_title1"
+                                                    value="{{ get_setting_by_lang('home_packing_title1', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_packing_desc1">
+                                                <textarea class="form-control"
+                                                    placeholder="{{ translate('Description One') }}"
+                                                    name="home_packing_desc1">{{ get_setting_by_lang('home_packing_desc1', $lang) }}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group" data-toggle="aizuploader" data-type="image">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                        {{ translate('Browse Image One') }}</div>
+                                                </div>
+                                                <div class="form-control file-amount">{{ translate('Choose File') }}
+                                                </div>
+                                                <input type="hidden" name="types[]"
+                                                    value="home_packing_image1">
+                                                <input type="hidden" name="home_packing_image1"
+                                                    class="selected-files"
+                                                    value="{{ json_decode(get_setting_by_lang('home_packing_image1', $lang), true) }}">
+                                            </div>
+                                            <div class="file-preview box sm">
+                                            </div>
+                                        </div>
+                
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_packing_title2">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Title Two') }}"
+                                                    name="home_packing_title2"
+                                                    value="{{ get_setting_by_lang('home_packing_title2', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_packing_desc2">
+                                                <textarea class="form-control"
+                                                    placeholder="{{ translate('Description Two') }}"
+                                                    name="home_packing_desc2">{{ get_setting_by_lang('home_packing_desc2', $lang) }}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group" data-toggle="aizuploader" data-type="image">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                        {{ translate('Browse Image Two') }}</div>
+                                                </div>
+                                                <div class="form-control file-amount">{{ translate('Choose File') }}
+                                                </div>
+                                                <input type="hidden" name="types[]"
+                                                    value="home_packing_image2">
+                                                <input type="hidden" name="home_packing_image2"
+                                                    class="selected-files"
+                                                    value="{{ json_decode(get_setting_by_lang('home_packing_image2', $lang), true) }}">
+                                            </div>
+                                            <div class="file-preview box sm">
+                                            </div>
+                                        </div>
+                
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_packing_title3">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Title Three') }}"
+                                                    name="home_packing_title3"
+                                                    value="{{ get_setting_by_lang('home_packing_title3', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_packing_desc3">
+                                                <textarea class="form-control"
+                                                    placeholder="{{ translate('Description Three') }}"
+                                                    name="home_packing_desc3">{{ get_setting_by_lang('home_packing_desc3', $lang) }}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group" data-toggle="aizuploader" data-type="image">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                        {{ translate('Browse Image Three') }}</div>
+                                                </div>
+                                                <div class="form-control file-amount">{{ translate('Choose File') }}
+                                                </div>
+                                                <input type="hidden" name="types[]"
+                                                    value="home_packing_image3">
+                                                <input type="hidden" name="home_packing_image3"
+                                                    class="selected-files"
+                                                    value="{{ json_decode(get_setting_by_lang('home_packing_image3', $lang), true) }}">
+                                            </div>
+                                            <div class="file-preview box sm">
+                                            </div>
+                                        </div>
+                
+                                    </div>
+                
                                 </div>
                             </div>
                             <div class="text-right">
@@ -1541,7 +1762,7 @@
 
                 <div class="card shadow-none bg-light mt-5">
                     <div class="card-header">
-                        <h6 class="mb-0">{{ translate('Footer Footer Mobile') }}</h6>
+                        <h6 class="mb-0">{{ translate('Footer Mobile') }}</h6>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3 ml-0">
@@ -1731,6 +1952,9 @@
                 if (type == 'home_header_information_status') {
                     $('#home_header_information').show();
                 }
+                if (type == 'home_packing_status') {
+                    $('#home_packing').show();
+                }
                 if (type == 'home_newsletter_status') {
                     $('#home_newsletter').show();
                 }
@@ -1742,6 +1966,9 @@
                 }
                 if (type == 'home_section_status') {
                     $('#home_section').show();
+                }
+                if (type == 'home_calculate_shipping_status') {
+                    $('#home_calculate_shipping').show();
                 }
                 if (type == 'home_banner1_status') {
                     $('#home_banner1').show();
@@ -1770,6 +1997,9 @@
                 if (type == 'home_header_information_status') {
                     $('#home_header_information').hide();
                 }
+                if (type == 'home_packing_status') {
+                    $('#home_packing').hide();
+                }
                 if (type == 'home_newsletter_status') {
                     $('#home_newsletter').hide();
                 }
@@ -1778,6 +2008,9 @@
                 }
                 if (type == 'home_section_status') {
                     $('#home_section').hide();
+                }
+                if (type == 'home_calculate_shipping_status') {
+                    $('#home_calculate_shipping').hide();
                 }
                 if (type == 'home_banner1_status') {
                     $('#home_banner1').hide();

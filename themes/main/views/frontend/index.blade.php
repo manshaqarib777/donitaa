@@ -2,71 +2,7 @@
 
 @section('meta_title') {{translate('Homepage')}} @endsection
 @section('content')
-    @php
-        $main_social_links_name = json_decode( setting()->get('main_social_links_name_'.app()->getLocale()) );
-        $main_social_links_icon = json_decode(  setting()->get('main_social_links_icon_'.app()->getLocale()) );
-    @endphp
-    <!--Main Slider-->
 
-    @if(get_setting_by_lang('home_slider_status'))
-        <section id="main-banner-area" class="position-relative">
-            <div id="revo_main_wrapper" class="rev_slider_wrapper fullwidthbanner-container m-0 p-0 bg-dark" data-alias="classic4export" data-source="gallery">
-                <!-- START REVOLUTION SLIDER 5.4.1 fullwidth mode -->
-                <div id="rev_main" class="rev_slider fullwidthabanner white" data-version="5.4.1">
-                    <ul>
-                        @foreach (json_decode(get_setting_by_lang('home_slider_images'), true) as $key => $value)
-                            <li data-index="rs-0{{$key}}" data-transition="fade" data-slotamount="default" data-easein="Power100.easeIn" data-easeout="Power100.easeOut" data-masterspeed="2000" data-fsmasterspeed="1500" data-param1="{{$key+1}}">
-                                <!-- MAIN IMAGE -->
-                                <img src="{{!empty( json_decode(get_setting_by_lang('home_slider_images'), true)[$key] ) ? url('public/'.\App\Upload::find(json_decode(get_setting_by_lang('home_slider_images'), true)[$key])->file_name) : ''}}"  alt=""  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina>
-                                <!-- LAYER NR. 1 -->
-                                <div class="overlay overlay-dark opacity-6"></div>
-                                <div class="tp-caption tp-resizeme"
-                                    data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
-                                    data-y="['middle','middle','middle','middle']" data-voffset="['-130','-130','-110','-80']"
-                                    data-width="none" data-height="none" data-type="text"
-                                    data-textAlign="['center','center','center','center']"
-                                    data-responsive_offset="on" data-start="1000"
-                                    data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                                    <h2 class="text-capitalize font-xlight whitecolor text-center heading-title-small">{{json_decode(get_setting_by_lang('home_slider_text1'), true)[$key]}}</h2>
-                                </div>
-                                <!-- LAYER NR. 2 -->
-                                <div class="tp-caption tp-resizeme"
-                                    data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
-                                    data-y="['middle','middle','middle','middle']" data-voffset="['-70','-70','-50','-20']"
-                                    data-width="none" data-height="none" data-type="text"
-                                    data-textAlign="['center','center','center','center']"
-                                    data-responsive_offset="on" data-start="1000"
-                                    data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                                    <h2 class="text-capitalize font-bold whitecolor text-center">{{json_decode(get_setting_by_lang('home_slider_text2'), true)[$key]}}</h2>
-                                </div>
-                                <!-- LAYER NR. 3 -->
-                                <div class="tp-caption tp-resizeme"
-                                    data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
-                                    data-y="['middle','middle','middle','middle']" data-voffset="['-10','-10','10','40']"
-                                    data-width="none" data-height="none" data-type="text"
-                                    data-textAlign="['center','center','center','center']"
-                                    data-responsive_offset="on" data-start="1500"
-                                    data-frames='[{"from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","mask":"x:0px;y:[100%];s:inherit;e:inherit;","speed":2000,"to":"o:1;","delay":1500,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power2.easeInOut"}]'>
-                                    <h2 class="text-capitalize font-xlight whitecolor text-center heading-title-small">{{json_decode(get_setting_by_lang('home_slider_text3'), true)[$key]}}</h2>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-            @if(is_array($main_social_links_name))
-                <ul class="social-icons-simple revicon white">
-                    @foreach ($main_social_links_name as $key => $social_link_name)
-                        @if($social_link_name || $main_social_links_icon[$key])
-                            <li class="d-table"><a href="{{$main_social_links_name[$key]}}"><i class="{{$main_social_links_icon[$key]}}"></i> </a> </li>
-                        @endif
-                    @endforeach
-                </ul>
-            @endif
-        </section>
-    @endif
-
-    <!--Main Slider ends -->
 
     <!--Some Services-->
     @if(get_setting_by_lang('home_banner1_status') && !empty(json_decode(get_setting_by_lang('home_banner1_title'), true)))
@@ -278,41 +214,81 @@
 
 @section('script')
 
-    <link href="{{ static_asset('themes/main/frontend/logistic/css/slick-theme.css')}}" rel="stylesheet">
-    <link href="{{ static_asset('themes/main/frontend/logistic/css/slick.css')}}" rel="stylesheet">
-    <script src="{{ static_asset('themes/main/frontend/logistic/js/slick.min.js')}}"></script>
     <script>
         $(document).ready(function(){
 
-            var $imagesSlider = $(".client-feedback>div"),
-                $thumbnailsSlider = $(".client-thumbnails>div");
+                $('#change-country').change(function() {
+        var id = $(this).val();
+        $.get("{{ route('admin.shipments.get-states-ajax') }}?country_id=" + id, function(data) {
+            $('select[name ="Shipment[from_state_id]"]').empty();
+            $('select[name ="Shipment[from_state_id]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
 
-            // Images Options
-            $imagesSlider.slick({
-                speed: 300,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                cssEase: 'linear',
-                fade: true,
-                dots: true,
-                arrows:false,
-                autoplay: false,
-                draggable: false,
-                asNavFor: ".client-thumbnails>div",
-            });
-            // Thumbnails Options
-            $thumbnailsSlider.slick({
-                speed: 300,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                cssEase: 'linear',
-                autoplay: true,
-                arrows:false,
-                centerMode: true,
-                draggable: false,
-                focusOnSelect: true,
-                asNavFor: ".client-feedback>div",
-            });
+                $('select[name ="Shipment[from_state_id]"]').append('<option value="' + element['id'] +
+                    '">' + element['name'] + '</option>');
+            }
+
+
+        });
+        $.get("{{ route('admin.shipments.get-branches-ajax') }}?country_id=" + id, function(data) {
+            $('select[name ="Shipment[branch_id]"]').empty();
+            $('select[name ="Shipment[branch_id]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+
+                $('select[name ="Shipment[branch_id]"]').append('<option value="' + element['id'] +
+                    '">' + element['name'] + '</option>');
+            }
+
+
+        });
+    });
+    $('#change-country-to').change(function() {
+        var id = $(this).val();
+
+        $.get("{{ route('admin.shipments.get-states-ajax') }}?country_id=" + id, function(data) {
+            $('select[name ="Shipment[to_state_id]"]').empty();
+            $('select[name ="Shipment[to_state_id]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                $('select[name ="Shipment[to_state_id]"]').append('<option value="' + element['id'] +
+                    '">' + element['name'] + '</option>');
+            }
+
+
+        });
+    });
+    $('#change-state-from').change(function() {
+        var id = $(this).val();
+
+        $.get("{{ route('admin.shipments.get-areas-ajax') }}?state_id=" + id, function(data) {
+            $('select[name ="Shipment[from_area_id]"]').empty();
+            $('select[name ="Shipment[from_area_id]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                $('select[name ="Shipment[from_area_id]"]').append('<option value="' + element['id'] +
+                    '">' + element['name'] + '</option>');
+            }
+
+
+        });
+    });
+    $('#change-state-to').change(function() {
+        var id = $(this).val();
+
+        $.get("{{ route('admin.shipments.get-areas-ajax') }}?state_id=" + id, function(data) {
+            $('select[name ="Shipment[to_area_id]"]').empty();
+            $('select[name ="Shipment[to_area_id]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                $('select[name ="Shipment[to_area_id]"]').append('<option value="' + element['id'] +
+                    '">' + element['name'] + '</option>');
+            }
+
+
+        });
+    });
         });
     </script>
 @endsection --}}
@@ -321,47 +297,45 @@
 @section('meta_title') {{translate('Homepage')}} @endsection
 @section('content')
 
+@php
+$countries = \App\Country::where('covered', 1)->get();
+$packages = \App\Package::all();
+@endphp
 
-       <!-- end full-header -->
-    <section class="slider">
-        <div class="fixed-form">
-            <div class="container">
-                <h3>LOGISTICS</h3>
-                <h5>Check your delivery easily & quickly</h5>
-                <form>
-                    <input type="text" placeholder="Tracking ID">
-                    &nbsp;
-                    <input type="text" class="datepicker" placeholder="Date">
-                    &nbsp;
-                    <button type="submit">CHECK SHIPPING</button>
-                </form>
+    @if(get_setting_by_lang('home_slider_status'))
+        <section class="slider">
+            <div class="fixed-form">
+                <div class="container">
+                    <h3>{{json_decode(get_setting_by_lang('home_slider_text1'), true)[0]}}</h3>
+                    <h5>{{json_decode(get_setting_by_lang('home_slider_text1'), true)[0]}}</h5>
+                    <form>
+                        <input type="text" placeholder="Tracking ID">
+                        &nbsp;
+                        <input type="text" class="datepicker" placeholder="Date">
+                        &nbsp;
+                        <button type="submit">{{json_decode(get_setting_by_lang('home_slider_text3'), true)[0]}}</button>
+                    </form>
+                </div>
+                <!-- end container -->
             </div>
-            <!-- end container -->
-        </div>
-        <!-- end fixed-form -->
-        <div class="main-slider">
-            <div class="slide1"> </div>
-            <!-- end slider1 -->
-            <div class="slide2"> </div>
-            <!-- end slider2 -->
-            <div class="slide3"> </div>
-            <!-- end slider3 -->
-        </div>
-    </section>
-    <!-- end slider -->
+            <div class="main-slider">
+                @foreach (json_decode(get_setting_by_lang('home_slider_images'), true) as $key => $value)
+                <!-- end fixed-form -->
+                    <div class="slide1" style="background: url({{!empty( json_decode(get_setting_by_lang('home_slider_images'), true)[$key] ) ? url('public/'.\App\Upload::find(json_decode(get_setting_by_lang('home_slider_images'), true)[$key])->file_name) : ''}})"> </div>
+
+                @endforeach
+            </div>
+        </section>
+    @endif
+
+    @if(get_setting_by_lang('home_packing_status'))
     <section class="featured-services">
         <div class="container">
             <div class="row">
                 <div class="col-md-5">
                     <div class="left-side">
-                        <h3 class="section-title"><span>01</span>PACKING & STORAGE</h3>
-                        <p>Bringing you industry-specific expertise; whatever you’re shipping, wherever you’re
-                            shipping it. </p>
-                        <ul>
-                            <li>Shipper delivers a professional, efficient service </li>
-                            <li>Tailored to the specific needs of your business.</li>
-                            <li>Our services are designed around you.</li>
-                        </ul>
+                        <h3 class="section-title"><span>01</span>{{ get_setting_by_lang('home_packing_title')}}</h3>
+                        <p>{{ get_setting_by_lang('home_packing_desc')}}</p>
                     </div>
                     <!-- end left-side -->
                 </div>
@@ -369,29 +343,35 @@
                 <div class="col-md-7">
                     <div class="right-side">
                         <div class="service-box">
-                            <figure><img src="images/icon01.png" alt="Image">
-                                <figcaption>SEA SHIPPING</figcaption>
+                            <figure>
+                                @if(get_setting_by_lang('home_packing_image1'))
+                                    <img src="{{ url('public/'.\App\Upload::find(get_setting_by_lang('home_packing_image1'))->file_name) }}" alt="Image">
+                                @endif
+                                <figcaption>{{ get_setting_by_lang('home_packing_title1')}}</figcaption>
                             </figure>
-                            <div class="desc"> We want to ensure that it’s as easy as possible to use the site to
-                                get.</div>
+                            <div class="desc"> {{ get_setting_by_lang('home_packing_desc1')}}</div>
                             <!-- end desc -->
                         </div>
                         <!-- end service-box -->
                         <div class="service-box spacing">
-                            <figure><img src="images/icon02.png" alt="Image">
-                                <figcaption>AIR SHIPPING</figcaption>
+                            <figure>
+                                @if(get_setting_by_lang('home_packing_image2'))
+                                    <img src="{{ url('public/'.\App\Upload::find(get_setting_by_lang('home_packing_image2'))->file_name) }}" alt="Image">
+                                @endif
+                                <figcaption>{{ get_setting_by_lang('home_packing_title2')}}</figcaption>
                             </figure>
-                            <div class="desc"> Shipments moving, whether you’ve worked with us for years completely
-                                new.</div>
+                            <div class="desc"> {{ get_setting_by_lang('home_packing_desc2')}}</div>
                             <!-- end desc -->
                         </div>
                         <!-- end service-box -->
                         <div class="service-box">
-                            <figure><img src="images/icon03.png" alt="Image">
-                                <figcaption>LAND SHIPPING</figcaption>
+                            <figure>
+                                @if(get_setting_by_lang('home_packing_image3'))
+                                    <img src="{{ url('public/'.\App\Upload::find(get_setting_by_lang('home_packing_image3'))->file_name) }}" alt="Image">
+                                @endif
+                                <figcaption>{{ get_setting_by_lang('home_packing_title3')}}</figcaption>
                             </figure>
-                            <div class="desc">International shipping. For further assistance, please get in touch.
-                            </div>
+                            <div class="desc">{{ get_setting_by_lang('home_packing_desc3')}}</div>
                             <!-- end desc -->
                         </div>
                         <!-- end service-box -->
@@ -404,13 +384,16 @@
         </div>
         <!-- end container -->
     </section>
+    @endif
     <!-- end featured-services -->
+    @if(get_setting_by_lang('home_calculate_shipping_status'))
+
     <section class="calculate-shipping">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-sm-12">
                     <h3 class="section-title"><span>02</span>CALCULATE SHIPPING </h3>
-                    <form>
+                    <form onsubmit="return false;">
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
                                 <div class="form-group radio-field">
@@ -422,52 +405,155 @@
                                         International</span>
                                 </div>
                                 <!-- end form-group -->
-                                <div class="form-group">
-                                    <label>Weight</label>
-                                    <input type="text">
-                                </div>
-                                <!-- end form-group -->
                                 <div class="form-group size-field">
-                                    <label>Cargo Size</label>
+                                    <label>Weight</label>
+                                    <input type="text" placeholder="kg" id="kt_touchspin_4">
+                                    <span>x</span>
                                     <input type="text" placeholder="cm">
                                     <span>x</span>
                                     <input type="text" placeholder="cm">
                                 </div>
                                 <!-- end form-group -->
-
-                                <div class="form-group">
-                                    <label>Fragile</label>
-                                    <select class="selectpicker">
-                                        <option>YES</option>
-                                        <option>NO</option>
-                                    </select>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label>Fragile</label>
+                                            <select class="selectpicker">
+                                                <option>YES</option>
+                                                <option>NO</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ translate('Package Type') }}:</label>
+                                            <select class="form-control select2 package-type-select"
+                                                name="package_id" style="width:100%">
+                                                <option></option>
+                                                @foreach ($packages as $package)
+                                                    <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif
+                                                        value="{{ $package->id }}">{{ $package->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="mb-2 d-md-none"></div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- end form-group -->
                             </div>
+                            <div class="row col-md-6 col-sm-6">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('From Country') }}:</label>
+                                        <select id="change-country" name="Shipment[from_country_id]"
+                                            class="form-control select2">
+                                            <option value=""></option>
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('To Country') }}:</label>
+                                        <select id="change-country-to" name="Shipment[to_country_id]"
+                                            class="form-control select2">
+                                            <option value=""></option>
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-md-6 col-sm-6">
+                            
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('From Region') }}:</label>
+                                        <select id="change-state-from" name="Shipment[from_state_id]"
+                                            class="form-control select2">
+                                            <option value=""></option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('To Region') }}:</label>
+                                        <select id="change-state-to" name="Shipment[to_state_id]"
+                                            class="form-control select2">
+                                            <option value=""></option>
+
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row col-md-6 col-sm-6">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('From Area') }}:</label>
+                                        <select id='change-area-from' name="Shipment[from_area_id]"
+                                            class="form-control select2">
+                                            <option value=""></option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('To Area') }}:</label>
+                                        <select name="Shipment[to_area_id]" class="form-control select2">
+                                            <option value=""></option>
+
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                            
                             <!-- col-6 -->
-                            <div class="col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label>Extra Services</label>
-                                    <span class="full-block">
-                                        <input type="checkbox" checked>
-                                        Quick Delivery</span> <span class="full-block">
-                                        <input type="checkbox">
-                                        Warranty</span> <span class="full-block">
-                                        <input type="checkbox">
-                                        Gift Box</span>
+                            <div class="row col-md-12 col-sm-12">
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="form-group">
+                                        <label>{{ translate('Shipping Cost') }}:</label>
+                                        <input type="text" value="$0" id="shipping_cost" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">                                
+                                    <div class="form-group">
+                                        <label>{{ translate('Tax Duty') }}:</label>
+                                        <input type="text" value="$0" id="tax_duty"  disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="form-group">
+                                        <label>{{ translate('Insurance') }}:</label>
+                                        <input type="text" value="$0" id="insurance" disabled>
+                                    </div>                                   
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="form-group">
+                                        <label>{{ translate('Return Cost') }}:</label>
+                                        <input type="text" value="$0" id="return_cost" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="form-group">
+                                        <label>{{ translate('Total Cost') }}:</label>
+                                        <input type="text" value="$0" id="total_cost" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4" style="padding-top: 25px;">
+                                    <div class="form-group">
+                                        <button type="submit" onclick="get_estimation_cost()">CALCULATE</button>
+                                    </div>
                                 </div>
                                 <!-- end form-group -->
-                                <div class="form-group"> <small>The Field below will show the double of the number
-                                        about $</small>
-                                </div>
-                                <!-- end form-group -->
-                                <div class="form-group">
-                                    <input type="text" value="$200" disabled>
-                                </div>
-                                <!-- end form-group -->
-                                <div class="form-group">
-                                    <button type="submit">CALCULATE</button>
-                                </div>
+                                
                                 <!-- end form-group -->
                             </div>
                             <!-- col-6 -->
@@ -477,7 +563,11 @@
                 </div>
                 <!-- end col-8 -->
                 <div class="col-md-4 hidden-sm hidden-xs">
-                    <figure> <img src="images/calculate-man.jpg" alt="Image"> </figure>
+                    <figure> 
+                        @if(get_setting_by_lang('home_calculate_shipping_image'))
+                            <img src="{{ url('public/'.\App\Upload::find(get_setting_by_lang('home_calculate_shipping_image'))->file_name) }}" alt="Image">
+                        @endif
+                    </figure>
                 </div>
                 <!-- end col-4 -->
             </div>
@@ -485,6 +575,7 @@
         </div>
         <!-- end container -->
     </section>
+    @endif
     <!-- end calculate-shipping -->
     <section class="steps-features">
         <div class="container">
@@ -650,3 +741,116 @@
     <div class="application"> <img src="images/app-mockup.jpg" alt="Image"> </div>
     <!-- end application -->
     @endsection
+    @section('script')
+
+    <script>
+            function get_estimation_cost() {
+                var total_weight = document.getElementById('kt_touchspin_4').value;
+                var select_packages = document.getElementsByClassName('package-type-select');
+                var select_weights = document.getElementsByClassName('weight-listener');
+                var select_insurances = document.getElementsByClassName('insurance-listener');
+                var select_values = document.getElementsByClassName('value-listener');
+
+                var from_country_id = document.getElementsByName("Shipment[from_country_id]")[0].value;
+                var to_country_id = document.getElementsByName("Shipment[to_country_id]")[0].value;
+                var from_state_id = document.getElementsByName("Shipment[from_state_id]")[0].value;
+                var to_state_id = document.getElementsByName("Shipment[to_state_id]")[0].value;
+                var from_area_id = document.getElementsByName("Shipment[from_area_id]")[0].value;
+                var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
+
+                var package_ids = [];
+                for (let index = 0; index < select_packages.length; index++) {
+                    if (select_packages[index].value) {
+                        package_ids[index] = new Object();
+                        package_ids[index]["package_id"] = select_packages[index].value;
+                        } else {
+                        AIZ.plugins.notify('danger', '{{ translate('Please select package type') }} ');
+                        return 0;
+                    }
+                }
+                var request_data = {
+                    _token: '{{ csrf_token() }}',
+                    package_ids: package_ids,
+                    total_weight: total_weight,
+                    from_country_id: from_country_id,
+                    to_country_id: to_country_id,
+                    from_state_id: from_state_id,
+                    to_state_id: to_state_id,
+                    from_area_id: from_area_id,
+                    to_area_id: to_area_id,
+                };
+                $.post('{{ route('admin.shipments.get-estimation-cost') }}', request_data, function(response) {
+                    document.getElementById("shipping_cost").value = response.shipping_cost;
+                    document.getElementById("tax_duty").value = response.tax;
+                    document.getElementById("insurance").value = response.insurance;
+                    document.getElementById("return_cost").value = response.return_cost + ' ( Not Included )';
+                    document.getElementById("total_cost").value = response.total_cost;
+                    console.log(response);
+                });
+            }
+        $(document).ready(function(){
+            $('.select2').select2();
+
+                $('#change-country').change(function() {
+        var id = $(this).val();
+        $.get("{{ route('admin.shipments.get-states-ajax') }}?country_id=" + id, function(data) {
+            $('select[name ="Shipment[from_state_id]"]').empty();
+            $('select[name ="Shipment[from_state_id]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+
+                $('select[name ="Shipment[from_state_id]"]').append('<option value="' + element['id'] +
+                    '">' + element['name'] + '</option>');
+            }
+
+
+        });
+    });
+    $('#change-country-to').change(function() {
+        var id = $(this).val();
+
+        $.get("{{ route('admin.shipments.get-states-ajax') }}?country_id=" + id, function(data) {
+            $('select[name ="Shipment[to_state_id]"]').empty();
+            $('select[name ="Shipment[to_state_id]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                $('select[name ="Shipment[to_state_id]"]').append('<option value="' + element['id'] +
+                    '">' + element['name'] + '</option>');
+            }
+
+
+        });
+    });
+    $('#change-state-from').change(function() {
+        var id = $(this).val();
+
+        $.get("{{ route('admin.shipments.get-areas-ajax') }}?state_id=" + id, function(data) {
+            $('select[name ="Shipment[from_area_id]"]').empty();
+            $('select[name ="Shipment[from_area_id]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                $('select[name ="Shipment[from_area_id]"]').append('<option value="' + element['id'] +
+                    '">' + element['name'] + '</option>');
+            }
+
+
+        });
+    });
+    $('#change-state-to').change(function() {
+        var id = $(this).val();
+
+        $.get("{{ route('admin.shipments.get-areas-ajax') }}?state_id=" + id, function(data) {
+            $('select[name ="Shipment[to_area_id]"]').empty();
+            $('select[name ="Shipment[to_area_id]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                $('select[name ="Shipment[to_area_id]"]').append('<option value="' + element['id'] +
+                    '">' + element['name'] + '</option>');
+            }
+
+
+        });
+    });
+        });
+    </script>
+@endsection

@@ -58,6 +58,7 @@
     <link href="{{ static_asset('themes/main/frontend/shipper/css/bootstrap-datepic')}}ker.css" rel="stylesheet">
     <link href="{{ static_asset('themes/main/frontend/shipper/css/bootstrap-selec')}}t.css" rel="stylesheet">
     <link href="{{ static_asset('themes/main/frontend/shipper/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ static_asset('themes/main/frontend/shipper/css/select2.min.css')}}" rel="stylesheet">
     <link href="{{ static_asset('themes/main/frontend/shipper/css/style.css')}}" rel="stylesheet">
 
 
@@ -190,6 +191,7 @@
         <script src="{{ static_asset('themes/main/frontend/shipper/js/waypoints.min.js')}}"></script>
         <script src="{{ static_asset('themes/main/frontend/shipper/js/slick.js')}}"></script>
         <script src="{{ static_asset('themes/main/frontend/shipper/js/masonry.min.js')}}"></script>
+        <script src="{{ static_asset('themes/main/frontend/shipper/js/select2.min.js')}}"></script>
         <script src="{{ static_asset('themes/main/frontend/shipper/js/scripts.js')}}"></script>
 
         <script src="{{ static_asset('assets/js/vendors.js') }}" ></script>

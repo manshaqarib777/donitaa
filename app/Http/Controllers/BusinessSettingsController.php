@@ -326,6 +326,7 @@ class BusinessSettingsController extends Controller
                 '*_images.*'=>'required',
             ]);
         }
+        //dd($request->all());
         
         // return $request;
         if($request->types){

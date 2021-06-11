@@ -219,7 +219,6 @@ class HomeController extends Controller
             'sidebar_menu'=>$sidebar_menu,
             'footer_menu'=>$footer_menu
         ];
-
         return view('frontend.index',$data);
     }
 

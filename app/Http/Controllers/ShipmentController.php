@@ -737,6 +737,10 @@ class ShipmentController extends Controller
                 {
                     $insurance = $insurance + ($insurance_fee * (float) $pack['shipment_price'])/100;
                 }    
+                if(!isset($pack['weight']))
+                {
+                    $pack['weight']=$weight;
+                }
 
                 if($package->default_cost)
                 {
@@ -826,6 +830,10 @@ class ShipmentController extends Controller
                 $package_extras += $package->cost;
                 $return_fee = $package->return_fee;
                 $insurance_fee = $package->insurance_fee;
+                if(!isset($pack['weight']))
+                {
+                    $pack['weight']=$weight;
+                }
                 if($insurance_fee==0)
                 {
                     $insurance_fee=(float) $covered_cost->insurance;
