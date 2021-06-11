@@ -129,7 +129,7 @@
     <!-- End side menu -->
 </header>
 <!-- header --> --}}
-;
+{{-- ;
                 }elseif ($item_number == 3) {
                     $style = "col-lg-4";
                 }else{
@@ -146,7 +146,7 @@
                         @endforelse
                     </div>
                 @endforeach
-            @endif
+            @endif --}}
 
             {{-- <div class="{{$style}} col-md-6 col-sm-6">
                 <div class="footer_panel padding_bottom_half bottom20">
@@ -248,42 +248,58 @@
     <div class="footer-content">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-sm-6">
-                    <h4 class="title"><span>01</span>ABOUT US</h4>
-                    <p>You can use the icons above to access more information about our credentials, providing
-                        solutions in a
-                        host of specific industries. However, these are far from the only industries that
-                        SHIPPER has proudly
-                        served.</p>
+                {{-- @if(get_setting_by_lang('home_statistics_status') && get_setting_by_lang('home_statistics_title1') !== null)
+                    <!-- Counters -->
+                    <section id="bg-counters" class="padding bg-counters" style="background-image: url({{ !empty(get_setting_by_lang('home_statistics_image')) ?  url('public/'.\App\Upload::find(json_decode(get_setting_by_lang('home_statistics_image'), true))->file_name) : ''}});">
+                        <div class="container">
+                            <div class="row align-items-center text-center">
+                                <div class="overlay overlay-dark opacity-6 z-index-0"></div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
+                                    <div class="counters whitecolor  top10 bottom10">
+                                        <span class="count_nums font-light" data-to="{{ get_setting_by_lang('home_statistics_num1')  }}" data-speed="2500"> </span>
+                                    </div>
+                                    <h3 class="font-light whitecolor top20">{{ get_setting_by_lang('home_statistics_title1')  }}</h3>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <p class="whitecolor top20 bottom20 font-light title">{{ get_setting_by_lang('home_statistics_desc')  }}</p>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
+                                    <div class="counters whitecolor top10 bottom10">
+                                        <span class="count_nums font-light" data-to="{{ get_setting_by_lang('home_statistics_num2')  }}" data-speed="2500"> </span>
+                                    </div>
+                                    <h3 class="font-light whitecolor top20">{{ get_setting_by_lang('home_statistics_title2')  }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                @endif --}}
+
+                @if(get_setting_by_lang('home_about_us_status') && get_setting_by_lang('home_about_us_title1') !== null)
+                <div class="col-md-4 col-sm-6">                
+                    <h4 class="title"><span>01</span>{{ get_setting_by_lang('home_about_us_title1')  }}</h4>
+                    <p>{{ get_setting_by_lang('home_about_us_desc')  }}</p>
                     <ul class="social-media">
-                        <li><a href="#"><i class="ion-social-facebook"></i></a></li>
-                        <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                        <li><a href="#"><i class="ion-social-googleplus"></i></a></li>
-                        <li><a href="#"><i class="ion-social-youtube"></i></a></li>
-                        <li><a href="#"><i class="ion-social-vimeo"></i></a></li>
+                        @if(is_array($main_social_links_name))
+                            @foreach ($main_social_links_name as $key => $social_link_name)
+                                @if($social_link_name || $main_social_links_icon[$key])
+                                    <li><a href="{{$main_social_links_name[$key]}}"><i
+                                                class="{{$main_social_links_icon[$key]}}"></i> </a></li>
+                                @endif
+                            @endforeach
+                        @endif
                     </ul>
                 </div>
-                <!-- end col-5 -->
+                @endif
                 <div class="col-md-2 col-sm-3 col-xs-6">
-                    <h4 class="title"><span>02</span>SERVICES</h4>
-                    <ul class="footer-menu">
-                        <li><a href="#">Aceon Freight</a></li>
-                        <li><a href="#">Storeage</a></li>
-                        <li><a href="#">Package Security</a></li>
-                        <li><a href="#">Air Freight</a></li>
-                        <li><a href="#">Warehousing</a></li>
-                    </ul>
-                </div>
-                <!-- end col-2 -->
-                <div class="col-md-2 col-sm-3 col-xs-6">
-                    <h4 class="title"><span>03</span>SHIPPER</h4>
-                    <ul class="footer-menu">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Location</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Site Maps</a></li>
-                        <li><a href="#">Get a Quote</a></li>
-                    </ul>
+                    @if(isset($footer_menu))
+                        <h4 class="title"><span>03</span>Community</h4>                    
+                        <ul class="footer-menu">
+                            @foreach($footer_menu->items as $item)                            
+                                <li><a href="{{$item->link}}">{{$item->label}}</a></li>                    
+                            @endforeach
+                        </ul>
+                    @endif
+
                 </div>
                 <!-- end col-2 -->
                 <div class="col-md-4">
@@ -302,8 +318,11 @@
             </div>
             <!-- end row -->
             <div class="row middle-bar">
-                <div class="col-lg-4 col-md-3 hidden-sm hidden-xs"> <img src="images/logo-light.png" alt="Image"
-                        class="logo">
+                <div class="col-lg-4 col-md-3 hidden-sm hidden-xs"> 
+                    <a class="navbar-brand" href="{{url('/')}}">
+                        <img src="@if(setting()->get('main_header_logo_'.app()->getLocale()) && setting()->get('main_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('main_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo-transparent.svg')}} @endif" alt="logo" class="logo-default">
+                        <img src="@if(setting()->get('sticky_header_logo_'.app()->getLocale()) && setting()->get('sticky_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('sticky_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo.svg')}} @endif" alt="logo" class="logo-scrolled">
+                    </a>
                     <h4>INTERNATIONAL LOGISTIC</h4>
                 </div>
                 <!-- end col-4 -->
@@ -332,9 +351,15 @@
     </div>
     <!-- end footer-content -->
     <div class="sub-footer">
-        <div class="container"> <span class="copyright">Copyright © 2015 , Shipper Logistic | Transportation
-                Template
-            </span></div>
+        <div class="container"> 
+            <span class="copyright">
+                @if(setting()->get('main_footer_copy_right_'.app()->getLocale()))
+                        {{setting()->get('main_footer_copy_right_'.app()->getLocale())}} 
+                @else
+                    Copyright © {{date('Y')}} All rights reserved.
+                @endif
+            </span>
+        </div>
         <!-- end container -->
     </div>
     <!-- end sub-footer -->
