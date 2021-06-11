@@ -573,58 +573,6 @@
         </div>
         <!-- end container -->
     </section>
-    <!-- end testimonials -->
-    <section class="latest-news">
-        <div class="container">
-            <div class="row spacing">
-                <div class="col-xs-12 spacing">
-                    <h3 class="section-title"><span>03</span>LATEST NEWS</h3>
-                </div>
-                <!-- end col-12 -->
-                <div class="col-md-4 col-sm-6 spacing">
-                    <div class="news-box">
-                        <figure><img src="images/news1.jpg" alt="Image"><span class="date">02/OCT</span></figure>
-                        <div class="news-caption">
-                            <h4>Social and demographic information</h4>
-                            <p>There are no hidden costs associated with our transportation services</p>
-                            <a href="#">READ MORE</a>
-                        </div>
-                        <!-- end news-caption -->
-                    </div>
-                    <!-- end news-box -->
-                </div>
-                <!-- end col-4 -->
-                <div class="col-md-4 col-sm-6 hidden-xs spacing">
-                    <div class="news-box">
-                        <div class="news-caption">
-                            <h4>Team member to discuss our meeting</h4>
-                            <p>Offers you peace-of-mind that we’ll be on-hand to help whenever you need us.</p>
-                            <a href="#">READ MORE</a>
-                        </div>
-                        <!-- end news-caption -->
-                        <figure><img src="images/news2.jpg" alt="Image"><span class="date">02/OCT</span></figure>
-                    </div>
-                    <!-- end news-box -->
-                </div>
-                <!-- end col-4 -->
-                <div class="col-md-4 hidden-sm spacing">
-                    <div class="news-box">
-                        <figure><img src="images/news3.jpg" alt="Image"><span class="date">02/OCT</span></figure>
-                        <div class="news-caption">
-                            <h4>Financial Institutions changes control</h4>
-                            <p>As a company, we believe in operating as independent national carriers.</p>
-                            <a href="#">READ MORE</a>
-                        </div>
-                        <!-- end news-caption -->
-                    </div>
-                    <!-- end news-box -->
-                </div>
-                <!-- end col-4 -->
-            </div>
-            <!-- end row -->
-        </div>
-        <!-- end container -->
-    </section>
     <!-- end latest-news -->
     <section class="clients">
         <div class="container">

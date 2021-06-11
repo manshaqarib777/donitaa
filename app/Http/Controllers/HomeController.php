@@ -208,7 +208,6 @@ class HomeController extends Controller
         $navbar_menu = Menus::find( setting()->get($active_theme->name.'_navbar_menu_'.app()->getLocale()) ); //return array
         $sidebar_menu = Menus::find( setting()->get($active_theme->name.'_sidebar_menu_'.app()->getLocale()) ); //return array
         $footer_menu = Menus::find( setting()->get($active_theme->name.'_footer_menu_'.app()->getLocale()) ); //return array
-        
         $data = [
             'footer_containers'=>$footer_containers,
             'second_footer'=>$second_footer,

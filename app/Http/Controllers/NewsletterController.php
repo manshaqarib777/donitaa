@@ -16,6 +16,20 @@ class NewsletterController extends Controller
         $subscribers = Subscriber::all();
         return view('backend.marketing.newsletters.index', compact('users', 'subscribers'));
     }
+    public function subscribe(Request $request)
+    {
+        if (env('DEMO_MODE') == 'On') {
+            flash(translate('This action is disabled in demo mode'))->error();
+            return back();
+        }
+        Subscriber::updateOrInsert(
+            ['email' => 'john@example.com'],
+            ['email' => 'john@example.com']
+        );
+
+    	flash(translate('Newsletter has been Subscribed'))->success();
+    	return redirect()->back();
+    }
 
     public function send(Request $request)
     {

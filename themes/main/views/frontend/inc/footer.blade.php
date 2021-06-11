@@ -248,32 +248,7 @@
     <div class="footer-content">
         <div class="container">
             <div class="row">
-                {{-- @if(get_setting_by_lang('home_statistics_status') && get_setting_by_lang('home_statistics_title1') !== null)
-                    <!-- Counters -->
-                    <section id="bg-counters" class="padding bg-counters" style="background-image: url({{ !empty(get_setting_by_lang('home_statistics_image')) ?  url('public/'.\App\Upload::find(json_decode(get_setting_by_lang('home_statistics_image'), true))->file_name) : ''}});">
-                        <div class="container">
-                            <div class="row align-items-center text-center">
-                                <div class="overlay overlay-dark opacity-6 z-index-0"></div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
-                                    <div class="counters whitecolor  top10 bottom10">
-                                        <span class="count_nums font-light" data-to="{{ get_setting_by_lang('home_statistics_num1')  }}" data-speed="2500"> </span>
-                                    </div>
-                                    <h3 class="font-light whitecolor top20">{{ get_setting_by_lang('home_statistics_title1')  }}</h3>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                    <p class="whitecolor top20 bottom20 font-light title">{{ get_setting_by_lang('home_statistics_desc')  }}</p>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 bottom10">
-                                    <div class="counters whitecolor top10 bottom10">
-                                        <span class="count_nums font-light" data-to="{{ get_setting_by_lang('home_statistics_num2')  }}" data-speed="2500"> </span>
-                                    </div>
-                                    <h3 class="font-light whitecolor top20">{{ get_setting_by_lang('home_statistics_title2')  }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                @endif --}}
-
+                
                 @if(get_setting_by_lang('home_about_us_status') && get_setting_by_lang('home_about_us_title1') !== null)
                 <div class="col-md-4 col-sm-6">                
                     <h4 class="title"><span>01</span>{{ get_setting_by_lang('home_about_us_title1')  }}</h4>
@@ -302,47 +277,58 @@
 
                 </div>
                 <!-- end col-2 -->
-                <div class="col-md-4">
-                    <div class="newsletter">
-                        <h4 class="title"><span>04</span>NEWSLETTER</h4>
-                        <p>If you would like more information about our services we are eager to help.</p>
-                        <form>
-                            <input type="text" placeholder="Type your e-mail">
-                            <button type="submit">JOIN</button>
-                        </form>
-                        <small>I promise, we won’t spam you!</small>
+                @if(get_setting_by_lang('home_newsletter_status'))
+                    <div class="col-md-4">
+                        <div class="newsletter">
+                            <h4 class="title"><span>04</span>{{ get_setting_by_lang('home_newsletter_title') }}</h4>
+                            <p>{{ get_setting_by_lang('home_newsletter_sub_title') }}</p>
+                            <form action="{{route('subscribe')}}" method="post">
+                                @csrf
+                                <input type="text" placeholder="Type your e-mail">
+                                <button type="submit">JOIN</button>
+                            </form>
+                            <small>{{ get_setting_by_lang('home_newsletter_desc') }}</small>
+                        </div>
+                        <!-- end newsletter -->
                     </div>
-                    <!-- end newsletter -->
-                </div>
+                @endif
                 <!-- end col-2 -->
             </div>
             <!-- end row -->
             <div class="row middle-bar">
                 <div class="col-lg-4 col-md-3 hidden-sm hidden-xs"> 
-                    <a class="navbar-brand" href="{{url('/')}}">
-                        <img src="@if(setting()->get('main_header_logo_'.app()->getLocale()) && setting()->get('main_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('main_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo-transparent.svg')}} @endif" alt="logo" class="logo-default">
-                        <img src="@if(setting()->get('sticky_header_logo_'.app()->getLocale()) && setting()->get('sticky_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('sticky_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo.svg')}} @endif" alt="logo" class="logo-scrolled">
-                    </a>
-                    <h4>INTERNATIONAL LOGISTIC</h4>
+                    <div class="row">
+                            <a class="navbar-brand" href="{{url('/')}}">
+                                <img src="@if(setting()->get('main_header_logo_'.app()->getLocale()) && setting()->get('main_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('main_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo-transparent.svg')}} @endif" alt="logo" class="logo-default">
+                            </a>
+                    </div>
+                    
                 </div>
-                <!-- end col-4 -->
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <h3>MOBILE APP</h3>
-                    <p>Download our mobile applications from Google Play and Apple Store or decode QR Code just
-                        below and
-                        start using.</p>
-                </div>
-                <!-- end col-4 -->
-                <div class="col-lg-4 col-sm-6 col-md-5 col-xs-12">
-                    <ul>
-                        <li><img src="images/icon-appstore.png" alt="Image"></li>
-                        <li><img src="images/icon-googleplay.png" alt="Image"></li>
-                    </ul>
-                    <i class="icon-mobile responsive-icon"></i> <a rel='nofollow'
-                        href='http://www.themezinho.net'><img
-                            src='https://chart.googleapis.com/chart&#63;cht=qr&amp;chl=www.themezinho.net&amp;chs=90x90'
-                            alt=''></a>
-                </div>
+                @if(get_setting_by_lang('home_footer_mobile_status') && get_setting_by_lang('home_footer_mobile_title1') !== null)
+                    <!-- end col-4 -->
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <h3>{{ get_setting_by_lang('home_footer_mobile_title1') }}</h3>
+                        <p>{{ get_setting_by_lang('home_footer_mobile_desc') }}</p>
+                    </div>
+                    <!-- end col-4 -->
+                    <div class="col-lg-4 col-sm-6 col-md-5 col-xs-12">
+                        <ul>
+                            {{-- @php
+                                dd(\App\Upload::find(explode(',',get_setting_by_lang('home_footer_mobile_image'))));
+                            @endphp --}}
+                            @foreach (\App\Upload::find(explode(',',get_setting_by_lang('home_footer_mobile_image'))) as $key => $value)
+                                <li><img src="{{url('public/'.$value->file_name)}}" alt="Image"></li>
+                            @endforeach
+                        </ul>
+                        <i class="icon-mobile responsive-icon"></i> 
+                        @if(get_setting_by_lang('home_footer_mobile_barcode_image'))
+                        <a rel='nofollow'
+                            href='http://www.themezinho.net'><img
+                                src='{{ url('public/'.\App\Upload::find(get_setting_by_lang('home_footer_mobile_barcode_image'))->file_name) }}'
+                                alt=''></a>
+                        @endif
+                    </div>
+                @endif
                 <!-- end col-4 -->
             </div>
             <!-- end row -->
@@ -353,11 +339,21 @@
     <div class="sub-footer">
         <div class="container"> 
             <span class="copyright">
-                @if(setting()->get('main_footer_copy_right_'.app()->getLocale()))
-                        {{setting()->get('main_footer_copy_right_'.app()->getLocale())}} 
-                @else
-                    Copyright © {{date('Y')}} All rights reserved.
-                @endif
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        @if(setting()->get('main_footer_copy_right_'.app()->getLocale()))
+                            {{setting()->get('main_footer_copy_right_'.app()->getLocale())}} 
+                        @else
+                            Copyright © {{date('Y')}} All rights reserved.
+                        @endif
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        {{setting()->get('main_app_name_'.app()->getLocale())}}
+                    </div>
+                </div>
+                
+
+
             </span>
         </div>
         <!-- end container -->

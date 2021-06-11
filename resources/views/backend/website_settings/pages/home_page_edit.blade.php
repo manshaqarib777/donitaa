@@ -28,7 +28,8 @@
                             <a href="{{ route('admin.dashboard') }}" class="text-muted">{{ translate('Dashboard') }}</a>
                         </li>
                         <li class="breadcrumb-item text-muted">
-                            <a href="{{ route('website.pages') }}" class="text-muted">{{ translate('Website Pages') }}</a>
+                            <a href="{{ route('website.pages') }}"
+                                class="text-muted">{{ translate('Website Pages') }}</a>
                         </li>
                         <li class="breadcrumb-item text-muted">
                             <a href="#" class="text-muted">{{ translate('Home Page Builder') }}</a>
@@ -56,8 +57,8 @@
                             <a class="nav-link  @if ($language->code == $lang) active @endif"
                                 href="{{ route('custom-pages.edit', ['id' => $page->slug, 'lang' => $language->code, 'page' => 'home']) }}">
                                 <span class="nav-icon">
-                                    <img src="{{ static_asset('assets/img/flags/' . $language->code . '.svg') }}" height="11"
-                                        class="mr-1">
+                                    <img src="{{ static_asset('assets/img/flags/' . $language->code . '.svg') }}"
+                                        height="11" class="mr-1">
                                 </span>
                                 <span class="nav-text">{{ $language->name }}</span>
                             </a>
@@ -241,64 +242,64 @@
                                 @endif
                             </div>
                             <button type="button" class="btn btn-primary btn-sm mt-10" data-toggle="add-more" data-content='
-                                        <div class="item card p-2 mb-3">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <div class="form-group">
-                                                        <input type="hidden" name="types[]" value="home_slider_text2">
-                                                        <input type="text" class="form-control" placeholder="{{ translate('Title') }}" name="home_slider_text2[]" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <div class="form-group">
-                                                        <input type="hidden" name="types[]" value="home_slider_text1">
-                                                        <input type="text" class="form-control" placeholder="{{ translate('Subtitle') }}" name="home_slider_text1[]" >
-                                                    </div>
-                                                </div>
-                                        </div>
-                                        <div class="row">
-                                                <div class="col">
-                                                    <div class="form-group">
-                                                        <input type="hidden" name="types[]" value="home_slider_text3">
-                                                        <textarea class="form-control" placeholder="{{ translate('Description') }}" name="home_slider_text3[]"></textarea>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="row ">
-                                                <div class="col mb-5">
-                                                    <div class="input-group" data-toggle="aizuploader" data-type="image">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
-                                                        </div>
-                                                        <div class="form-control file-amount">{{ translate('Choose File') }}</div>
-                                                        <input type="hidden" name="types[]" value="home_slider_images">
-                                                        <input type="hidden" name="home_slider_images[]" class="selected-files" required>
-                                                    </div>
-                                                    <div class="file-preview box sm">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
+                                                <div class="item card p-2 mb-3">
+                                                    <div class="row">
+                                                        <div class="col">
                                                             <div class="form-group">
-                                                                <input type="hidden" name="types[]" value="home_slider_links">
-                                                                <input type="text" class="form-control" placeholder="http://" name="home_slider_links[]" value="#">
+                                                                <input type="hidden" name="types[]" value="home_slider_text2">
+                                                                <input type="text" class="form-control" placeholder="{{ translate('Title') }}" name="home_slider_text2[]" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <input type="hidden" name="types[]" value="home_slider_text1">
+                                                                <input type="text" class="form-control" placeholder="{{ translate('Subtitle') }}" name="home_slider_text1[]" >
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <input type="hidden" name="types[]" value="home_slider_text3">
+                                                                <textarea class="form-control" placeholder="{{ translate('Description') }}" name="home_slider_text3[]"></textarea>
                                                             </div>
                                                         </div>
 
-                                                </div>
-                                            <div class="row">
-                                                <div class="col-auto">
-                                                    <button type="button" class="mt-1 btn btn-icon btn-circle btn-sm btn-soft-danger" data-toggle="remove-parent" data-parent=".item">
-                                                        <i class="fas fa-minus-circle"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>' data-target=".home-slider-target">
+                                                    </div>
+
+                                                    <div class="row ">
+                                                        <div class="col mb-5">
+                                                            <div class="input-group" data-toggle="aizuploader" data-type="image">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
+                                                                </div>
+                                                                <div class="form-control file-amount">{{ translate('Choose File') }}</div>
+                                                                <input type="hidden" name="types[]" value="home_slider_images">
+                                                                <input type="hidden" name="home_slider_images[]" class="selected-files" required>
+                                                            </div>
+                                                            <div class="file-preview box sm">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                                    <div class="form-group">
+                                                                        <input type="hidden" name="types[]" value="home_slider_links">
+                                                                        <input type="text" class="form-control" placeholder="http://" name="home_slider_links[]" value="#">
+                                                                    </div>
+                                                                </div>
+
+                                                        </div>
+                                                    <div class="row">
+                                                        <div class="col-auto">
+                                                            <button type="button" class="mt-1 btn btn-icon btn-circle btn-sm btn-soft-danger" data-toggle="remove-parent" data-parent=".item">
+                                                                <i class="fas fa-minus-circle"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>' data-target=".home-slider-target">
                                 <i class="fas fa-plus-circle" style="color: white"></i>
                                 {{ translate('Add New') }}
                             </button>
@@ -379,7 +380,8 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <input type="hidden" name="types[]" value="home_statistics_desc">
-                                                <textarea class="form-control" placeholder="{{ translate('Description') }}"
+                                                <textarea class="form-control"
+                                                    placeholder="{{ translate('Description') }}"
                                                     name="home_statistics_desc">{{ get_setting_by_lang('home_statistics_desc', $lang) }}</textarea>
                                             </div>
                                         </div>
@@ -443,8 +445,10 @@
                                         <div class="form-group">
                                             <input type="hidden" name="types[]" value="home_msection_htitle">
                                             <input type="text" class="form-control"
-                                                placeholder="{{ translate('Section Title') }}" name="home_msection_htitle"
-                                                value="{{ get_setting_by_lang('home_msection_htitle', $lang) }}" required>
+                                                placeholder="{{ translate('Section Title') }}"
+                                                name="home_msection_htitle"
+                                                value="{{ get_setting_by_lang('home_msection_htitle', $lang) }}"
+                                                required>
                                         </div>
                                     </div>
                                 </div>
@@ -679,6 +683,122 @@
                         </form>
                     </div>
                 </div>
+                <div class="card shadow-none bg-light mt-5">
+                    <div class="card-header">
+                        <h6 class="mb-0">{{ translate('Header Information') }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3 ml-0">
+                            <label class="pt-2 mr-5">{{ translate('Show Header Information:') }}</label>
+                            <span class="switch">
+                                <label>
+                                    <input type="checkbox" name="checkbox" id="checkbox"
+                                        onchange="updateSettings(this, 'home_header_information_status')" @if (get_setting_by_lang('home_header_information_status', $lang) == 1) checked @endif />
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                        <form action="{{ route('business_settings.update') }}" method="POST"
+                            enctype="multipart/form-data" id="home_header_information" @if (get_setting_by_lang('home_header_information_status', $lang) != 1) style="display: none;" @endif>
+                            @csrf
+                            <input type="hidden" name="lang" value="{{ $lang }}">
+                            <div class="form-group">
+                                <div class="home-header_information-target">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]"
+                                                    value="home_header_information_opening_hours_title">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Opening Hours Title') }}"
+                                                    name="home_header_information_opening_hours_title"
+                                                    value="{{ get_setting_by_lang('home_header_information_opening_hours_title', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]"
+                                                    value="home_header_information_opening_hours_value">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Opening Hours') }}"
+                                                    name="home_header_information_opening_hours_value"
+                                                    value="{{ get_setting_by_lang('home_header_information_opening_hours_value', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]"
+                                                    value="home_header_information_our_location_title">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Our Location Title') }}"
+                                                    name="home_header_information_our_location_title"
+                                                    value="{{ get_setting_by_lang('home_header_information_our_location_title', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]"
+                                                    value="home_header_information_our_location_value">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Our Location') }}"
+                                                    name="home_header_information_our_location_value"
+                                                    value="{{ get_setting_by_lang('home_header_information_our_location_value', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]"
+                                                    value="home_header_information_quick_support_title">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Quick Support Title') }}"
+                                                    name="home_header_information_quick_support_title"
+                                                    value="{{ get_setting_by_lang('home_header_information_quick_support_title', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]"
+                                                    value="home_header_information_quick_support_value">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Quick Support') }}"
+                                                    name="home_header_information_quick_support_value"
+                                                    value="{{ get_setting_by_lang('home_header_information_quick_support_value', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]"
+                                                    value="home_header_information_contact_number_title">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Main Branch Contact Number') }}"
+                                                    name="home_header_information_contact_number_title"
+                                                    value="{{ get_setting_by_lang('home_header_information_contact_number_title', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">{{ translate('Update') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-6">
@@ -902,7 +1022,8 @@
                                             <div class="form-group">
                                                 <input type="hidden" name="types[]" value="home_section1_desc">
                                                 <textarea class="form-control"
-                                                    placeholder="{{ translate('Description') }}" name="home_section1_desc"
+                                                    placeholder="{{ translate('Description') }}"
+                                                    name="home_section1_desc"
                                                     required>{{ get_setting_by_lang('home_section1_desc', $lang) }}</textarea>
                                             </div>
                                         </div>
@@ -980,7 +1101,8 @@
                                                 <div class="form-group">
                                                     <input type="hidden" name="types[]" value="home_process_title">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Title') }}" name="home_process_title[]"
+                                                        placeholder="{{ translate('Title') }}"
+                                                        name="home_process_title[]"
                                                         value="{{ json_decode(get_setting_by_lang('home_process_title', $lang), true)[0] ?? '' }}"
                                                         required>
                                                 </div>
@@ -1004,7 +1126,8 @@
                                                 <div class="form-group">
                                                     <input type="hidden" name="types[]" value="home_process_title">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Title') }}" name="home_process_title[]"
+                                                        placeholder="{{ translate('Title') }}"
+                                                        name="home_process_title[]"
                                                         value="{{ json_decode(get_setting_by_lang('home_process_title', $lang), true)[1] ?? '' }}"
                                                         required>
                                                 </div>
@@ -1028,7 +1151,8 @@
                                                 <div class="form-group">
                                                     <input type="hidden" name="types[]" value="home_process_title">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Title') }}" name="home_process_title[]"
+                                                        placeholder="{{ translate('Title') }}"
+                                                        name="home_process_title[]"
                                                         value="{{ json_decode(get_setting_by_lang('home_process_title', $lang), true)[2] ?? '' }}"
                                                         required>
                                                 </div>
@@ -1052,7 +1176,8 @@
                                                 <div class="form-group">
                                                     <input type="hidden" name="types[]" value="home_process_title">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Title') }}" name="home_process_title[]"
+                                                        placeholder="{{ translate('Title') }}"
+                                                        name="home_process_title[]"
                                                         value="{{ json_decode(get_setting_by_lang('home_process_title', $lang), true)[3] ?? '' }}"
                                                         required>
                                                 </div>
@@ -1076,7 +1201,8 @@
                                                 <div class="form-group">
                                                     <input type="hidden" name="types[]" value="home_process_title">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Title') }}" name="home_process_title[]"
+                                                        placeholder="{{ translate('Title') }}"
+                                                        name="home_process_title[]"
                                                         value="{{ json_decode(get_setting_by_lang('home_process_title', $lang), true)[4] ?? '' }}"
                                                         required>
                                                 </div>
@@ -1294,60 +1420,60 @@
                                 @endif
                             </div>
                             <button type="button" class="btn btn-primary btn-sm mt-5" data-toggle="add-more" data-content='
-                                        <div class="item card p-2 mb-3">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <input type="hidden" name="types[]"
-                                                                value="home_testimonials_name">
-                                                        <input type="text" class="form-control"
-                                                                placeholder="{{ translate('Customer name') }}"
-                                                                name="home_testimonials_name[]" required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <input type="hidden" name="types[]"
-                                                                value="home_testimonials_job">
-                                                        <input type="text" class="form-control"
-                                                                placeholder="{{ translate('Customer job') }}"
-                                                                name="home_testimonials_job[]" required>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="row gutters-5">
-                                                <div class="col">
-                                                    <div class="form-group">
-                                                        <input type="hidden" name="types[]"
-                                                            value="home_testimonials_desc">
-                                                        <textarea class="form-control"
-                                                            placeholder="{{ translate('Customer testimonial') }}"
-                                                            name="home_testimonials_desc[]" required></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row ">
-                                                <div class="col-10">
-                                                    <div class="input-group" data-toggle="aizuploader" data-type="image">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
+                                                <div class="item card p-2 mb-3">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <input type="hidden" name="types[]"
+                                                                        value="home_testimonials_name">
+                                                                <input type="text" class="form-control"
+                                                                        placeholder="{{ translate('Customer name') }}"
+                                                                        name="home_testimonials_name[]" required>
+                                                            </div>
                                                         </div>
-                                                        <div class="form-control file-amount">{{ translate('Choose File') }}</div>
-                                                        <input type="hidden" name="types[]" value="home_testimonials_images">
-                                                        <input type="hidden" name="home_testimonials_images[]" class="selected-files" required>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <input type="hidden" name="types[]"
+                                                                        value="home_testimonials_job">
+                                                                <input type="text" class="form-control"
+                                                                        placeholder="{{ translate('Customer job') }}"
+                                                                        name="home_testimonials_job[]" required>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
-                                                    <div class="file-preview box sm">
+
+                                                    <div class="row gutters-5">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <input type="hidden" name="types[]"
+                                                                    value="home_testimonials_desc">
+                                                                <textarea class="form-control"
+                                                                    placeholder="{{ translate('Customer testimonial') }}"
+                                                                    name="home_testimonials_desc[]" required></textarea>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <button type="button" class="mt-1 btn btn-icon btn-circle btn-sm btn-soft-danger" data-toggle="remove-parent" data-parent=".item">
-                                                        <i class="fas fa-minus-circle"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>' data-target=".home-testimonials-target">
+                                                    <div class="row ">
+                                                        <div class="col-10">
+                                                            <div class="input-group" data-toggle="aizuploader" data-type="image">
+                                                                <div class="input-group-prepend">
+                                                                    <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
+                                                                </div>
+                                                                <div class="form-control file-amount">{{ translate('Choose File') }}</div>
+                                                                <input type="hidden" name="types[]" value="home_testimonials_images">
+                                                                <input type="hidden" name="home_testimonials_images[]" class="selected-files" required>
+                                                            </div>
+                                                            <div class="file-preview box sm">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button type="button" class="mt-1 btn btn-icon btn-circle btn-sm btn-soft-danger" data-toggle="remove-parent" data-parent=".item">
+                                                                <i class="fas fa-minus-circle"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>' data-target=".home-testimonials-target">
                                 <i class="fas fa-plus-circle" style="color: white"></i>
                                 {{ translate('Add New Testimonial') }}
                             </button>
@@ -1440,7 +1566,7 @@
                                             <div class="form-group">
                                                 <input type="hidden" name="types[]" value="home_footer_mobile_title1">
                                                 <input type="text" class="form-control"
-                                                    placeholder="{{ translate('First statistic') }}"
+                                                    placeholder="{{ translate('Title') }}"
                                                     name="home_footer_mobile_title1"
                                                     value="{{ get_setting_by_lang('home_footer_mobile_title1', $lang) }}"
                                                     required>
@@ -1465,16 +1591,36 @@
                                                 data-multiple="true">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text bg-soft-secondary font-weight-medium">
-                                                        {{ translate('Browse') }}</div>
+                                                        {{ translate('Browse Images') }}</div>
                                                 </div>
                                                 <div class="form-control file-amount">{{ translate('Choose File') }}
                                                 </div>
                                                 <input type="hidden" name="types[]" value="home_footer_mobile_image">
-                                                <input type="hidden" name="home_footer_mobile_image"
-                                                    class="selected-files"
-                                                    value="{{ get_setting_by_lang('home_footer_mobile_image', $lang) }}" max="3">
+                                                <input type="hidden" name="home_footer_mobile_image" class="selected-files"
+                                                    value="{{ get_setting_by_lang('home_footer_mobile_image', $lang) }}"
+                                                    max="3">
                                             </div>
                                             <div class="file-preview">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="input-group" data-toggle="aizuploader" data-type="image">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                        {{ translate('Browse BarCode') }}</div>
+                                                </div>
+                                                <div class="form-control file-amount">{{ translate('Choose File') }}
+                                                </div>
+                                                <input type="hidden" name="types[]"
+                                                    value="home_footer_mobile_barcode_image">
+                                                <input type="hidden" name="home_footer_mobile_barcode_image"
+                                                    class="selected-files"
+                                                    value="{{ json_decode(get_setting_by_lang('home_footer_mobile_barcode_image', $lang), true) }}">
+                                            </div>
+                                            <div class="file-preview box sm">
                                             </div>
                                         </div>
 
@@ -1487,6 +1633,74 @@
                         </form>
                     </div>
                 </div>
+
+
+                {{-- header_information --}}
+                <div class="card shadow-none bg-light mt-5">
+                    <div class="card-header">
+                        <h6 class="mb-0">{{ translate('NEWSLETTER') }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3 ml-0">
+                            <label class="pt-2 mr-5">{{ translate('Show NEWSLETTER:') }}</label>
+                            <span class="switch">
+                                <label>
+                                    <input type="checkbox" name="checkbox" id="checkbox"
+                                        onchange="updateSettings(this, 'home_newsletter_status')" @if (get_setting_by_lang('home_newsletter_status', $lang) == 1) checked @endif />
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                        <form action="{{ route('business_settings.update') }}" method="POST"
+                            enctype="multipart/form-data" id="home_newsletter" @if (get_setting_by_lang('home_newsletter_status', $lang) != 1) style="display: none;" @endif>
+                            @csrf
+                            <input type="hidden" name="lang" value="{{ $lang }}">
+
+                            <div class="form-group">
+                                <div class="home-newsletter-target">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_newsletter_title">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Title') }}" name="home_newsletter_title"
+                                                    value="{{ get_setting_by_lang('home_newsletter_title', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_newsletter_sub_title">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Sub Title') }}"
+                                                    name="home_newsletter_sub_title"
+                                                    value="{{ get_setting_by_lang('home_newsletter_sub_title', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_newsletter_desc">
+                                                <textarea class="form-control"
+                                                    placeholder="{{ translate('Description') }}"
+                                                    name="home_newsletter_desc">{{ get_setting_by_lang('home_newsletter_desc', $lang) }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">{{ translate('Update') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+
+
 
             </div>
         </div>
@@ -1513,6 +1727,12 @@
                 }
                 if (type == 'home_statistics_status') {
                     $('#home_statistics').show();
+                }
+                if (type == 'home_header_information_status') {
+                    $('#home_header_information').show();
+                }
+                if (type == 'home_newsletter_status') {
+                    $('#home_newsletter').show();
                 }
                 if (type == 'home_about_us_status') {
                     $('#home_about_us').show();
@@ -1546,6 +1766,12 @@
                 }
                 if (type == 'home_about_us_status') {
                     $('#home_about_us').hide();
+                }
+                if (type == 'home_header_information_status') {
+                    $('#home_header_information').hide();
+                }
+                if (type == 'home_newsletter_status') {
+                    $('#home_newsletter').hide();
                 }
                 if (type == 'home_footer_mobile_status') {
                     $('#home_footer_mobile').hide();
@@ -1625,31 +1851,32 @@
 
         function row_content(id) {
             var row = `<div class="row gutters-5">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <input type="text" class="form-control main_social_links_name" placeholder="https://" name="main_social_links_name[]">
-                            </div>
-                        </div>
-                        <div class="col-3 button-add-icon">
-                            <button type="button" id="GetIconPicker-` + id + `" data-iconpicker-input="#MyIconInput-` +
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control main_social_links_name" placeholder="https://" name="main_social_links_name[]">
+                                    </div>
+                                </div>
+                                <div class="col-3 button-add-icon">
+                                    <button type="button" id="GetIconPicker-` + id +
+                `" data-iconpicker-input="#MyIconInput-` +
                 id + `" data-iconpicker-preview="#MyIconPreview-` + id + `" class="icon-picker">Select Icon</button>
-                            <input type="hidden" name="main_social_links_icon[]" id="MyIconInput-` + id + `">
-                        </div>
-                        <div class="col-3">
-                            <i id="MyIconPreview-` + id + `" style="font-size: 35px;color: black;"></i>
-                        </div>
-                        <div class="col-2">
-                            <button type="button" class="mt-1 btn btn-icon btn-circle btn-sm btn-soft-danger" data-toggle="remove-parent" data-parent=".row">
-                                <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-03-11-144509/theme/html/demo1/dist/../src/media/svg/icons/Code/Error-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>
-                                        <path d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z" fill="#000000"/>
-                                    </g>
-                                </svg><!--end::Svg Icon--></span>
-                            </button>
-                        </div>
-                    </div>`;
+                                    <input type="hidden" name="main_social_links_icon[]" id="MyIconInput-` + id + `">
+                                </div>
+                                <div class="col-3">
+                                    <i id="MyIconPreview-` + id + `" style="font-size: 35px;color: black;"></i>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="mt-1 btn btn-icon btn-circle btn-sm btn-soft-danger" data-toggle="remove-parent" data-parent=".row">
+                                        <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-03-11-144509/theme/html/demo1/dist/../src/media/svg/icons/Code/Error-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24"/>
+                                                <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>
+                                                <path d="M12.0355339,10.6213203 L14.863961,7.79289322 C15.2544853,7.40236893 15.8876503,7.40236893 16.2781746,7.79289322 C16.6686989,8.18341751 16.6686989,8.81658249 16.2781746,9.20710678 L13.4497475,12.0355339 L16.2781746,14.863961 C16.6686989,15.2544853 16.6686989,15.8876503 16.2781746,16.2781746 C15.8876503,16.6686989 15.2544853,16.6686989 14.863961,16.2781746 L12.0355339,13.4497475 L9.20710678,16.2781746 C8.81658249,16.6686989 8.18341751,16.6686989 7.79289322,16.2781746 C7.40236893,15.8876503 7.40236893,15.2544853 7.79289322,14.863961 L10.6213203,12.0355339 L7.79289322,9.20710678 C7.40236893,8.81658249 7.40236893,8.18341751 7.79289322,7.79289322 C8.18341751,7.40236893 8.81658249,7.40236893 9.20710678,7.79289322 L12.0355339,10.6213203 Z" fill="#000000"/>
+                                            </g>
+                                        </svg><!--end::Svg Icon--></span>
+                                    </button>
+                                </div>
+                            </div>`;
             return row;
 
         }

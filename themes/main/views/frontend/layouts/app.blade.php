@@ -62,8 +62,8 @@
 
 
     <script>
-        var AIZ = AIZ || {};
-    </script>
+		var AIZ = AIZ || {};
+	</script>
 
 
     @if (\App\BusinessSetting::where('type', 'google_analytics')->first()->value == 1)
@@ -192,41 +192,31 @@
         <script src="{{ static_asset('themes/main/frontend/shipper/js/masonry.min.js')}}"></script>
         <script src="{{ static_asset('themes/main/frontend/shipper/js/scripts.js')}}"></script>
 
-        <script src="{{ static_asset('assets/js/aiz-core.js') }}" ></script>
-        
-        @if (get_setting('facebook_chat') == 1)
-            <script type="text/javascript">
-                window.fbAsyncInit = function() {
-                    FB.init({
-                    xfbml            : true,
-                    version          : 'v3.3'
-                    });
-                };
-
-                (function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-                fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));
-            </script>
-            <div id="fb-root"></div>
-            <!-- Your customer chat code -->
-            <div class="fb-customerchat"
-            attribution=setup_tool
-            page_id="{{ env('FACEBOOK_PAGE_ID') }}">
-            </div>
-        @endif
-
+        <script src="{{ static_asset('assets/js/vendors.js') }}" ></script>
+    	<script src="{{ static_asset('assets/js/aiz-core.js') }}" ></script> 
         <script>
             @foreach (session('flash_notification', collect())->toArray() as $message)
                 AIZ.plugins.notify('{{ $message['level'] }}', '{{ $message['message'] }}');
+                @php
+                session()->forget('flash_notification')
+                @endphp
             @endforeach
-        </script>
 
+            @if (count($errors) > 0)
+                @foreach ($errors->all() as $error)
+                    AIZ.plugins.notify('warning', '{{ $error }}');
+                @endforeach
+            @endif
 
-        <script>
+            @if ($msg = Session::get('status'))
+                AIZ.plugins.notify('success', '{{ $msg }}');
+            @endif
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
             $(document).ready(function() {
             
@@ -282,7 +272,33 @@
                     $('body').removeClass("typed-search-box-shown");
                 }
             }
+            $(document).ready(function() {
+                var getIP = 'http://ip-api.com/json/',
+                    openWeatherMap = 'http://api.openweathermap.org/data/2.5/weather',
+                    APPID = '83d62febe43ccee5370e5c9de57e1188';
 
+                $.getJSON(getIP).done(function(location) {
+                   $.getJSON(openWeatherMap, {
+                        lat: location.lat,
+                        lon: location.lon,
+                        APPID: APPID
+                    })
+                    .done(function(weather) {
+                        var celsius = weather.main.temp - 273.15;
+                        var fahrenheit = celsius * 1.8 + 32;
+                        $("#import_temprature").html(celsius);
+                        // $('.currentLocation').text('Hello! Your current location is ' + location.city + ', ' + location.region + ', ' + location.country);
+
+                        // $('.btn-celsius').on('click', function() {
+                        //     $('.currentTemperature').text('The current temperature in ' + location.city + ' is ' + celsius.toFixed(0) + ' degrees Celsius.');
+                        // });
+
+                        // $('.btn-fahrenheit').on('click', function() {
+                        //     $('.currentTemperature').text('The current temperature in ' + location.city + ' is ' + fahrenheit.toFixed(0) + ' degrees Fahrenheit.');
+                        // });
+                    });
+                });
+            });
     
 
         </script>
