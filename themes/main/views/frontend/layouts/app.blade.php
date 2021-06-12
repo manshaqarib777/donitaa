@@ -54,9 +54,9 @@
     <link href="{{ static_asset('themes/main/frontend/shipper/css/ionicons.css')}}" rel="stylesheet">
     <link href="{{ static_asset('themes/main/frontend/shipper/css/et-line-fonts.css')}}" rel="stylesheet">
     <link href="{{ static_asset('themes/main/frontend/shipper/css/slick.css')}}" rel="stylesheet">
-    <link href="{{ static_asset('themes/main/frontend/shipper/css/jquery.fancybox.c')}}ss" rel="stylesheet">
-    <link href="{{ static_asset('themes/main/frontend/shipper/css/bootstrap-datepic')}}ker.css" rel="stylesheet">
-    <link href="{{ static_asset('themes/main/frontend/shipper/css/bootstrap-selec')}}t.css" rel="stylesheet">
+    <link href="{{ static_asset('themes/main/frontend/shipper/css/jquery.fancybox.css')}}" rel="stylesheet">
+    <link href="{{ static_asset('themes/main/frontend/shipper/css/bootstrap-datepicker.css')}}" rel="stylesheet">
+    <link href="{{ static_asset('themes/main/frontend/shipper/css/bootstrap-select.css')}}" rel="stylesheet">
     <link href="{{ static_asset('themes/main/frontend/shipper/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ static_asset('themes/main/frontend/shipper/css/select2.min.css')}}" rel="stylesheet">
     <link href="{{ static_asset('themes/main/frontend/shipper/css/style.css')}}" rel="stylesheet">
@@ -192,13 +192,14 @@
         <script src="{{ static_asset('themes/main/frontend/shipper/js/slick.js')}}"></script>
         <script src="{{ static_asset('themes/main/frontend/shipper/js/masonry.min.js')}}"></script>
         <script src="{{ static_asset('themes/main/frontend/shipper/js/select2.min.js')}}"></script>
-        <script src="{{ static_asset('themes/main/frontend/shipper/js/scripts.js')}}"></script>
+        <script src="{{ static_asset('themes/main/frontend/shipper/js/scripts.js')}}"></script>        
+        <script src="{{ static_asset('themes/main/frontend/shipper/js/jquery.toaster.js')}}"></script>
 
-        <script src="{{ static_asset('assets/js/vendors.js') }}" ></script>
-    	<script src="{{ static_asset('assets/js/aiz-core.js') }}" ></script> 
+
+
         <script>
             @foreach (session('flash_notification', collect())->toArray() as $message)
-                AIZ.plugins.notify('{{ $message['level'] }}', '{{ $message['message'] }}');
+                $.toaster({ priority :'success', title :'{{ $message['level'] }}', message :'{{ $message['message'] }}',settings : { timeout:5000}});
                 @php
                 session()->forget('flash_notification')
                 @endphp
@@ -206,12 +207,13 @@
 
             @if (count($errors) > 0)
                 @foreach ($errors->all() as $error)
-                    AIZ.plugins.notify('warning', '{{ $error }}');
+                    $.toaster({ priority :'danger', title :'Error', message :'{{ $error }}',settings : { timeout:5000}});
                 @endforeach
             @endif
 
             @if ($msg = Session::get('status'))
-                AIZ.plugins.notify('success', '{{ $msg }}');
+                $.toaster({ priority :'success', title :'Success', message :'{{ $msg }}',settings : { timeout:5000}});
+
             @endif
 
             $.ajaxSetup({
@@ -228,7 +230,7 @@
                             e.preventDefault();
                             var $this = $(this);
                             var locale = $this.data('flag');
-                            $.post('{{ route('language.change') }}',{_token: AIZ.data.csrf, locale:locale}, function(data){
+                            $.post('{{ route('language.change') }}',{_token: '{{csrf_token()}}', locale:locale}, function(data){
                                 location.reload();
                             });
 
@@ -254,7 +256,7 @@
 
                     $('.typed-search-box').removeClass('d-none');
                     $('.search-preloader').removeClass('d-none');
-                    $.post('{{ route('search.ajax') }}', { _token: AIZ.data.csrf, search:searchKey}, function(data){
+                    $.post('{{ route('search.ajax') }}', { _token: '{{csrf_token()}}', search:searchKey}, function(data){
                         if(data == '0'){
                             // $('.typed-search-box').addClass('d-none');
                             $('#search-content').html(null);

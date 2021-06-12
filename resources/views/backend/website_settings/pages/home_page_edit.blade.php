@@ -431,10 +431,10 @@
                             enctype="multipart/form-data" id="home_calculate_shipping" @if (get_setting_by_lang('home_calculate_shipping_status', $lang) != 1) style="display: none;" @endif>
                             @csrf
                             <input type="hidden" name="lang" value="{{ $lang }}">
-                
+
                             <div class="form-group">
                                 <div class="home-calculate_shipping-target">
-                
+
                                     <div class="row">
                                         <div class="col">
                                             <div class="input-group" data-toggle="aizuploader" data-type="image">
@@ -453,10 +453,10 @@
                                             <div class="file-preview box sm">
                                             </div>
                                         </div>
-                
+
                                     </div>
-                
-                
+
+
                                 </div>
                             </div>
                             <div class="text-right">
@@ -489,8 +489,8 @@
                             @csrf
                             <input type="hidden" name="lang" value="{{ $lang }}">
 
-                            <input type="hidden" name="types[]" value="home_msection_title">
-                            <input type="hidden" name="types[]" value="home_msection_desc">
+                            <input type="hidden" name="types[]" value="home_page_banner_title">
+                            <input type="hidden" name="types[]" value="home_page_banner_sub_title">
                             <input type="hidden" name="types[]" value="home_msection_images">
                             <div class="form-group">
                                 <div class="row">
@@ -544,54 +544,89 @@
                                     </div>
                                 </div>
                                 <div class="card-header">
-                                    <h6 class="mb-0">{{ translate('Mobile Features') }}</h6>
+                                    <h6 class="mb-0">{{ translate('Home Page Banners') }}</h6>
                                 </div>
                                 <div class="home-msection-target">
                                     @php
-                                        $mobile_feature_title = json_decode(get_setting_by_lang('home_msection_title', $lang), true);
-                                        $mobile_feature_desc = json_decode(get_setting_by_lang('home_msection_desc', $lang), true);
-                                        $mobile_feature_icon = json_decode(get_setting_by_lang('home_msection_icon', $lang), true);
+                                        $home_page_banner_title = json_decode(get_setting_by_lang('home_page_banner_title', $lang), true);
+                                        $home_page_banner_sub_title = json_decode(get_setting_by_lang('home_page_banner_sub_title', $lang), true);
+                                        $home_page_banner_place_holder = json_decode(get_setting_by_lang('home_page_banner_place_holder', $lang), true);
+                                        $home_page_banner_read_more = json_decode(get_setting_by_lang('home_page_banner_read_more', $lang), true);
+                                        $home_page_banner_read_more_link = json_decode(get_setting_by_lang('home_page_banner_read_more_link', $lang), true);
                                     @endphp
                                     <div class="item card p-2 mb-3">
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <input type="hidden" name="types[]" value="home_msection_title">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_title">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Feature title') }}"
-                                                        name="home_msection_title[0]"
-                                                        value="{{ $mobile_feature_title[0] ?? '' }}" required>
+                                                        placeholder="{{ translate('Title') }}"
+                                                        name="home_page_banner_title[0]"
+                                                        value="{{ $home_page_banner_title[0] ?? '' }}" required>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <input type="hidden" name="types[]" value="home_msection_desc">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_sub_title">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Feature description') }}"
-                                                        name="home_msection_desc[0]"
-                                                        value="{{ $mobile_feature_desc[0] ?? '' }}" required>
+                                                        placeholder="{{ translate('Sub Title') }}"
+                                                        name="home_page_banner_sub_title[0]"
+                                                        value="{{ $home_page_banner_sub_title[0] ?? '' }}" required>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row gutters-5">
+                                        <div class="row">
                                             <div class="col">
-                                                <div class="input-group">
+                                                <div class="form-group">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_place_holder">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="{{ translate('Place Holder') }}"
+                                                        name="home_page_banner_place_holder[0]"
+                                                        value="{{ $home_page_banner_place_holder[0] ?? '' }}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col">
+                                                <div class="input-group" data-toggle="aizuploader" data-type="image">
                                                     <div class="input-group-prepend">
-                                                        <button type="button" id="GetIconPicker-0"
-                                                            data-iconpicker-input=".MyIconInput-0"
-                                                            data-iconpicker-preview=".MyIconPreview-0"
-                                                            class="icon-picker btn btn-success mr-2">{{ translate('Select Icon') }}</button>
-                                                        <input type="hidden" name="home_msection_icon[0]"
-                                                            class="MyIconInput-0"
-                                                            value="{{ $mobile_feature_icon[0] ?? '' }}" required>
-                                                        <input type="hidden" name="types[]" value="home_msection_icon">
+                                                        <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                            {{ translate('Browse Image') }}</div>
                                                     </div>
-                                                    <div class="input-group-append">
-                                                        <i class="MyIconPreview-0 {{ $mobile_feature_icon[0] ?? '' }}"
-                                                            style="line-height: 3rem;padding: 0 30px;"></i>
+                                                    <div class="form-control file-amount">{{ translate('Choose File') }}
                                                     </div>
+                                                    <input type="hidden" name="types[]"
+                                                        value="home_page_banner_place_holder">
+                                                    <input type="hidden" name="home_page_banner_place_holder[0]"
+                                                        class="selected-files"
+                                                        value="{{$home_page_banner_place_holder[0] ?? '' }}">
+                                                </div>
+                                                <div class="file-preview box sm">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_read_more">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="{{ translate('Place Holder') }}"
+                                                        name="home_page_banner_read_more[0]"
+                                                        value="{{ $home_page_banner_read_more[0] ?? '' }}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_read_more_link">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="{{ translate('Read More Link') }}"
+                                                        name="home_page_banner_read_more_link[0]"
+                                                        value="{{ $home_page_banner_read_more_link[0] ?? '' }}" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -600,42 +635,64 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <input type="hidden" name="types[]" value="home_msection_title">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_title">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Feature title') }}"
-                                                        name="home_msection_title[1]"
-                                                        value="{{ $mobile_feature_title[1] ?? '' }}" required>
+                                                        placeholder="{{ translate('Title') }}"
+                                                        name="home_page_banner_title[1]"
+                                                        value="{{ $home_page_banner_title[1] ?? '' }}" required>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <input type="hidden" name="types[]" value="home_msection_desc">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_sub_title">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Feature description') }}"
-                                                        name="home_msection_desc[1]"
-                                                        value="{{ $mobile_feature_desc[1] ?? '' }}" required>
+                                                        placeholder="{{ translate('Sub Title') }}"
+                                                        name="home_page_banner_sub_title[1]"
+                                                        value="{{ $home_page_banner_sub_title[1] ?? '' }}" required>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row gutters-5">
+                                        <div class="row">
+
                                             <div class="col">
-                                                <div class="input-group">
+                                                <div class="input-group" data-toggle="aizuploader" data-type="image">
                                                     <div class="input-group-prepend">
-                                                        <button type="button" id="GetIconPicker-1"
-                                                            data-iconpicker-input=".MyIconInput-1"
-                                                            data-iconpicker-preview=".MyIconPreview-1"
-                                                            class="icon-picker btn btn-success mr-2">{{ translate('Select Icon') }}</button>
-                                                        <input type="hidden" name="home_msection_icon[1]"
-                                                            class="MyIconInput-1"
-                                                            value="{{ $mobile_feature_icon[1] ?? '' }}" required>
-                                                        <input type="hidden" name="types[]" value="home_msection_icon">
+                                                        <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                            {{ translate('Browse Image') }}</div>
                                                     </div>
-                                                    <div class="input-group-append">
-                                                        <i class="MyIconPreview-1 {{ $mobile_feature_icon[1] ?? '' }}"
-                                                            style="line-height: 3rem;padding: 0 30px;"></i>
+                                                    <div class="form-control file-amount">{{ translate('Choose File') }}
                                                     </div>
+                                                    <input type="hidden" name="types[]"
+                                                        value="home_page_banner_place_holder">
+                                                    <input type="hidden" name="home_page_banner_place_holder[1]"
+                                                        class="selected-files"
+                                                        value="{{$home_page_banner_place_holder[1] ?? '' }}">
+                                                </div>
+                                                <div class="file-preview box sm">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_read_more">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="{{ translate('Read More') }}"
+                                                        name="home_page_banner_read_more[1]"
+                                                        value="{{ $home_page_banner_read_more[1] ?? '' }}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_read_more_link">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="{{ translate('Read More Link') }}"
+                                                        name="home_page_banner_read_more_link[1]"
+                                                        value="{{ $home_page_banner_read_more_link[1] ?? '' }}" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -644,90 +701,69 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <input type="hidden" name="types[]" value="home_msection_title">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_title">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Feature title') }}"
-                                                        name="home_msection_title[2]"
-                                                        value="{{ $mobile_feature_title[2] ?? '' }}" required>
+                                                        placeholder="{{ translate('Title') }}"
+                                                        name="home_page_banner_title[2]"
+                                                        value="{{ $home_page_banner_title[2] ?? '' }}" required>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
-                                                    <input type="hidden" name="types[]" value="home_msection_desc">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_sub_title">
                                                     <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Feature description') }}"
-                                                        name="home_msection_desc[2]"
-                                                        value="{{ $mobile_feature_desc[2] ?? '' }}" required>
+                                                        placeholder="{{ translate('Sub Title') }}"
+                                                        name="home_page_banner_sub_title[2]"
+                                                        value="{{ $home_page_banner_sub_title[2] ?? '' }}" required>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row gutters-5">
+                                        <div class="row">
+
                                             <div class="col">
-                                                <div class="input-group">
+                                                <div class="input-group" data-toggle="aizuploader" data-type="image">
                                                     <div class="input-group-prepend">
-                                                        <button type="button" id="GetIconPicker-2"
-                                                            data-iconpicker-input=".MyIconInput-2"
-                                                            data-iconpicker-preview=".MyIconPreview-2"
-                                                            class="icon-picker btn btn-success mr-2">{{ translate('Select Icon') }}</button>
-                                                        <input type="hidden" name="home_msection_icon[2]"
-                                                            class="MyIconInput-2"
-                                                            value="{{ $mobile_feature_icon[2] ?? '' }}" required>
-                                                        <input type="hidden" name="types[]" value="home_msection_icon">
+                                                        <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                            {{ translate('Browse Image') }}</div>
                                                     </div>
-                                                    <div class="input-group-append">
-                                                        <i class="MyIconPreview-2 {{ $mobile_feature_icon[2] ?? '' }}"
-                                                            style="line-height: 3rem;padding: 0 30px;"></i>
+                                                    <div class="form-control file-amount">{{ translate('Choose File') }}
                                                     </div>
+                                                    <input type="hidden" name="types[]"
+                                                        value="home_page_banner_place_holder">
+                                                    <input type="hidden" name="home_page_banner_place_holder[2]"
+                                                        class="selected-files"
+                                                        value="{{$home_page_banner_place_holder[2] ?? '' }}">
+                                                </div>
+                                                <div class="file-preview box sm">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_read_more">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="{{ translate('Read More') }}"
+                                                        name="home_page_banner_read_more[2]"
+                                                        value="{{ $home_page_banner_read_more[2] ?? '' }}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <input type="hidden" name="types[]" value="home_page_banner_read_more_link">
+                                                    <input type="text" class="form-control"
+                                                        placeholder="{{ translate('Read More Link') }}"
+                                                        name="home_page_banner_read_more_link[2]"
+                                                        value="{{ $home_page_banner_read_more_link[2] ?? '' }}" required>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="item card p-2 mb-3">
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <input type="hidden" name="types[]" value="home_msection_title">
-                                                    <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Feature title') }}"
-                                                        name="home_msection_title[3]"
-                                                        value="{{ $mobile_feature_title[3] ?? '' }}" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <input type="hidden" name="types[]" value="home_msection_desc">
-                                                    <input type="text" class="form-control"
-                                                        placeholder="{{ translate('Feature description') }}"
-                                                        name="home_msection_desc[3]"
-                                                        value="{{ $mobile_feature_desc[3] ?? '' }}" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row gutters-5">
-                                            <div class="col">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <button type="button" id="GetIconPicker-3"
-                                                            data-iconpicker-input=".MyIconInput-3"
-                                                            data-iconpicker-preview=".MyIconPreview-3"
-                                                            class="icon-picker btn btn-success mr-2">{{ translate('Select Icon') }}</button>
-                                                        <input type="hidden" name="home_msection_icon[3]"
-                                                            class="MyIconInput-3"
-                                                            value="{{ $mobile_feature_icon[3] ?? '' }}" required>
-                                                        <input type="hidden" name="types[]" value="home_msection_icon">
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <i class="MyIconPreview-3 {{ $mobile_feature_icon[3] ?? '' }}"
-                                                            style="line-height: 3rem;padding: 0 30px;"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                             <div class="text-right">
@@ -871,7 +907,7 @@
                             enctype="multipart/form-data" id="home_packing" @if (get_setting_by_lang('home_packing_status', $lang) != 1) style="display: none;" @endif>
                             @csrf
                             <input type="hidden" name="lang" value="{{ $lang }}">
-                
+
                             <div class="form-group">
                                 <div class="home-packing-target">
                                     <div class="row">
@@ -896,7 +932,7 @@
                                             </div>
                                         </div>
                                     </div>
-                
+
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group">
@@ -916,6 +952,9 @@
                                                     name="home_packing_desc1">{{ get_setting_by_lang('home_packing_desc1', $lang) }}</textarea>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
+
                                         <div class="col">
                                             <div class="input-group" data-toggle="aizuploader" data-type="image">
                                                 <div class="input-group-prepend">
@@ -933,7 +972,7 @@
                                             <div class="file-preview box sm">
                                             </div>
                                         </div>
-                
+
                                     </div>
                                     <div class="row">
                                         <div class="col">
@@ -954,6 +993,9 @@
                                                     name="home_packing_desc2">{{ get_setting_by_lang('home_packing_desc2', $lang) }}</textarea>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
+
                                         <div class="col">
                                             <div class="input-group" data-toggle="aizuploader" data-type="image">
                                                 <div class="input-group-prepend">
@@ -971,7 +1013,7 @@
                                             <div class="file-preview box sm">
                                             </div>
                                         </div>
-                
+
                                     </div>
                                     <div class="row">
                                         <div class="col">
@@ -992,6 +1034,9 @@
                                                     name="home_packing_desc3">{{ get_setting_by_lang('home_packing_desc3', $lang) }}</textarea>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
+
                                         <div class="col">
                                             <div class="input-group" data-toggle="aizuploader" data-type="image">
                                                 <div class="input-group-prepend">
@@ -1009,9 +1054,9 @@
                                             <div class="file-preview box sm">
                                             </div>
                                         </div>
-                
+
                                     </div>
-                
+
                                 </div>
                             </div>
                             <div class="text-right">
@@ -1919,6 +1964,162 @@
                     </div>
                 </div>
 
+                {{-- Statistics --}}
+                <div class="card shadow-none bg-light mt-5">
+                    <div class="card-header">
+                        <h6 class="mb-0">{{ translate('ABOUT SHIPPER') }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3 ml-0">
+                            <label class="pt-2 mr-5">{{ translate('Show ABOUT SHIPPER:') }}</label>
+                            <span class="switch">
+                                <label>
+                                    <input type="checkbox" name="checkbox" id="checkbox"
+                                        onchange="updateSettings(this, 'home_about_shipper_status')" @if (get_setting_by_lang('home_about_shipper_status', $lang) == 1) checked @endif />
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
+                        <form action="{{ route('business_settings.update') }}" method="POST"
+                            enctype="multipart/form-data" id="home_about_shipper" @if (get_setting_by_lang('home_about_shipper_status', $lang) != 1) style="display: none;" @endif>
+                            @csrf
+                            <input type="hidden" name="lang" value="{{ $lang }}">
+
+                            <div class="form-group">
+                                <div class="home-about_shipper-target">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_about_shipper_title1">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Left Side Title') }}"
+                                                    name="home_about_shipper_title1"
+                                                    value="{{ get_setting_by_lang('home_about_shipper_title1', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_about_shipper_desc">
+                                                <textarea class="form-control"
+                                                    placeholder="{{ translate('Description') }}"
+                                                    name="home_about_shipper_desc">{{ get_setting_by_lang('home_about_shipper_desc', $lang) }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_about_shipper_fun_fact">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('FUN FACTS') }}"
+                                                    name="home_about_shipper_fun_fact"
+                                                    value="{{ get_setting_by_lang('home_about_shipper_fun_fact', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_about_shipper_getting_awards">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('GETTED AWARDS') }}"
+                                                    name="home_about_shipper_getting_awards"
+                                                    value="{{ get_setting_by_lang('home_about_shipper_getting_awards', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_about_shipper_getting_awards_number">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('GETTED AWARDS Number') }}" name="home_about_shipper_getting_awards_number"
+                                                    value="{{ get_setting_by_lang('home_about_shipper_getting_awards_number', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_about_shipper_carried_packages">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('CARRIED PACKAGE') }}"
+                                                    name="home_about_shipper_carried_packages"
+                                                    value="{{ get_setting_by_lang('home_about_shipper_carried_packages', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_about_shipper_carried_packages_number">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('CARRIED PACKAGE Number') }}" name="home_about_shipper_carried_packages_number"
+                                                    value="{{ get_setting_by_lang('home_about_shipper_carried_packages_number', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="home_about_shipper_title2">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Right Side Title') }}"
+                                                    name="home_about_shipper_title2"
+                                                    value="{{ get_setting_by_lang('home_about_shipper_title2', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="input-group" data-toggle="aizuploader" data-type="image">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                        {{ translate('Right Side Placeholder') }}</div>
+                                                </div>
+                                                <div class="form-control file-amount">{{ translate('Choose File') }}
+                                                </div>
+                                                <input type="hidden" name="types[]" value="home_about_shipper_image">
+                                                <input type="hidden" name="home_about_shipper_image" class="selected-files"
+                                                    value="{{ json_decode(get_setting_by_lang('home_about_shipper_image', $lang), true) }}">
+                                            </div>
+                                            <div class="file-preview box sm">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="input-group" data-toggle="aizuploader" data-type="image">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                        {{ translate('Bottom Image') }}</div>
+                                                </div>
+                                                <div class="form-control file-amount">{{ translate('Choose File') }}
+                                                </div>
+                                                <input type="hidden" name="types[]" value="home_about_shipper_image_bottom">
+                                                <input type="hidden" name="home_about_shipper_image_bottom" class="selected-files"
+                                                    value="{{ json_decode(get_setting_by_lang('home_about_shipper_image_bottom', $lang), true) }}">
+                                            </div>
+                                            <div class="file-preview box sm">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">{{ translate('Update') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
 
 
 
@@ -1957,6 +2158,9 @@
                 }
                 if (type == 'home_newsletter_status') {
                     $('#home_newsletter').show();
+                }
+                if (type == 'home_about_shipper_status') {
+                    $('#home_about_shipper').show();
                 }
                 if (type == 'home_about_us_status') {
                     $('#home_about_us').show();
@@ -2002,6 +2206,9 @@
                 }
                 if (type == 'home_newsletter_status') {
                     $('#home_newsletter').hide();
+                }
+                if (type == 'home_about_shipper_status') {
+                    $('#home_about_shipper').hide();
                 }
                 if (type == 'home_footer_mobile_status') {
                     $('#home_footer_mobile').hide();

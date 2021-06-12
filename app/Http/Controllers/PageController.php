@@ -170,6 +170,7 @@ class PageController extends Controller
     }
 
     public function show_custom_page($slug){
+      dd('custom - page');
         $page = Page::where('slug', $slug)->first();
 
 

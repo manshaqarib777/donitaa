@@ -46,6 +46,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
 Route::get('shipments/ajaxed-get-states','ShipmentController@ajaxGetStates')->name('admin.shipments.get-states-ajax');
 Route::get('shipments/ajaxed-get-branches','ShipmentController@ajaxGetBranches')->name('admin.shipments.get-branches-ajax');
 Route::get('shipments/ajaxed-get-areas','ShipmentController@ajaxGetAreas')->name('admin.shipments.get-areas-ajax');
+Route::post('shipments/get-estimation-cost','ShipmentController@ajaxGetEstimationCost')->name('admin.shipments.get-estimation-cost');
 
 
 Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff|customer|branch']], function(){
@@ -53,7 +54,6 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
     Route::get('shipments/print/{shipment}/{type}','ShipmentController@print')->name('admin.shipments.print');
     Route::get('shipments/ajaxed-get-client-addresses','ShipmentController@ajaxGetAddresses')->name('admin.shipments.get-client-address-ajax');
 
-    Route::post('shipments/get-estimation-cost','ShipmentController@ajaxGetEstimationCost')->name('admin.shipments.get-estimation-cost');
     Route::post('shipments/action/{to}','ShipmentController@change')->name('admin.shipments.action');
     Route::post('shipments/action/pickup_mission/{type}','ShipmentController@createPickupMission')->name('admin.shipments.action.create.pickup.mission');
     Route::post('shipments/action/supply_mission/{type}','ShipmentController@createSupplyMission')->name('admin.shipments.action.create.supply.mission');
