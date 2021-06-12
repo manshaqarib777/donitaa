@@ -298,9 +298,7 @@
                         response = JSON.stringify(response);
                         var res = response.slice(6, response.length-2);
                         res = res.replace(/\\/gi,"", res);
-                        console.log(res);
-                        const obj = JSON.parse(res);
-                        
+                        const obj = JSON.parse(res);                        
                         var celsius = obj.main.temp - 273.15;
                         var fahrenheit = celsius * 1.8 + 32;
                         $("#import_temprature").html(celsius.toFixed(2));
