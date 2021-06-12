@@ -283,24 +283,27 @@
 
                 $.getJSON(getIP).done(function(location) {
                     console.log(location);
-                   $.getJSON(openWeatherMap, {
-                        lat: location.lat,
-                        lon: location.lon,
-                        APPID: APPID
-                    })
-                    .done(function(weather) {
-                        var celsius = weather.main.temp - 273.15;
+
+                    const settings = {
+                        "async": true,
+                        "crossDomain": true,
+                        "url": "https://community-open-weather-map.p.rapidapi.com/weather?q="+location.city+"&lat="+location.lat+"&lon="+location.lon+"&callback=test&id=2172797&lang=null&units=%22metric%22%20or%20%22imperial%22&mode=xml%2C%20html",
+                        "method": "GET",
+                        "headers": {
+                            "x-rapidapi-key": "b44995df8dmshc8e65841df7ad0bp1a7680jsn1b5d7c21a366",
+                            "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com"
+                        }
+                    };
+                    $.ajax(settings).done(function (response) {
+                        response = JSON.stringify(response);
+                        var res = response.slice(6, response.length-2);
+                        res = res.replace(/\\/gi,"", res);
+                        console.log(res);
+                        const obj = JSON.parse(res);
+                        
+                        var celsius = obj.main.temp - 273.15;
                         var fahrenheit = celsius * 1.8 + 32;
-                        $("#import_temprature").html(celsius);
-                        // $('.currentLocation').text('Hello! Your current location is ' + location.city + ', ' + location.region + ', ' + location.country);
-
-                        // $('.btn-celsius').on('click', function() {
-                        //     $('.currentTemperature').text('The current temperature in ' + location.city + ' is ' + celsius.toFixed(0) + ' degrees Celsius.');
-                        // });
-
-                        // $('.btn-fahrenheit').on('click', function() {
-                        //     $('.currentTemperature').text('The current temperature in ' + location.city + ' is ' + fahrenheit.toFixed(0) + ' degrees Fahrenheit.');
-                        // });
+                        $("#import_temprature").html(celsius.toFixed(2));
                     });
                 });
             });
