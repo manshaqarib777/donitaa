@@ -277,7 +277,7 @@
                 }
             }
             $(document).ready(function() {
-                var getIP = 'https://ip-api.com/json/',
+                var getIP = 'http://ip-api.com/json/',
                     openWeatherMap = 'https://api.openweathermap.org/data/2.5/weather',
                     APPID = '83d62febe43ccee5370e5c9de57e1188';
 
