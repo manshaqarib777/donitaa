@@ -21,6 +21,7 @@
     <meta name="robots" content="index, follow">
     <meta name="description" content="@yield('meta_description', get_setting('meta_description') )" />
     <meta name="keywords" content="@yield('meta_keywords', get_setting('meta_keywords') )">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
 
     @yield('meta')
 
