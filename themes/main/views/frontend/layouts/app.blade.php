@@ -21,7 +21,6 @@
     <meta name="robots" content="index, follow">
     <meta name="description" content="@yield('meta_description', get_setting('meta_description') )" />
     <meta name="keywords" content="@yield('meta_keywords', get_setting('meta_keywords') )">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
 
     @yield('meta')
 
@@ -278,11 +277,12 @@
                 }
             }
             $(document).ready(function() {
-                var getIP = 'http://ip-api.com/json/',
+                var getIP = 'https://extreme-ip-lookup.com/json/',
                     openWeatherMap = 'https://api.openweathermap.org/data/2.5/weather',
                     APPID = '83d62febe43ccee5370e5c9de57e1188';
 
                 $.getJSON(getIP).done(function(location) {
+                    console.log(location);
                    $.getJSON(openWeatherMap, {
                         lat: location.lat,
                         lon: location.lon,
