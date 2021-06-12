@@ -39,7 +39,7 @@
                             </div>
                             <!-- end col-3 -->
                             <div class="col-md-3 col-sm-4 col-xs-8"> <span class="date">{{ date('d M') }} </span> <span
-                                    class="weather"><i class="ion-ios-partlysunny"></i> <span id='import_temprature'>15</span>°</span> <span
+                                    class="weather"><i class="ion-ios-partlysunny"></i> <span id='import_temprature'>0</span>°</span> <span
                                     class="phone"><i class="ion-ios-telephone"></i> {{ get_setting_by_lang('home_header_information_contact_number_title',session()->get('country')) }} </span> </div>
                             <!-- end col-3 -->
                         </div>
