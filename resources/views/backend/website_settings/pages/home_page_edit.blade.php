@@ -2118,6 +2118,47 @@
                         </form>
                     </div>
                 </div>
+                <div class="card shadow-none bg-light mt-5">
+                    <div class="card-header">
+                        <h6 class="mb-0">{{ translate('Other Pages Header Image') }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3 ml-0">
+                            <label class="pt-2 mr-5">{{ translate('Other Pages Header Image:') }}</label>
+                        </div>
+                        <form action="{{ route('business_settings.update') }}" method="POST"
+                            enctype="multipart/form-data" id="page_header_image">
+                            @csrf
+                            <input type="hidden" name="lang" value="{{ $lang }}">
+
+                            <div class="form-group">
+                                <div class="home-about_shipper-target">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="input-group" data-toggle="aizuploader" data-type="image">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                        {{ translate('Header Placeholder') }}</div>
+                                                </div>
+                                                <div class="form-control file-amount">{{ translate('Choose File') }}
+                                                </div>
+                                                <input type="hidden" name="types[]" value="page_header_image">
+                                                <input type="hidden" name="page_header_image" class="selected-files"
+                                                    value="{{ json_decode(get_setting_by_lang('page_header_image', $lang), true) }}">
+                                            </div>
+                                            <div class="file-preview box sm">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">{{ translate('Update') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
 
 

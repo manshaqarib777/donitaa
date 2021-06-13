@@ -194,12 +194,13 @@
         <script src="{{ static_asset('themes/main/frontend/shipper/js/select2.min.js')}}"></script>
         <script src="{{ static_asset('themes/main/frontend/shipper/js/scripts.js')}}"></script>        
         <script src="{{ static_asset('themes/main/frontend/shipper/js/jquery.toaster.js')}}"></script>
-
+        <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+        <script src="{{ static_asset('themes/main/frontend/shipper/js/google-maps.js')}}"></script>
 
 
         <script>
             @foreach (session('flash_notification', collect())->toArray() as $message)
-                $.toaster({ priority :'success', title :'{{ $message['level'] }}', message :'{{ $message['message'] }}',settings : { timeout:5000}});
+                $.toaster({ priority :'{{ $message['level'] }}', title :'{{ ucwords($message['level']) }}', message :'{{ $message['message'] }}',settings : { timeout:5000}});
                 @php
                 session()->forget('flash_notification')
                 @endphp

@@ -33,40 +33,80 @@
 @endsection
 
 @section('content')
-    <!--Page Header-->
-    <section id="main-banner-page" class="position-relative page-header about-header @if(setting()->get('internal_pages_header_'.app()->getLocale())) parallax @endif section-nav-smooth" @if(setting()->get('internal_pages_header_'.app()->getLocale())) style="background-image: url({{asset('/storage/app/public/'. setting()->get('internal_pages_header_'.app()->getLocale()) )}})" @endif>
-        <div class="overlay overlay-dark opacity-6"></div>
+    <section class="sub-header" style="background: url({{ !empty(get_setting_by_lang('page_header_image')) ?  url('public/'.\App\Upload::find(json_decode(get_setting_by_lang('page_header_image'), true))->file_name) : ''}});">
+        <h5 class="page-title">{{ $page->getTranslation('title') }}</h5>
+        <ul class="breadcrumb">
+          <li><a href="{{url('/')}}">Home</a></li>
+          <li><span class="active">{{ $page->getTranslation('title') }}</span></li>
+        </ul>
+      </section>
+      @if (\Request::segment(1)=='contact-us')
+      <section class="contact">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-6 offset-lg-3">
-                    <div class="page-titles whitecolor text-center padding_top padding_bottom">
-                        <h2 class="font-bold">{{ $page->getTranslation('title') }}</h2>
-                    </div>
-                </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <h4 class="section-title"><span>01</span>ADDRESS INFOS</h4>
             </div>
-            <div class="gradient-bg title-wrap">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 whitecolor">
-                        <h3 class="float-left">{{ $page->getTranslation('title') }}</h3>
-                        <ul class="breadcrumb top10 bottom10 float-right">
-                            <li class="breadcrumb-item hover-light"><a href="{{ route('home') }}">{{ translate('Home')}}</a></li>
-                            <li class="breadcrumb-item hover-light">{{ $page->getTranslation('title') }}</li>
-                        </ul>
-                    </div>
-                </div>
+            @foreach(\App\Branch::get() as $key => $branch)
+            <div class="col-md-4 col-sm-4">
+              <address>
+                <h5>{{ $branch->name }}</h5>
+                <p>{{ $branch->address }}</p>
+                <p>t: {{ $branch->responsible_mobile }}<br>
+                    f: {{ $branch->cell_phone }}<br>
+                </p>
+                <p>e: <a href="#">{{ $branch->email }}</a></p>
+              </address>
             </div>
+            @endforeach
+            <div class="col-xs-12">
+              <div class="column">
+                <div class="left-side">
+                  <div id="map"></div>
+                </div>
+                <div class="right-side">
+                  <form method="post" action="{{route('contactus')}}">
+                    @csrf
+                    <div class="form-group">
+                      <label>Your name</label>
+                      <input type="text" name="name" id="name" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Your e-mail</label>
+                      <input type="text" name="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Your message</label>
+                      <textarea name="message" id="message" required &gt;></textarea>
+                    </div>
+                    <div class="form-group">
+                      <button id="submit" type="submit" name="submit">SUBMIT</button>
+                    </div>
+                  </form>
+                  <div id="success" class="alert alert-success" role="alert">
+                    <p>Your message was sent successfully! We will be in touch as soon as we can.</p>
+                  </div>
+                  <div id="error" class="alert alert-danger" role="alert">
+                    <p>Something went wrong, try refreshing and submitting the form again.</p>
+                  </div>
+                </div>
+              </div>
+    
+            </div>
+          </div>
         </div>
-    </section>
-    <!--Page Header ends -->
+      </section>
+      
+      @endif
 
-
-    <section class="bglight padding_top padding_bottom_half">
+      <section class="bglight padding_top padding_bottom_half">
         <div class="container">
             <div class="row">
                 <div class="col-12 p-4 bg-white rounded shadow-sm overflow-hidden">
-                    @php echo $page->getTranslation('content'); @endphp
+                    {!! $page->getTranslation('content') !!}
                 </div>
             </div>
         </div>
     </section>
+
 @endsection

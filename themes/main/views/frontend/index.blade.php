@@ -14,10 +14,8 @@ $packages = \App\Package::all();
                 <div class="container">
                     <h3>{{json_decode(get_setting_by_lang('home_slider_text1'), true)[0]}}</h3>
                     <h5>{{json_decode(get_setting_by_lang('home_slider_text1'), true)[0]}}</h5>
-                    <form>
-                        <input type="text" placeholder="Tracking ID">
-                        &nbsp;
-                        <input type="text" class="datepicker" placeholder="Date">
+                    <form action="{{route('admin.shipments.tracking')}}" method="GET">
+                        <input type="text" placeholder="Tracking ID" name="code" required>
                         &nbsp;
                         <button type="submit">{{json_decode(get_setting_by_lang('home_slider_text3'), true)[0]}}</button>
                     </form>

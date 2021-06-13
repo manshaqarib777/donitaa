@@ -65,7 +65,7 @@
 			<div class="form-group row">
 				<label class="col-sm-2 col-from-label" for="name">{{translate('Add Content')}} <span class="text-danger">*</span></label>
 				<div class="col-sm-10">
-                    <textarea id="content" name="content" placeholder="Content.." hidden required></textarea>
+                    <textarea id="content" name="content" placeholder="Content.."></textarea>
 				</div>
 			</div>
 		</div>

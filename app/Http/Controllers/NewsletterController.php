@@ -130,4 +130,21 @@ class NewsletterController extends Controller
         flash(translate('An email has been sent.'))->success();
         return back();
     }
+    public function contactus(Request $request){
+        
+        $array['view'] = 'emails.newsletter';
+        $array['subject'] = "Contact By ".$request->input('name');
+        $array['from'] = $request->input('email');
+        $array['content'] = $request->input('content');
+
+        try {
+
+            Mail::to($request->email)->queue(new EmailManager($array));
+        } catch (\Exception $e) {
+            dd($e);
+        }
+
+        flash(translate('An email has been sent.'))->success();
+        return back();
+    }
 }

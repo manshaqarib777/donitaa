@@ -33,6 +33,9 @@ use App\Events\AddShipment;
 use App\Events\UpdateShipment;
 use App\Events\UpdateMission;
 use App\Events\ShipmentAction;
+use App\AdminContainer;
+use App\AdminTheme;
+use Harimayco\Menu\Models\Menus;
 
 class ShipmentController extends Controller
 {
@@ -81,19 +84,63 @@ class ShipmentController extends Controller
             if($shipment){
                 return redirect()->route('admin.shipments.tracking', $_GET['code']);
             }else{
-                flash(translate("Invalid shipment code"))->error();
+                flash(translate("Your Shipment Code is Invalid"))->error();
             }
         }
-        return view('backend.shipments.track');
+        $active_theme = AdminTheme::where('active','=',1)->get()->first();
+        $footer_containers = AdminContainer::where('type','=','footer')->where('theme_name','=',$active_theme->name)->get();
+        // return $footer_containers;
+        $second_footer = AdminContainer::where('name','=','second_footer')->where('theme_name','=',$active_theme->name)->get()->first();
+        $home_page_first_sidebar = AdminContainer::where('name','=','home_page_first_sidebar')->where('theme_name','=',$active_theme->name)->get()->first();
+        $home_page_second_sidebar = AdminContainer::where('name','=','home_page_second_sidebar')->where('theme_name','=',$active_theme->name)->get()->first();
+        // $main_menu = Menu::getByName('main_menu'); //return array
+        // $side_menu = Menu::getByName('side_menu'); //return array
+        $navbar_menu = Menus::find( setting()->get($active_theme->name.'_navbar_menu_'.app()->getLocale()) ); //return array
+        $sidebar_menu = Menus::find( setting()->get($active_theme->name.'_sidebar_menu_'.app()->getLocale()) ); //return array
+        $footer_menu = Menus::find( setting()->get($active_theme->name.'_footer_menu_'.app()->getLocale()) ); //return array
+        $data = [
+            'footer_containers'=>$footer_containers,
+            'second_footer'=>$second_footer,
+            'home_page_first_sidebar'=>$home_page_first_sidebar,
+            'home_page_second_sidebar'=>$home_page_second_sidebar,
+            // 'main_menu'=>$main_menu,
+            // 'side_menu'=>$side_menu,
+            'navbar_menu'=>$navbar_menu,
+            'sidebar_menu'=>$sidebar_menu,
+            'footer_menu'=>$footer_menu
+        ];
+        return view('backend.shipments.track',$data);
     }
 
     public function tracking($code)
     {
         $shipment = Shipment::where('code', $code)->first();
+        $active_theme = AdminTheme::where('active','=',1)->get()->first();
+        $footer_containers = AdminContainer::where('type','=','footer')->where('theme_name','=',$active_theme->name)->get();
+        // return $footer_containers;
+        $second_footer = AdminContainer::where('name','=','second_footer')->where('theme_name','=',$active_theme->name)->get()->first();
+        $home_page_first_sidebar = AdminContainer::where('name','=','home_page_first_sidebar')->where('theme_name','=',$active_theme->name)->get()->first();
+        $home_page_second_sidebar = AdminContainer::where('name','=','home_page_second_sidebar')->where('theme_name','=',$active_theme->name)->get()->first();
+        // $main_menu = Menu::getByName('main_menu'); //return array
+        // $side_menu = Menu::getByName('side_menu'); //return array
+        $navbar_menu = Menus::find( setting()->get($active_theme->name.'_navbar_menu_'.app()->getLocale()) ); //return array
+        $sidebar_menu = Menus::find( setting()->get($active_theme->name.'_sidebar_menu_'.app()->getLocale()) ); //return array
+        $footer_menu = Menus::find( setting()->get($active_theme->name.'_footer_menu_'.app()->getLocale()) ); //return array
+        $data = [
+            'footer_containers'=>$footer_containers,
+            'second_footer'=>$second_footer,
+            'home_page_first_sidebar'=>$home_page_first_sidebar,
+            'home_page_second_sidebar'=>$home_page_second_sidebar,
+            // 'main_menu'=>$main_menu,
+            // 'side_menu'=>$side_menu,
+            'navbar_menu'=>$navbar_menu,
+            'sidebar_menu'=>$sidebar_menu,
+            'footer_menu'=>$footer_menu
+        ];
         if($shipment){
-            return view('backend.shipments.tracking', compact('shipment'));
+            return view('backend.shipments.tracking', compact('shipment'),$data);
         }else{
-            flash(translate("Invalid shipment code"))->error();
+            flash(translate("Your Shipment Code is Invalid"))->error();
             return redirect()->route('admin.shipments.track');
         }
     }

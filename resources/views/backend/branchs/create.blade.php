@@ -87,11 +87,18 @@
                                     placeholder="{{ translate('Owner Name') }}" name="Branch[responsible_name]">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>{{ translate('Owner Phone') }}:</label>
                                 <input type="text" class="form-control" placeholder="{{ translate('Owner Phone') }}"
                                     name="Branch[responsible_mobile]">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>{{ translate('Owner Cell Phone') }}:</label>
+                                <input type="text" class="form-control" placeholder="{{ translate('Owner Cell Phone') }}"
+                                    name="Branch[cell_phone]">
                             </div>
                         </div>
                     </div>
@@ -101,6 +108,10 @@
                         <label>{{ translate('Owner National ID') }}:</label>
                         <input type="text" class="form-control" placeholder="{{ translate('Owner National ID') }}"
                             name="Branch[national_id]">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ translate('Branch Address') }}:</label>
+                        <textarea class="form-control"name="Branch[address]"></textarea>
                     </div>
 
 

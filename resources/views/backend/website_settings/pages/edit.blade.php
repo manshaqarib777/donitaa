@@ -64,7 +64,7 @@
 			<div class="card-body">
 				<div class="tab-content">
 					<div class="tab-pane fade show active" role="tabpanel">
-					
+
 						<div class="card-header">
 							<h6 class="mb-0 fw-600">{{ translate('Page Content') }}</h6>
 						</div>
@@ -95,7 +95,7 @@
 							<div class="form-group row">
 								<label class="col-sm-2 col-from-label" for="name">{{translate('Add Content')}} <span class="text-danger">*</span></label>
 								<div class="col-sm-10">
-                                    <textarea id="content" name="content" placeholder="Content.." hidden required>
+                                    <textarea id="content" name="content" placeholder="Content.." >
                                         @php echo $page->getTranslation('content',$lang); @endphp
                                     </textarea>
 								</div>

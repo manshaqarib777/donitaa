@@ -87,6 +87,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
 	});
 	Route::post('/newsletter/test/smtp', 'NewsletterController@testEmail')->name('test.smtp');
 	Route::post('/newsletter/subscribe', 'NewsletterController@subscribe')->name('subscribe');
+	Route::post('/contact-us/send', 'NewsletterController@contactus')->name('contactus');
 	// website setting
 	Route::group(['prefix' => 'website'], function(){
 		Route::view('/header', 'backend.website_settings.header')->name('website.header');

@@ -170,8 +170,7 @@ class PageController extends Controller
     }
 
     public function show_custom_page($slug){
-      dd('custom - page');
-        $page = Page::where('slug', $slug)->first();
+      $page = Page::where('slug', $slug)->first();
 
 
         $active_theme = AdminTheme::where('active','=',1)->get()->first();
