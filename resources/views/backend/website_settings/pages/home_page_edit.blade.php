@@ -792,7 +792,7 @@
                             @csrf
                             @php
                                 if(session()->get('country')==null)
-                                    $country='en';
+                                    $country='US';
                                 else
                                     $country=session()->get('country');
 
@@ -808,7 +808,7 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Opening Hours Title') }}"
                                                     name="home_header_information_opening_hours_title"
-                                                    value="{{ get_setting_by_lang('home_header_information_opening_hours_title', session()->get('country')) }}"
+                                                    value="{{ get_setting_by_lang('home_header_information_opening_hours_title', $country) }}"
                                                     >
                                             </div>
                                         </div>
@@ -819,7 +819,7 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Opening Hours') }}"
                                                     name="home_header_information_opening_hours_value"
-                                                    value="{{ get_setting_by_lang('home_header_information_opening_hours_value', session()->get('country')) }}"
+                                                    value="{{ get_setting_by_lang('home_header_information_opening_hours_value', $country) }}"
                                                     >
                                             </div>
                                         </div>
@@ -832,7 +832,7 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Our Location Title') }}"
                                                     name="home_header_information_our_location_title"
-                                                    value="{{ get_setting_by_lang('home_header_information_our_location_title', session()->get('country')) }}"
+                                                    value="{{ get_setting_by_lang('home_header_information_our_location_title', $country) }}"
                                                     >
                                             </div>
                                         </div>
@@ -843,7 +843,7 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Our Location') }}"
                                                     name="home_header_information_our_location_value"
-                                                    value="{{ get_setting_by_lang('home_header_information_our_location_value', session()->get('country')) }}"
+                                                    value="{{ get_setting_by_lang('home_header_information_our_location_value', $country) }}"
                                                     >
                                             </div>
                                         </div>
@@ -856,7 +856,7 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Quick Support Title') }}"
                                                     name="home_header_information_quick_support_title"
-                                                    value="{{ get_setting_by_lang('home_header_information_quick_support_title', session()->get('country')) }}"
+                                                    value="{{ get_setting_by_lang('home_header_information_quick_support_title', $country) }}"
                                                     >
                                             </div>
                                         </div>
@@ -867,7 +867,7 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Quick Support') }}"
                                                     name="home_header_information_quick_support_value"
-                                                    value="{{ get_setting_by_lang('home_header_information_quick_support_value', session()->get('country')) }}"
+                                                    value="{{ get_setting_by_lang('home_header_information_quick_support_value', $country) }}"
                                                     >
                                             </div>
                                         </div>
@@ -880,7 +880,7 @@
                                                 <input type="text" class="form-control"
                                                     placeholder="{{ translate('Main Branch Contact Number') }}"
                                                     name="home_header_information_contact_number_title"
-                                                    value="{{ get_setting_by_lang('home_header_information_contact_number_title', session()->get('country')) }}"
+                                                    value="{{ get_setting_by_lang('home_header_information_contact_number_title', $country) }}"
                                                     >
                                             </div>
                                         </div>

@@ -7,7 +7,13 @@
                             class="numbers">{{ get_setting_by_lang('home_statistics_num2') }}</span> stores </div>
                     <!-- end col-6 -->
                     <div class="col-md-3 col-sm-2 col-xs-4">
-                            
+                        @php
+                            if(session()->get('country')==null)
+                                $session_country='US';
+                            else
+                                $session_country=session()->get('country');
+
+                        @endphp 
 
                             @if(null !==setting()->get('main_header_language_'.app()->getLocale()) && setting()->get('main_header_language_'.app()->getLocale()))
                             <div class="drop-container">
@@ -40,7 +46,7 @@
                     <!-- end col-3 -->
                     <div class="col-md-3 col-sm-4 col-xs-8"> <span class="date">{{ date('d M') }} </span> <span
                             class="weather"><i class="ion-ios-partlysunny"></i> <span id='import_temprature'>0</span>°</span> <span
-                            class="phone"><i class="ion-ios-telephone"></i> {{ get_setting_by_lang('home_header_information_contact_number_title',session()->get('country')) }} </span> </div>
+                            class="phone"><i class="ion-ios-telephone"></i> {{ get_setting_by_lang('home_header_information_contact_number_title',$session_country) }} </span> </div>
                     <!-- end col-3 -->
                 </div>
                 <!-- end row -->
@@ -62,20 +68,20 @@
                     </div>
                     <!-- end col-5 -->
                     <div class="col-md-3 col-sm-4 hidden-xs"> <i class="icon-global"></i>
-                        <h6>{{ get_setting_by_lang('home_header_information_opening_hours_title',session()->get('country')) }}<br>
-                            <span>{{ get_setting_by_lang('home_header_information_opening_hours_value',session()->get('country')) }} </span>
+                        <h6>{{ get_setting_by_lang('home_header_information_opening_hours_title',$session_country) }}<br>
+                            <span>{{ get_setting_by_lang('home_header_information_opening_hours_value',$session_country) }} </span>
                         </h6>
                     </div>
                     <!-- end col-2 -->
                     <div class="col-md-3 col-sm-4 hidden-xs"> <i class="icon-map-pin"></i>
-                        <h6>{{ get_setting_by_lang('home_header_information_our_location_title',session()->get('country')) }}<br>
-                            <span>{{ get_setting_by_lang('home_header_information_our_location_value',session()->get('country')) }}</span>
+                        <h6>{{ get_setting_by_lang('home_header_information_our_location_title',$session_country) }}<br>
+                            <span>{{ get_setting_by_lang('home_header_information_our_location_value',$session_country) }}</span>
                         </h6>
                     </div>
                     <!-- end col-2 -->
                     <div class="col-md-3 hidden-sm hidden-xs"> <i class="icon-chat"></i>
-                        <h6>{{ get_setting_by_lang('home_header_information_quick_support_title',session()->get('country')) }}<br>
-                            <span>{{ get_setting_by_lang('home_header_information_quick_support_value',session()->get('country')) }}</span>
+                        <h6>{{ get_setting_by_lang('home_header_information_quick_support_title',$session_country) }}<br>
+                            <span>{{ get_setting_by_lang('home_header_information_quick_support_value',$session_country) }}</span>
                         </h6>
                     </div>
                     <!-- end col-2 -->
