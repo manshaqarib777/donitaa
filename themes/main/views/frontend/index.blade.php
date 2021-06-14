@@ -13,7 +13,7 @@ $packages = \App\Package::all();
             <div class="fixed-form">
                 <div class="container">
                     <h3>{{json_decode(get_setting_by_lang('home_slider_text1'), true)[0]}}</h3>
-                    <h5>{{json_decode(get_setting_by_lang('home_slider_text1'), true)[0]}}</h5>
+                    <h5>{{json_decode(get_setting_by_lang('home_slider_text2'), true)[0]}}</h5>
                     <form action="{{route('admin.shipments.tracking')}}" method="GET">
                         <input type="text" placeholder="Tracking ID" name="code" required>
                         &nbsp;
