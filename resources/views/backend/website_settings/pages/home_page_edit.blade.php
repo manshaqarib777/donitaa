@@ -790,7 +790,14 @@
                         <form action="{{ route('business_settings.update') }}" method="POST"
                             enctype="multipart/form-data" id="home_header_information" @if (get_setting_by_lang('home_header_information_status', $lang) != 1) style="display: none;" @endif>
                             @csrf
-                            <input type="hidden" name="lang" value="{{ session()->get('country') }}">
+                            @php
+                                if(session()->get('country')==null)
+                                    $country='en';
+                                else
+                                    $country=session()->get('country');
+
+                            @endphp
+                            <input type="hidden" name="lang" value="{{$country}}">
                             <div class="form-group">
                                 <div class="home-header_information-target">
                                     <div class="row">
