@@ -10,22 +10,24 @@ $packages = \App\Package::all();
 
     @if(get_setting_by_lang('home_slider_status'))
         <section class="slider">
-            <div class="fixed-form">
-                <div class="container">
-                    <h3>{{json_decode(get_setting_by_lang('home_slider_text1'), true)[0]}}</h3>
-                    <h5>{{json_decode(get_setting_by_lang('home_slider_text2'), true)[0]}}</h5>
-                    <form action="{{route('admin.shipments.tracking')}}" method="GET">
-                        <input type="text" placeholder="Tracking ID" name="code" required>
-                        &nbsp;
-                        <button type="submit">{{json_decode(get_setting_by_lang('home_slider_text3'), true)[0]}}</button>
-                    </form>
-                </div>
-                <!-- end container -->
-            </div>
             <div class="main-slider">
                 @foreach (json_decode(get_setting_by_lang('home_slider_images'), true) as $key => $value)
                 <!-- end fixed-form -->
-                    <div class="slide1" style="background: url({{!empty( json_decode(get_setting_by_lang('home_slider_images'), true)[$key] ) ? url('public/'.\App\Upload::find(json_decode(get_setting_by_lang('home_slider_images'), true)[$key])->file_name) : ''}})"> </div>
+                
+                    <div class="slide1" style="background: url({{!empty( json_decode(get_setting_by_lang('home_slider_images'), true)[$key] ) ? url('public/'.\App\Upload::find(json_decode(get_setting_by_lang('home_slider_images'), true)[$key])->file_name) : ''}})">
+                        <div class="fixed-form">
+                            <div class="container">
+                                <h3>{{json_decode(get_setting_by_lang('home_slider_text1'), true)[$key]}}</h3>
+                                <h5>{{json_decode(get_setting_by_lang('home_slider_text2'), true)[$key]}}</h5>
+                                <form action="{{route('admin.shipments.tracking')}}" method="GET">
+                                    <input type="text" placeholder="Tracking ID" name="code" required>
+                                    &nbsp;
+                                    <button type="submit">{{json_decode(get_setting_by_lang('home_slider_text3'), true)[$key]}}</button>
+                                </form>
+                            </div>
+                            <!-- end container -->
+                        </div>
+                    </div>
 
                 @endforeach
             </div>
