@@ -2166,6 +2166,37 @@
                         </form>
                     </div>
                 </div>
+                <div class="card shadow-none bg-light mt-5">
+                    <div class="card-header">
+                        <h6 class="mb-0">{{ translate('Contact Page Message') }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('business_settings.update') }}" method="POST"
+                            enctype="multipart/form-data" id="home_newsletter">
+                            @csrf
+                            <input type="hidden" name="lang" value="{{ $lang }}">
+
+                            <div class="form-group">
+                                <div class="home-newsletter-target">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="hidden" name="types[]" value="contact_page_message">
+                                                <input type="text" class="form-control"
+                                                    placeholder="{{ translate('Title') }}" name="contact_page_message"
+                                                    value="{{ get_setting_by_lang('contact_page_message', $lang) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary">{{ translate('Update') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
 
 

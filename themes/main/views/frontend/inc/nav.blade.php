@@ -3,10 +3,10 @@
         <div class="top-bar">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 col-sm-6 hidden-xs"> Now {{ get_setting_by_lang('home_statistics_num1') }} packages we delivery to <span
+                    <div class="col-md-5 col-sm-5 hidden-xs"> Now {{ get_setting_by_lang('home_statistics_num1') }} packages we delivery to <span
                             class="numbers">{{ get_setting_by_lang('home_statistics_num2') }}</span> stores </div>
                     <!-- end col-6 -->
-                    <div class="col-md-3 col-sm-2 col-xs-4">
+                    <div class="col-md-2 col-sm-2 col-xs-2">
                         @php
                             if(session()->get('country')==null)
                                 $session_country='US';
@@ -15,7 +15,7 @@
 
                         @endphp 
 
-                            @if(null !==setting()->get('main_header_language_'.app()->getLocale()) && setting()->get('main_header_language_'.app()->getLocale()))
+                        @if(null !==setting()->get('main_header_language_'.app()->getLocale()) && setting()->get('main_header_language_'.app()->getLocale()))
                             <div class="drop-container">
                                 <div class="dropdown" id="lang-change">
         
@@ -42,6 +42,33 @@
                                 </div>
                             </div>
                         @endif
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <div class="drop-container">
+                            <div class="dropdown" id="country-change">
+    
+                                @php
+                                if(Session::has('country')){
+                                    $country = Session::get('country', Config::get('app.country'));
+                                }
+                                else{
+                                    $country = Config::get('app.country');
+                                }
+                            @endphp 
+    
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                            href="#"><img src="https://lipis.github.io/flag-icon-css/flags/1x1/{{ strtolower($country) }}.svg" width="15" alt="flag-img"> Country</a>
+    
+                                <ul class="dropdown-menu" role="menu">
+                                    @foreach (\App\Country::where('covered',1)->get() as $key => $country)
+                                    <li><a href="javascript:void(0)" data-flag="{{ $country->iso2 }}">
+                                                <img class="flag-img" src="https://lipis.github.io/flag-icon-css/flags/1x1/{{ strtolower($country->iso2) }}.svg" width="15" alt="flag-img" alt="{{ $country->name }}">
+                                            {{ $country->name }}
+                                        </a></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <!-- end col-3 -->
                     <div class="col-md-3 col-sm-4 col-xs-8"> <span class="date">{{ date('d M') }} </span> <span
@@ -116,9 +143,19 @@
                         @endforeach
                     @endif
                 </ul>
-                <ul class="nav navbar-nav icon-nav hidden-sm">
+                <ul class="nav navbar-nav icon-nav hidden-sm main-menu">
+                    @forelse ($navbar_menu->items as $item)
+                    @if($item->label=="Login")
+                    <li class="{{(count($item->child) > 0)?'dropdown':''}}">
+                        <a class="transition" href="{{$item->link}}">{{$item->label}}</a>
+                    </li>
+                    @endif
+                    @empty
+                    @endforelse
+                    
+
                     <li><a href="javascript:void(0)" class="search-btn"><i class="ion-search"></i></a></li>
-                    <li class="search-box" style="margin-left: -15pc;">
+                    <li class="search-box" style="margin-left: -10pc;">
                         <form action="{{route('admin.shipments.tracking')}}" method="GET">
                             <input type="text" placeholder="Tracking ID" name="code">
                             <button type="submit"><i class="ion-chevron-right"></i></button>

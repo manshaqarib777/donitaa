@@ -10,7 +10,7 @@
 					<div class="login-form text-center p-7 position-relative overflow-hidden">
 						<!--begin::Login Header-->
 						<div class="d-flex flex-center mb-5">
-							<a href="#">
+							<a href="{{url('/')}}">
                                 @if(get_setting('system_logo_white') != null)
                                     <img src="{{ uploaded_asset(get_setting('system_logo_white')) }}" alt="{{ get_setting('site_name') }}" class="max-h-75px">
                                 @else
@@ -22,7 +22,7 @@
 						<!--begin::Login Sign in form-->
 						<div class="login-signin">
 							<div class="mb-20">
-								<h3>{{ translate('Welcome to') }} @if(get_setting('website_name')) {{ get_setting('website_name') }} @else {{ translate('Spotlayer Framework') }}  @endif</h3>
+								<h3>{{ translate('Welcome to') }} @if(get_setting('site_name')) {{ get_setting('site_name') }} @else {{ translate('Spotlayer Framework') }}  @endif</h3>
 								<div class="text-muted font-weight-bold">{{ translate('Login to your account.') }}</div>
 							</div>
                             <form class="form" method="POST" role="form" action="{{ route('login') }}">
@@ -55,12 +55,19 @@
 								</div>
 								<button type="submit" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">{{ translate('Login') }}</button>
 							</form>
+                            <div class="mt-3">
+                                {{ translate('Don\'t have an account') }} ? <a href="{{ route('register') }}"
+                                    class="btn-link mar-rgt text-bold">{{ translate('Sign Up') }}</a>
+                            </div>
 						</div>
+
 						<!--end::Login Sign in form-->
 					</div>
 				</div>
+
 			</div>
 			<!--end::Login-->
+
 		</div>
 		<!--end::Main-->
 

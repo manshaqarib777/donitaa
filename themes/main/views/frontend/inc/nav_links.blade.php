@@ -9,6 +9,8 @@
             @endforeach
         </ul>
     @else
+        @if($item->label!="Login")
         <a class="transition" href="{{$item->link}}">{{$item->label}}</a>
+        @endif
     @endif
 </li>

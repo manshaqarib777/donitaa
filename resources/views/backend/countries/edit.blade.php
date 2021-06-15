@@ -22,6 +22,22 @@
                         <label>{{translate('Area Code')}}:</label>
                         <input type="text" class="form-control" value="{{$country->iso2}}" name="code">
                     </div>
+                    <div class="form-group">
+                        <label>{{translate('Email')}}:</label>
+                        <input type="email" class="form-control" value="{{$country->email}}" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label>{{translate('Phone')}}:</label>
+                        <input type="text" class="form-control" value="{{$country->phone}}" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label>{{translate('Sell Phone')}}:</label>
+                        <input type="text" class="form-control" value="{{$country->cell_phone}}" name="cell_phone">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ translate('Address') }}:</label>
+                        <textarea class="form-control"name="address">{{ $country->address }}</textarea>
+                    </div>
 
                     <div class="form-group">
                         <label for="currency">{{ translate('Country') }}:</label>

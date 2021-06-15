@@ -62,6 +62,10 @@ class CountryController extends Controller
             'name' => 'required|unique:countries,name',
             'code' => 'required|max:2',
             'currency' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'cell_phone' => 'required',
+            'address' => 'required',
         ]);
         try{	
 			DB::beginTransaction();
@@ -69,7 +73,11 @@ class CountryController extends Controller
 			$model->name = $request->name;
 			$model->currency = $request->currency;
 			$model->iso2 = $request->code;
-	      
+            $model->email = $request->email;
+			$model->phone = $request->phone;
+			$model->cell_phone = $request->cell_phone;
+			$model->address = $request->address;
+            
 			if (!$model->save()){
 				throw new \Exception();
 			}
@@ -154,6 +162,10 @@ class CountryController extends Controller
 			$model->name = $request->name;
 			$model->currency = $request->currency;
 			$model->iso2 = $request->code;
+			$model->email = $request->email;
+			$model->phone = $request->phone;
+			$model->cell_phone = $request->cell_phone;
+			$model->address = $request->address;
 
             			
 			if (!$model->save()){

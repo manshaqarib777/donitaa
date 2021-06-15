@@ -14,6 +14,8 @@
 Route::post('/update', 'UpdateController@step0')->name('update');
 Route::get('/update/step1', 'UpdateController@step1')->name('update.step1');
 Route::get('/update/step2', 'UpdateController@step2')->name('update.step2');
+Route::post('/newsletter/subscribe', 'NewsletterController@subscribe')->name('subscribe');
+Route::post('/contact-us/send', 'NewsletterController@contactus')->name('contactus');
 
 Route::get('/admin', 'HomeController@admin_dashboard')->name('admin.dashboard')->middleware(['auth', 'user_role:admin|staff|customer|captain|branch']);
 Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff']], function(){
@@ -86,8 +88,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
 
 	});
 	Route::post('/newsletter/test/smtp', 'NewsletterController@testEmail')->name('test.smtp');
-	Route::post('/newsletter/subscribe', 'NewsletterController@subscribe')->name('subscribe');
-	Route::post('/contact-us/send', 'NewsletterController@contactus')->name('contactus');
+
 	// website setting
 	Route::group(['prefix' => 'website'], function(){
 		Route::view('/header', 'backend.website_settings.header')->name('website.header');

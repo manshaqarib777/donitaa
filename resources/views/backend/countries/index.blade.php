@@ -35,6 +35,10 @@
                     <th  width="3%">#</th>
                     <th >{{translate('Name')}}</th>
                     <th >{{translate('Code')}}</th>
+                    <th >{{translate('Email')}}</th>
+                    <th >{{translate('Phone')}}</th>
+                    <th >{{translate('Cell Phone')}}</th>
+                    <th >{{translate('Address')}}</th>
                     <th >{{translate('Currency')}}</th>
                     <th  width="10%" class="text-center">{{translate('Options')}}</th>
                 </tr>
@@ -46,6 +50,10 @@
                             <td  width="3%">{{ ($key+1) + ($countries->currentPage() - 1)*$countries->perPage() }}</td>
                             <td width="20%">{{$country->name}}</td>
                             <td width="20%">{{$country->iso2}}</td>
+                            <td width="20%">{{$country->email}}</td>
+                            <td width="20%">{{$country->phone}}</td>
+                            <td width="20%">{{$country->cell_phone}}</td>
+                            <td width="20%">{{$country->address}}</td>
                             <td width="20%">{{ in_array($country->currency,$currencies)?$country->currency:''}}</td>
 
                             <td class="text-center">

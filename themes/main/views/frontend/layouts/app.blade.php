@@ -238,8 +238,19 @@
                         });
                     });
                 }
+                if ($('#country-change').length > 0) {
+                    $('#country-change .dropdown-menu a').each(function() {
+                        $(this).on('click', function(e){
+                            e.preventDefault();
+                            var $this = $(this);
+                            var country = $this.data('flag');
+                            $.post('{{ route('currency.change') }}',{_token:'{{ csrf_token() }}', country:country}, function(data){
+                                location.reload();
+                            });
 
-                
+                        });
+                    });
+                }                
             });
 
             $('#search').on('keyup', function(){

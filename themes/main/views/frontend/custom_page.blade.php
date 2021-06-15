@@ -48,22 +48,24 @@
                     <div class="col-xs-12">
                         <h4 class="section-title"><span>01</span>ADDRESS INFOS</h4>
                     </div>
-                    @foreach (\App\Branch::get() as $key => $branch)
+                    @foreach (\App\Country::where('covered',1)->get() as $key => $country)
                         <div class="col-md-4 col-sm-4">
                             <address>
-                                <h5>{{ $branch->name }}</h5>
-                                <p>{{ $branch->address }}</p>
-                                <p>t: {{ $branch->responsible_mobile }}<br>
-                                    f: {{ $branch->cell_phone }}<br>
+                                <h5>{{ $country->name }}</h5>
+                                <p>{{ $country->address }}</p>
+                                <p>t: {{ $country->phone }}<br>
+                                    f: {{ $country->cell_phone }}<br>
                                 </p>
-                                <p>e: <a href="#">{{ $branch->email }}</a></p>
+                                <p>e: <a href="#">{{ $country->email }}</a></p>
                             </address>
                         </div>
                     @endforeach
                     <div class="col-xs-12">
                         <div class="column">
                             <div class="left-side">
-                                <div id="map"></div>
+                                <div class="col-xs-12">
+                                    <h1 class="section-title">{{ get_setting_by_lang('contact_page_message')}}</h1>
+                                </div>
                             </div>
                             <div class="right-side">
                                 <form method="post" action="{{ route('contactus') }}">
