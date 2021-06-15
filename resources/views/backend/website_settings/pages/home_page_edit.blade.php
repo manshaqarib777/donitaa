@@ -469,7 +469,7 @@
 
 
                 {{-- Mobile Section --}}
-                <div class="card shadow-none bg-light mt-5">
+                {{-- <div class="card shadow-none bg-light mt-5">
                     <div class="card-header">
                         <h6 class="mb-0">{{ translate('Mobile Section') }}</h6>
                     </div>
@@ -771,7 +771,7 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card shadow-none bg-light mt-5">
                     <div class="card-header">
                         <h6 class="mb-0">{{ translate('Header Information') }}</h6>
@@ -1078,7 +1078,7 @@
 
 
                 {{-- Services --}}
-                <div class="card shadow-none bg-light">
+                {{-- <div class="card shadow-none bg-light">
                     <div class="card-header">
                         <h6 class="mb-0">{{ translate('Your Services') }}</h6>
                     </div>
@@ -1253,10 +1253,10 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- Home Section 1 --}}
-                <div class="card shadow-none bg-light mt-5">
+                {{-- <div class="card shadow-none bg-light mt-5">
                     <div class="card-header">
                         <h6 class="mb-0">{{ translate('Big image section') }}</h6>
                     </div>
@@ -1337,10 +1337,10 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- Home Process --}}
-                <div class="card shadow-none bg-light mt-5">
+                {{-- <div class="card shadow-none bg-light mt-5">
                     <div class="card-header">
                         <h6 class="mb-0">{{ translate('Work Process') }}</h6>
                     </div>
@@ -1500,10 +1500,10 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- Testimonials --}}
-                <div class="card shadow-none bg-light mt-5">
+                {{-- <div class="card shadow-none bg-light mt-5">
                     <div class="card-header">
                         <h6 class="mb-0">{{ translate('Testimonials Section') }}</h6>
                     </div>
@@ -1755,7 +1755,7 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> --}}
 
 
                 <div class="card shadow-none bg-light mt-5">

@@ -312,7 +312,7 @@ $packages = \App\Package::all();
         </div>
         <!-- end container -->
     </section>
-    @if(get_setting_by_lang('home_testimonials_status'))
+    {{-- @if(get_setting_by_lang('home_testimonials_status'))
     <!-- end steps-features -->
     <section class="testimonials">
         <div class="container">
@@ -340,7 +340,7 @@ $packages = \App\Package::all();
         <!-- end container -->
     </section>
     <!-- end latest-news -->
-    @endif
+    @endif --}}
 
     @if(get_setting_by_lang('home_about_shipper_status'))
 
