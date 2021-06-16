@@ -469,7 +469,7 @@
 
 
                 {{-- Mobile Section --}}
-                {{-- <div class="card shadow-none bg-light mt-5">
+                <div class="card shadow-none bg-light mt-5">
                     <div class="card-header">
                         <h6 class="mb-0">{{ translate('Mobile Section') }}</h6>
                     </div>
@@ -528,7 +528,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-10">
-                                    <div class="col">
+                                    <div class="col">bie
                                         <div class="input-group" data-toggle="aizuploader" data-type="image">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text bg-soft-secondary font-weight-medium">
@@ -771,7 +771,7 @@
                             </div>
                         </form>
                     </div>
-                </div> --}}
+                </div>
                 <div class="card shadow-none bg-light mt-5">
                     <div class="card-header">
                         <h6 class="mb-0">{{ translate('Header Information') }}</h6>
