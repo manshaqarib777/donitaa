@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Your message</label>
-                                        <textarea name="message" id="message" required &gt;></textarea>
+                                        <textarea name="content" id="message" required &gt;></textarea>
                                     </div>
                                     <div class="form-group">
                                         <button id="submit" type="submit" name="submit">SUBMIT</button>
