@@ -237,7 +237,7 @@ class ClientController extends Controller
         else{
             $translation=str_replace("Personal","Company",$request->input('translation'));
         }
-     
+        $translation=translate($translation);
         return response()->json($translation);
     }
 }

@@ -428,43 +428,41 @@
                                             style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;">
 
 
+                                            <div class="row col-md-4">
+                                                <div class="col-md-12">
 
-                                            <div class="col-md-4">
-
-                                                <label>{{ translate('Package Type') }}:</label>
-                                                <select class="form-control kt-select2 package-type-select"
-                                                    name="package_id">
-                                                    <option></option>
-                                                    @foreach ($packages as $package)
-                                                        <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif
-                                                            value="{{ $package->id }}">{{ $package->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <div class="mb-2 d-md-none"></div>
+                                                    <label>{{ translate('Package Type') }}:</label>
+                                                    <select class="form-control kt-select2 package-type-select"
+                                                        name="package_id">
+                                                        <option></option>
+                                                        @foreach ($packages as $package)
+                                                            <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif
+                                                                value="{{ $package->id }}">{{ $package->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div class="mb-2 d-md-none"></div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>{{ translate('description') }}:</label>
+                                                    <input type="text" placeholder="{{ translate('description') }}"
+                                                        class="form-control" name="description">
+                                                    <div class="mb-2 d-md-none"></div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <label>{{ translate('description') }}:</label>
-                                                <input type="text" placeholder="{{ translate('description') }}"
-                                                    class="form-control" name="description">
-                                                <div class="mb-2 d-md-none"></div>
-                                            </div>
-                                            <div class="col-md-4">
+                                            <div class="row col-md-8">
+                                                <div class="col-md-4">
 
-                                                <label>{{ translate('Weight') }}:</label>
+                                                    <label>{{ translate('Weight') }}:</label>
 
-                                                <input type="number" min="1" placeholder="{{ translate('Weight') }}"
-                                                    name="weight" class="form-control weight-listener kt_touchspin_weight"
-                                                    onchange="calcTotalWeight()" value="1" />
-                                                <div class="mb-2 d-md-none"></div>
+                                                    <input type="number" min="1" placeholder="{{ translate('Weight') }}"
+                                                        name="weight" class="form-control weight-listener kt_touchspin_weight"
+                                                        onchange="calcTotalWeight()" value="1" />
+                                                    <div class="mb-2 d-md-none"></div>
 
-                                            </div>
-
-                                            <div class="row col-md-12">
-                                                <div class="col-md-12" style="margin-top: 10px;">
-                                                    <label>{{ translate('Dimensions [Length x Width x Height] (cm):') }}:</label>
                                                 </div>
 
                                                 <div class="col-md-4">
+                                                    <label>{{ translate('Length') }}:</label>
 
                                                     <input class="dimensions_r" type="number" min="1" class="form-control"
                                                         placeholder="{{ translate('Length') }}" name="length"
@@ -472,12 +470,15 @@
 
                                                 </div>
                                                 <div class="col-md-4">
+                                                    <label>{{ translate('Width') }}:</label>
 
                                                     <input class="dimensions_r" type="number" min="1" class="form-control"
                                                         placeholder="{{ translate('Width') }}" name="width" value="1" />
 
                                                 </div>
                                                 <div class="col-md-4">
+                                                    <label>{{ translate('Height') }}:</label>
+
 
                                                     <input class="dimensions_r" type="number" min="1" class="form-control "
                                                         placeholder="{{ translate('Height') }}" name="height"
@@ -499,8 +500,10 @@
                                                         class="form-control value-listener" name="shipment_price" onchange="calcTotalPrice()" value="0" />
                                                 </div>
                                             </div>
-
                                             <div class="col-md-12">
+                                                <hr>
+                                            <hr>
+                                            <hr>
                                                 <div class="inner-repeater">
                                                     <div data-repeater-list="package_list">
                                                         <div data-repeater-item>

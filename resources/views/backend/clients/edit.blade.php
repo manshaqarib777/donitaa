@@ -35,18 +35,18 @@
                     </div>
                     <div class="form-group">
                         @if ($client->account_type == 1)
-                            <label class="change_type">{{ translate('Personal Name') }}:</label>
+                            <label class="change_type">{{ translate('Personal Name:') }}</label>
                         @else
-                            <label class="change_type">{{ translate('Company Name') }}:</label>
+                            <label class="change_type">{{ translate('Company Name:') }}</label>
                         @endif
                         <input type="text" id="name" class="form-control" value="{{ $client->name }}"
                             placeholder="{{ translate('Here') }}" name="Client[name]">
                     </div>
                     <div class="form-group">
                         @if ($client->account_type == 1)
-                        <label class="change_type">{{ translate('Personal Email') }}:</label>
+                        <label class="change_type">{{ translate('Personal Email:') }}</label>
                         @else
-                        <label class="change_type">{{ translate('Company Email') }}:</label>
+                        <label class="change_type">{{ translate('Company Email:') }}</label>
                          @endif
                         <input id="email-field" type="text" class="form-control" value="{{ $client->email }}"
                             placeholder="{{ translate('Here') }}" name="Client[email]">
