@@ -34,12 +34,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="change_type">{{ translate('Personal Name') }}:</label>
-                        <input type="text" id="name" class="form-control" placeholder="{{ translate('Commercial Name') }}"
+                        <label><span class="change_type">{{ translate('Personal Name') }}:</span></label>
+                        <input type="text" id="name" class="form-control" placeholder="{{ translate('Name') }}"
                             name="Client[name]">
                     </div>
                     <div class="form-group">
-                        <label class="change_type">{{ translate('Personal Email') }}:</label>
+                        <label><span class="change_type">{{ translate('Personal Email') }}:</span></label>
                         <input id="email-field" type="text" class="form-control" placeholder="{{ translate('Email') }}"
                             name="Client[email]">
                     </div>
@@ -199,16 +199,20 @@
         $('input:radio[name="Client[account_type]"]').change(function() {
                 var change_html="";
                 if ($(this).val() == '2') {
-                    $(".change_type").each(function(){
-                        $.get("{{ route('admin.clients.get-translation-ajax') }}?translation=" + $(this).htm()+"&type="+$('input:radio[name="Client[account_type]"]').val(), function(data) {
-                            console.log(data);
-                            $(this).htm(data);
-
+                    $(".change_type").each(function(index,item){
+                        $.get("{{ route('admin.clients.get-translation-ajax') }}?translation=" + $(this).html()+"&type="+$('input[name="Client[account_type]"]:checked').val(), function(data) {
+                            $(item).html(data);
                         });
                     });
 
                 } else {
-                    $('.show_branch').hide();
+                    $(".change_type").each(function(index,item){
+                        //alert($(this).html());
+                        $.get("{{ route('admin.clients.get-translation-ajax') }}?translation=" + $(this).html()+"&type="+$('input[name="Client[account_type]"]:checked').val(), function(data) {
+                            $(item).html(data);
+
+                        });
+                    });
 
                 }
             });
