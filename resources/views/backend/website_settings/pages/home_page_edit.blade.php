@@ -469,13 +469,13 @@
 
 
                 {{-- Mobile Section --}}
-                {{-- <div class="card shadow-none bg-light mt-5">
+                <div class="card shadow-none bg-light mt-5">
                     <div class="card-header">
-                        <h6 class="mb-0">{{ translate('Mobile Section') }}</h6>
+                        <h6 class="mb-0">{{ translate('Home Page Banner') }}</h6>
                     </div>
                     <div class="card-body">
                         <div class="row mb-3 ml-0">
-                            <label class="pt-2 mr-5">{{ translate('Show Mobile Section:') }}</label>
+                            <label class="pt-2 mr-5">{{ translate('Show Home Page Banner:') }}</label>
                             <span class="switch">
                                 <label>
                                     <input type="checkbox" name="checkbox" id="checkbox"
@@ -493,59 +493,6 @@
                             <input type="hidden" name="types[]" value="home_page_banner_sub_title">
                             <input type="hidden" name="types[]" value="home_msection_images">
                             <div class="form-group">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <input type="hidden" name="types[]" value="home_msection_htitle">
-                                            <input type="text" class="form-control"
-                                                placeholder="{{ translate('Section Title') }}"
-                                                name="home_msection_htitle"
-                                                value="{{ get_setting_by_lang('home_msection_htitle', $lang) }}"
-                                                required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <input type="hidden" name="types[]" value="home_msection_subtitle">
-                                            <input type="text" class="form-control"
-                                                placeholder="{{ translate('Section Subtitle') }}"
-                                                name="home_msection_subtitle"
-                                                value="{{ get_setting_by_lang('home_msection_subtitle', $lang) }}"
-                                                required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <input type="hidden" name="types[]" value="home_msection_hdesc">
-                                            <textarea class="form-control"
-                                                placeholder="{{ translate('Section Description') }}"
-                                                name="home_msection_hdesc">{{ get_setting_by_lang('home_msection_hdesc', $lang) }}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-10">
-                                    <div class="col">
-                                        <div class="input-group" data-toggle="aizuploader" data-type="image">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text bg-soft-secondary font-weight-medium">
-                                                    {{ translate('Browse') }}</div>
-                                            </div>
-                                            <div class="form-control file-amount">{{ translate('Choose File') }}</div>
-                                            <input type="hidden" name="types[]" value="home_msection_image">
-                                            <input type="hidden" name="home_msection_image" class="selected-files"
-                                                value="{{ json_decode(get_setting_by_lang('home_msection_image', $lang), true) }}">
-                                        </div>
-                                        <div class="file-preview box sm">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-header">
-                                    <h6 class="mb-0">{{ translate('Home Page Banners') }}</h6>
-                                </div>
                                 <div class="home-msection-target">
                                     @php
                                         $home_page_banner_title = json_decode(get_setting_by_lang('home_page_banner_title', $lang), true);
@@ -771,7 +718,7 @@
                             </div>
                         </form>
                     </div>
-                </div> --}}
+                </div>
                 <div class="card shadow-none bg-light mt-5">
                     <div class="card-header">
                         <h6 class="mb-0">{{ translate('Header Information') }}</h6>

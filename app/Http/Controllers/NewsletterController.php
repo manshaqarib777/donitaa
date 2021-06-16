@@ -136,10 +136,15 @@ class NewsletterController extends Controller
         $array['subject'] = "Contact By ".$request->input('name');
         $array['from'] = $request->input('email');
         $array['content'] = $request->input('content');
+        if (!filter_var(env('MAIL_USERNAME'), FILTER_VALIDATE_EMAIL)) {
+            $request_email = env('MAIL_FROM_ADDRESS');
+        }else{
+            $request_email = env('MAIL_USERNAME');
+        }
 
         try {
 
-            Mail::to($request->email)->queue(new EmailManager($array));
+            Mail::to($request_email)->queue(new EmailManager($array));
         } catch (\Exception $e) {
             dd($e);
         }
