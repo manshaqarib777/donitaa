@@ -471,9 +471,19 @@
                 {{-- Mobile Section --}}
                 <div class="card shadow-none bg-light mt-5">
                     <div class="card-header">
-                        <h6 class="mb-0">{{ translate('Home Page Banners') }}</h6>
+                        <h6 class="mb-0">{{ translate('Home Page Banner') }}</h6>
                     </div>
                     <div class="card-body">
+                        <div class="row mb-3 ml-0">
+                            <label class="pt-2 mr-5">{{ translate('Show Home Page Banner:') }}</label>
+                            <span class="switch">
+                                <label>
+                                    <input type="checkbox" name="checkbox" id="checkbox"
+                                        onchange="updateSettings(this, 'home_section_status')" @if (get_setting_by_lang('home_section_status', $lang) == 1) checked @endif />
+                                    <span></span>
+                                </label>
+                            </span>
+                        </div>
                         <form action="{{ route('business_settings.update') }}" method="POST"
                             enctype="multipart/form-data" id="home_section" @if (get_setting_by_lang('home_section_status', $lang) != 1) style="display: none;" @endif>
                             @csrf
