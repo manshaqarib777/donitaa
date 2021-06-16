@@ -156,7 +156,7 @@
                                 <option value=""></option>
                                 @foreach ($countries as $country)
                                     <option value="{{ $country->id }}"
-                                        {{ @$receiver->user->country_id == $country->id ? 'selected' : '' }}>
+                                        {{ @$receiver->userReceiver->user->country_id == $country->id ? 'selected' : '' }}>
                                         {{ $country->name }}</option>
                                 @endforeach
                             </select>
@@ -166,8 +166,8 @@
                         <label class="col-sm-3 col-from-label" for="state_id">{{ translate('Region') }}:</label>
                         <div class="col-sm-9">
                             <select id="change-state" name="state_id" class="form-control select-state">
-                                <option value="{{ @$receiver->user->state_id }}" selected>
-                                    {{ @$receiver->user->state->name }}</option>
+                                <option value="{{ @$receiver->userReceiver->user->state_id }}" selected>
+                                    {{ @$receiver->userReceiver->user->state->name }}</option>
 
                             </select>
                         </div>
@@ -176,8 +176,8 @@
                         <label class="col-sm-3 col-from-label" for="area_id">{{ translate('Area') }}:</label>
                         <div class="col-sm-9">
                             <select name="area_id" class="form-control select-area">
-                                <option value="{{ @$receiver->user->area_id }}" selected>
-                                    {{ @$receiver->user->area->name }}</option>
+                                <option value="{{ @$receiver->userReceiver->user->area_id }}" selected>
+                                    {{ @$receiver->userReceiver->user->area->name }}</option>
 
                             </select>
                         </div>

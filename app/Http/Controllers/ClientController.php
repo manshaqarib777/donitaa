@@ -226,4 +226,18 @@ class ClientController extends Controller
         }
         return back();
     }
+    public function ajaxGetTranslations(Request $request)
+    {
+        $translation = $request->input('translation');
+        $type = $request->input('type');
+        if($type==1)
+        {
+            $translation=str_replace("Company","Personal",$request->input('translation'));
+        }
+        else{
+            $translation=str_replace("Personal","Company",$request->input('translation'));
+        }
+     
+        return response()->json($translation);
+    }
 }

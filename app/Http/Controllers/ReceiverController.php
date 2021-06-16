@@ -9,7 +9,7 @@ use App\User;
 use App\UserReceiver;
 use DB;
 use Auth;
-use App\Events\AddReceiver;
+//use App\Events\AddReceiver;
 
 class ReceiverController extends Controller
 {
@@ -89,10 +89,14 @@ class ReceiverController extends Controller
 			if(!$response['success']){
 				throw new \Exception($response['error_msg']);
 			}
-            $model->user_id = Auth::user()->id;
-            $model->save();
+			$userReceiver = new UserReceiver();
+			$userReceiver->user_id = $response['user_id'];
+			$userReceiver->receiver_id = $model->id;
+			if (!$userReceiver->save()){
+                throw new \Exception("Record Could Not Saved Successfully");
+			}
 
-
+            //event(new AddReceiver($model));
 			DB::commit();
             flash(translate("Receiver added successfully"))->success();
             $route = 'admin.receivers.index';
@@ -209,8 +213,12 @@ class ReceiverController extends Controller
             return back();
         }
         $model = Receiver::findOrFail($receiver);
-        $branch_user = User::find($model->user_id);
-        $branch_user->delete();
+        $user = UserReceiver::where('receiver_id',$model->id)->first();
+        if($user != null)
+        {
+            $branch_user = User::find($user->user_id);
+            $branch_user->delete();
+        }
         $model->is_archived = 1;
         if($model->save()){
             flash(translate('Receiver has been deleted successfully'))->success();

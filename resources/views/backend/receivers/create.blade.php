@@ -5,43 +5,23 @@
     <div class="mx-auto col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0 h6">{{ translate('Client Information') }}</h5>
+                <h5 class="mb-0 h6">{{ translate('Receiver Information') }}</h5>
             </div>
 
-            <form class="form-horizontal" action="{{ route('admin.clients.store') }}" id="kt_form_1" method="POST"
+            <form class="form-horizontal" action="{{ route('admin.receivers.store') }}" id="kt_form_1" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 {!! redirect_input() !!}
                 <div class="card-body">
-                    <div class="form-group row">
-                        <label class="col-2 col-form-label">{{ translate('Account Type') }}</label>
-                        <div class="col-9 col-form-label">
-                            <div class="radio-inline">
-                                <label class="radio radio-success">
-                                    <input type="radio" name="Client[account_type]"
-                                        checked="checked" value="1" />
-                                    <span></span>
-                                    {{ translate('Personal Account') }}
-                                </label>
-                                <label class="radio radio-success">
-                                    <input type="radio" name="Client[account_type]"
-                                        value="2" />
-                                    <span></span>
-                                    {{ translate('Company Account') }}
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
                     <div class="form-group">
-                        <label class="change_type">{{ translate('Personal Name') }}:</label>
+                        <label>{{ translate('Commercial Name') }}:</label>
                         <input type="text" id="name" class="form-control" placeholder="{{ translate('Commercial Name') }}"
-                            name="Client[name]">
+                            name="Receiver[name]">
                     </div>
                     <div class="form-group">
-                        <label class="change_type">{{ translate('Personal Email') }}:</label>
+                        <label>{{ translate('Email') }}:</label>
                         <input id="email-field" type="text" class="form-control" placeholder="{{ translate('Email') }}"
-                            name="Client[email]">
+                            name="Receiver[email]">
                     </div>
 
 
@@ -72,7 +52,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>الفرع المسؤول:</label>
-                            <select class="form-control kt-select2" id="select-responsible-branch" name="Client[responsible_branch_id]">
+                            <select class="form-control kt-select2" id="select-responsible-branch" name="Receiver[responsible_branch_id]">
                                 <option></option>
 
 
@@ -104,14 +84,14 @@
                             <div class="form-group">
                                 <label>{{ translate('Owner Name') }}:</label>
                                 <input type="text" class="form-control" id="owner_name"
-                                    placeholder="{{ translate('Owner Name') }}" name="Client[responsible_name]">
+                                    placeholder="{{ translate('Owner Name') }}" name="Receiver[responsible_name]">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{ translate('Owner Phone') }}:</label>
                                 <input type="text" class="form-control" placeholder="{{ translate('Owner Phone') }}"
-                                    name="Client[responsible_mobile]">
+                                    name="Receiver[responsible_mobile]">
                             </div>
                         </div>
                     </div>
@@ -120,14 +100,14 @@
                             <div class="form-group">
                                 <label>{{ translate('Followup Name') }} :</label>
                                 <input type="text" class="form-control" id="followup_name"
-                                    placeholder="{{ translate('Followup Name') }}" name="Client[follow_up_name]">
+                                    placeholder="{{ translate('Followup Name') }}" name="Receiver[follow_up_name]">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{ translate('Followup Phone') }}:</label>
                                 <input type="text" class="form-control" placeholder="{{ translate('Followup Phone') }}"
-                                    name="Client[follow_up_mobile]">
+                                    name="Receiver[follow_up_mobile]">
                             </div>
                         </div>
                     </div>
@@ -135,12 +115,12 @@
                     <div class="form-group">
                         <label>{{ translate('National ID') }}:</label>
                         <input type="text" class="form-control" placeholder="{{ translate('National ID') }}"
-                            name="Client[national_id]">
+                            name="Receiver[national_id]">
                     </div>
 
                     <div class="form-group">
-                        <label>{{ translate('Client Source') }}:</label>
-                        <select class="form-control kt-select2 how-know-us" id="select-how" name="Client[how_know_us]">
+                        <label>{{ translate('Receiver Source') }}:</label>
+                        <select class="form-control kt-select2 how-know-us" id="select-how" name="Receiver[how_know_us]">
                             <option></option>
                             <option value="Facebook">{{ translate('Facebook') }}</option>
                             <option value="Website">{{ translate('ًWebsite') }}</option>
@@ -181,7 +161,7 @@
                         </div>
                     </div>
 
-                    {!! hookView('spot-cargo-shipment-client-addon', $currentView) !!}
+                    {!! hookView('spot-cargo-shipment-receiver-addon', $currentView) !!}
 
                     <div class="mb-0 text-right form-group">
                         <button type="submit" class="btn btn-sm btn-primary">{{ translate('Save') }}</button>
@@ -196,24 +176,8 @@
 
 @section('script')
     <script type="text/javascript">
-        $('input:radio[name="Client[account_type]"]').change(function() {
-                var change_html="";
-                if ($(this).val() == '2') {
-                    $(".change_type").each(function(){
-                        $.get("{{ route('admin.clients.get-translation-ajax') }}?translation=" + $(this).htm()+"&type="+$('input:radio[name="Client[account_type]"]').val(), function(data) {
-                            console.log(data);
-                            $(this).htm(data);
-
-                        });
-                    });
-
-                } else {
-                    $('.show_branch').hide();
-
-                }
-            });
         $('.how-know-us').select2({
-            placeholder: "Client Source",
+            placeholder: "Receiver Source",
         });
 
         $(document).ready(function() {
@@ -311,14 +275,14 @@
             FormValidation.formValidation(
                 document.getElementById('kt_form_1'), {
                     fields: {
-                        "Client[name]": {
+                        "Receiver[name]": {
                             validators: {
                                 notEmpty: {
                                     message: '{{ translate('This is required!') }}'
                                 }
                             }
                         },
-                        "Client[email]": {
+                        "Receiver[email]": {
                             validators: {
                                 notEmpty: {
                                     message: '{{ translate('This is required!') }}'
@@ -370,14 +334,14 @@
                                 }
                             }
                         },
-                        "Client[responsible_name]": {
+                        "Receiver[responsible_name]": {
                             validators: {
                                 notEmpty: {
                                     message: '{{ translate('This is required!') }}'
                                 }
                             }
                         },
-                        "Client[responsible_mobile]": {
+                        "Receiver[responsible_mobile]": {
                             validators: {
                                 notEmpty: {
                                     message: '{{ translate('This is required!') }}'

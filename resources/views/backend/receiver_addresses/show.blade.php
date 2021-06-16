@@ -1,7 +1,7 @@
 @extends('backend.layouts.app')
 
 
-@section('sub_title'){{$client->name}}@endsection
+@section('sub_title'){{$receiver->name}}@endsection
 @section('subheader')
     <!--begin::Subheader-->
     <div class="subheader py-2 py-lg-6 subheader-solid" id="kt_subheader">
@@ -11,7 +11,7 @@
                 <!--begin::Page Heading-->
                 <div class="d-flex align-items-baseline flex-wrap mr-5">
                     <!--begin::Page Title-->
-                    <h5 class="text-dark font-weight-bold my-1 mr-5">{{$client->name}}</h5>
+                    <h5 class="text-dark font-weight-bold my-1 mr-5">{{$receiver->name}}</h5>
                     <!--end::Page Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
@@ -19,7 +19,7 @@
                             <a href="{{ route('admin.dashboard')}}" class="text-muted">{{translate('Dashboard')}}</a>
                         </li>
                         <li class="breadcrumb-item text-muted">
-                            <a href="#" class="text-muted">{{ translate('View client') }}</a>
+                            <a href="#" class="text-muted">{{ translate('View receiver') }}</a>
                         </li>
                     </ul>
                     <!--end::Breadcrumb-->
@@ -45,7 +45,7 @@
                     <!--begin: Pic-->
                     <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
                         <div class="symbol symbol-50 symbol-lg-60">
-                            <img src="@if($client->img){{uploaded_asset($client->img)}} @else {{ static_asset('assets/img/avatar-place.png') }} @endif" alt="image" />
+                            <img src="@if($receiver->img){{uploaded_asset($receiver->img)}} @else {{ static_asset('assets/img/avatar-place.png') }} @endif" alt="image" />
                         </div>
                     </div>
                     <!--end::Pic-->
@@ -54,7 +54,7 @@
                         <!--begin::Title-->
                         <div class="d-flex justify-content-between flex-wrap mt-1">
                             <div class="d-flex mr-3">
-                                <a href="#" class="text-dark-75 text-hover-primary font-size-h5 font-weight-bold mr-3">{{$client->name}}</a>
+                                <a href="#" class="text-dark-75 text-hover-primary font-size-h5 font-weight-bold mr-3">{{$receiver->name}}</a>
                                 <a href="#">
                                     <i class="flaticon2-correct text-success font-size-h5"></i>
                                 </a>
@@ -66,13 +66,13 @@
                             <div class="d-flex flex-column flex-grow-1 pr-8">
                                 <div class="d-flex flex-wrap mb-4">
                                     <a href="#" class="text-dark-50 text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                    <i class="la la-user mr-2 font-size-lg"></i>{{$client->responsible_name}}</a>
+                                    <i class="la la-user mr-2 font-size-lg"></i>{{$receiver->responsible_name}}</a>
                                     <a href="#" class="text-dark-50 text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                    <i class="la la-mobile mr-2 font-size-lg"></i>{{$client->responsible_mobile}}</a>
+                                    <i class="la la-mobile mr-2 font-size-lg"></i>{{$receiver->responsible_mobile}}</a>
                                     <a href="#" class="text-dark-50 text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
-                                    <i class="la la-money-check mr-2 font-size-lg"></i><span class="font-weight-boldest text-uppercase">{{translate('Pickup Cost')}}:</span> {{format_price(convert_price($client->pickup_cost))}}</a>
+                                    <i class="la la-money-check mr-2 font-size-lg"></i><span class="font-weight-boldest text-uppercase">{{translate('Pickup Cost')}}:</span> {{format_price(convert_price($receiver->pickup_cost))}}</a>
                                     <a href="#" class="text-dark-50 text-hover-primary font-weight-bold">
-                                    <i class="la la-money-check mr-2 font-size-lg"></i><span class="font-weight-boldest text-uppercase">{{translate('Supply Cost')}}:</span> {{format_price(convert_price($client->supply_cost))}}</a>
+                                    <i class="la la-money-check mr-2 font-size-lg"></i><span class="font-weight-boldest text-uppercase">{{translate('Supply Cost')}}:</span> {{format_price(convert_price($receiver->supply_cost))}}</a>
                                 </div>
                             </div>
                         </div>
@@ -90,11 +90,11 @@
                             <i class="flaticon-piggy-bank display-4 text-muted font-weight-bold"></i>
                         </span>
                         @php
-                            $client_tran = App\Transaction::where('client_id' , $client->id)->sum('value');
+                            $receiver_tran = App\Transaction::where('receiver_id' , $receiver->id)->sum('value');
                         @endphp
                         <div class="d-flex flex-column text-dark-75">
                             <span class="font-weight-bolder font-size-sm">{{translate('Transacations')}}</span>
-                            <span class="font-weight-bolder font-size-h5">{{format_price(convert_price($client_tran))}}</span>
+                            <span class="font-weight-bolder font-size-h5">{{format_price(convert_price($receiver_tran))}}</span>
                         </div>
                     </div>
                     <!--end::Item-->
@@ -122,7 +122,7 @@
                     <!--begin::Header-->
                     <div class="card-header border-0 pt-5">
                         <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label font-weight-bolder text-dark text-uppercase">{{$client->name}} {{translate('shipments')}}</span>
+                            <span class="card-label font-weight-bolder text-dark text-uppercase">{{$receiver->name}} {{translate('shipments')}}</span>
                         </h3>
                     </div>
                     <!--end::Header-->
@@ -140,7 +140,7 @@
                                             <th>{{translate('Code')}}</th>
                                             <th>{{translate('Status')}}</th>
                                             <th>{{translate('Type')}}</th>
-                                            <th>{{translate('Client')}}</th>
+                                            <th>{{translate('Receiver')}}</th>
                                             <th>{{translate('Branch')}}</th>
 
                                             <th>{{translate('Shipping Cost')}}</th>
@@ -157,12 +157,12 @@
                                         @foreach($shipments as $key=>$shipment)
 
                                         <tr>
-                                            <td><label class="checkbox checkbox-success"><input data-clientaddress="{{$shipment->client_address}}" data-clientid="{{@$shipment->client->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{@$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
+                                            <td><label class="checkbox checkbox-success"><input data-receiveraddress="{{$shipment->receiver_address}}" data-receiverid="{{@$shipment->receiver->id}}" data-branchid="{{$shipment->branch_id}}" data-branchname="{{@$shipment->branch->name}}"  type="checkbox" class="sh-check" name="checked_ids[]" value="{{$shipment->id}}" /><span></span></label></td>
                                             <td width="3%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</a></td>
                                             <td width="5%"><a href="{{route('admin.shipments.show', ['shipment'=>$shipment->id])}}">{{$shipment->barcode}}</a></td>
                                             <td>{{$shipment->getStatus()}}</td>
                                             <td>{{$shipment->type}}</td>
-                                            <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{@$shipment->client->name}}</a></td>
+                                            <td><a href="{{route('admin.receivers.show',$shipment->receiver_id)}}">{{@$shipment->receiver->name}}</a></td>
                                             <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{@$shipment->branch->name}}</a></td>
 
                                             <td>{{format_price(convert_price($shipment->shipping_cost))}}</td>
