@@ -422,14 +422,16 @@
 
                             <div id="kt_repeater_1">
                                 <div class="row" id="kt_repeater_1">
-                                    <h2 class="text-left">{{ translate('Package Info') }}:</h2>
+                                    <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
+                                        <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}: <small style="font-size: 12px;">{{translate("( Please select our standard package OR choose custom pachage, weight will be required )")}}</small></h2>
+                                    </div>
                                     <div data-repeater-list="Package" class="col-lg-12">
                                         <div data-repeater-item class="row align-items-center"
                                             style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;">
 
 
-                                            <div class="row col-md-4">
-                                                <div class="col-md-12">
+                                            <div class="row col-md-12">
+                                                <div class="col-md-6">
 
                                                     <label>{{ translate('Package Type') }}:</label>
                                                     <select class="form-control kt-select2 package-type-select"
@@ -442,63 +444,84 @@
                                                     </select>
                                                     <div class="mb-2 d-md-none"></div>
                                                 </div>
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                     <label>{{ translate('description') }}:</label>
                                                     <input type="text" placeholder="{{ translate('description') }}"
                                                         class="form-control" name="description">
                                                     <div class="mb-2 d-md-none"></div>
                                                 </div>
                                             </div>
-                                            <div class="row col-md-8">
-                                                <div class="col-md-4">
-
-                                                    <label>{{ translate('Weight') }}:</label>
-
-                                                    <input type="number" min="1" placeholder="{{ translate('Weight') }}"
-                                                        name="weight" class="form-control weight-listener kt_touchspin_weight"
+                                            <div class="row col-md-12 pt-2">
+                                                <div class="col-md-2">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                          <span class="input-group-text" id="basic-addon1">KG</span>
+                                                        </div>
+                                                        <input type="number" min="1" placeholder="{{ translate('Weight') }}"
+                                                        name="weight" class="form-control weight-listener"
                                                         onchange="calcTotalWeight()" value="1" />
+                                                    </div>
                                                     <div class="mb-2 d-md-none"></div>
-
                                                 </div>
-
-                                                <div class="col-md-4">
-                                                    <label>{{ translate('Length') }}:</label>
-
-                                                    <input class="dimensions_r" type="number" min="1" class="form-control"
-                                                        placeholder="{{ translate('Length') }}" name="length"
-                                                        value="1" />
-
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>{{ translate('Width') }}:</label>
-
-                                                    <input class="dimensions_r" type="number" min="1" class="form-control"
-                                                        placeholder="{{ translate('Width') }}" name="width" value="1" />
-
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>{{ translate('Height') }}:</label>
-
-
-                                                    <input class="dimensions_r" type="number" min="1" class="form-control "
-                                                        placeholder="{{ translate('Height') }}" name="height"
-                                                        value="1" />
-
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>{{ translate('Shipment Insurance') }}:</label>
+                                                <div class="col-md-2">
                                                     <label class="checkbox">
                                                         <input type="checkbox" onchange="update_currency_status(this)"
                                                             placeholder="{{ translate('Include Shipment Insurance') }}"
                                                             class="form-control insurance-listener" id="" name="shipment_insurance" />
-                                                        <span></span>
+                                                        <span></span>&nbsp;&nbsp;{{ translate('Insurance') }}
+                                                    </label>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" onchange="update_currency_status(this)"
+                                                            placeholder="{{ translate('Include Shipment Insurance') }}"
+                                                            class="form-control insurance-listener" id="" name="shipment_insurance" />
+                                                        <span></span>&nbsp;&nbsp;{{ translate('Insurance') }}
                                                     </label>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <label>{{ translate('Package Value') }}:</label>
-                                                    <input type="text" placeholder="{{ translate('Package Value') }}"
+                                                <div class="col-md-2">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                          <span class="input-group-text" id="basic-addon1">{{ translate('PV') }}</span>
+                                                        </div>
+                                                        <input type="text" placeholder="{{ translate('Package Value') }}"
                                                         class="form-control value-listener" name="shipment_price" onchange="calcTotalPrice()" value="0" />
+                                                        <small class="w-100 text-center" style="color:#0b2339;">Protection Value</small>
+                                                      </div>
+
+
                                                 </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                          <span class="input-group-text" id="basic-addon1">L</span>
+                                                        </div>
+                                                        <input type="number" min="1" class="form-control"
+                                                        placeholder="{{ translate('Length') }}" name="length"
+                                                        value="1" />
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-2">
+
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                          <span class="input-group-text" id="basic-addon1">W</span>
+                                                        </div>
+                                                        <input type="number" min="1" class="form-control"
+                                                        placeholder="{{ translate('Width') }}" name="width" value="1" />
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                          <span class="input-group-text" id="basic-addon1">H</span>
+                                                        </div>
+                                                        <input type="number" min="1" class="form-control "
+                                                        placeholder="{{ translate('Height') }}" name="height"
+                                                        value="1" />
+                                                      </div>
+
+                                                </div>
+
                                             </div>
                                             <div class="col-md-12">
                                                 <hr>
@@ -548,11 +571,9 @@
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="">
-                                                            <label
-                                                                class="text-right col-form-label">{{ translate('Add List') }}</label>
                                                             <div>
                                                                 <a href="javascript:;" data-repeater-create=""
-                                                                    class="btn btn-sm font-weight-bolder btn-light-primary">
+                                                                    class="btn btn-sm font-weight-bolder btn-light-primary" style="border-radius: 16px 10px;">
                                                                     <i class="la la-plus"></i>{{ translate('Add List') }}
                                                                 </a>
                                                             </div>
@@ -581,10 +602,9 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="">
-                                        <label class="text-right col-form-label">{{ translate('Add Package') }}</label>
                                         <div>
                                             <a href="javascript:;" data-repeater-create=""
-                                                class="btn btn-sm font-weight-bolder btn-light-primary">
+                                                class="btn btn-sm font-weight-bolder btn-light-primary" style="background: #1393ba;border-radius: 16px 10px;">
                                                 <i class="la la-plus"></i>{{ translate('Add Package') }}
                                             </a>
                                         </div>
