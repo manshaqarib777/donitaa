@@ -76,11 +76,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Your e-mail</label>
-                                        <input type="text" name="email" id="email" required>
+                                        <input type="email" name="email" id="email" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Your message</label>
-                                        <textarea name="content" id="message" required &gt;></textarea>
+                                        <textarea name="content" id="content" required &gt;></textarea>
                                     </div>
                                     <div class="form-group">
                                         <button id="submit" type="submit" name="submit">SUBMIT</button>
