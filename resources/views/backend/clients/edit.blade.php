@@ -13,13 +13,41 @@
                 @csrf
                 {{ method_field('PATCH') }}
                 <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label">{{ translate('Account Type') }}</label>
+                        <div class="col-9 col-form-label">
+                            <div class="radio-inline">
+                                <label class="radio radio-success">
+                                    <input type="radio" name="Client[account_type]"
+                                         value="1" @if ($client->account_type == 1) checked @endif />
+                                    <span></span>
+                                    {{ translate('Personal Account') }}
+                                </label>
+                                <label class="radio radio-success">
+                                    <input type="radio" name="Client[account_type]"
+                                        value="2" @if ($client->account_type == 2) checked @endif />
+                                    <span></span>
+                                    {{ translate('Company Account') }}
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label>{{ translate('Commercial Name') }}:</label>
+                        @if ($client->account_type == 1)
+                            <label class="change_type">{{ translate('Personal Name') }}:</label>
+                        @else
+                            <label class="change_type">{{ translate('Company Name') }}:</label>
+                        @endif
                         <input type="text" id="name" class="form-control" value="{{ $client->name }}"
                             placeholder="{{ translate('Here') }}" name="Client[name]">
                     </div>
                     <div class="form-group">
-                        <label>{{ translate('Email') }}:</label>
+                        @if ($client->account_type == 1)
+                        <label class="change_type">{{ translate('Personal Email') }}:</label>
+                        @else
+                        <label class="change_type">{{ translate('Company Email') }}:</label>
+                         @endif
                         <input id="email-field" type="text" class="form-control" value="{{ $client->email }}"
                             placeholder="{{ translate('Here') }}" name="Client[email]">
                     </div>
@@ -198,6 +226,26 @@
 @section('script')
     <script type="text/javascript">
         $(document).ready(function() {
+            $('input:radio[name="Client[account_type]"]').change(function() {
+                var change_html="";
+                if ($(this).val() == '2') {
+                    $(".change_type").each(function(index,item){
+                        $.get("{{ route('admin.clients.get-translation-ajax') }}?translation=" + $(this).html()+"&type="+$('input[name="Client[account_type]"]:checked').val(), function(data) {
+                            $(item).html(data);
+                        });
+                    });
+
+                } else {
+                    $(".change_type").each(function(index,item){
+                        //alert($(this).html());
+                        $.get("{{ route('admin.clients.get-translation-ajax') }}?translation=" + $(this).html()+"&type="+$('input[name="Client[account_type]"]:checked').val(), function(data) {
+                            $(item).html(data);
+
+                        });
+                    });
+
+                }
+            });
             $('.select-country').select2({
                 placeholder: "Select country",
                 language: {
