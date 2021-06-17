@@ -57,7 +57,7 @@ $d = new DNS1D();
                                 <span class="mb-5 font-weight-bolder"><?=$d->getBarcodeHTML($code, "EAN13");?></span>
                             @endif
                             <span><span class="font-weight-bolder">{{translate('FROM')}}:</span> {{$shipment->client_address}}</span>
-                            <span><span class="font-weight-bolder">{{translate('TO')}}:</span> {{$shipment->reciver_address}}</span>
+                            <span><span class="font-weight-bolder">{{translate('TO')}}:</span> {{$shipment->receiver_address}}</span>
                         </span>
                     </div>
                 </div>
@@ -71,9 +71,9 @@ $d = new DNS1D();
                     </div>
                     <div class="d-flex flex-column flex-root">
                         <span class="mb-4 text-dark font-weight-bold">{{translate('Receiver')}}</span>
-                        <span class="text-danger font-weight-boldest font-size-lg">{{$shipment->reciver_name}}</span>
-                        <span class="text-muted font-size-md">{{$shipment->reciver_phone}}</span>
-                        <span class="text-muted font-size-md">{{$shipment->reciver_address}}</span>
+                        <span class="text-danger font-weight-boldest font-size-lg">{{$shipment->receiver->name}}</span>
+                        <span class="text-muted font-size-md">{{$shipment->receiver_phone}}</span>
+                        <span class="text-muted font-size-md">{{$shipment->receiver_address}}</span>
                     </div>
                     <div class="d-flex flex-column flex-root">
                         <span class="mb-4 text-dark font-weight-bold">{{translate('Status')}}</span>

@@ -6,7 +6,9 @@ use Auth;
 use App\Area;
 use App\Branch;
 use App\Client;
+use App\Receiver;
 use App\ClientAddress;
+use App\ReceiverAddress;
 use App\Cost;
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ShipmentActionHelper;
@@ -587,10 +589,16 @@ class ShipmentController extends Controller
          })->get();
         return response()->json($states);
     }
-    public function ajaxGetAddresses()
+    public function ajaxGetAddressesClient()
     {
         $country_id = $_GET['client_id'];
         $states = ClientAddress::where('client_id', $country_id)->with('country','state','area')->get();
+        return response()->json($states);
+    }
+    public function ajaxGetAddressesReceiver()
+    {
+        $country_id = $_GET['receiver_id'];
+        $states = ReceiverAddress::where('receiver_id', $country_id)->with('country','state','area')->get();
         return response()->json($states);
     }
     public function ajaxGetAreas()
@@ -754,15 +762,9 @@ class ShipmentController extends Controller
             $covered_cost = $covered_cost->where('from_state_id', 0)->where('to_state_id', 0);
         }
 
-        // if (isset($request['from_area_id']) && isset($request['to_area_id'])) {
-        //     $covered_cost = $covered_cost->where('from_area_id', $from_area_id)->where('to_area_id', $to_area_id);
-        // } else {
-        //     $covered_cost = $covered_cost->where('from_area_id', 0)->where('to_area_id', 0);
-        // }
-        //dd($packages);
-
         $covered_cost = $covered_cost->first();
         //dd($covered_cost);
+        
         if ($covered_cost != null) {
            
             $package_extras = 0;
@@ -777,10 +779,6 @@ class ShipmentController extends Controller
                 $package_extras += $package->cost;
                 $return_fee = $package->return_fee;
                 $insurance_fee = $package->insurance_fee;
-                if($insurance_fee==0)
-                {
-                    $insurance_fee=(float) $covered_cost->insurance;
-                }
                 if(@$pack['shipment_insurance']==1)
                 {
                     $insurance = $insurance + ($insurance_fee * (float) $pack['shipment_price'])/100;
@@ -837,24 +835,13 @@ class ShipmentController extends Controller
 
             }
 
-            if($weight > 1){
-
-                if($return_fee==0)
-                {
-                    $return_fee=(float) $covered_cost->extra_return_cost;
-                }
-
-                $return_cost =  ( $return_fee * (float) ($weight));
-                
+            if($weight > 1)
+            {
+                $return_cost =  ( $return_fee * (float) ($weight));    
             }
             else
             {
-                if($return_fee==0)
-                {
-                    $return_fee=(float) $covered_cost->return_cost;
-                }
                 $return_cost = (float) $return_fee;
-
             }
 
             $array['return_cost'] = $return_cost;
@@ -870,8 +857,6 @@ class ShipmentController extends Controller
             $tax= 0;
             $insurance = 0;
 
-            //dd($request->all());
-
 
             foreach ($packages as $key => $pack) {
                 $package = Package::find($pack['package_id']);
@@ -881,10 +866,6 @@ class ShipmentController extends Controller
                 if(!isset($pack['weight']))
                 {
                     $pack['weight']=$weight;
-                }
-                if($insurance_fee==0)
-                {
-                    $insurance_fee=(float) $covered_cost->insurance;
                 }
                 if(@$pack['shipment_insurance']==1)
                 {
@@ -937,21 +918,12 @@ class ShipmentController extends Controller
                 }
             }
             
-            if($weight > 1){
-
-                if($return_fee==0)
-                {
-                    $return_fee=ShipmentSetting::getCost('def_return_cost_gram');
-                }
+            if($weight > 1)
+            {
                 $return_cost = ( $return_fee * (float)($weight));
-            
-            }else{
-                if($return_fee==0)
-                {
-                    $return_fee=ShipmentSetting::getCost('def_return_cost');
-                }
+            }else
+            {
                 $return_cost = $return_fee;
-
             }
 
             $array['return_cost'] = $return_cost;
@@ -972,7 +944,8 @@ class ShipmentController extends Controller
         //dd(auth()->user()->userClient->client);
         $branchs = Branch::where('is_archived', 0)->get();
         $clients = Client::where('is_archived', 0)->get();
-        return view('backend.shipments.create', compact('branchs', 'clients'));
+        $receivers = Receiver::where('is_archived', 0)->get();
+        return view('backend.shipments.create', compact('branchs', 'clients','receivers'));
     }
 
     /**
@@ -1057,6 +1030,8 @@ class ShipmentController extends Controller
             foreach ($all_packages as $k => $package) {
                 if(isset($package['shipment_insurance']))
                 $all_packages[$k]['shipment_insurance'] = $package['shipment_insurance'][0];
+                if(isset($package['shipment_fragile']))
+                $all_packages[$k]['shipment_fragile'] = $package['shipment_fragile'][0];
                 
             }
 
@@ -1080,6 +1055,9 @@ class ShipmentController extends Controller
                     foreach ($request->Package as $k => $package) {
                         if(isset($package['shipment_insurance']))
                         $package['shipment_insurance'] = $package['shipment_insurance'][0];
+                        if(isset($package['shipment_fragile']))
+                        $package['shipment_fragile'] = $package['shipment_fragile'][0];
+                        
                         $package_shipment = new PackageShipment();
                         $package_shipment->fill($package);
                         $package_shipment->shipment_id = $model->id;
@@ -1251,6 +1229,8 @@ class ShipmentController extends Controller
                         foreach ($_POST['Package'] as $k=> $package) {
                             if(isset($package['shipment_insurance']))
                                 $package['shipment_insurance'] = $package['shipment_insurance'][0];
+                            if(isset($package['shipment_fragile']))
+                                $package['shipment_fragile'] = $package['shipment_fragile'][0];
                             $package_shipment = new PackageShipment();
                             $package_shipment->fill($package);
                             $package_shipment->shipment_id = $model->id;

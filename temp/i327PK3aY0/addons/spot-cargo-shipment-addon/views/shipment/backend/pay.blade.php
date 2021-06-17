@@ -195,7 +195,7 @@ $d = new DNS1D();
                                                                 <div class="col-xxl-7 pl-xxl-11">
                                                                     <h2 class="font-weight-bolder text-dark mb-7" style="font-size: 32px;">{{translate('Client/Sender')}}: {{$shipment->client->name}}</h2>
                                                                     <div class="font-size-h2 mb-7 text-dark-50">{{translate('To Receiver')}}
-                                                                        <span class="text-info font-weight-boldest ml-2">{{$shipment->reciver_name}}</span>
+                                                                        <span class="text-info font-weight-boldest ml-2">{{$shipment->receiver->name}}</span>
                                                                     </div>
                                                                     @if($shipment->barcode != null)
                                                                     <?=$d->getBarcodeHTML(str_replace(\App\ShipmentSetting::getVal('shipment_code_prefix'),"",$shipment->barcode), "EAN13");?>

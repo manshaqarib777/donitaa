@@ -194,8 +194,7 @@
 
                             </div>
                             <div class="row">
-                                @if (auth()->user()->user_type != 'customer')
-
+                                @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userReceiver->receiver))
                                     <div class="col-md-6">
                                         <div class="form-group client-select">
                                             <label>{{ translate('Client/Sender') }}:</label>
@@ -224,6 +223,7 @@
                                         </select>
                                     </div>
                                 @endif
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{ translate('Client Phone') }}:</label>
@@ -236,34 +236,58 @@
                                     <div class="form-group">
                                         <label>{{ translate('Client Address') }}:</label>
                                         <div class="form-group">
-                                            <select class="form-control select-address" name="Shipment[client_address]">
+                                            <select class="form-control select-client-address" name="Shipment[client_address]">
                                                 <option></option>
                                             </select>
                                         </div>
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('Receiver Name') }}:</label>
-                                        <input type="text" placeholder="{{ translate('Receiver Name') }}"
-                                            name="Shipment[reciver_name]" class="form-control" />
+                                @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userReceiver->receiver))
+                                    <div class="col-md-6">
+                                        <div class="form-group receiver-select">
+                                            <label>{{ translate('Receiver') }}:</label>
 
+
+
+                                            <select class="form-control kt-select2 select-receiver"
+                                                name="Shipment[receiver_id]">
+                                                <option></option>
+                                                @foreach ($receivers as $receiver)
+                                                    <option value="{{ $receiver->id }}"
+                                                        data-phone="{{ $receiver->responsible_mobile }}">
+                                                        {{ $receiver->name }}
+                                                    </option>
+                                                @endforeach
+
+                                            </select>
+
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    <div style="display: none">
+                                        <select class="form-control kt-select2 select-receiver" name="Shipment[receiver_id]">
+                                            <option value="{{ auth()->user()->userClient->receiver->id }}">{{ auth()->user()->userClient->receiver->name }}</option>
+
+                                        </select>
+                                    </div>
+                                @endif
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{ translate('Receiver Phone') }}:</label>
                                         <input type="text" placeholder="{{ translate('Receiver Phone') }}"
-                                            name="Shipment[reciver_phone]" class="form-control" />
+                                            name="Shipment[receiver_phone]" id="receiver_phone" class="form-control" />
 
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>{{ translate('Receiver Address') }}:</label>
-                                        <input type="text" placeholder="{{ translate('Receiver Address') }}"
-                                            name="Shipment[reciver_address]" class="form-control" />
+                                        <div class="form-group">
+                                            <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
+                                                <option></option>
+                                            </select>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -340,7 +364,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>{{ translate('To Area') }}:</label>
-                                        <select name="Shipment[to_area_id]" class="form-control select-area">
+                                        <select name="Shipment[to_area_id]" id='change-area-to' class="form-control select-area">
                                             <option value=""></option>
 
                                         </select>
@@ -467,14 +491,14 @@
                                                     <label class="checkbox">
                                                         <input type="checkbox" onchange="update_currency_status(this)"
                                                             placeholder="{{ translate('Include Shipment Insurance') }}"
-                                                            class="form-control insurance-listener" id="" name="shipment_insurance" />
+                                                            class="form-control insurance-listener" name="shipment_insurance" />
                                                         <span></span>&nbsp;&nbsp;{{ translate('Insurance') }}
                                                     </label>
                                                     <label class="checkbox">
                                                         <input type="checkbox" onchange="update_currency_status(this)"
-                                                            placeholder="{{ translate('Include Shipment Insurance') }}"
-                                                            class="form-control insurance-listener" id="" name="shipment_insurance" />
-                                                        <span></span>&nbsp;&nbsp;{{ translate('Insurance') }}
+                                                            placeholder="{{ translate('Fragile') }}"
+                                                            class="form-control fragile-listener" name="shipment_fragile" />
+                                                        <span></span>&nbsp;&nbsp;{{ translate('Fragile') }}
                                                     </label>
                                                 </div>
                                                 <div class="col-md-2">
@@ -763,6 +787,18 @@
         });
     @endif
 
+    $('.select-receiver').select2({
+        placeholder: "Select Receiver",
+    })
+    @if ($user_type == 'admin' || in_array('1005', $staff_permission))
+        .on('select2:open', () => {
+        $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%"
+                href="{{ route('admin.receivers.create') }}?redirect=admin.shipments.create" class="btn btn-primary">+
+                {{ translate('Add New Receiver') }}</a>
+        </li>`);
+        });
+    @endif
+
 
     $('.select-client').change(function() {
         // var client_phone = $(this).find(':selected').data('phone');
@@ -790,7 +826,33 @@
     })
 
 
-    $('.select-address').change(function() {
+    $('.select-receiver').change(function() {
+        // var receiver_phone = $(this).find(':selected').data('phone');
+        // document.getElementById("receiver_phone").value = receiver_phone;
+        $.get("{{ route('admin.shipments.get-receiver-address-ajax') }}?receiver_id=" + $(this).find(
+                ':selected')
+            .val(),
+            function(data) {
+                $('select[name ="Shipment[receiver_address]"]').empty();
+                $('select[name ="Shipment[receiver_address]"]').append('<option value=""></option>');
+                for (let index = 0; index < data.length; index++) {
+                    const element = data[index];
+                    $('select[name ="Shipment[receiver_address]"]').append('<option value="' + element[
+                            'name'] + '" data-id="' + element['id'] + '" data-phone="' + element[
+                            'phone'] +
+                        '" data-country_id="' + element['country_id'] + '" data-country_name="' +
+                        element['country']['name'] + '" data-state_id="' + element[
+                            'state_id'] + '" data-state_name="' + element[
+                            'state']['name'] + '" data-area_id="' + element['area_id'] +
+                        '" data-area_name="' + element['area']['name'] + '">' + element[
+                            'type'] + '</option>');
+                }
+
+            });
+    })
+
+
+    $('.select-client-address').change(function() {
         var client_phone = $(this).find(':selected').data('phone');
         var client_country = $(this).find(':selected').data('country_id');
         var client_state = $(this).find(':selected').data('state_id');
@@ -809,6 +871,32 @@
         setTimeout(
             function() {
                 $("#change-area-from").val(client_area).trigger('change');
+            }, 2000
+        );
+
+
+    });
+
+
+    $('.select-receiver-address').change(function() {
+        var receiver_phone = $(this).find(':selected').data('phone');
+        var receiver_country = $(this).find(':selected').data('country_id');
+        var receiver_state = $(this).find(':selected').data('state_id');
+        var receiver_area = $(this).find(':selected').data('area_id');
+        var receiver_area_name = $(this).find(':selected').data('area_name');
+        var receiver_state_name = $(this).find(':selected').data('state_name');
+        var receiver_country_name = $(this).find(':selected').data('country_name');
+        $("#receiver_phone").val(receiver_phone);
+
+        $("#change-country-to").val(receiver_country).trigger('change');
+        setTimeout(
+            function() {
+                $("#change-state-to").val(receiver_state).trigger('change');
+            }, 1000
+        );
+        setTimeout(
+            function() {
+                $("#change-area-to").val(receiver_area).trigger('change');
             }, 2000
         );
 
@@ -986,8 +1074,11 @@
     }
     $(document).ready(function() {
 
-        @if (auth()->user()->user_type == 'customer')
+        @if (auth()->user()->user_type == 'customer' && isset(auth()->user()->userClient->client))
             $('.select-client').val("{{ auth()->user()->userClient->client->id }}").trigger('change');
+        @endif
+        @if (auth()->user()->user_type == 'customer' && isset(auth()->user()->userReceiver->receiver))
+            $('.select-receiver').val("{{ auth()->user()->userReceiver->receiver->id }}").trigger('change');
         @endif
         $('.select-country').select2({
             placeholder: "Select country",
@@ -1008,14 +1099,33 @@
             },
         });
 
-        $('.select-address').select2({
-            placeholder: "Select Address",
+        $('.select-client-address').select2({
+            placeholder: "Select Client Address",
             language: {
                 noResults: function() {
                     @if ($user_type == 'admin' || in_array('1105', $staff_permission))
                         return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
                                 href="{{ route('admin.client-addresses.create') }}" class="btn btn-primary">Manage
                                 {{ translate('Client Addresses') }}</a>
+                        </li>`;
+                    @else
+                        return ``;
+                    @endif
+                },
+            },
+            escapeMarkup: function(markup) {
+                return markup;
+            },
+        });
+
+        $('.select-receiver-address').select2({
+            placeholder: "Select Receiver Address",
+            language: {
+                noResults: function() {
+                    @if ($user_type == 'admin' || in_array('1105', $staff_permission))
+                        return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
+                                href="{{ route('admin.receiver-addresses.create') }}" class="btn btn-primary">Manage
+                                {{ translate('Receiver Addresses') }}</a>
                         </li>`;
                     @else
                         return ``;
@@ -1065,7 +1175,7 @@
             },
         });
 
-        //$('.select-address').trigger('change');
+        //$('.select-client-address').trigger('change');
         $('.select-country').trigger('change');
         $('.select-state').trigger('change');
         $('#kt_datepicker_3').datepicker({
@@ -1400,21 +1510,21 @@
                             }
                         }
                     },
-                    "Shipment[reciver_name]": {
+                    "Shipment[receiver_name]": {
                         validators: {
                             notEmpty: {
                                 message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
-                    "Shipment[reciver_phone]": {
+                    "Shipment[receiver_phone]": {
                         validators: {
                             notEmpty: {
                                 message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
-                    "Shipment[reciver_address]": {
+                    "Shipment[receiver_address]": {
                         validators: {
                             notEmpty: {
                                 message: '{{ translate('This is required!') }}'

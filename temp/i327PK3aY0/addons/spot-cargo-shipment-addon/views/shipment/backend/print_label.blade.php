@@ -63,7 +63,7 @@ $d = new DNS1D();
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="padding-left:10px;font-size: 14px;white-space: pre-line;word-wrap: break-word;max-width: 360px;">{{$shipment->reciver_address}}</td>
+                                                    <td style="padding-left:10px;font-size: 14px;white-space: pre-line;word-wrap: break-word;max-width: 360px;">{{$shipment->receiver_address}}</td>
                                                 </tr>
                                             </table>
                                             <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -126,9 +126,9 @@ $d = new DNS1D();
                                                                 </td>
                                                                 <td style="font-size:12px;word-wrap: break-word;max-width: 360px;">
                                                                     <span style="font-weight:bold;">{{translate('To')}}: </span>
-                                                                    {{$shipment->reciver_name}}<br />
-                                                                    {{$shipment->reciver_phone}}<br />
-                                                                    {{$shipment->reciver_address}}
+                                                                    {{$shipment->receiver->name}}<br />
+                                                                    {{$shipment->receiver_phone}}<br />
+                                                                    {{$shipment->receiver_address}}
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -197,7 +197,7 @@ $d = new DNS1D();
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="padding-left:10px;font-size: 14px;white-space: pre-line;word-wrap: break-word;max-width: 360px;">{{$shipment->reciver_address}}</td>
+                                                    <td style="padding-left:10px;font-size: 14px;white-space: pre-line;word-wrap: break-word;max-width: 360px;">{{$shipment->receiver_address}}</td>
                                                 </tr>
                                             </table>
                                             <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -260,9 +260,9 @@ $d = new DNS1D();
                                                                 </td>
                                                                 <td style="font-size:12px;word-wrap: break-word;max-width: 360px;">
                                                                     <span style="font-weight:bold;">{{translate('To')}}: </span>
-                                                                    {{$shipment->reciver_name}}<br />
-                                                                    {{$shipment->reciver_phone}}<br />
-                                                                    {{$shipment->reciver_address}}
+                                                                    {{$shipment->receiver->name}}<br />
+                                                                    {{$shipment->receiver_phone}}<br />
+                                                                    {{$shipment->receiver_address}}
                                                                 </td>
                                                             </tr>
                                                         </table>

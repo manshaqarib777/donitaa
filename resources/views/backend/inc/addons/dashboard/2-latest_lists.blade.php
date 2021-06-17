@@ -403,7 +403,7 @@
 
                             @php
                                 $count      = (App\ShipmentSetting::getVal('latest_shipment_count') ? App\ShipmentSetting::getVal('latest_shipment_count') : 10 );
-                                $shipments  = App\Shipment::limit($count)->orderBy('id','desc')->where('client_id',Auth::user()->userClient->client_id)->get();
+                                $shipments  = App\Shipment::limit($count)->orderBy('id','desc')->where('client_id',@Auth::user()->userClient->client_id)->orWhere('receiver_id',@Auth::user()->userReceiver->receiver_id)->get();
                             @endphp
                             @foreach($shipments as $key=>$shipment)
 

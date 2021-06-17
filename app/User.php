@@ -109,6 +109,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userClient(){
 		return $this->hasOne('App\UserClient', 'user_id' , 'id');
 	}
+    public function userReceiver(){
+		return $this->hasOne('App\UserReceiver', 'user_id' , 'id');
+	}
 
     public function userCaptain(){
 		return $this->hasOne('App\UserCaptain', 'user_id' , 'id');

@@ -48,7 +48,7 @@ $d = new DNS1D();
                                 <span class="d-flex flex-column align-items-md-end opacity-70">
                                     <br />
                                     <span><span class="font-weight-bolder">{{translate('FROM')}}:</span> {{$shipment->client_address}}</span>
-                                    <span><span class="font-weight-bolder">{{translate('TO')}}:</span> {{$shipment->reciver_address}}</span>
+                                    <span><span class="font-weight-bolder">{{translate('TO')}}:</span> {{$shipment->receiver_address}}</span>
                                 </span>
                             </div>
                         </div>
@@ -64,8 +64,8 @@ $d = new DNS1D();
                             </div>
                             <div class="d-flex flex-column flex-root">
                                 <span class="font-weight-bolder mb-2">{{translate('INVOICE TO')}}.</span>
-                                <span class="opacity-70">{{$shipment->reciver_address}}.
-                                <br />{{$shipment->reciver_name}}</span>
+                                <span class="opacity-70">{{$shipment->receiver_address}}.
+                                <br />{{$shipment->receiver->name}}</span>
                             </div>
                         </div>
                     </div>

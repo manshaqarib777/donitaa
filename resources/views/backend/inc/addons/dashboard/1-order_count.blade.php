@@ -79,7 +79,7 @@
             </div>
         </div>
     @endif
-    
+
     {{-- Admin With All Permission And Admin With Missions Index Permission  --}}
     @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1008', $staff_permission) )
         <div class="row">
@@ -273,12 +273,12 @@
 
 @elseif($user_type == 'customer')
     @php
-        $all_client_shipments          = App\Shipment::where('client_id', Auth::user()->userClient->client_id)->count();
-        $saved_client_shipments        = App\Shipment::where('client_id', Auth::user()->userClient->client_id)->where('status_id', App\Shipment::SAVED_STATUS)->count();
-        $in_progress_client_shipments  = App\Shipment::where('client_id', Auth::user()->userClient->client_id)->where('client_status', App\Shipment::CLIENT_STATUS_IN_PROCESSING)->count();
-        $delivered_client_shipments    = App\Shipment::where('client_id', Auth::user()->userClient->client_id)->where('client_status', App\Shipment::CLIENT_STATUS_DELIVERED)->count();
+        $all_client_shipments          = App\Shipment::where('client_id', @Auth::user()->userClient->client_id)->orWhere('receiver_id', @Auth::user()->userReceiver->receiver_id)->count();
+        $saved_client_shipments        = App\Shipment::where('client_id', @Auth::user()->userClient->client_id)->orWhere('receiver_id', @Auth::user()->userReceiver->receiver_id)->where('status_id', App\Shipment::SAVED_STATUS)->count();
+        $in_progress_client_shipments  = App\Shipment::where('client_id', @Auth::user()->userClient->client_id)->orWhere('receiver_id', @Auth::user()->userReceiver->receiver_id)->where('client_status', App\Shipment::CLIENT_STATUS_IN_PROCESSING)->count();
+        $delivered_client_shipments    = App\Shipment::where('client_id', @Auth::user()->userClient->client_id)->orWhere('receiver_id', @Auth::user()->userReceiver->receiver_id)->where('client_status', App\Shipment::CLIENT_STATUS_DELIVERED)->count();
 
-        $transactions                   = App\Transaction::where('client_id', Auth::user()->userClient->client_id)->orderBy('created_at','desc')->sum('value');
+        $transactions                   = App\Transaction::where('client_id', @Auth::user()->userClient->client_id)->orWhere('receiver_id', @Auth::user()->userReceiver->receiver_id)->orderBy('created_at','desc')->sum('value');
     @endphp
 
     <div class="row">

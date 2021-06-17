@@ -1,4 +1,4 @@
-<?php 
+<?php
 use \Milon\Barcode\DNS1D;
 $d = new DNS1D();
 ?>
@@ -80,7 +80,7 @@ $d = new DNS1D();
 	<!--end::Layout Themes-->
 	@endif
 	<link href="{{ static_asset('assets/css/custom-style.css?v=7.2.3') }}" rel="stylesheet" type="text/css" />
-	
+
 	@yield('style')
 
 	<script>
@@ -159,9 +159,9 @@ $d = new DNS1D();
 
 				<!--begin::Content-->
 				<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-					
 
-					
+
+
 					<!--begin::Entry-->
 					<div class="d-flex flex-column-fluid">
 
@@ -195,7 +195,7 @@ $d = new DNS1D();
                                                                 <div class="col-xxl-7 pl-xxl-11">
                                                                     <h2 class="font-weight-bolder text-dark mb-7" style="font-size: 32px;">{{translate('Client/Sender')}}: {{$shipment->client->name}}</h2>
                                                                     <div class="font-size-h2 mb-7 text-dark-50">{{translate('To Receiver')}}
-                                                                        <span class="text-info font-weight-boldest ml-2">{{$shipment->reciver_name}}</span>
+                                                                        <span class="text-info font-weight-boldest ml-2">{{$shipment->receiver->name}}</span>
                                                                     </div>
                                                                     @if($shipment->barcode != null)
                                                                     <?=$d->getBarcodeHTML(str_replace(\App\ShipmentSetting::getVal('shipment_code_prefix'),"",$shipment->barcode), "EAN13");?>
@@ -277,13 +277,13 @@ $d = new DNS1D();
                                                         </div>
                                                         <!--end::Body-->
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                             <!--end::Section-->
                                             <!--begin::Section-->
                                             <!--begin::Advance Table Widget 10-->
-                                            
+
                                             <!--end::Advance Table Widget 10-->
                                             <!--end::Section-->
                                         </div>
@@ -318,7 +318,7 @@ $d = new DNS1D();
 	<!--begin::Scrolltop-->
 	<div id="kt_scrolltop" class="scrolltop">
 		<span class="svg-icon">
-	
+
 			<!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Up-2.svg-->
 			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
 				viewBox="0 0 24 24" version="1.1">
@@ -330,7 +330,7 @@ $d = new DNS1D();
 						fill="#000000" fill-rule="nonzero" />
 				</g>
 			</svg>
-	
+
 			<!--end::Svg Icon-->
 		</span>
 	</div>
@@ -435,7 +435,7 @@ $d = new DNS1D();
 		@if ($msg = Session::get('status'))
 			AIZ.plugins.notify('success', '{{ $msg }}');
 		@endif
-		
+
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

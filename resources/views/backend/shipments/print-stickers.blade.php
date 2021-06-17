@@ -1,4 +1,4 @@
-<?php 
+<?php
 use \Milon\Barcode\DNS1D;
 use App\Shipment;
 $d = new DNS1D();
@@ -6,7 +6,7 @@ $d = new DNS1D();
 ?>
 <style type="text/css">
 	<!--
-	
+
 	.txt-align-left {
 		text-align: left;
 	}
@@ -16,11 +16,11 @@ $d = new DNS1D();
 	.vertical-align-middle{
 		vertical-align: middle;
 	}
-	
+
 	-->
 </style>
 
-	
+
 	@php
 		$n = 0;
 	@endphp
@@ -73,7 +73,7 @@ $d = new DNS1D();
 															</td>
 														</tr>
 														<tr>
-															<td style="padding-left:10px;font-size: 14px;white-space: pre-line;word-wrap: break-word;max-width: 360px;">{{$model->reciver_address}}</td>
+															<td style="padding-left:10px;font-size: 14px;white-space: pre-line;word-wrap: break-word;max-width: 360px;">{{$model->receiver_address}}</td>
 														</tr>
 													</table>
 													<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -200,7 +200,7 @@ $d = new DNS1D();
 															</td>
 														</tr>
 														<tr>
-															<td style="padding-left:10px;font-size: 14px;white-space: pre-line;word-wrap: break-word;max-width: 360px;">{{$model->reciver_address}}</td>
+															<td style="padding-left:10px;font-size: 14px;white-space: pre-line;word-wrap: break-word;max-width: 360px;">{{$model->receiver_address}}</td>
 														</tr>
 													</table>
 													<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -307,7 +307,7 @@ $d = new DNS1D();
 				</div>
 			</div>
 		@endif
-		
+
 @endforeach
 
 <script>

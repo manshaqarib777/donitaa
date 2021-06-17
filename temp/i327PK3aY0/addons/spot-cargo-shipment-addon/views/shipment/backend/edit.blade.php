@@ -106,21 +106,21 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Receiver Name')}}:</label>
-                                    <input type="text" name="Shipment[reciver_name]" class="form-control" value="{{$shipment->reciver_name}}" />
+                                    <input type="text" name="Shipment[receiver_name]" class="form-control" value="{{$shipment->receiver->name}}" />
 
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{translate('Receiver Phone')}}:</label>
-                                    <input type="text" name="Shipment[reciver_phone]" class="form-control" value="{{$shipment->reciver_phone}}" />
+                                    <input type="text" name="Shipment[receiver_phone]" class="form-control" value="{{$shipment->receiver_phone}}" />
 
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>{{translate('Receiver Address')}}:</label>
-                                    <input type="text" name="Shipment[reciver_address]" class="form-control" value="{{$shipment->reciver_address}}" />
+                                    <input type="text" name="Shipment[receiver_address]" class="form-control" value="{{$shipment->receiver_address}}" />
 
                                 </div>
                             </div>
@@ -577,21 +577,21 @@
                             }
                         }
                     },
-                    "Shipment[reciver_name]": {
+                    "Shipment[receiver_name]": {
                         validators: {
                             notEmpty: {
                                 message: '{{translate("This is required!")}}'
                             }
                         }
                     },
-                    "Shipment[reciver_phone]": {
+                    "Shipment[receiver_phone]": {
                         validators: {
                             notEmpty: {
                                 message: '{{translate("This is required!")}}'
                             }
                         }
                     },
-                    "Shipment[reciver_address]": {
+                    "Shipment[receiver_address]": {
                         validators: {
                             notEmpty: {
                                 message: '{{translate("This is required!")}}'
