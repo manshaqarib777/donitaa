@@ -261,6 +261,61 @@
                 </div>
             </div>
     </form>
+    <form class="form-horizontal" action="{{ route('admin.shipments.post.config.time.costs') }}" id="kt_form_1"
+    method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="mt-5 card">
+        <div class="card-header">
+            <h5 class="mb-0 h6">{{ translate('Extra Fees for Time Types') }}</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                @if (count($times = \App\Time::all()))
+                    <table class="table mb-0 aiz-table">
+                        <thead>
+                            <tr>
+
+                                <th>{{ translate('Name') }}</th>
+
+                                <th>{{ translate('Time Cost') }}</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($times as $key => $time)
+
+                                <tr>
+                                    <td>{{ $time->name }} ({{ currency_symbol() }}):</td>
+
+                                    <td>
+                                        <input type="number" min="0" name="time_extra[]" class="form-control" id=""
+                                            value="{{ convert_price($time->cost) }}" />
+                                        <input type="hidden" name="time_id[]" value="{{ $time->id }}">
+                                    </td>
+                                </tr>
+
+                            @endforeach
+                            <tr>
+                                <td></td>
+                                <td> <button
+                                        class="btn btn-primary form-control">{{ translate('Save Time Types Extra Fees') }}</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                @else
+                    <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                        {{ translate('Please Configure Time Types') }},
+                        <a class="alert-link"
+                            href="{{ route('admin.times.index') }}">{{ translate('Configure Now') }}</a>
+                    </div>
+                @endif
+
+            </div>
+        </div>
+</form>
+
 
 
 

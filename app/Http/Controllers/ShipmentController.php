@@ -15,6 +15,7 @@ use App\Http\Helpers\TransactionHelper;
 use App\Mission;
 use App\Models\Country;
 use App\Package;
+use App\Time;
 use App\PackageShipment;
 use App\Shipment;
 use App\ShipmentMission;
@@ -1445,6 +1446,19 @@ class ShipmentController extends Controller
             if(isset($request->package_default_cost[$counter]))
             $pack->default_cost = $request->package_default_cost[$counter];
 
+            $pack->save();
+            $counter++;
+        }
+        flash(translate("Package Extra Fees updated successfully"))->success();
+        return redirect()->back();
+    }
+    public function post_config_time_costs(Request $request)
+    {
+        //dd($request->all());
+        $counter = 0;
+        foreach ($request->time_id as $time) {
+            $pack = Time::find($request->time_id[$counter]);
+            $pack->cost = $request->time_extra[$counter];
             $pack->save();
             $counter++;
         }

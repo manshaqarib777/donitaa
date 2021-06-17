@@ -100,42 +100,7 @@ $user_type = Auth::user()->user_type;
     @endif
 @endif
 
-@if ($addon != null)
-    @if($addon->activated)
-        @if( in_array($user_type,['customer']) || in_array('2009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.client-addresses.index','admin.client-addresses.update','admin.client-addresses.create','admin.client-addresses.show'])}} @foreach(\App\Shipment::status_info() as $item) {{ areActiveRoutes([$item['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
-                <a href="javascript:;" class="menu-link menu-toggle">
-                    <i class="menu-icon fas fa-box-open"></i>
-                    <span class="menu-text">{{translate('Client Address')}}</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="menu-submenu">
-                    <i class="menu-arrow"></i>
-                    <ul class="menu-subnav">
-                        <li class="menu-item {{ areActiveRoutes(['admin.client-addresses.create'])}}" aria-haspopup="true">
-                            <a href="{{ route('admin.client-addresses.create') }}" class="menu-link">
-                                    <i class="menu-bullet menu-icon flaticon2-plus" style="font-size: 10px;"></i>
-                                <span class="menu-text">{{translate('Add Client Address')}}</span>
-                            </a>
-                        </li>
-                        <li class="menu-item {{ areActiveRoutes(['admin.client-addresses.index','admin.client-addresses.show',])}}" aria-haspopup="true">
-                            <a href="{{ route('admin.client-addresses.index') }}" class="menu-link">
-                                <i class="menu-bullet menu-bullet-dot">
-                                    <span></span>
-                                </i>
-                                <span class="menu-text">{{translate('All Client Addresses')}}</span>
 
-                            </a>
-                        </li>
-
-
-
-                    </ul>
-                </div>
-            </li>
-        @endif
-    @endif
-@endif
 
 <!-- Missions-->
 @php
@@ -199,7 +164,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 @endphp
 @if ($addon != null)
     @if($addon->activated)
-        @if(in_array($user_type, ['admin','branch']) || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+        @if(in_array($user_type, ['admin','branch','customer']) || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")) || in_array('2005', json_decode(Auth::user()->staff->role->permissions ?? "[]")) )
             <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.clients.index','admin.clients.update','admin.clients.create','admin.clients.show','admin.client-addresses.index','admin.client-addresses.update','admin.client-addresses.create','admin.client-addresses.show'])}}" aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon fas fa-users"></i>
@@ -215,7 +180,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                             </span>
                         </li>
 
-                        @if(in_array($user_type, ['admin','branch']) || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                        @if((in_array($user_type, ['admin','branch','customer']) || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) && !isset(Auth::user()->userClient->client))
                             <li class="menu-item {{ areActiveRoutes(['admin.clients.index','admin.clients.update','admin.clients.show'])}}" aria-haspopup="true">
                                 <a href="{{ route('admin.clients.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -236,7 +201,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                             </li>
                         @endif
 
-                        @if(in_array($user_type, ['admin','branch']) || in_array('2005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                        @if(in_array($user_type, ['admin','branch','customer']) || in_array('2005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                         <li class="menu-item {{ areActiveRoutes(['admin.client-addresses.index','admin.client-addresses.update','admin.client-addresses.show'])}}" aria-haspopup="true">
                             <a href="{{ route('admin.client-addresses.index') }}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
@@ -260,6 +225,79 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                 </div>
             </li>
         @endif
+    @endif
+    @if(in_array($user_type, ['admin','branch','customer']) || in_array('3005', json_decode(Auth::user()->staff->role->permissions ?? "[]")) || in_array('4005', json_decode(Auth::user()->staff->role->permissions ?? "[]")) )
+        <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.receivers.index','admin.receivers.update','admin.receivers.create','admin.receivers.show','admin.receiver-addresses.index','admin.receiver-addresses.update','admin.receiver-addresses.create','admin.receiver-addresses.show'])}}" aria-haspopup="true" data-menu-toggle="hover">
+            <a href="javascript:;" class="menu-link menu-toggle">
+                <i class="menu-icon fas fa-users"></i>
+                <span class="menu-text">{{translate('Receivers')}}</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="menu-submenu">
+                <i class="menu-arrow"></i>
+                <ul class="menu-subnav">
+                    <li class="menu-item menu-item-parent" aria-haspopup="true">
+                        <span class="menu-link">
+                            <span class="menu-text">{{translate('Receivers')}}</span>
+                        </span>
+                    </li>
+
+                    @if( (in_array($user_type, ['admin','branch','customer']) || in_array('3005', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) && !isset(Auth::user()->userReceiver->receiver))
+                        <li class="menu-item {{ areActiveRoutes(['admin.receivers.index','admin.receivers.update','admin.receivers.show'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.receivers.index') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('All Receivers')}}</span>
+
+                            </a>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.receivers.create'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.receivers.create') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('Add Receiver')}}</span>
+
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(in_array($user_type, ['admin','branch','customer']) || in_array('4005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                    <li class="menu-item {{ areActiveRoutes(['admin.receiver-addresses.index','admin.receiver-addresses.update','admin.receiver-addresses.show'])}}" aria-haspopup="true">
+                        <a href="{{ route('admin.receiver-addresses.index') }}" class="menu-link">
+                            <i class="menu-bullet menu-bullet-dot">
+                                <span></span>
+                            </i>
+                            <span class="menu-text">{{translate('All Receivers Addresses')}}</span>
+
+                        </a>
+                    </li>
+                    <li class="menu-item {{ areActiveRoutes(['admin.receiver-addresses.create'])}}" aria-haspopup="true">
+                        <a href="{{ route('admin.receiver-addresses.create') }}" class="menu-link">
+                            <i class="menu-bullet menu-bullet-dot">
+                                <span></span>
+                            </i>
+                            <span class="menu-text">{{translate('Add Receiver Address')}}</span>
+
+                        </a>
+                    </li>
+                @endif
+                </ul>
+            </div>
+        </li>
+    @endif
+@endif
+
+
+
+
+<!-- Transactions-->
+@php
+$addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->first();
+@endphp
+@if ($addon != null)
+    @if($addon->activated)
         @if( in_array($user_type,['admin']) || in_array('1106', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
             <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.transactions.index','admin.transactions.create'])}}" aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
@@ -431,7 +469,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 @if ($addon != null)
     @if($addon->activated)
         @if($user_type == 'admin' || in_array('1105', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.packages.index','admin.shipments.settings','admin.shipments.covered_countries','admin.areas.index','admin.areas.create','admin.shipments.settings.fees'])}}" aria-haspopup="true" data-menu-toggle="hover">
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.packages.index','admin.times.index','admin.shipments.settings','admin.shipments.covered_countries','admin.areas.index','admin.areas.create','admin.shipments.settings.fees'])}}" aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon fas fa-cogs"></i>
                     <span class="menu-text">{{translate('Shipment Settings')}}</span>
@@ -451,6 +489,14 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                                     <span></span>
                                 </i>
                                 <span class="menu-text">{{translate('Package Types')}}</span>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.times.index'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.times.index') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('Time Types')}}</span>
                             </a>
                         </li>
                         <li class="menu-item {{ areActiveRoutes(['admin.shipments.covered_countries'])}}" aria-haspopup="true">

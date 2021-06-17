@@ -23,6 +23,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
     Route::get('/shipments/config/costs/ajax','ShipmentController@ajax_costs_repeter')->name('admin.shipments.config.costs.ajax');
     Route::post('/shipments/config/costs','ShipmentController@post_config_costs')->name('admin.shipments.post.config.costs');
     Route::post('/shipments/config/packages/costs','ShipmentController@post_config_package_costs')->name('admin.shipments.post.config.package.costs');
+    Route::post('/shipments/config/times/costs','ShipmentController@post_config_time_costs')->name('admin.shipments.post.config.time.costs');
 
     Route::get('import', 'ShipmentController@import')->name('admin.shipments.import');
 	Route::post('import/parse', 'ShipmentController@parseImport')->name('admin.shipments.import_parse');
@@ -34,13 +35,19 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
     Route::resource('areas','AreaController',[
         'as' => 'admin'
     ]);
+    Route::get('areas/delete/{area}','AreaController@destroy')->name('admin.areas.delete-area');
+
 
     Route::resource('packages','PackagesController',[
         'as' => 'admin'
     ]);
     Route::get('packages/delete/{package}','PackagesController@destroy')->name('admin.packages.delete-package');
 
-    Route::get('areas/delete/{area}','AreaController@destroy')->name('admin.areas.delete-area');
+
+    Route::resource('times','TimesController',[
+        'as' => 'admin'
+    ]);
+    Route::get('times/delete/{time}','TimesController@destroy')->name('admin.times.delete-time');
     
 });
 Route::get('shipments/ajaxed-get-states','ShipmentController@ajaxGetStates')->name('admin.shipments.get-states-ajax');
