@@ -427,7 +427,7 @@
                                     </div>
                                     <div data-repeater-list="Package" class="col-lg-12">
                                         <div data-repeater-item class="row align-items-center"
-                                            style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;">
+                                            style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-bottom:1px solid #ccc;">
 
 
                                             <div class="row col-md-12">
@@ -525,10 +525,18 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <hr>
-                                            <hr>
-                                            <hr>
-                                                <div class="inner-repeater">
-                                                    <div data-repeater-list="package_list">
+                                                <div class="inner-repeater row">
+                                                    <div class="form-group col-md-2">
+                                                        <div class="">
+                                                            <div>
+                                                                <a href="javascript:;" data-repeater-create=""
+                                                                    class="btn btn-sm font-weight-bolder btn-light-primary" style="border-radius: 16px 10px;">
+                                                                    <i class="la la-plus"></i>{{ translate('Add List') }}
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div data-repeater-list="package_list" class="col-md-10">
                                                         <div data-repeater-item>
                                                             <div class="row">
                                                                 <div class="col-md-4">
@@ -560,7 +568,7 @@
 
                                                                     <div>
                                                                         <a href="javascript:;" data-repeater-delete=""
-                                                                            class="btn btn-sm font-weight-bolder btn-light-danger delete_item">
+                                                                            class="btn btn-sm font-weight-bolder btn-light-danger delete_item" style="border-radius: 16px 10px;">
                                                                             <i
                                                                                 class="la la-trash-o"></i>{{ translate('Delete List') }}
                                                                         </a>
@@ -569,16 +577,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group row">
-                                                        <div class="">
-                                                            <div>
-                                                                <a href="javascript:;" data-repeater-create=""
-                                                                    class="btn btn-sm font-weight-bolder btn-light-primary" style="border-radius: 16px 10px;">
-                                                                    <i class="la la-plus"></i>{{ translate('Add List') }}
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+
                                                 </div>
                                             </div>
 
@@ -590,7 +589,7 @@
 
                                                     <div>
                                                         <a href="javascript:;" data-repeater-delete=""
-                                                            class="btn btn-sm font-weight-bolder btn-light-danger delete_item">
+                                                            class="btn btn-sm font-weight-bolder btn-light-danger delete_item" style="border-radius: 16px 10px;">
                                                             <i
                                                                 class="la la-trash-o"></i>{{ translate('Delete Package') }}
                                                         </a>
@@ -600,7 +599,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group mt-2">
                                     <div class="">
                                         <div>
                                             <a href="javascript:;" data-repeater-create=""
@@ -611,8 +610,7 @@
                                     </div>
                                 </div>
 
-                                <hr>
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>{{ translate('Amount to be Collected') }}:</label>
@@ -622,10 +620,10 @@
                                                 name="Shipment[amount_to_be_collected]" />
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>{{ translate('Delivery Time') }}:</label>
                                             <select class="form-control kt-select2 delivery-time" id="delivery_time"
@@ -634,7 +632,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>{{ translate('Total Weight') }}:</label>
                                             <input id="kt_touchspin_4" placeholder="{{ translate('Total Weight') }}"
@@ -642,7 +640,7 @@
                                                 name="Shipment[total_weight]" />
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>{{ translate('Total Package Value') }}:</label>
                                         <input type="text" placeholder="{{ translate('Package Value') }}"
                                             class="form-control total-price" id="" name="Shipment[shipment_price]" value="0" readonly />
