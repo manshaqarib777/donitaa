@@ -71,7 +71,7 @@ $d = new DNS1D();
                     </div>
                     <div class="d-flex flex-column flex-root">
                         <span class="mb-4 text-dark font-weight-bold">{{translate('Receiver')}}</span>
-                        <span class="text-danger font-weight-boldest font-size-lg">{{$shipment->receiver->name}}</span>
+                        <span class="text-danger font-weight-boldest font-size-lg">{{@$shipment->receiver->name}}</span>
                         <span class="text-muted font-size-md">{{$shipment->receiver_phone}}</span>
                         <span class="text-muted font-size-md">{{$shipment->receiver_address}}</span>
                     </div>

@@ -608,6 +608,22 @@ class ShipmentController extends Controller
         return response()->json($areas);
     }
 
+    public function ajaxSavePackage()
+    {
+        $package_name = $_GET['package_name'];
+        $package = Package::where('name', $package_name)->get()->first();
+        if(!isset($package))
+        {
+            $package = new Package();
+            $package->name = $package_name;
+            $package->cost=ShipmentSetting::getCost('def_package_cost');
+            $package->insurance_fee=ShipmentSetting::getCost('def_package_insurance_cost');
+            $package->return_fee=ShipmentSetting::getCost('def_package_return_cost');
+            $package->save();
+        }
+        return response()->json($package->id);
+    }
+
     public function ajaxGetEstimationCost(Request $request)
     {
         $request->validate([

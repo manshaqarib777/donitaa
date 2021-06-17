@@ -11,6 +11,7 @@
     $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? '[]');
     $countries = \App\Country::where('covered', 1)->get();
     $packages = \App\Package::all();
+    $times = \App\Time::all();
     @endphp
     <style>
         label {
@@ -455,8 +456,7 @@
 
 
                                             <div class="row col-md-12">
-                                                <div class="col-md-6">
-
+                                                <div class="col-md-4 default-package-show">
                                                     <label>{{ translate('Package Type') }}:</label>
                                                     <select class="form-control kt-select2 package-type-select"
                                                         name="package_id">
@@ -468,14 +468,37 @@
                                                     </select>
                                                     <div class="mb-2 d-md-none"></div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4 custom-package-show" style="display: none;">
+                                                    <label>{{ translate('Custom Package') }}:</label>
+                                                    <input type="text" placeholder="{{ translate('Package Name') }}"
+                                                        class="form-control package-listener-value" name="package_name">
+                                                    <div class="mb-2 d-md-none"></div>
+                                                </div>
+                                                <div class="col-md-4">
                                                     <label>{{ translate('description') }}:</label>
                                                     <input type="text" placeholder="{{ translate('description') }}"
                                                         class="form-control" name="description">
                                                     <div class="mb-2 d-md-none"></div>
                                                 </div>
+                                                <div class="col-md-2">
+                                                    <label>{{ translate('Fragile') }}:</label>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" onchange="update_currency_status(this)"
+                                                            placeholder="{{ translate('Fragile') }}"
+                                                            class="form-control fragile-listener" name="shipment_fragile" />
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label>{{ translate('Custom Package') }}:</label>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" placeholder="{{ translate('Custom Package') }}"
+                                                            class="form-control package-listener" value="0" name="custom_package" />
+                                                        <span></span>
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="row col-md-12 pt-2">
+                                            <div class="row col-md-12 pt-5">
                                                 <div class="col-md-2">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-prepend">
@@ -487,18 +510,12 @@
                                                     </div>
                                                     <div class="mb-2 d-md-none"></div>
                                                 </div>
-                                                <div class="col-md-2">
+                                                <div class="col-md-2 pt-3 pb-3">
                                                     <label class="checkbox">
                                                         <input type="checkbox" onchange="update_currency_status(this)"
                                                             placeholder="{{ translate('Include Shipment Insurance') }}"
                                                             class="form-control insurance-listener" name="shipment_insurance" />
                                                         <span></span>&nbsp;&nbsp;{{ translate('Insurance') }}
-                                                    </label>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" onchange="update_currency_status(this)"
-                                                            placeholder="{{ translate('Fragile') }}"
-                                                            class="form-control fragile-listener" name="shipment_fragile" />
-                                                        <span></span>&nbsp;&nbsp;{{ translate('Fragile') }}
                                                     </label>
                                                 </div>
                                                 <div class="col-md-2">
@@ -519,7 +536,7 @@
                                                         <div class="input-group-prepend">
                                                           <span class="input-group-text" id="basic-addon1">L</span>
                                                         </div>
-                                                        <input type="number" min="1" class="form-control"
+                                                        <input type="number" min="1" class="form-control length-listener"
                                                         placeholder="{{ translate('Length') }}" name="length"
                                                         value="1" />
                                                       </div>
@@ -530,7 +547,7 @@
                                                         <div class="input-group-prepend">
                                                           <span class="input-group-text" id="basic-addon1">W</span>
                                                         </div>
-                                                        <input type="number" min="1" class="form-control"
+                                                        <input type="number" min="1" class="form-control width-listener"
                                                         placeholder="{{ translate('Width') }}" name="width" value="1" />
                                                       </div>
                                                 </div>
@@ -539,7 +556,7 @@
                                                         <div class="input-group-prepend">
                                                           <span class="input-group-text" id="basic-addon1">H</span>
                                                         </div>
-                                                        <input type="number" min="1" class="form-control "
+                                                        <input type="number" min="1" class="form-control height-listener"
                                                         placeholder="{{ translate('Height') }}" name="height"
                                                         value="1" />
                                                       </div>
@@ -652,7 +669,9 @@
                                             <label>{{ translate('Delivery Time') }}:</label>
                                             <select class="form-control kt-select2 delivery-time" id="delivery_time"
                                                 name="Shipment[delivery_time]">
-                                                <option value="1-2 Days">{{ translate('1-2 Days') }}</option>
+                                                @foreach ($times as $time)
+                                                    <option data-id="{{$time->id}}" value="{{$time->name}}">{{ translate($time->name) }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -753,12 +772,8 @@
     function update_currency_status(el) {
         if (el.checked) {
             el.value = 1;
-            $('#show_shipment').show();
-
         } else {
             el.value = 0;
-            $('#show_shipment').hide();
-
         }
 
     }
@@ -852,6 +867,24 @@
     })
 
 
+
+
+    $(document).on('click','.package-listener',function() {
+
+        if($(this).is(":checked"))
+        {
+            $(this).val(1);
+            $(this).parent().parent().parent().find('.default-package-show').hide();
+            $(this).parent().parent().parent().find('.custom-package-show').show();
+        }
+        else
+        {
+            $(this).val(0);
+            $(this).parent().parent().parent().find('.default-package-show').show();
+            $(this).parent().parent().parent().find('.custom-package-show').hide();
+        }
+
+    });
     $('.select-client-address').change(function() {
         var client_phone = $(this).find(':selected').data('phone');
         var client_country = $(this).find(':selected').data('country_id');
@@ -1006,6 +1039,9 @@
     function get_estimation_cost() {
         var total_weight = document.getElementById('kt_touchspin_4').value;
         var select_packages = document.getElementsByClassName('package-type-select');
+        var select_custom_packages = document.getElementsByClassName('package-listener');
+        var select_custom_packages_value = document.getElementsByClassName('package-listener-value');
+
         var select_weights = document.getElementsByClassName('weight-listener');
         var select_insurances = document.getElementsByClassName('insurance-listener');
         var select_values = document.getElementsByClassName('value-listener');
@@ -1021,7 +1057,28 @@
         for (let index = 0; index < select_packages.length; index++) {
             if (select_packages[index].value) {
                 package_ids[index] = new Object();
-                package_ids[index]["package_id"] = select_packages[index].value;
+                if(select_custom_packages[index].value==1)
+                {
+                    var return_package_id = function () {
+                        var package_id = null;
+                        $.ajax({
+                            'async': false,
+                            'type': "GET",
+                            'global': false,
+                            'dataType': 'json',
+                            'url': "{{ route('admin.shipments.save-package-ajax') }}?package_name=" + select_custom_packages_value[index].value,
+                            'success': function (id) {
+                                package_id = id;
+                            }
+                        });
+                        return package_id;
+                    }();
+                    package_ids[index]["package_id"] = return_package_id;
+                }
+                else
+                {
+                    package_ids[index]["package_id"] = select_packages[index].value;
+                }
                 package_ids[index]["weight"] = select_weights[index].value;
                 package_ids[index]["shipment_insurance"] = select_insurances[index].value;
                 package_ids[index]["shipment_price"] = select_values[index].value;
@@ -1030,6 +1087,7 @@
                 return 0;
             }
         }
+        //console.log(package_ids);
         var request_data = {
             _token: '{{ csrf_token() }}',
             package_ids: package_ids,
@@ -1270,40 +1328,11 @@
                         return markup;
                     },
                 });
-
-                $('.dimensions_r').TouchSpin({
-                    buttondown_class: 'btn btn-secondary',
-                    buttonup_class: 'btn btn-secondary',
-
-                    min: 1,
-                    max: 1000000000,
-                    stepinterval: 50,
-                    maxboostedstep: 10000000,
-                    initval: 1,
-                });
-
-                $('.kt_touchspin_weight').TouchSpin({
-                    buttondown_class: 'btn btn-secondary',
-                    buttonup_class: 'btn btn-secondary',
-
-                    min: 1,
-                    max: 1000000000,
-                    stepinterval: 50,
-                    maxboostedstep: 10000000,
-                    initval: 1,
-                    prefix: 'Kg'
-                });
-                $('.kt_touchspin_qty').TouchSpin({
-                    buttondown_class: 'btn btn-secondary',
-                    buttonup_class: 'btn btn-secondary',
-
-                    min: 1,
-                    max: 1000000000,
-                    stepinterval: 50,
-                    maxboostedstep: 10000000,
-                    initval: 1,
-                });
                 $(".value-listener:last").val(0);
+                $(".weight-listener:last").val(1);
+                $(".length-listener:last").val(1);
+                $(".width-listener:last").val(1);
+                $(".height-listener:last").val(1);
                 calcTotalWeight();
                 calcTotalPrice();
             },

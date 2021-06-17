@@ -160,7 +160,7 @@
                                     <div class="form-group">
                                         <label>{{ translate('Receiver Name') }}:</label>
                                         <input type="text" name="Shipment[receiver_name]" class="form-control"
-                                            value="{{ $shipment->receiver->name }}" />
+                                            value="{{ @$shipment->receiver->name }}" />
 
                                     </div>
                                 </div>

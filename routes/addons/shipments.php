@@ -53,6 +53,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
 Route::get('shipments/ajaxed-get-states','ShipmentController@ajaxGetStates')->name('admin.shipments.get-states-ajax');
 Route::get('shipments/ajaxed-get-branches','ShipmentController@ajaxGetBranches')->name('admin.shipments.get-branches-ajax');
 Route::get('shipments/ajaxed-get-areas','ShipmentController@ajaxGetAreas')->name('admin.shipments.get-areas-ajax');
+Route::get('shipments/ajaxed-save-package','ShipmentController@ajaxSavePackage')->name('admin.shipments.save-package-ajax');
 Route::post('shipments/get-estimation-cost','ShipmentController@ajaxGetEstimationCost')->name('admin.shipments.get-estimation-cost');
 
 

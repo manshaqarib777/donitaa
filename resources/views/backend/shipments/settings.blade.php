@@ -16,6 +16,27 @@
             @csrf
 
             <div class="card-body">
+
+
+                <div class="form-group row">
+
+                    <div class="col-lg-4">
+                        <label class="col-form-label text-lg-right">{{translate('Custom Package Cost')}}:</label>
+                        <input type="text" class="form-control" @if (\App\ShipmentSetting::getVal('def_package_cost') == null ) value="0" @else value="{{\App\ShipmentSetting::getVal('def_package_cost')}}" @endif name="Setting[def_package_cost]" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label text-lg-right">{{translate('Custom Package Insurance Cost')}}:</label>
+                        <input type="text" class="form-control" @if (\App\ShipmentSetting::getVal('def_package_insurance_cost') == null ) value="0" @else value="{{\App\ShipmentSetting::getVal('def_package_insurance_cost')}}" @endif name="Setting[def_package_insurance_cost]" />
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="col-form-label text-lg-right">{{translate('Custom Package Return Cost')}}:</label>
+                        <input type="text" class="form-control" @if (\App\ShipmentSetting::getVal('def_package_return_cost') == null ) value="0" @else value="{{\App\ShipmentSetting::getVal('def_package_return_cost')}}" @endif name="Setting[def_package_return_cost]" />
+                    </div>
+
+                </div>
+
+                <div class="my-10 separator separator-dashed"></div>
+
                 <div class="mt-3 form-group row">
 
                     <div class="col-lg-6">
