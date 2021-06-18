@@ -559,7 +559,7 @@
                                                         <input type="number" min="1" class="form-control height-listener"
                                                         placeholder="{{ translate('Height') }}" name="height"
                                                         value="1" />
-                                                      </div>
+                                                    </div>
 
                                                 </div>
 
@@ -597,10 +597,15 @@
 
                                                                     <label>{{ translate('Quantity') }}:</label>
 
-                                                                    <input class="kt_touchspin_qty"
+                                                                    <div class="input-group mb-3">
+                                                                        <div class="input-group-prepend">
+                                                                          <span class="input-group-text" id="basic-addon1">Q</span>
+                                                                        </div>
+                                                                        <input type="number" min="1" class="form-control quantity-listener"
                                                                         placeholder="{{ translate('Quantity') }}"
                                                                         type="number" min="1" name="qty"
                                                                         class="form-control" value="1" />
+                                                                    </div>
 
                                                                 </div>
                                                             </div>
@@ -1054,12 +1059,13 @@
         var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
 
         var package_ids = [];
+        var return_package_id=null;
         for (let index = 0; index < select_packages.length; index++) {
             if (select_packages[index].value) {
                 package_ids[index] = new Object();
                 if(select_custom_packages[index].value==1)
                 {
-                    var return_package_id = function () {
+                    return_package_id = function () {
                         var package_id = null;
                         $.ajax({
                             'async': false,
@@ -1073,6 +1079,29 @@
                         });
                         return package_id;
                     }();
+
+                    var add_check=true;
+                    var package_index=0;
+                    var event = new Event('change');
+                    for (i = 0; i < select_packages[index].length; ++i){
+                        if (select_packages[index].options[i].value == return_package_id){
+                            add_check=false;
+                            package_index=i;
+                        }
+                    }
+                    if(add_check)
+                    {
+                        var option = document.createElement("option");
+                        option.text = select_custom_packages_value[index].value;
+                        option.value = return_package_id;
+                        select_packages[index].appendChild(option).setAttribute("selected", "selected");
+                        select_packages[index].dispatchEvent(event);
+                    }
+                    else
+                    {
+                        select_packages[index].options[package_index].setAttribute("selected", "selected");
+                        select_packages[index].dispatchEvent(event);
+                    }
                     package_ids[index]["package_id"] = return_package_id;
                 }
                 else
@@ -1328,11 +1357,13 @@
                         return markup;
                     },
                 });
+
                 $(".value-listener:last").val(0);
                 $(".weight-listener:last").val(1);
                 $(".length-listener:last").val(1);
                 $(".width-listener:last").val(1);
                 $(".height-listener:last").val(1);
+                $(".quantity-listener:last").val(1);
                 calcTotalWeight();
                 calcTotalPrice();
             },
