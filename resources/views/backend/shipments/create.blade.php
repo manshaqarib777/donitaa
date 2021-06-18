@@ -456,6 +456,14 @@
 
 
                                             <div class="row col-md-12">
+                                                <div class="col-md-2">
+                                                    <label>{{ translate('Custom Package') }}:</label>
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" placeholder="{{ translate('Custom Package') }}"
+                                                            class="form-control package-listener" value="0" name="custom_package" />
+                                                        <span></span>
+                                                    </label>
+                                                </div>
                                                 <div class="col-md-4 default-package-show">
                                                     <label>{{ translate('Package Type') }}:</label>
                                                     <select class="form-control kt-select2 package-type-select"
@@ -489,14 +497,6 @@
                                                         <span></span>
                                                     </label>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <label>{{ translate('Custom Package') }}:</label>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" placeholder="{{ translate('Custom Package') }}"
-                                                            class="form-control package-listener" value="0" name="custom_package" />
-                                                        <span></span>
-                                                    </label>
-                                                </div>
                                             </div>
                                             <div class="row col-md-12 pt-5">
                                                 <div class="col-md-2">
@@ -507,16 +507,10 @@
                                                         <input type="number" min="1" placeholder="{{ translate('Weight') }}"
                                                         name="weight" class="form-control weight-listener"
                                                         onchange="calcTotalWeight()" value="1" />
+                                                        <small class="w-100 text-center" style="color:#0b2339;">Weight</small>
+
                                                     </div>
                                                     <div class="mb-2 d-md-none"></div>
-                                                </div>
-                                                <div class="col-md-2 pt-3 pb-3">
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" onchange="update_currency_status(this)"
-                                                            placeholder="{{ translate('Include Shipment Insurance') }}"
-                                                            class="form-control insurance-listener" name="shipment_insurance" />
-                                                        <span></span>&nbsp;&nbsp;{{ translate('Insurance') }}
-                                                    </label>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="input-group mb-3">
@@ -527,38 +521,50 @@
                                                         class="form-control value-listener" name="shipment_price" onchange="calcTotalPrice()" value="0" />
                                                         <small class="w-100 text-center" style="color:#0b2339;">Protection Value</small>
                                                       </div>
-
-
+                                                </div>
+                                                <div class="col-md-2 pt-3 pb-3">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" onchange="update_currency_status(this)"
+                                                            placeholder="{{ translate('Include Shipment Insurance') }}"
+                                                            class="form-control insurance-listener" name="shipment_insurance" />
+                                                        <span></span>&nbsp;&nbsp;{{ translate('Insurance') }}
+                                                    </label>
                                                 </div>
 
                                                 <div class="col-md-2">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-prepend">
-                                                          <span class="input-group-text" id="basic-addon1">L</span>
+                                                          <span class="input-group-text" id="basic-addon1">CM</span>
                                                         </div>
                                                         <input type="number" min="1" class="form-control length-listener"
                                                         placeholder="{{ translate('Length') }}" name="length"
                                                         value="1" />
+                                                        <small class="w-100 text-center" style="color:#0b2339;">Length</small>
+
                                                       </div>
                                                 </div>
                                                 <div class="col-md-2">
 
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-prepend">
-                                                          <span class="input-group-text" id="basic-addon1">W</span>
+                                                          <span class="input-group-text" id="basic-addon1">CM</span>
                                                         </div>
                                                         <input type="number" min="1" class="form-control width-listener"
                                                         placeholder="{{ translate('Width') }}" name="width" value="1" />
+                                                        <small class="w-100 text-center" style="color:#0b2339;">Width</small>
+
                                                       </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-prepend">
-                                                          <span class="input-group-text" id="basic-addon1">H</span>
+                                                          <span class="input-group-text" id="basic-addon1">CM</span>
                                                         </div>
                                                         <input type="number" min="1" class="form-control height-listener"
                                                         placeholder="{{ translate('Height') }}" name="height"
                                                         value="1" />
+                                                        <small class="w-100 text-center" style="color:#0b2339;">Height</small>
+
                                                     </div>
 
                                                 </div>
@@ -571,7 +577,7 @@
                                                         <div class="">
                                                             <div>
                                                                 <a href="javascript:;" data-repeater-create=""
-                                                                    class="btn btn-sm font-weight-bolder btn-light-primary" style="border-radius: 16px 10px;">
+                                                                    class="btn btn-sm font-weight-bolder btn-light-primary" style="border-radius:20px;">
                                                                     <i class="la la-plus"></i>{{ translate('Add List') }}
                                                                 </a>
                                                             </div>
@@ -614,7 +620,7 @@
 
                                                                     <div>
                                                                         <a href="javascript:;" data-repeater-delete=""
-                                                                            class="btn btn-sm font-weight-bolder btn-light-danger delete_item" style="border-radius: 16px 10px;">
+                                                                            class="btn btn-sm font-weight-bolder btn-light-danger delete_item" style="border-radius:20px;">
                                                                             <i
                                                                                 class="la la-trash-o"></i>{{ translate('Delete List') }}
                                                                         </a>
@@ -635,7 +641,7 @@
 
                                                     <div>
                                                         <a href="javascript:;" data-repeater-delete=""
-                                                            class="btn btn-sm font-weight-bolder btn-light-danger delete_item" style="border-radius: 16px 10px;">
+                                                            class="btn btn-sm font-weight-bolder btn-light-danger delete_item" style="border-radius:20px;">
                                                             <i
                                                                 class="la la-trash-o"></i>{{ translate('Delete Package') }}
                                                         </a>
@@ -649,7 +655,7 @@
                                     <div class="">
                                         <div>
                                             <a href="javascript:;" data-repeater-create=""
-                                                class="btn btn-sm font-weight-bolder btn-light-primary" style="background: #1393ba;border-radius: 16px 10px;">
+                                                class="btn btn-sm font-weight-bolder btn-light-primary" style="background: #1393ba;border-radius:20px;">
                                                 <i class="la la-plus"></i>{{ translate('Add Package') }}
                                             </a>
                                         </div>
