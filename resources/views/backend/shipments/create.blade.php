@@ -196,9 +196,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="col-md-12">
-                                        <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
-                                            <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}:</h2>
+                                    <div class="col-md-12 row" style="background:hsl(194, 82%, 40%);">
+                                        <div class="w-100 p-1 text-white">
+                                            <h5 class="text-left">{{ translate('PACKAGE INFORMATION') }}:</h5>
                                         </div>
                                     </div>
                                     <div class="col-md-12 row p-3">
@@ -294,8 +294,8 @@
                                 </div>
                                 <div class="col-md-6" >
                                     <div class="col-md-12 row" style="background:hsl(194, 82%, 40%);">
-                                        <div class="w-100 p-3 pl-5 text-white">
-                                            <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}:</h2>
+                                        <div class="w-100 p-1 text-white">
+                                            <h5 class="text-left">{{ translate('PACKAGE INFORMATION') }}:</h5>
                                         </div>
                                     </div>
                                     <div class="col-md-12 row p-3" style="background:purple;">
