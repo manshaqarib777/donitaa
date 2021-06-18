@@ -195,184 +195,192 @@
 
                             </div>
                             <div class="row">
-                                @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userReceiver->receiver))
-                                    <div class="col-md-6">
-                                        <div class="form-group client-select">
-                                            <label>{{ translate('Client/Sender') }}:</label>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
+                                            <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}:</h2>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 row p-3">
+                                        @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userReceiver->receiver))
+                                            <div class="col-md-6">
+                                                <div class="form-group client-select">
+                                                    <label>{{ translate('Client/Sender') }}:</label>
 
 
 
-                                            <select class="form-control kt-select2 select-client"
-                                                name="Shipment[client_id]">
-                                                <option></option>
-                                                @foreach ($clients as $client)
-                                                    <option value="{{ $client->id }}"
-                                                        data-phone="{{ $client->responsible_mobile }}">
-                                                        {{ $client->name }}
-                                                    </option>
-                                                @endforeach
+                                                    <select class="form-control kt-select2 select-client"
+                                                        name="Shipment[client_id]">
+                                                        <option></option>
+                                                        @foreach ($clients as $client)
+                                                            <option value="{{ $client->id }}"
+                                                                data-phone="{{ $client->responsible_mobile }}">
+                                                                {{ $client->name }}
+                                                            </option>
+                                                        @endforeach
 
-                                            </select>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div style="display: none">
+                                                <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
+                                                    <option value="{{ auth()->user()->userClient->client->id }}">{{ auth()->user()->userClient->client->name }}</option>
+
+                                                </select>
+                                            </div>
+                                        @endif
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('Client Phone') }}:</label>
+                                                <input placeholder="{{ translate('Client Phone') }}"
+                                                    name="Shipment[client_phone]" id="client_phone" class="form-control" id="" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('Client Address') }}:</label>
+                                                <div class="form-group">
+                                                    <select class="form-control select-client-address" name="Shipment[client_address]">
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('From Country') }}:</label>
+                                                <select id="change-country" name="Shipment[from_country_id]"
+                                                    class="form-control select-country">
+                                                    <option value=""></option>
+                                                    @foreach ($countries as $country)
+                                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 show_branch">
+                                            <div class="form-group">
+                                                <label>{{ translate('Branch') }}:</label>
+                                                <select class="form-control kt-select2 select-branch" name="Shipment[branch_id]">
+                                                    <option></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('From Region') }}:</label>
+                                                <select id="change-state-from" name="Shipment[from_state_id]"
+                                                    class="form-control select-state">
+                                                    <option value=""></option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('From Area') }}:</label>
+                                                <select id='change-area-from' name="Shipment[from_area_id]"
+                                                    class="form-control select-area">
+                                                    <option value=""></option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" >
+                                    <div class="col-md-12 row" style="background:hsl(194, 82%, 40%);">
+                                        <div class="w-100 p-3 pl-5 text-white">
+                                            <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}:</h2>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 row p-3" style="background:purple;">
+
+                                        @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userReceiver->receiver))
+                                            <div class="col-md-6">
+                                                <div class="form-group receiver-select">
+                                                    <label class="text-white">{{ translate('Receiver') }}:</label>
+
+                                                    <select class="form-control kt-select2 select-receiver"
+                                                        name="Shipment[receiver_id]">
+                                                        <option></option>
+                                                        @foreach ($receivers as $receiver)
+                                                            <option value="{{ $receiver->id }}"
+                                                                data-phone="{{ $receiver->responsible_mobile }}">
+                                                                {{ $receiver->name }}
+                                                            </option>
+                                                        @endforeach
+
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div style="display: none">
+                                                <select class="form-control kt-select2 select-receiver" name="Shipment[receiver_id]">
+                                                    <option value="{{ auth()->user()->userClient->receiver->id }}">{{ auth()->user()->userClient->receiver->name }}</option>
+
+                                                </select>
+                                            </div>
+                                        @endif
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-white">{{ translate('Receiver Phone') }}:</label>
+                                                <input type="text" placeholder="{{ translate('Receiver Phone') }}"
+                                                    name="Shipment[receiver_phone]" id="receiver_phone" class="form-control" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-white">{{ translate('Receiver Address') }}:</label>
+                                                <div class="form-group">
+                                                    <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
+                                                        <option></option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-white">{{ translate('To Country') }}:</label>
+                                                <select id="change-country-to" name="Shipment[to_country_id]"
+                                                    class="form-control select-country">
+                                                    <option value=""></option>
+                                                    @foreach ($countries as $country)
+                                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-white">{{ translate('To Region') }}:</label>
+                                                <select id="change-state-to" name="Shipment[to_state_id]"
+                                                    class="form-control select-state">
+                                                    <option value=""></option>
+
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-white">{{ translate('To Area') }}:</label>
+                                                <select name="Shipment[to_area_id]" id='change-area-to' class="form-control select-area">
+                                                    <option value=""></option>
+
+                                                </select>
+                                            </div>
 
                                         </div>
                                     </div>
-                                @else
-                                    <div style="display: none">
-                                        <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
-                                            <option value="{{ auth()->user()->userClient->client->id }}">{{ auth()->user()->userClient->client->name }}</option>
-
-                                        </select>
-                                    </div>
-                                @endif
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('Client Phone') }}:</label>
-                                        <input placeholder="{{ translate('Client Phone') }}"
-                                            name="Shipment[client_phone]" id="client_phone" class="form-control" id="" />
-
-                                    </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>{{ translate('Client Address') }}:</label>
-                                        <div class="form-group">
-                                            <select class="form-control select-client-address" name="Shipment[client_address]">
-                                                <option></option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userReceiver->receiver))
-                                    <div class="col-md-6">
-                                        <div class="form-group receiver-select">
-                                            <label>{{ translate('Receiver') }}:</label>
-
-
-
-                                            <select class="form-control kt-select2 select-receiver"
-                                                name="Shipment[receiver_id]">
-                                                <option></option>
-                                                @foreach ($receivers as $receiver)
-                                                    <option value="{{ $receiver->id }}"
-                                                        data-phone="{{ $receiver->responsible_mobile }}">
-                                                        {{ $receiver->name }}
-                                                    </option>
-                                                @endforeach
-
-                                            </select>
-
-                                        </div>
-                                    </div>
-                                @else
-                                    <div style="display: none">
-                                        <select class="form-control kt-select2 select-receiver" name="Shipment[receiver_id]">
-                                            <option value="{{ auth()->user()->userClient->receiver->id }}">{{ auth()->user()->userClient->receiver->name }}</option>
-
-                                        </select>
-                                    </div>
-                                @endif
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('Receiver Phone') }}:</label>
-                                        <input type="text" placeholder="{{ translate('Receiver Phone') }}"
-                                            name="Shipment[receiver_phone]" id="receiver_phone" class="form-control" />
-
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>{{ translate('Receiver Address') }}:</label>
-                                        <div class="form-group">
-                                            <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
-                                                <option></option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('From Country') }}:</label>
-                                        <select id="change-country" name="Shipment[from_country_id]"
-                                            class="form-control select-country">
-                                            <option value=""></option>
-                                            @foreach ($countries as $country)
-                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 show_branch">
-                                    <div class="form-group">
-                                        <label>{{ translate('Branch') }}:</label>
-                                        <select class="form-control kt-select2 select-branch" name="Shipment[branch_id]">
-                                            <option></option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('From Region') }}:</label>
-                                        <select id="change-state-from" name="Shipment[from_state_id]"
-                                            class="form-control select-state">
-                                            <option value=""></option>
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('From Area') }}:</label>
-                                        <select id='change-area-from' name="Shipment[from_area_id]"
-                                            class="form-control select-area">
-                                            <option value=""></option>
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('To Country') }}:</label>
-                                        <select id="change-country-to" name="Shipment[to_country_id]"
-                                            class="form-control select-country">
-                                            <option value=""></option>
-                                            @foreach ($countries as $country)
-                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('To Region') }}:</label>
-                                        <select id="change-state-to" name="Shipment[to_state_id]"
-                                            class="form-control select-state">
-                                            <option value=""></option>
-
-                                        </select>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('To Area') }}:</label>
-                                        <select name="Shipment[to_area_id]" id='change-area-to' class="form-control select-area">
-                                            <option value=""></option>
-
-                                        </select>
-                                    </div>
-
-                                </div>
-
                             </div>
                             <hr>
                             <div class="row">
