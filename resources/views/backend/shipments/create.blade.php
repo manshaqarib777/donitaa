@@ -1,5 +1,106 @@
 @extends('backend.layouts.app')
+@section('style')
+    <style>
+        html,
+        body {
+            font-size: 10px !important;
+        }
 
+        .col-1,
+        .col-2,
+        .col-3,
+        .col-4,
+        .col-5,
+        .col-6,
+        .col-7,
+        .col-8,
+        .col-9,
+        .col-10,
+        .col-11,
+        .col-12,
+        .col,
+        .col-auto,
+        .col-sm-1,
+        .col-sm-2,
+        .col-sm-3,
+        .col-sm-4,
+        .col-sm-5,
+        .col-sm-6,
+        .col-sm-7,
+        .col-sm-8,
+        .col-sm-9,
+        .col-sm-10,
+        .col-sm-11,
+        .col-sm-12,
+        .col-sm,
+        .col-sm-auto,
+        .col-md-1,
+        .col-md-2,
+        .col-md-3,
+        .col-md-4,
+        .col-md-5,
+        .col-md-6,
+        .col-md-7,
+        .col-md-8,
+        .col-md-9,
+        .col-md-10,
+        .col-md-11,
+        .col-md-12,
+        .col-md,
+        .col-md-auto,
+        .col-lg-1,
+        .col-lg-2,
+        .col-lg-3,
+        .col-lg-4,
+        .col-lg-5,
+        .col-lg-6,
+        .col-lg-7,
+        .col-lg-8,
+        .col-lg-9,
+        .col-lg-10,
+        .col-lg-11,
+        .col-lg-12,
+        .col-lg,
+        .col-lg-auto,
+        .col-xl-1,
+        .col-xl-2,
+        .col-xl-3,
+        .col-xl-4,
+        .col-xl-5,
+        .col-xl-6,
+        .col-xl-7,
+        .col-xl-8,
+        .col-xl-9,
+        .col-xl-10,
+        .col-xl-11,
+        .col-xl-12,
+        .col-xl,
+        .col-xl-auto,
+        .col-xxl-1,
+        .col-xxl-2,
+        .col-xxl-3,
+        .col-xxl-4,
+        .col-xxl-5,
+        .col-xxl-6,
+        .col-xxl-7,
+        .col-xxl-8,
+        .col-xxl-9,
+        .col-xxl-10,
+        .col-xxl-11,
+        .col-xxl-12,
+        .col-xxl,
+        .col-xxl-auto {
+            position: relative;
+            padding-right: 12.5px;
+            padding-left: 12.5px;
+        }
+
+        .input-group-text {
+            padding: 2px 2px;
+        }
+
+    </style>
+@endsection
 @section('content')
     @php
     $auth_user = Auth::user();
@@ -19,768 +120,1261 @@
         }
 
     </style>
-    <div class="mx-auto col-lg-12">
-        <div class="card">
 
-            <div class="card-header">
-                <h5 class="mb-0 h6">{{ translate('Shipment Info') }}</h5>
+
+
+    @if ($user_type == 'admin' || in_array('1105', $staff_permission))
+        @if (\App\ShipmentSetting::getVal('def_shipping_cost') == null)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{ translate('Please Configure Fees Settings , Costs in creation will be zero without configuration') }},
+                    <a class="alert-link"
+                        href="{{ route('admin.shipments.settings.fees') }}">{{ translate('Configure Now') }}</a>
+                </div>
             </div>
+        @endif
+        @if (count($countries) == 0 || \App\State::where('covered', 1)->count() == 0)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{ translate('Please Configure Your covered countries and cities') }},
+                    <a class="alert-link"
+                        href="{{ route('admin.shipments.covered_countries') }}">{{ translate('Configure Now') }}</a>
+                </div>
+            </div>
+        @endif
+        @if (\App\Area::count() == 0)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{ translate('Please Add areas before creating your first shipment') }},
+                    <a class="alert-link" href="{{ route('admin.areas.create') }}">{{ translate('Configure Now') }}</a>
+                </div>
+            </div>
+        @endif
+        @if (count($packages) == 0)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{ translate('Please Add package types before creating your first shipment') }},
+                    <a class="alert-link"
+                        href="{{ route('admin.packages.create') }}">{{ translate('Configure Now') }}</a>
+                </div>
+            </div>
+        @endif
+        @if ($branchs->count() == 0)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{ translate('Please Add branches before creating your first shipment') }},
+                    <a class="alert-link"
+                        href="{{ route('admin.branchs.index') }}">{{ translate('Configure Now') }}</a>
+                </div>
+            </div>
+        @endif
 
-            @if ($user_type == 'admin' || in_array('1105', $staff_permission))
-                @if (\App\ShipmentSetting::getVal('def_shipping_cost') == null)
-                    <div class="row">
-                        <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                            {{ translate('Please Configure Fees Settings , Costs in creation will be zero without configuration') }},
-                            <a class="alert-link"
-                                href="{{ route('admin.shipments.settings.fees') }}">{{ translate('Configure Now') }}</a>
+        @if ($clients->count() == 0)
+            <div class="row">
+                <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{ translate('Please Add clients before creating your first shipment') }},
+                    <a class="alert-link"
+                        href="{{ route('admin.clients.index') }}">{{ translate('Configure Now') }}</a>
+                </div>
+            </div>
+        @endif
+    @else
+        @if (\App\ShipmentSetting::getVal('def_shipping_cost') == null || count($countries) == 0 || \App\State::where('covered', 1)->count() == 0 || \App\Area::count() == 0 || count($packages) == 0 || $branchs->count() == 0 || $clients->count() == 0)
+            <div class="row">
+                <div class="text-center alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
+                    {{ translate('Please ask your administrator to configure shipment settings first, before you can create a new shipment!') }}
+                </div>
+            </div>
+        @endif
+    @endif
+
+    <form class="form-horizontal" action="{{ route('admin.shipments.store') }}" id="kt_form_1" method="POST"
+        enctype="multipart/form-data">
+        @csrf
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="w-100 p-3 pl-5 text-white" style="background:red;">
+                            <h2 class="text-left" style="font-size: 35px;line-height: 3;">
+                                {{ translate('SHIPMENT REQUEST') }} <b
+                                    style="color:purple;">{{ translate('FORM') }}</b> </h2>
                         </div>
-                    </div>
-                @endif
-                @if (count($countries) == 0 || \App\State::where('covered', 1)->count() == 0)
-                    <div class="row">
-                        <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                            {{ translate('Please Configure Your covered countries and cities') }},
-                            <a class="alert-link"
-                                href="{{ route('admin.shipments.covered_countries') }}">{{ translate('Configure Now') }}</a>
-                        </div>
-                    </div>
-                @endif
-                @if (\App\Area::count() == 0)
-                    <div class="row">
-                        <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                            {{ translate('Please Add areas before creating your first shipment') }},
-                            <a class="alert-link"
-                                href="{{ route('admin.areas.create') }}">{{ translate('Configure Now') }}</a>
-                        </div>
-                    </div>
-                @endif
-                @if (count($packages) == 0)
-                    <div class="row">
-                        <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                            {{ translate('Please Add package types before creating your first shipment') }},
-                            <a class="alert-link"
-                                href="{{ route('admin.packages.create') }}">{{ translate('Configure Now') }}</a>
-                        </div>
-                    </div>
-                @endif
-                @if ($branchs->count() == 0)
-                    <div class="row">
-                        <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                            {{ translate('Please Add branches before creating your first shipment') }},
-                            <a class="alert-link"
-                                href="{{ route('admin.branchs.index') }}">{{ translate('Configure Now') }}</a>
-                        </div>
-                    </div>
-                @endif
-
-                @if ($clients->count() == 0)
-                    <div class="row">
-                        <div class="alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;" role="alert">
-                            {{ translate('Please Add clients before creating your first shipment') }},
-                            <a class="alert-link"
-                                href="{{ route('admin.clients.index') }}">{{ translate('Configure Now') }}</a>
-                        </div>
-                    </div>
-                @endif
-            @else
-                @if (\App\ShipmentSetting::getVal('def_shipping_cost') == null || count($countries) == 0 || \App\State::where('covered', 1)->count() == 0 || \App\Area::count() == 0 || count($packages) == 0 || $branchs->count() == 0 || $clients->count() == 0)
-                    <div class="row">
-                        <div class="text-center alert alert-danger col-lg-8" style="margin: auto;margin-top:10px;"
-                            role="alert">
-                            {{ translate('Please ask your administrator to configure shipment settings first, before you can create a new shipment!') }}
-                        </div>
-                    </div>
-                @endif
-            @endif
-
-            <form class="form-horizontal" action="{{ route('admin.shipments.store') }}" id="kt_form_1" method="POST"
-                enctype="multipart/form-data">
-                @csrf
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-
-                            <div class="form-group row">
-                                <label class="col-2 col-form-label">{{ translate('Shipment Type') }}</label>
-                                <div class="col-9 col-form-label">
-                                    <div class="radio-inline">
-                                        <label class="radio radio-success btn btn-default">
-                                            <input @if (\App\ShipmentSetting::getVal('def_shipment_type') == '1') checked @endif type="radio" name="Shipment[type]"
-                                                checked="checked" value="1" />
-                                            <span></span>
-                                            {{ translate('Pickup (For door to door delivery)') }}
-                                        </label>
-                                        <label class="radio radio-success btn btn-default">
-                                            <input @if (\App\ShipmentSetting::getVal('def_shipment_type') == '2') checked @endif type="radio" name="Shipment[type]"
-                                                value="2" />
-                                            <span></span>
-                                            {{ translate('Drop off (For delivery package from branch directly)') }}
-                                        </label>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="form-group row">
-                                <label class="col-2 col-form-label">{{ translate('Shipment Zone') }}</label>
-                                <div class="col-9 col-form-label">
-                                    <div class="radio-inline">
-                                        <label class="radio radio-success btn btn-default">
-                                            <input @if (\App\ShipmentSetting::getVal('def_zone') == '1') checked @endif type="radio" name="Shipment[zone]"
-                                                checked="checked" value="1" />
-                                            <span></span>
-                                            {{ translate('Domestic') }}
-                                        </label>
-                                        <label class="radio radio-success btn btn-default">
-                                            <input @if (\App\ShipmentSetting::getVal('def_zone') == '2') checked @endif type="radio" name="Shipment[zone]"
-                                                value="2" />
-                                            <span></span>
-                                            {{ translate('International') }}
-                                        </label>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="form-group row">
-                                <label class="col-2 col-form-label">{{ translate('Shipment Material') }}</label>
-                                <div class="col-9 col-form-label">
-                                    <div class="radio-inline">
-                                        <label class="radio radio-success btn btn-default">
-                                            <input @if (\App\ShipmentSetting::getVal('def_material') == '1') checked @endif type="radio" name="Shipment[material]"
-                                                checked="checked" value="1" />
-                                            <span></span>
-                                            {{ translate('Fragile') }}
-                                        </label>
-                                        <label class="radio radio-success btn btn-default">
-                                            <input @if (\App\ShipmentSetting::getVal('def_material') == '2') checked @endif type="radio" name="Shipment[material]"
-                                                value="2" />
-                                            <span></span>
-                                            {{ translate('Non Fragile') }}
-                                        </label>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    @if (\App\ShipmentSetting::getVal('is_date_required') == '1' || \App\ShipmentSetting::getVal('is_date_required') == null)
-                                        <div class="form-group">
-                                            <label>{{ translate('Shipping Date') }}:</label>
-                                            <div class="input-group date">
-                                                @php
-                                                    $defult_shipping_date = \App\ShipmentSetting::getVal('def_shipping_date');
-                                                    if ($defult_shipping_date == null) {
-                                                        $shipping_data = \Carbon\Carbon::now()->addDays(0);
-                                                    } else {
-                                                        $shipping_data = \Carbon\Carbon::now()->addDays($defult_shipping_date);
-                                                    }
-
-                                                @endphp
-                                                <input type="text" placeholder="{{ translate('Shipping Date') }}"
-                                                    value="{{ $shipping_data->toDateString() }}"
-                                                    name="Shipment[shipping_date]" autocomplete="off" class="form-control"
-                                                    id="kt_datepicker_3" />
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text">
-                                                        <i class="la la-calendar"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    @endif
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="col-md-12 row" style="background:hsl(194, 82%, 40%);">
-                                        <div class="w-100 p-1 text-white">
-                                            <h5 class="text-left">{{ translate('PACKAGE INFORMATION') }}:</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 row p-3">
-                                        @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userReceiver->receiver))
-                                            <div class="col-md-6">
-                                                <div class="form-group client-select">
-                                                    <label>{{ translate('Client/Sender') }}:</label>
-
-
-
-                                                    <select class="form-control kt-select2 select-client"
-                                                        name="Shipment[client_id]">
-                                                        <option></option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}"
-                                                                data-phone="{{ $client->responsible_mobile }}">
-                                                                {{ $client->name }}
-                                                            </option>
-                                                        @endforeach
-
-                                                    </select>
-
-                                                </div>
-                                            </div>
-                                        @else
-                                            <div style="display: none">
-                                                <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
-                                                    <option value="{{ auth()->user()->userClient->client->id }}">{{ auth()->user()->userClient->client->name }}</option>
-
-                                                </select>
-                                            </div>
-                                        @endif
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>{{ translate('Client Phone') }}:</label>
-                                                <input placeholder="{{ translate('Client Phone') }}"
-                                                    name="Shipment[client_phone]" id="client_phone" class="form-control" id="" />
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>{{ translate('Client Address') }}:</label>
-                                                <div class="form-group">
-                                                    <select class="form-control select-client-address" name="Shipment[client_address]">
-                                                        <option></option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>{{ translate('From Country') }}:</label>
-                                                <select id="change-country" name="Shipment[from_country_id]"
-                                                    class="form-control select-country">
-                                                    <option value=""></option>
-                                                    @foreach ($countries as $country)
-                                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 show_branch">
-                                            <div class="form-group">
-                                                <label>{{ translate('Branch') }}:</label>
-                                                <select class="form-control kt-select2 select-branch" name="Shipment[branch_id]">
-                                                    <option></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>{{ translate('From Region') }}:</label>
-                                                <select id="change-state-from" name="Shipment[from_state_id]"
-                                                    class="form-control select-state">
-                                                    <option value=""></option>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>{{ translate('From Area') }}:</label>
-                                                <select id='change-area-from' name="Shipment[from_area_id]"
-                                                    class="form-control select-area">
-                                                    <option value=""></option>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6" >
-                                    <div class="col-md-12 row" style="background:hsl(194, 82%, 40%);">
-                                        <div class="w-100 p-1 text-white">
-                                            <h5 class="text-left">{{ translate('PACKAGE INFORMATION') }}:</h5>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 row p-3" style="background:purple;">
-
-                                        @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userReceiver->receiver))
-                                            <div class="col-md-6">
-                                                <div class="form-group receiver-select">
-                                                    <label class="text-white">{{ translate('Receiver') }}:</label>
-
-                                                    <select class="form-control kt-select2 select-receiver"
-                                                        name="Shipment[receiver_id]">
-                                                        <option></option>
-                                                        @foreach ($receivers as $receiver)
-                                                            <option value="{{ $receiver->id }}"
-                                                                data-phone="{{ $receiver->responsible_mobile }}">
-                                                                {{ $receiver->name }}
-                                                            </option>
-                                                        @endforeach
-
-                                                    </select>
-
-                                                </div>
-                                            </div>
-                                        @else
-                                            <div style="display: none">
-                                                <select class="form-control kt-select2 select-receiver" name="Shipment[receiver_id]">
-                                                    <option value="{{ auth()->user()->userClient->receiver->id }}">{{ auth()->user()->userClient->receiver->name }}</option>
-
-                                                </select>
-                                            </div>
-                                        @endif
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-white">{{ translate('Receiver Phone') }}:</label>
-                                                <input type="text" placeholder="{{ translate('Receiver Phone') }}"
-                                                    name="Shipment[receiver_phone]" id="receiver_phone" class="form-control" />
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-white">{{ translate('Receiver Address') }}:</label>
-                                                <div class="form-group">
-                                                    <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
-                                                        <option></option>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-white">{{ translate('To Country') }}:</label>
-                                                <select id="change-country-to" name="Shipment[to_country_id]"
-                                                    class="form-control select-country">
-                                                    <option value=""></option>
-                                                    @foreach ($countries as $country)
-                                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-white">{{ translate('To Region') }}:</label>
-                                                <select id="change-state-to" name="Shipment[to_state_id]"
-                                                    class="form-control select-state">
-                                                    <option value=""></option>
-
-                                                </select>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="text-white">{{ translate('To Area') }}:</label>
-                                                <select name="Shipment[to_area_id]" id='change-area-to' class="form-control select-area">
-                                                    <option value=""></option>
-
-                                                </select>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                @if (\App\ShipmentSetting::getVal('is_date_required') == '1' || \App\ShipmentSetting::getVal('is_date_required') == null)
                                     <div class="form-group">
-                                        <label>{{ translate('Payment Type') }}:</label>
-                                        <select class="form-control kt-select2 payment-type" id="payment_type"
-                                            name="Shipment[payment_type]">
-                                            <option @if (\App\ShipmentSetting::getVal('def_payment_type') == '1') selected @endif value="1">
-                                                {{ translate('Postpaid') }}</option>
-                                            <option @if (\App\ShipmentSetting::getVal('def_payment_type') == '2') selected @endif value="2">
-                                                {{ translate('Prepaid') }}
-                                            </option>
-                                        </select>
+                                        <label>{{ translate('Shipping Date') }}:</label>
+                                        <div class="input-group date">
+                                            @php
+                                                $defult_shipping_date = \App\ShipmentSetting::getVal('def_shipping_date');
+                                                if ($defult_shipping_date == null) {
+                                                    $shipping_data = \Carbon\Carbon::now()->addDays(0);
+                                                } else {
+                                                    $shipping_data = \Carbon\Carbon::now()->addDays($defult_shipping_date);
+                                                }
 
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('Payment Method') }}:</label>
-                                        <select class="form-control kt-select2 payment-method" id="payment_method_id"
-                                            name="Shipment[payment_method_id]">
-                                            @forelse (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
-                                                <option value="{{ $gateway->id }}" @if ($gateway->id == 11) selected @endif>
-                                                    {{ $gateway->name }}</option>
-                                            @empty
-                                                <option value="11">{{ translate('Cash') }}</option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('Attachments') }}:</label>
-
-                                        <div class="input-group " data-toggle="aizuploader" data-type="all"
-                                            data-multiple="true">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text bg-soft-secondary font-weight-medium">
-                                                    {{ translate('Browse') }}</div>
+                                            @endphp
+                                            <input type="text" placeholder="{{ translate('Shipping Date') }}"
+                                                value="{{ $shipping_data->toDateString() }}"
+                                                name="Shipment[shipping_date]" autocomplete="off" class="form-control"
+                                                id="kt_datepicker_3" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="la la-calendar"></i>
+                                                </span>
                                             </div>
-                                            <div class="form-control file-amount">{{ translate('Choose File') }}</div>
-                                            <input type="hidden" name="Shipment[attachments_before_shipping]"
-                                                class="selected-files"
-                                                value="{{ old('Shipment[attachments_before_shipping]') }}" max="3">
                                         </div>
-                                        <div class="file-preview">
-                                        </div>
+
                                     </div>
-                                </div>
-                                {{-- <div class="col-md-6">
+                                @endif
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>{{translate('Attachments After Shipping')}}:</label>
+                                    <label>{{ translate('Attachments') }}:</label>
 
-                                    <div class="input-group " data-toggle="aizuploader" data-type="image" data-multiple="true">
+                                    <div class="input-group " data-toggle="aizuploader" data-type="all"
+                                        data-multiple="true">
                                         <div class="input-group-prepend">
-                                            <div class="input-group-text bg-soft-secondary font-weight-medium">{{ translate('Browse') }}</div>
+                                            <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                {{ translate('Browse') }}</div>
                                         </div>
-                                        <div class="form-control file-amount">{{ translate('Choose File') }}</div>
-                                        <input type="hidden" name="Shipment[attachments_after_shipping]" class="selected-files" value="{{old('Shipment[attachments_after_shipping]')}}" max="3">
+                                        <div class="form-control file-amount">{{ translate('Choose File') }}
+                                        </div>
+                                        <input type="hidden" name="Shipment[attachments_before_shipping]"
+                                            class="selected-files"
+                                            value="{{ old('Shipment[attachments_before_shipping]') }}" max="3">
                                     </div>
                                     <div class="file-preview">
                                     </div>
                                 </div>
-                            </div> --}}
                             </div>
-
-                            <hr>
-
-                            <div id="kt_repeater_1">
-                                <div class="row" id="kt_repeater_1">
-                                    <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
-                                        <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}: <small style="font-size: 12px;">{{translate("( Please select our standard package OR choose custom pachage, weight will be required )")}}</small></h2>
-                                    </div>
-                                    <div data-repeater-list="Package" class="col-lg-12">
-                                        <div data-repeater-item class="row align-items-center"
-                                            style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-bottom:1px solid #ccc;">
-
-
-                                            <div class="row col-md-12">
-                                                <div class="col-md-2">
-                                                    <label>{{ translate('Custom Package') }}:</label>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" placeholder="{{ translate('Custom Package') }}"
-                                                            class="form-control package-listener" value="0" name="custom_package" />
-                                                        <span></span>
-                                                    </label>
-                                                </div>
-                                                <div class="col-md-4 default-package-show">
-                                                    <label>{{ translate('Package Type') }}:</label>
-                                                    <select class="form-control kt-select2 package-type-select"
-                                                        name="package_id">
-                                                        <option></option>
-                                                        @foreach ($packages as $package)
-                                                            <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif
-                                                                value="{{ $package->id }}">{{ $package->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <div class="mb-2 d-md-none"></div>
-                                                </div>
-                                                <div class="col-md-4 custom-package-show" style="display: none;">
-                                                    <label>{{ translate('Custom Package') }}:</label>
-                                                    <input type="text" placeholder="{{ translate('Package Name') }}"
-                                                        class="form-control package-listener-value" name="package_name">
-                                                    <div class="mb-2 d-md-none"></div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>{{ translate('description') }}:</label>
-                                                    <input type="text" placeholder="{{ translate('description') }}"
-                                                        class="form-control" name="description">
-                                                    <div class="mb-2 d-md-none"></div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label>{{ translate('Fragile') }}:</label>
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" onchange="update_currency_status(this)"
-                                                            placeholder="{{ translate('Fragile') }}"
-                                                            class="form-control fragile-listener" name="shipment_fragile" />
-                                                        <span></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12 pt-5">
-                                                <div class="col-md-2">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                          <span class="input-group-text" id="basic-addon1">KG</span>
-                                                        </div>
-                                                        <input type="number" min="1" placeholder="{{ translate('Weight') }}"
-                                                        name="weight" class="form-control weight-listener"
-                                                        onchange="calcTotalWeight()" value="1" />
-                                                        <small class="w-100 text-center" style="color:#0b2339;">Weight</small>
-
-                                                    </div>
-                                                    <div class="mb-2 d-md-none"></div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                          <span class="input-group-text" id="basic-addon1">{{ translate('PV') }}</span>
-                                                        </div>
-                                                        <input type="text" placeholder="{{ translate('Package Value') }}"
-                                                        class="form-control value-listener" name="shipment_price" onchange="calcTotalPrice()" value="0" />
-                                                        <small class="w-100 text-center" style="color:#0b2339;">Protection Value</small>
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-2 pt-3 pb-3">
-                                                    <label class="checkbox">
-                                                        <input type="checkbox" onchange="update_currency_status(this)"
-                                                            placeholder="{{ translate('Include Shipment Insurance') }}"
-                                                            class="form-control insurance-listener" name="shipment_insurance" />
-                                                        <span></span>&nbsp;&nbsp;{{ translate('Insurance') }}
-                                                    </label>
-                                                </div>
-
-                                                <div class="col-md-2">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                          <span class="input-group-text" id="basic-addon1">CM</span>
-                                                        </div>
-                                                        <input type="number" min="1" class="form-control length-listener"
-                                                        placeholder="{{ translate('Length') }}" name="length"
-                                                        value="1" />
-                                                        <small class="w-100 text-center" style="color:#0b2339;">Length</small>
-
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-2">
-
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                          <span class="input-group-text" id="basic-addon1">CM</span>
-                                                        </div>
-                                                        <input type="number" min="1" class="form-control width-listener"
-                                                        placeholder="{{ translate('Width') }}" name="width" value="1" />
-                                                        <small class="w-100 text-center" style="color:#0b2339;">Width</small>
-
-                                                      </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                          <span class="input-group-text" id="basic-addon1">CM</span>
-                                                        </div>
-                                                        <input type="number" min="1" class="form-control height-listener"
-                                                        placeholder="{{ translate('Height') }}" name="height"
-                                                        value="1" />
-                                                        <small class="w-100 text-center" style="color:#0b2339;">Height</small>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-12">
-                                                <hr>
-                                                <div class="inner-repeater row">
-                                                    <div class="form-group col-md-2">
-                                                        <div class="">
-                                                            <div>
-                                                                <a href="javascript:;" data-repeater-create=""
-                                                                    class="btn btn-sm font-weight-bolder btn-light-primary" style="border-radius:20px;">
-                                                                    <i class="la la-plus"></i>{{ translate('Add List') }}
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div data-repeater-list="package_list" class="col-md-10">
-                                                        <div data-repeater-item>
-                                                            <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <label>{{ translate('Item Name') }}:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="{{ translate('Item Name') }}"
-                                                                        name="item_name" />
-
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <label>{{ translate('Item Description') }}:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="{{ translate('Description') }}"
-                                                                        name="description" />
-                                                                </div>
-                                                                <div class="col-md-4">
-
-                                                                    <label>{{ translate('Quantity') }}:</label>
-
-                                                                    <div class="input-group mb-3">
-                                                                        <div class="input-group-prepend">
-                                                                          <span class="input-group-text" id="basic-addon1">Q</span>
-                                                                        </div>
-                                                                        <input type="number" min="1" class="form-control quantity-listener"
-                                                                        placeholder="{{ translate('Quantity') }}"
-                                                                        type="number" min="1" name="qty"
-                                                                        class="form-control" value="1" />
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mt-2">
-                                                                <div class="col-md-12">
-
-                                                                    <div>
-                                                                        <a href="javascript:;" data-repeater-delete=""
-                                                                            class="btn btn-sm font-weight-bolder btn-light-danger delete_item" style="border-radius:20px;">
-                                                                            <i
-                                                                                class="la la-trash-o"></i>{{ translate('Delete List') }}
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-
-
-
-                                            <div class="row">
-                                                <div class="col-md-12">
-
-                                                    <div>
-                                                        <a href="javascript:;" data-repeater-delete=""
-                                                            class="btn btn-sm font-weight-bolder btn-light-danger delete_item" style="border-radius:20px;">
-                                                            <i
-                                                                class="la la-trash-o"></i>{{ translate('Delete Package') }}
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mt-2">
-                                    <div class="">
-                                        <div>
-                                            <a href="javascript:;" data-repeater-create=""
-                                                class="btn btn-sm font-weight-bolder btn-light-primary" style="background: #1393ba;border-radius:20px;">
-                                                <i class="la la-plus"></i>{{ translate('Add Package') }}
-                                            </a>
-                                        </div>
-                                    </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label">{{ translate('Shipment Zone') }}</label>
+                            <div class="col-8 col-form-label">
+                                <div class="radio-inline">
+                                    <label class="radio radio-success">
+                                        <input @if (\App\ShipmentSetting::getVal('def_zone') == '1') checked @endif type="radio" name="Shipment[zone]"
+                                            checked="checked" value="1" />
+                                        <span></span>
+                                        {{ translate('Domestic') }}
+                                    </label>
+                                    <label class="radio radio-success">
+                                        <input @if (\App\ShipmentSetting::getVal('def_zone') == '2') checked @endif type="radio" name="Shipment[zone]"
+                                            value="2" />
+                                        <span></span>
+                                        {{ translate('International') }}
+                                    </label>
                                 </div>
 
-                                {{-- <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>{{ translate('Amount to be Collected') }}:</label>
-                                            <input id="kt_touchspin_3"
-                                                placeholder="{{ translate('Amount to be Collected') }}" type="text"
-                                                min="0" class="form-control" value="0"
-                                                name="Shipment[amount_to_be_collected]" />
-                                        </div>
-                                    </div>
-                                </div> --}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label
+                                class="col-4 col-form-label">{{ translate('If International Checked, please choose:') }}</label>
+                            <div class="col-8 col-form-label">
+                                <div class="radio-inline">
+                                    <label class="radio radio-success">
+                                        <input type="radio" name="Shipment[freight]" checked="checked" value="1" />
+                                        <span></span>
+                                        {{ translate('Air Freight') }}
+                                    </label>
+                                    <label class="radio radio-success">
+                                        <input type="radio" name="Shipment[freight]" value="2" />
+                                        <span></span>
+                                        {{ translate('Ocean Freight') }}
+                                    </label>
+                                    <label class="radio radio-success">
+                                        <input type="radio" name="Shipment[freight]" value="3" />
+                                        <span></span>
+                                        {{ translate('Road Freight') }}
+                                    </label>
+                                </div>
 
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>{{ translate('Delivery Time') }}:</label>
-                                            <select class="form-control kt-select2 delivery-time" id="delivery_time"
-                                                name="Shipment[delivery_time]">
-                                                @foreach ($times as $time)
-                                                    <option data-id="{{$time->id}}" value="{{$time->name}}">{{ translate($time->name) }}</option>
-                                                @endforeach
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label">{{ translate('Export/Import Type') }}</label>
+                            <div class="col-8 col-form-label">
+                                <div class="radio-inline">
+                                    <label class="radio radio-success">
+                                        <input type="radio" name="Shipment[exp_type]" checked="checked" value="1" />
+                                        <span></span>
+                                        {{ translate('One Way') }}
+                                    </label>
+                                    <label class="radio radio-success">
+                                        <input type="radio" name="Shipment[exp_type]" value="2" />
+                                        <span></span>
+                                        {{ translate('Ship & Return') }}
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12" style="background: hsl(194, 82%, 40%);">
+                            <div class="w-100 p-2 ">
+                                <h5 class="text-left">{{ translate('SENDER/FROM') }}:</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-12 row p-3">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="">{{ translate('Sender Company') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Sender Company') }}"
+                                        name="Shipment[client_company]" id="client_company" class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-12 col-form-label ml-4">
+                                    <div class="radio-inline">
+                                        <label class="radio radio-success ">
+                                            <input type="radio" name="Shipment[client_shipment_type]" checked="checked"
+                                                value="1" />
+                                            <span></span>
+                                            {{ translate('We Pickup Package') }}
+                                        </label>
+                                        <label class="radio radio-success ">
+                                            {{ translate('OR') }}
+                                        </label>
+                                        <label class="radio radio-success ">
+                                            <input type="radio" name="Shipment[client_shipment_type]" value="2" />
+                                            <span></span>
+                                            {{ translate('You Dropoff to Our Store') }}
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            {{-- @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userSender->client))
+                                        <div class="col-md-6">
+                                            <div class="form-group client-select">
+                                                <label class="">{{ translate('Sender') }}:</label>
+
+                                                <select class="form-control kt-select2 select-client"
+                                                    name="Shipment[client_id]">
+                                                    <option></option>
+                                                    @foreach ($clients as $client)
+                                                        <option value="{{ $client->id }}"
+                                                            data-phone="{{ $client->responsible_mobile }}">
+                                                            {{ $client->name }}
+                                                        </option>
+                                                    @endforeach
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div style="display: none">
+                                            <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
+                                                <option value="{{ auth()->user()->userClient->client->id }}">{{ auth()->user()->userClient->client->name }}</option>
+
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>{{ translate('Total Weight') }}:</label>
-                                            <input id="kt_touchspin_4" placeholder="{{ translate('Total Weight') }}"
-                                                type="text" min="1" class="form-control total-weight" value="1"
-                                                name="Shipment[total_weight]" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>{{ translate('Total Package Value') }}:</label>
-                                        <input type="text" placeholder="{{ translate('Package Value') }}"
-                                            class="form-control total-price" id="" name="Shipment[shipment_price]" value="0" readonly />
-                                    </div>
+                                    @endif --}}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="">{{ translate('First Name') }}:</label>
+                                    <input type="text" placeholder="{{ translate('First Name') }}"
+                                        name="Shipment[client_first_name]" id="client_first_name" class="form-control" />
+
                                 </div>
-
-
-
-
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="">{{ translate('Last Name') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Last Name') }}"
+                                        name="Shipment[client_last_name]" id="client_last_name" class="form-control" />
 
-                        </div>
-
-
-
-                        {!! hookView('shipment_addon', $currentView) !!}
-
-                        <div class="mb-0 text-right form-group">
-                            <button type="button" class="btn btn-sm btn-primary"
-                                onclick="get_estimation_cost()">{{ translate('Get Rates') }}</button>
-
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-sm btn-primary d-none" data-toggle="modal"
-                                data-target="#exampleModalCenter" id="modal_open">
-                                {{ translate('Get Rates') }}
-                            </button>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">
-                                                {{ translate('Estimation Cost') }}</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                                                id="modal_close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="text-left modal-body">
-                                            <div class="row">
-                                                <div class="col-6">{{ translate('Shipping Cost') }} :</div>
-                                                <div class="col-6" id="shipping_cost"></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">{{ translate('Tax & Duty') }} :</div>
-                                                <div class="col-6" id="tax_duty"></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">{{ translate('Insurance') }} :</div>
-                                                <div class="col-6" id="insurance"></div>
-                                            </div>
-                                            <div class="row bg-warning">
-                                                <div class="col-6">{{ translate('Return Cost') }} :</div>
-                                                <div class="col-6" id="return_cost"></div>
-                                            </div>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-6">{{ translate('TOTAL COST') }} :</div>
-                                                <div class="col-6" id="total_cost"></div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">{{ translate('Close') }}</button>
-                                            <button type="submit"
-                                                class="btn btn-primary">{{ translate('Save') }}</button>
-                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="">{{ translate('Address') }}:
+                                        <small>{{ translate('Building, Street Name etc') }}</small></label>
+                                    <div class="form-group">
+                                        {{-- <select class="form-control select-client-address" name="Shipment[client_address]">
+                                                    <option></option>
+                                                </select> --}}
+                                        <input placeholder="{{ translate('Address') }}" name="Shipment[client_address_1]"
+                                            class="form-control" id="" />
                                     </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="">{{ translate('Address') }}:
+                                        <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small></label>
+                                    <div class="form-group">
+                                        {{-- <select class="form-control select-client-address" name="Shipment[client_address]">
+                                                    <option></option>
+                                                </select> --}}
+                                        <input placeholder="{{ translate('Address') }}" name="Shipment[client_address_2]"
+                                            class="form-control" id="" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ translate('From Country') }}:</label>
+                                    <select id="change-country" name="Shipment[from_country_id]"
+                                        class="form-control select-country">
+                                        <option value=""></option>
+                                        @foreach ($countries as $country)
+                                            <option value="{{ $country->id }}">{{ $country->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 show_branch">
+                                <div class="form-group">
+                                    <label>{{ translate('Branch') }}:</label>
+                                    <select class="form-control kt-select2 select-branch" name="Shipment[branch_id]">
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ translate('From Region') }}:</label>
+                                    <select id="change-state-from" name="Shipment[from_state_id]"
+                                        class="form-control select-state">
+                                        <option value=""></option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ translate('From Area') }}:</label>
+                                    <select id='change-area-from' name="Shipment[from_area_id]"
+                                        class="form-control select-area">
+                                        <option value=""></option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="">{{ translate('Zip/Postal Code') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Zip/Postal Code') }}"
+                                        name="Shipment[client_zip_code]" id="client_zip_code" class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="">{{ translate('Email') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Email') }}"
+                                        name="Shipment[client_email]" id="client_email" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="">{{ translate('Sender Phone') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Sender Phone') }}"
+                                        name="Shipment[client_phone]" id="client_phone" class="form-control" />
+
                                 </div>
                             </div>
                         </div>
                     </div>
-            </form>
 
+
+
+
+
+
+                    <div class="col-md-6">
+                        <div class="col-md-12 row" style="background: hsl(21deg 94% 57%);">
+                            <div class="w-100 p-2 text-white">
+                                <h5 class="text-left">{{ translate('RECEIVER/TO') }}:</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-12 row p-3" style="background:purple;">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('Receiver Company') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Receiver Company') }}"
+                                        name="Shipment[receiver_company]" id="receiver_company" class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-12 ml-4">
+                                    <div class="radio-inline">
+                                        <label class="radio radio-success text-white">
+                                            <input type="radio" name="Shipment[receiver_shipment_type]" checked="checked"
+                                                value="1" />
+                                            <span></span>
+                                            {{ translate('We Deliver to You') }}
+                                        </label>
+                                        <label class="radio radio-success text-white">
+                                            {{ translate('OR') }}
+                                        </label>
+                                        <label class="radio radio-success text-white">
+                                            <input type="radio" name="Shipment[receiver_shipment_type]" value="2" />
+                                            <span></span>
+                                            {{ translate('You Pickup from Our Store') }}
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            {{-- @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userReceiver->receiver))
+                                        <div class="col-md-6">
+                                            <div class="form-group receiver-select">
+                                                <label class="text-white">{{ translate('Receiver') }}:</label>
+
+                                                <select class="form-control kt-select2 select-receiver"
+                                                    name="Shipment[receiver_id]">
+                                                    <option></option>
+                                                    @foreach ($receivers as $receiver)
+                                                        <option value="{{ $receiver->id }}"
+                                                            data-phone="{{ $receiver->responsible_mobile }}">
+                                                            {{ $receiver->name }}
+                                                        </option>
+                                                    @endforeach
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div style="display: none">
+                                            <select class="form-control kt-select2 select-receiver" name="Shipment[receiver_id]">
+                                                <option value="{{ auth()->user()->userClient->receiver->id }}">{{ auth()->user()->userClient->receiver->name }}</option>
+
+                                            </select>
+                                        </div>
+                                    @endif --}}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('First Name') }}:</label>
+                                    <input type="text" placeholder="{{ translate('First Name') }}"
+                                        name="Shipment[receiver_first_name]" id="receiver_first_name"
+                                        class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('Last Name') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Last Name') }}"
+                                        name="Shipment[receiver_last_name]" id="receiver_last_name" class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('Address') }}:
+                                        <small>{{ translate('Building, Street Name etc') }}</small></label>
+                                    <div class="form-group">
+                                        {{-- <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
+                                                    <option></option>
+                                                </select> --}}
+                                        <input placeholder="{{ translate('Address') }}"
+                                            name="Shipment[receiver_address_1]" class="form-control" id="" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('Address') }}:
+                                        <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small></label>
+                                    <div class="form-group">
+                                        {{-- <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
+                                                    <option></option>
+                                                </select> --}}
+                                        <input placeholder="{{ translate('Address') }}"
+                                            name="Shipment[receiver_address_2]" class="form-control" id="" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('To Country') }}:</label>
+                                    <select id="change-country-to" name="Shipment[to_country_id]"
+                                        class="form-control select-country">
+                                        <option value=""></option>
+                                        @foreach ($countries as $country)
+                                            <option value="{{ $country->id }}">{{ $country->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('To Region') }}:</label>
+                                    <select id="change-state-to" name="Shipment[to_state_id]"
+                                        class="form-control select-state">
+                                        <option value=""></option>
+
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('To Area') }}:</label>
+                                    <select name="Shipment[to_area_id]" id='change-area-to'
+                                        class="form-control select-area">
+                                        <option value=""></option>
+
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('Zip/Postal Code') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Zip/Postal Code') }}"
+                                        name="Shipment[receiver_zip_code]" id="receiver_zip_code" class="form-control" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('Email') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Email') }}"
+                                        name="Shipment[receiver_email]" id="receiver_email" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('Receiver Phone') }}:</label>
+                                    <input type="text" placeholder="{{ translate('Receiver Phone') }}"
+                                        name="Shipment[receiver_phone]" id="receiver_phone" class="form-control" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{ translate('Payment Type') }}:</label>
+                            <select class="form-control kt-select2 payment-type" id="payment_type"
+                                name="Shipment[payment_type]">
+                                <option @if (\App\ShipmentSetting::getVal('def_payment_type') == '1') selected @endif value="1">
+                                    {{ translate('Postpaid') }}</option>
+                                <option @if (\App\ShipmentSetting::getVal('def_payment_type') == '2') selected @endif value="2">
+                                    {{ translate('Prepaid') }}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>{{ translate('Payment Method') }}:</label>
+                            <select class="form-control kt-select2 payment-method" id="payment_method_id"
+                                name="Shipment[payment_method_id]">
+                                @forelse (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
+                                    <option value="{{ $gateway->id }}" @if ($gateway->id == 11) selected @endif>
+                                        {{ $gateway->name }}</option>
+                                @empty
+                                    <option value="11">{{ translate('Cash') }}</option>
+                                @endforelse
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <hr>
+
+                {{-- <div id="kt_repeater_1">
+    <div class="row" id="kt_repeater_1">
+        <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
+            <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}: <small
+                    style="font-size: 12px;">{{ translate('( Please select our standard package OR choose custom pachage, weight will be required )') }}</small>
+            </h2>
+        </div>
+        <div data-repeater-list="Package" class="col-lg-12">
+            <div data-repeater-item class="row align-items-center"
+                style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-bottom:1px solid #ccc;">
+
+
+                <div class="row col-md-12">
+                    <div class="col-md-2 default-package-show row">
+                        <div class="col-md-5">
+                            <label>{{ translate('Package Type OR') }}:
+                            </label>
+                        </div>
+                        <div class="col-md-7">
+                            <label class="checkbox">
+                                <input type="checkbox"
+                                    placeholder="{{ translate('Custom Package') }}"
+                                    class="form-control package-listener" value="0"
+                                    name="custom_package" />
+                                <span></span>
+                                {{ translate('Custom Package') }}
+                            </label>
+                        </div>
+
+                        <select class="form-control kt-select2 package-type-select"
+                            name="package_id">
+                            <option></option>
+                            @foreach ($packages as $package)
+                                <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif
+                                    value="{{ $package->id }}">{{ $package->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <div class="mb-2 d-md-none"></div>
+                    </div>
+
+                    <div class="col-md-6 custom-package-show" style="display: none;">
+                        <label>{{ translate('Custom Package') }}:</label>
+                        <input type="text" placeholder="{{ translate('Package Name') }}"
+                            class="form-control package-listener-value" name="package_name">
+                        <div class="mb-2 d-md-none"></div>
+                    </div>
+
+
+                    <div class="col-md-3 row">
+                        <div class="col-md-4">
+                            <label>{{ translate('Description') }}:</label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="checkbox">
+                                <input type="checkbox" onchange="update_currency_status(this)"
+                                    placeholder="{{ translate('Include Shipment Insurance') }}"
+                                    class="form-control insurance-listener"
+                                    name="shipment_insurance" />
+                                <span></span>&nbsp;&nbsp;{{ translate('Insurance') }}
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="checkbox">
+                                <input type="checkbox" onchange="update_currency_status(this)"
+                                    placeholder="{{ translate('Fragile') }}"
+                                    class="form-control fragile-listener"
+                                    name="shipment_fragile" />
+                                <span></span>
+                                {{ translate('Fragile') }}
+                            </label>
+                        </div>
+                        <input type="text" placeholder="{{ translate('description') }}"
+                            class="form-control" name="description">
+                        <div class="mb-2 d-md-none"></div>
+                    </div>
+                    <div class="col-md-1" style="padding-top:50px;width:100%;">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">KG</span>
+                            </div>
+                            <input type="text" min="1"
+                                placeholder="{{ translate('Weight') }}" name="weight"
+                                class="form-control weight-listener"
+                                onchange="calcTotalWeight()" value="1" />
+                            <small class="w-100 text-center"
+                                style="color:#0b2339;">Weight</small>
+
+                        </div>
+                        <div class="mb-2 d-md-none"></div>
+                    </div>
+                    <div class="col-md-1" style="padding-top:50px;width:100%;">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"
+                                    id="basic-addon1">{{ translate('PV') }}</span>
+                            </div>
+                            <input type="text"
+                                placeholder="{{ translate('Package Value') }}"
+                                class="form-control value-listener" name="shipment_price"
+                                onchange="calcTotalPrice()" value="0" />
+                            <small class="w-100 text-center" style="color:#0b2339;">Protection
+                                Value</small>
+                        </div>
+                    </div>
+                    <div class="col-md-1" style="padding-top:50px;width:100%;">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">CM</span>
+                            </div>
+                            <input type="text" min="1" class="form-control length-listener"
+                                placeholder="{{ translate('Length') }}" name="length"
+                                value="1" />
+                            <small class="w-100 text-center"
+                                style="color:#0b2339;">Length</small>
+
+                        </div>
+                    </div>
+                    <div class="col-md-1" style="padding-top:50px;width:100%;">
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">CM</span>
+                            </div>
+                            <input type="text" min="1" class="form-control width-listener"
+                                placeholder="{{ translate('Width') }}" name="width"
+                                value="1" />
+                            <small class="w-100 text-center"
+                                style="color:#0b2339;">Width</small>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="padding-top:50px;width:100%;">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">CM</span>
+                            </div>
+                            <input type="text" min="1" class="form-control height-listener"
+                                placeholder="{{ translate('Height') }}" name="height"
+                                value="1" />
+                            <small class="w-100 text-center"
+                                style="color:#0b2339;">Height</small>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row col-md-12 pt-5">
+
+
+                </div>
+                <div class="col-md-12">
+                    <hr>
+                    <div class="inner-repeater row">
+                        <div class="form-group col-md-2">
+                            <div class="">
+                                <div>
+                                    <a href="javascript:;" data-repeater-create=""
+                                        class="btn btn-sm font-weight-bolder btn-light-primary"
+                                        style="border-radius:20px;">
+                                        <i
+                                            class="la la-plus"></i>{{ translate('Add List') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-repeater-list="package_list" class="col-md-10">
+                            <div data-repeater-item>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>{{ translate('Item Name') }}:</label>
+                                        <input type="text" class="form-control"
+                                            placeholder="{{ translate('Item Name') }}"
+                                            name="item_name" />
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>{{ translate('Item Description') }}:</label>
+                                        <input type="text" class="form-control"
+                                            placeholder="{{ translate('Description') }}"
+                                            name="description" />
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label>{{ translate('Quantity') }}:</label>
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                    id="basic-addon1">Q</span>
+                                            </div>
+                                            <input type="text" min="1"
+                                                class="form-control quantity-listener"
+                                                placeholder="{{ translate('Quantity') }}"
+                                                type="text" min="1" name="qty"
+                                                class="form-control" value="1" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-12">
+
+                                        <div>
+                                            <a href="javascript:;" data-repeater-delete=""
+                                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item"
+                                                style="border-radius:20px;">
+                                                <i
+                                                    class="la la-trash-o"></i>{{ translate('Delete List') }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div>
+                            <a href="javascript:;" data-repeater-delete=""
+                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item"
+                                style="border-radius:20px;">
+                                <i
+                                    class="la la-trash-o"></i>{{ translate('Delete Package') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="form-group mt-2">
+        <div class="">
+            <div>
+                <a href="javascript:;" data-repeater-create=""
+                    class="btn btn-sm font-weight-bolder btn-light-primary"
+                    style="background: #1393ba;border-radius:20px;">
+                    <i class="la la-plus"></i>{{ translate('Add Package') }}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>{{ translate('Delivery Time') }}:</label>
+                <select class="form-control kt-select2 delivery-time" id="delivery_time"
+                    name="Shipment[delivery_time]">
+                    @foreach ($times as $time)
+                        <option data-id="{{ $time->id }}" value="{{ $time->name }}">
+                            {{ translate($time->name) }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>{{ translate('Total Weight') }}:</label>
+                <input id="kt_touchspin_4" placeholder="{{ translate('Total Weight') }}"
+                    type="text" min="1" class="form-control total-weight" value="1"
+                    name="Shipment[total_weight]" />
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label>{{ translate('Total Package Value') }}:</label>
+            <input type="text" placeholder="{{ translate('Package Value') }}"
+                class="form-control total-price" id="" name="Shipment[shipment_price]" value="0"
+                readonly />
+        </div>
+    </div>
+
+
+
+
+</div> --}}
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="kt_repeater_1">
+    <div id="kt_repeater_1">
+        <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
+            <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}: <small
+                    style="font-size: 12px;">{{ translate('( Please select our standard package OR choose custom pachage, weight will be required )') }}</small>
+            </h2>
+        </div>
+        <div data-repeater-list="Package">
+            <div data-repeater-item class=" align-items-center"
+                style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-bottom:1px solid #ccc;">
+                <div class="row ml-1">
+                    <div class="row col-md-3 default-package-show ">
+                        <div class="col-md-6">
+                            <label>{{ translate('Package Type OR') }}:
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="checkbox">
+                                <input type="checkbox" placeholder="{{ translate('Custom Package') }}"
+                                    class="form-control package-listener" value="0" name="custom_package" />
+                                <span></span>
+                                <label style="font-size:8px;">{{ translate('Custom Package') }}</label>
+                            </label>
+                        </div>
+
+                        <select class="form-control kt-select2 package-type-select" name="package_id">
+                            <option></option>
+                            @foreach ($packages as $package)
+                                <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif value="{{ $package->id }}">
+                                    {{ $package->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <div class="mb-2 d-md-none"></div>
+                    </div>
+
+                    <div class="col-md-3 custom-package-show" style="display: none;">
+                        <label>{{ translate('Custom Package') }}:</label>
+                        <input type="text" placeholder="{{ translate('Package Name') }}"
+                            class="form-control package-listener-value" name="package_name">
+                        <div class="mb-2 d-md-none"></div>
+                    </div>
+
+
+                    <div class="row col-md-3 ml-1">
+                        <div class="col-md-4">
+                            <label>{{ translate('Description') }}:</label>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="checkbox">
+                                <input type="checkbox" onchange="update_currency_status(this)"
+                                    placeholder="{{ translate('Fragile') }}"
+                                    class="form-control fragile-listener" name="shipment_fragile" />
+                                <span></span>
+                                {{ translate('Fragile') }}
+                            </label>
+                        </div>
+                        <input type="text" placeholder="{{ translate('description') }}"
+                            class="form-control" name="description">
+                        <div class="mb-2 d-md-none"></div>
+                    </div>
+                    <div class="" style="padding-left:5px;width:8%;">
+                        <div class="input-group mb-3">
+                            <label class="w-100" style="color:#0b2339;">Weight</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">KG</span>
+                            </div>
+                            <input type="text" min="1" placeholder="{{ translate('Weight') }}"
+                                name="weight" class="form-control weight-listener"
+                                onchange="calcTotalWeight()" value="1" />
+
+                        </div>
+                        <div class="mb-2 d-md-none"></div>
+                    </div>
+                    <div class="" style="padding-left:5px;width:8%;">
+                        <label class="w-100" style="color:#0b2339;">Insurance</label>
+                        <label class="checkbox">
+                        <input type="checkbox" onchange="update_currency_status(this)"
+                            placeholder="{{ translate('Include Shipment Insurance') }}"
+                            class="form-control insurance-listener" name="shipment_insurance" />
+                        <span></span>
+                    </label>
+                    </div>
+                    <div class="" style="padding-left:5px;width:11%;">
+                        <div class="input-group mb-3">
+                            <label class="w-100" style="color:#0b2339;">Protection
+                                Value</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"
+                                    id="basic-addon1">{{ translate('PV') }}</span>
+                            </div>
+                            <input type="text" placeholder="{{ translate('Package Value') }}"
+                                class="form-control value-listener" name="shipment_price"
+                                onchange="calcTotalPrice()" value="0" />
+
+                        </div>
+                    </div>
+                    <div class="" style="padding-left:5px;width:8%;">
+                        <div class="input-group mb-3">
+                            <label class="w-100" style="color:#0b2339;">Length</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">CM</span>
+                            </div>
+                            <input type="text" min="1" class="form-control length-listener"
+                                placeholder="{{ translate('Length') }}" name="length" value="1" />
+
+                        </div>
+                    </div>
+                    <div class="" style="padding-left:5px;width:8%;">
+
+                        <div class="input-group mb-3">
+                            <label class="w-100" style="color:#0b2339;">Width</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">CM</span>
+                            </div>
+                            <input type="text" min="1" class="form-control width-listener"
+                                placeholder="{{ translate('Width') }}" name="width" value="1" />
+
+                        </div>
+                    </div>
+                    <div class="" style="padding-left:5px;width:8%;">
+                        <div class="input-group mb-3">
+                            <label class="w-100" style="color:#0b2339;">Height</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">CM</span>
+                            </div>
+                            <input type="text" min="1" class="form-control height-listener"
+                                placeholder="{{ translate('Height') }}" name="height" value="1" />
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <hr>
+                    <div class="inner-repeater row">
+                        <div class="form-group col-md-2">
+                            <div class="">
+                                <div>
+                                    <a href="javascript:;" data-repeater-create=""
+                                        class="btn btn-sm font-weight-bolder btn-light-primary"
+                                        style="border-radius:20px;">
+                                        <i
+                                            class="la la-plus"></i>{{ translate('Add List') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-repeater-list="package_list" class="col-md-10">
+                            <div data-repeater-item>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>{{ translate('Item Name') }}:</label>
+                                        <input type="text" class="form-control"
+                                            placeholder="{{ translate('Item Name') }}"
+                                            name="item_name" />
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>{{ translate('Item Description') }}:</label>
+                                        <input type="text" class="form-control"
+                                            placeholder="{{ translate('Description') }}"
+                                            name="description" />
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label>{{ translate('Quantity') }}:</label>
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                    id="basic-addon1">Q</span>
+                                            </div>
+                                            <input type="text" min="1"
+                                                class="form-control quantity-listener"
+                                                placeholder="{{ translate('Quantity') }}"
+                                                type="text" min="1" name="qty"
+                                                class="form-control" value="1" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-12">
+
+                                        <div>
+                                            <a href="javascript:;" data-repeater-delete=""
+                                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item"
+                                                style="border-radius:20px;">
+                                                <i
+                                                    class="la la-trash-o"></i>{{ translate('Delete List') }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div>
+                            <a href="javascript:;" data-repeater-delete=""
+                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item"
+                                style="border-radius:20px;">
+                                <i
+                                    class="la la-trash-o"></i>{{ translate('Delete Package') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group mt-2">
+        <div class="">
+            <div>
+                <a href="javascript:;" data-repeater-create=""
+                    class="btn btn-sm font-weight-bolder btn-light-primary"
+                    style="background: #1393ba;border-radius:20px;">
+                    <i class="la la-plus"></i>{{ translate('Add Package') }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>{{ translate('Delivery Time') }}:</label>
+                            <select class="form-control kt-select2 delivery-time" id="delivery_time"
+                                name="Shipment[delivery_time]">
+                                @foreach ($times as $time)
+                                    <option data-id="{{ $time->id }}" value="{{ $time->name }}">
+                                        {{ translate($time->name) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="input-group mb-3">
+                            <label class="w-100" style="color:#0b2339;">Total Package Value</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">USD</span>
+                            </div>
+                            <input type="text" placeholder="{{ translate('Package Value') }}" class="form-control total-price" id="" name="Shipment[shipment_price]" value="0" readonly />
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+
+                            <div class="input-group mb-3">
+                                <label class="w-100" style="color:#0b2339;">Total Weight</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">KG</span>
+                                </div>
+                                <input placeholder="{{ translate('Total Weight') }}" type="text"
+                                min="1" class="form-control total-weight" value="1" name="Shipment[total_weight]" />
+                            </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+            {!! hookView('shipment_addon', $currentView) !!}
+
+            <div class="mb-0 text-right form-group">
+                <button type="button" class="btn btn-sm btn-primary"
+                    onclick="get_estimation_cost()">{{ translate('Get Rates') }}</button>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-sm btn-primary d-none" data-toggle="modal"
+                    data-target="#exampleModalCenter" id="modal_open">
+                    {{ translate('Get Rates') }}
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                    {{ translate('Estimation Cost') }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                    id="modal_close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="text-left modal-body">
+                                <div class="row">
+                                    <div class="col-6">{{ translate('Shipping Cost') }} :</div>
+                                    <div class="col-6" id="shipping_cost"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">{{ translate('Tax & Duty') }} :</div>
+                                    <div class="col-6" id="tax_duty"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">{{ translate('Insurance') }} :</div>
+                                    <div class="col-6" id="insurance"></div>
+                                </div>
+                                <div class="row bg-warning">
+                                    <div class="col-6">{{ translate('Return Cost') }} :</div>
+                                    <div class="col-6" id="return_cost"></div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-6">{{ translate('TOTAL COST') }} :</div>
+                                    <div class="col-6" id="total_cost"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">{{ translate('Close') }}</button>
+                                <button type="submit" class="btn btn-primary">{{ translate('Save') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
 
 @endsection
 
@@ -888,16 +1482,13 @@
 
 
 
-    $(document).on('click','.package-listener',function() {
+    $(document).on('click', '.package-listener', function() {
 
-        if($(this).is(":checked"))
-        {
+        if ($(this).is(":checked")) {
             $(this).val(1);
             $(this).parent().parent().parent().find('.default-package-show').hide();
             $(this).parent().parent().parent().find('.custom-package-show').show();
-        }
-        else
-        {
+        } else {
             $(this).val(0);
             $(this).parent().parent().parent().find('.default-package-show').show();
             $(this).parent().parent().parent().find('.custom-package-show').hide();
@@ -1073,53 +1664,48 @@
         var to_area_id = document.getElementsByName("Shipment[to_area_id]")[0].value;
 
         var package_ids = [];
-        var return_package_id=null;
+        var return_package_id = null;
         for (let index = 0; index < select_packages.length; index++) {
             if (select_packages[index].value) {
                 package_ids[index] = new Object();
-                if(select_custom_packages[index].value==1)
-                {
-                    return_package_id = function () {
+                if (select_custom_packages[index].value == 1) {
+                    return_package_id = function() {
                         var package_id = null;
                         $.ajax({
                             'async': false,
                             'type': "GET",
                             'global': false,
                             'dataType': 'json',
-                            'url': "{{ route('admin.shipments.save-package-ajax') }}?package_name=" + select_custom_packages_value[index].value,
-                            'success': function (id) {
+                            'url': "{{ route('admin.shipments.save-package-ajax') }}?package_name=" +
+                                select_custom_packages_value[index].value,
+                            'success': function(id) {
                                 package_id = id;
                             }
                         });
                         return package_id;
                     }();
 
-                    var add_check=true;
-                    var package_index=0;
+                    var add_check = true;
+                    var package_index = 0;
                     var event = new Event('change');
-                    for (i = 0; i < select_packages[index].length; ++i){
-                        if (select_packages[index].options[i].value == return_package_id){
-                            add_check=false;
-                            package_index=i;
+                    for (i = 0; i < select_packages[index].length; ++i) {
+                        if (select_packages[index].options[i].value == return_package_id) {
+                            add_check = false;
+                            package_index = i;
                         }
                     }
-                    if(add_check)
-                    {
+                    if (add_check) {
                         var option = document.createElement("option");
                         option.text = select_custom_packages_value[index].value;
                         option.value = return_package_id;
                         select_packages[index].appendChild(option).setAttribute("selected", "selected");
                         select_packages[index].dispatchEvent(event);
-                    }
-                    else
-                    {
+                    } else {
                         select_packages[index].options[package_index].setAttribute("selected", "selected");
                         select_packages[index].dispatchEvent(event);
                     }
                     package_ids[index]["package_id"] = return_package_id;
-                }
-                else
-                {
+                } else {
                     package_ids[index]["package_id"] = select_packages[index].value;
                 }
                 package_ids[index]["weight"] = select_weights[index].value;
@@ -1163,6 +1749,7 @@
         }).get();
         $('.total-weight').val(sumWeight);
     }
+
     function calcTotalPrice() {
         console.log('sds');
         var elements = $('.value-listener');
