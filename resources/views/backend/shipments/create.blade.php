@@ -1,100 +1,6 @@
 @extends('backend.layouts.app')
 @section('style')
     <style>
-        html,
-        body {
-            font-size: 10px !important;
-        }
-
-        .col-1,
-        .col-2,
-        .col-3,
-        .col-4,
-        .col-5,
-        .col-6,
-        .col-7,
-        .col-8,
-        .col-9,
-        .col-10,
-        .col-11,
-        .col-12,
-        .col,
-        .col-auto,
-        .col-sm-1,
-        .col-sm-2,
-        .col-sm-3,
-        .col-sm-4,
-        .col-sm-5,
-        .col-sm-6,
-        .col-sm-7,
-        .col-sm-8,
-        .col-sm-9,
-        .col-sm-10,
-        .col-sm-11,
-        .col-sm-12,
-        .col-sm,
-        .col-sm-auto,
-        .col-md-1,
-        .col-md-2,
-        .col-md-3,
-        .col-md-4,
-        .col-md-5,
-        .col-md-6,
-        .col-md-7,
-        .col-md-8,
-        .col-md-9,
-        .col-md-10,
-        .col-md-11,
-        .col-md-12,
-        .col-md,
-        .col-md-auto,
-        .col-lg-1,
-        .col-lg-2,
-        .col-lg-3,
-        .col-lg-4,
-        .col-lg-5,
-        .col-lg-6,
-        .col-lg-7,
-        .col-lg-8,
-        .col-lg-9,
-        .col-lg-10,
-        .col-lg-11,
-        .col-lg-12,
-        .col-lg,
-        .col-lg-auto,
-        .col-xl-1,
-        .col-xl-2,
-        .col-xl-3,
-        .col-xl-4,
-        .col-xl-5,
-        .col-xl-6,
-        .col-xl-7,
-        .col-xl-8,
-        .col-xl-9,
-        .col-xl-10,
-        .col-xl-11,
-        .col-xl-12,
-        .col-xl,
-        .col-xl-auto,
-        .col-xxl-1,
-        .col-xxl-2,
-        .col-xxl-3,
-        .col-xxl-4,
-        .col-xxl-5,
-        .col-xxl-6,
-        .col-xxl-7,
-        .col-xxl-8,
-        .col-xxl-9,
-        .col-xxl-10,
-        .col-xxl-11,
-        .col-xxl-12,
-        .col-xxl,
-        .col-xxl-auto {
-            position: relative;
-            padding-right: 12.5px;
-            padding-left: 12.5px;
-        }
-
         .input-group-text {
             padding: 2px 2px;
         }
@@ -354,33 +260,6 @@
 
                                 </div>
                             </div>
-                            {{-- @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userSender->client))
-                                        <div class="col-md-6">
-                                            <div class="form-group client-select">
-                                                <label class="">{{ translate('Sender') }}:</label>
-
-                                                <select class="form-control kt-select2 select-client"
-                                                    name="Shipment[client_id]">
-                                                    <option></option>
-                                                    @foreach ($clients as $client)
-                                                        <option value="{{ $client->id }}"
-                                                            data-phone="{{ $client->responsible_mobile }}">
-                                                            {{ $client->name }}
-                                                        </option>
-                                                    @endforeach
-
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div style="display: none">
-                                            <select class="form-control kt-select2 select-client" name="Shipment[client_id]">
-                                                <option value="{{ auth()->user()->userClient->client->id }}">{{ auth()->user()->userClient->client->name }}</option>
-
-                                            </select>
-                                        </div>
-                                    @endif --}}
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="">{{ translate('First Name') }}:</label>
@@ -405,7 +284,7 @@
                                         {{-- <select class="form-control select-client-address" name="Shipment[client_address]">
                                                     <option></option>
                                                 </select> --}}
-                                        <input placeholder="{{ translate('Address') }}" name="Shipment[client_address_1]"
+                                        <input placeholder="{{ translate('Address') }}" name="Shipment[client_address]"
                                             class="form-control" id="" />
                                     </div>
 
@@ -438,11 +317,11 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6 show_branch">
+                            <div class="col-md-6 show_client_branch">
                                 <div class="form-group">
                                     <label>{{ translate('Branch') }}:</label>
                                     <select class="form-control kt-select2 select-branch" name="Shipment[branch_id]">
-                                        <option></option>
+                                        <option value="1"></option>
                                     </select>
                                 </div>
                             </div>
@@ -585,8 +464,8 @@
                                         {{-- <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
                                                     <option></option>
                                                 </select> --}}
-                                        <input placeholder="{{ translate('Address') }}"
-                                            name="Shipment[receiver_address_1]" class="form-control" id="" />
+                                        <input placeholder="{{ translate('Address') }}" name="Shipment[receiver_address]"
+                                            class="form-control" id="" />
                                     </div>
 
                                 </div>
@@ -615,6 +494,14 @@
                                             <option value="{{ $country->id }}">{{ $country->name }}
                                             </option>
                                         @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 show_receiver_branch">
+                                <div class="form-group">
+                                    <label class="text-white">{{ translate('Branch') }}:</label>
+                                    <select class="form-control kt-select2 select-branch" name="Shipment[receiver_branch_id]">
+                                        <option value="1"></option>
                                     </select>
                                 </div>
                             </div>
@@ -707,535 +594,232 @@
                 </div>
 
 
-
-                <hr>
-
-                {{-- <div id="kt_repeater_1">
-    <div class="row" id="kt_repeater_1">
-        <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
-            <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}: <small
-                    style="font-size: 12px;">{{ translate('( Please select our standard package OR choose custom pachage, weight will be required )') }}</small>
-            </h2>
-        </div>
-        <div data-repeater-list="Package" class="col-lg-12">
-            <div data-repeater-item class="row align-items-center"
-                style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-bottom:1px solid #ccc;">
-
-
-                <div class="row col-md-12">
-                    <div class="col-md-2 default-package-show row">
-                        <div class="col-md-5">
-                            <label>{{ translate('Package Type OR') }}:
-                            </label>
+                <div id="kt_repeater_1">
+                    <div id="kt_repeater_1">
+                        <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
+                            <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}: <small
+                                    style="font-size: 12px;">{{ translate('( Please select our standard package OR choose custom pachage, weight will be required )') }}</small>
+                            </h2>
                         </div>
-                        <div class="col-md-7">
-                            <label class="checkbox">
-                                <input type="checkbox"
-                                    placeholder="{{ translate('Custom Package') }}"
-                                    class="form-control package-listener" value="0"
-                                    name="custom_package" />
-                                <span></span>
-                                {{ translate('Custom Package') }}
-                            </label>
-                        </div>
-
-                        <select class="form-control kt-select2 package-type-select"
-                            name="package_id">
-                            <option></option>
-                            @foreach ($packages as $package)
-                                <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif
-                                    value="{{ $package->id }}">{{ $package->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <div class="mb-2 d-md-none"></div>
-                    </div>
-
-                    <div class="col-md-6 custom-package-show" style="display: none;">
-                        <label>{{ translate('Custom Package') }}:</label>
-                        <input type="text" placeholder="{{ translate('Package Name') }}"
-                            class="form-control package-listener-value" name="package_name">
-                        <div class="mb-2 d-md-none"></div>
-                    </div>
-
-
-                    <div class="col-md-3 row">
-                        <div class="col-md-4">
-                            <label>{{ translate('Description') }}:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="checkbox">
-                                <input type="checkbox" onchange="update_currency_status(this)"
-                                    placeholder="{{ translate('Include Shipment Insurance') }}"
-                                    class="form-control insurance-listener"
-                                    name="shipment_insurance" />
-                                <span></span>&nbsp;&nbsp;{{ translate('Insurance') }}
-                            </label>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="checkbox">
-                                <input type="checkbox" onchange="update_currency_status(this)"
-                                    placeholder="{{ translate('Fragile') }}"
-                                    class="form-control fragile-listener"
-                                    name="shipment_fragile" />
-                                <span></span>
-                                {{ translate('Fragile') }}
-                            </label>
-                        </div>
-                        <input type="text" placeholder="{{ translate('description') }}"
-                            class="form-control" name="description">
-                        <div class="mb-2 d-md-none"></div>
-                    </div>
-                    <div class="col-md-1" style="padding-top:50px;width:100%;">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">KG</span>
-                            </div>
-                            <input type="text" min="1"
-                                placeholder="{{ translate('Weight') }}" name="weight"
-                                class="form-control weight-listener"
-                                onchange="calcTotalWeight()" value="1" />
-                            <small class="w-100 text-center"
-                                style="color:#0b2339;">Weight</small>
-
-                        </div>
-                        <div class="mb-2 d-md-none"></div>
-                    </div>
-                    <div class="col-md-1" style="padding-top:50px;width:100%;">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"
-                                    id="basic-addon1">{{ translate('PV') }}</span>
-                            </div>
-                            <input type="text"
-                                placeholder="{{ translate('Package Value') }}"
-                                class="form-control value-listener" name="shipment_price"
-                                onchange="calcTotalPrice()" value="0" />
-                            <small class="w-100 text-center" style="color:#0b2339;">Protection
-                                Value</small>
-                        </div>
-                    </div>
-                    <div class="col-md-1" style="padding-top:50px;width:100%;">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">CM</span>
-                            </div>
-                            <input type="text" min="1" class="form-control length-listener"
-                                placeholder="{{ translate('Length') }}" name="length"
-                                value="1" />
-                            <small class="w-100 text-center"
-                                style="color:#0b2339;">Length</small>
-
-                        </div>
-                    </div>
-                    <div class="col-md-1" style="padding-top:50px;width:100%;">
-
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">CM</span>
-                            </div>
-                            <input type="text" min="1" class="form-control width-listener"
-                                placeholder="{{ translate('Width') }}" name="width"
-                                value="1" />
-                            <small class="w-100 text-center"
-                                style="color:#0b2339;">Width</small>
-
-                        </div>
-                    </div>
-                    <div class="col-md-4" style="padding-top:50px;width:100%;">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">CM</span>
-                            </div>
-                            <input type="text" min="1" class="form-control height-listener"
-                                placeholder="{{ translate('Height') }}" name="height"
-                                value="1" />
-                            <small class="w-100 text-center"
-                                style="color:#0b2339;">Height</small>
-
-                        </div>
-
-                    </div>
-                </div>
-                <div class="row col-md-12 pt-5">
-
-
-                </div>
-                <div class="col-md-12">
-                    <hr>
-                    <div class="inner-repeater row">
-                        <div class="form-group col-md-2">
-                            <div class="">
-                                <div>
-                                    <a href="javascript:;" data-repeater-create=""
-                                        class="btn btn-sm font-weight-bolder btn-light-primary"
-                                        style="border-radius:20px;">
-                                        <i
-                                            class="la la-plus"></i>{{ translate('Add List') }}
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div data-repeater-list="package_list" class="col-md-10">
-                            <div data-repeater-item>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>{{ translate('Item Name') }}:</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="{{ translate('Item Name') }}"
-                                            name="item_name" />
-
+                        <div data-repeater-list="Package">
+                            <div data-repeater-item class=" align-items-center"
+                                style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-bottom:1px solid #ccc;">
+                                <div class="row ml-1">
+                                    <div class="row col-md-3">
+                                        <div class="col-md-6">
+                                            <label>{{ translate('Package Type OR') }}:
+                                            </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="checkbox">
+                                                <input type="checkbox" placeholder="{{ translate('Custom Package') }}"
+                                                    class="form-control package-listener" value="0" />
+                                                <span></span>
+                                                <label style="font-size:8px;">{{ translate('Custom Package') }}</label>
+                                            </label>
+                                        </div>
+                                        <div class="default-package-show" style="width:100%">
+                                            <select class="form-control kt-select2 package-type-select" name="package_id">
+                                                <option></option>
+                                                @foreach ($packages as $package)
+                                                    <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif
+                                                        value="{{ $package->id }}">
+                                                        {{ $package->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <input type="text" placeholder="{{ translate('Package Name') }}"
+                                            class="form-control package-listener-value custom-package-show"
+                                            style="display: none">
+                                        <div class="mb-2 d-md-none"></div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label>{{ translate('Item Description') }}:</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="{{ translate('Description') }}"
-                                            name="description" />
+
+
+                                    <div class="row col-md-3 ml-1">
+                                        <div class="col-md-4">
+                                            <label>{{ translate('Description') }}:</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="checkbox">
+                                                <input type="checkbox" onchange="update_currency_status(this)"
+                                                    placeholder="{{ translate('Fragile') }}"
+                                                    class="form-control fragile-listener" name="shipment_fragile" />
+                                                <span></span>
+                                                {{ translate('Fragile') }}
+                                            </label>
+                                        </div>
+                                        <input type="text" placeholder="{{ translate('description') }}"
+                                            class="form-control" name="description">
+                                        <div class="mb-2 d-md-none"></div>
                                     </div>
-                                    <div class="col-md-4">
-
-                                        <label>{{ translate('Quantity') }}:</label>
-
+                                    <div class="" style="padding-left:5px;width:8%;">
                                         <div class="input-group mb-3">
+                                            <label class="w-100" style="color:#0b2339;">Weight</label>
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">KG</span>
+                                            </div>
+                                            <input type="text" min="1" placeholder="{{ translate('Weight') }}"
+                                                name="weight" class="form-control weight-listener"
+                                                onchange="calcTotalWeight()" value="1" />
+
+                                        </div>
+                                        <div class="mb-2 d-md-none"></div>
+                                    </div>
+                                    <div class="" style="padding-left:5px;width:8%;">
+                                        <label class="w-100" style="color:#0b2339;">Insurance</label>
+                                        <label class="checkbox">
+                                            <input type="checkbox" onchange="update_currency_status(this)"
+                                                placeholder="{{ translate('Include Shipment Insurance') }}"
+                                                class="form-control insurance-listener" name="shipment_insurance" />
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                    <div class="" style="padding-left:5px;width:11%;">
+                                        <div class="input-group mb-3">
+                                            <label class="w-100" style="color:#0b2339;">Protection
+                                                Value</label>
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"
-                                                    id="basic-addon1">Q</span>
+                                                    id="basic-addon1">{{ translate('PV') }}</span>
                                             </div>
-                                            <input type="text" min="1"
-                                                class="form-control quantity-listener"
-                                                placeholder="{{ translate('Quantity') }}"
-                                                type="text" min="1" name="qty"
-                                                class="form-control" value="1" />
+                                            <input type="text" placeholder="{{ translate('Package Value') }}"
+                                                class="form-control value-listener" name="shipment_price"
+                                                onchange="calcTotalPrice()" value="0" />
+
+                                        </div>
+                                    </div>
+                                    <div class="" style="padding-left:5px;width:8%;">
+                                        <div class="input-group mb-3">
+                                            <label class="w-100" style="color:#0b2339;">Length</label>
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">CM</span>
+                                            </div>
+                                            <input type="text" min="1" class="form-control length-listener"
+                                                placeholder="{{ translate('Length') }}" name="length" value="1" />
+
+                                        </div>
+                                    </div>
+                                    <div class="" style="padding-left:5px;width:8%;">
+
+                                        <div class="input-group mb-3">
+                                            <label class="w-100" style="color:#0b2339;">Width</label>
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">CM</span>
+                                            </div>
+                                            <input type="text" min="1" class="form-control width-listener"
+                                                placeholder="{{ translate('Width') }}" name="width" value="1" />
+
+                                        </div>
+                                    </div>
+                                    <div class="" style="padding-left:5px;width:8%;">
+                                        <div class="input-group mb-3">
+                                            <label class="w-100" style="color:#0b2339;">Height</label>
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">CM</span>
+                                            </div>
+                                            <input type="text" min="1" class="form-control height-listener"
+                                                placeholder="{{ translate('Height') }}" name="height" value="1" />
+
                                         </div>
 
                                     </div>
                                 </div>
-                                <div class="row mt-2">
+                                <div class="col-md-12">
+                                    <hr>
+                                    <div class="inner-repeater row">
+                                        <div class="form-group col-md-2">
+                                            <div class="">
+                                                <div>
+                                                    <a href="javascript:;" data-repeater-create=""
+                                                        class="btn btn-sm font-weight-bolder btn-light-primary"
+                                                        style="border-radius:20px;">
+                                                        <i class="la la-plus"></i>{{ translate('Add List') }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-repeater-list="package_list" class="col-md-10">
+                                            <div data-repeater-item>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label>{{ translate('Item Name') }}:</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="{{ translate('Item Name') }}"
+                                                            name="item_name" />
+
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label>{{ translate('Item Description') }}:</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="{{ translate('Description') }}"
+                                                            name="description" />
+                                                    </div>
+                                                    <div class="col-md-4">
+
+                                                        <label>{{ translate('Quantity') }}:</label>
+
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text" id="basic-addon1">Q</span>
+                                                            </div>
+                                                            <input type="text" min="1"
+                                                                class="form-control quantity-listener"
+                                                                placeholder="{{ translate('Quantity') }}" type="text"
+                                                                min="1" name="qty" class="form-control" value="1" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="col-md-12">
+
+                                                        <div>
+                                                            <a href="javascript:;" data-repeater-delete=""
+                                                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item"
+                                                                style="border-radius:20px;">
+                                                                <i
+                                                                    class="la la-trash-o"></i>{{ translate('Delete List') }}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="row">
                                     <div class="col-md-12">
 
                                         <div>
                                             <a href="javascript:;" data-repeater-delete=""
                                                 class="btn btn-sm font-weight-bolder btn-light-danger delete_item"
                                                 style="border-radius:20px;">
-                                                <i
-                                                    class="la la-trash-o"></i>{{ translate('Delete List') }}
+                                                <i class="la la-trash-o"></i>{{ translate('Delete Package') }}
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                </div>
-
-
-
-
-                <div class="row">
-                    <div class="col-md-12">
-
-                        <div>
-                            <a href="javascript:;" data-repeater-delete=""
-                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item"
-                                style="border-radius:20px;">
-                                <i
-                                    class="la la-trash-o"></i>{{ translate('Delete Package') }}
-                            </a>
+                    <div class="form-group mt-2">
+                        <div class="">
+                            <div>
+                                <a href="javascript:;" data-repeater-create=""
+                                    class="btn btn-sm font-weight-bolder btn-light-primary"
+                                    style="background: #1393ba;border-radius:20px;">
+                                    <i class="la la-plus"></i>{{ translate('Add Package') }}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-group mt-2">
-        <div class="">
-            <div>
-                <a href="javascript:;" data-repeater-create=""
-                    class="btn btn-sm font-weight-bolder btn-light-primary"
-                    style="background: #1393ba;border-radius:20px;">
-                    <i class="la la-plus"></i>{{ translate('Add Package') }}
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label>{{ translate('Delivery Time') }}:</label>
-                <select class="form-control kt-select2 delivery-time" id="delivery_time"
-                    name="Shipment[delivery_time]">
-                    @foreach ($times as $time)
-                        <option data-id="{{ $time->id }}" value="{{ $time->name }}">
-                            {{ translate($time->name) }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label>{{ translate('Total Weight') }}:</label>
-                <input id="kt_touchspin_4" placeholder="{{ translate('Total Weight') }}"
-                    type="text" min="1" class="form-control total-weight" value="1"
-                    name="Shipment[total_weight]" />
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-            <label>{{ translate('Total Package Value') }}:</label>
-            <input type="text" placeholder="{{ translate('Package Value') }}"
-                class="form-control total-price" id="" name="Shipment[shipment_price]" value="0"
-                readonly />
-        </div>
-    </div>
-
-
-
-
-</div> --}}
-
-
-
-
-
-
-
-
-
-
-
-
-<div id="kt_repeater_1">
-    <div id="kt_repeater_1">
-        <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
-            <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}: <small
-                    style="font-size: 12px;">{{ translate('( Please select our standard package OR choose custom pachage, weight will be required )') }}</small>
-            </h2>
-        </div>
-        <div data-repeater-list="Package">
-            <div data-repeater-item class=" align-items-center"
-                style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-bottom:1px solid #ccc;">
-                <div class="row ml-1">
-                    <div class="row col-md-3 default-package-show ">
-                        <div class="col-md-6">
-                            <label>{{ translate('Package Type OR') }}:
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="checkbox">
-                                <input type="checkbox" placeholder="{{ translate('Custom Package') }}"
-                                    class="form-control package-listener" value="0" name="custom_package" />
-                                <span></span>
-                                <label style="font-size:8px;">{{ translate('Custom Package') }}</label>
-                            </label>
-                        </div>
-
-                        <select class="form-control kt-select2 package-type-select" name="package_id">
-                            <option></option>
-                            @foreach ($packages as $package)
-                                <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif value="{{ $package->id }}">
-                                    {{ $package->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <div class="mb-2 d-md-none"></div>
-                    </div>
-
-                    <div class="col-md-3 custom-package-show" style="display: none;">
-                        <label>{{ translate('Custom Package') }}:</label>
-                        <input type="text" placeholder="{{ translate('Package Name') }}"
-                            class="form-control package-listener-value" name="package_name">
-                        <div class="mb-2 d-md-none"></div>
-                    </div>
-
-
-                    <div class="row col-md-3 ml-1">
-                        <div class="col-md-4">
-                            <label>{{ translate('Description') }}:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="checkbox">
-                                <input type="checkbox" onchange="update_currency_status(this)"
-                                    placeholder="{{ translate('Fragile') }}"
-                                    class="form-control fragile-listener" name="shipment_fragile" />
-                                <span></span>
-                                {{ translate('Fragile') }}
-                            </label>
-                        </div>
-                        <input type="text" placeholder="{{ translate('description') }}"
-                            class="form-control" name="description">
-                        <div class="mb-2 d-md-none"></div>
-                    </div>
-                    <div class="" style="padding-left:5px;width:8%;">
-                        <div class="input-group mb-3">
-                            <label class="w-100" style="color:#0b2339;">Weight</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">KG</span>
-                            </div>
-                            <input type="text" min="1" placeholder="{{ translate('Weight') }}"
-                                name="weight" class="form-control weight-listener"
-                                onchange="calcTotalWeight()" value="1" />
-
-                        </div>
-                        <div class="mb-2 d-md-none"></div>
-                    </div>
-                    <div class="" style="padding-left:5px;width:8%;">
-                        <label class="w-100" style="color:#0b2339;">Insurance</label>
-                        <label class="checkbox">
-                        <input type="checkbox" onchange="update_currency_status(this)"
-                            placeholder="{{ translate('Include Shipment Insurance') }}"
-                            class="form-control insurance-listener" name="shipment_insurance" />
-                        <span></span>
-                    </label>
-                    </div>
-                    <div class="" style="padding-left:5px;width:11%;">
-                        <div class="input-group mb-3">
-                            <label class="w-100" style="color:#0b2339;">Protection
-                                Value</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"
-                                    id="basic-addon1">{{ translate('PV') }}</span>
-                            </div>
-                            <input type="text" placeholder="{{ translate('Package Value') }}"
-                                class="form-control value-listener" name="shipment_price"
-                                onchange="calcTotalPrice()" value="0" />
-
-                        </div>
-                    </div>
-                    <div class="" style="padding-left:5px;width:8%;">
-                        <div class="input-group mb-3">
-                            <label class="w-100" style="color:#0b2339;">Length</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">CM</span>
-                            </div>
-                            <input type="text" min="1" class="form-control length-listener"
-                                placeholder="{{ translate('Length') }}" name="length" value="1" />
-
-                        </div>
-                    </div>
-                    <div class="" style="padding-left:5px;width:8%;">
-
-                        <div class="input-group mb-3">
-                            <label class="w-100" style="color:#0b2339;">Width</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">CM</span>
-                            </div>
-                            <input type="text" min="1" class="form-control width-listener"
-                                placeholder="{{ translate('Width') }}" name="width" value="1" />
-
-                        </div>
-                    </div>
-                    <div class="" style="padding-left:5px;width:8%;">
-                        <div class="input-group mb-3">
-                            <label class="w-100" style="color:#0b2339;">Height</label>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">CM</span>
-                            </div>
-                            <input type="text" min="1" class="form-control height-listener"
-                                placeholder="{{ translate('Height') }}" name="height" value="1" />
-
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <hr>
-                    <div class="inner-repeater row">
-                        <div class="form-group col-md-2">
-                            <div class="">
-                                <div>
-                                    <a href="javascript:;" data-repeater-create=""
-                                        class="btn btn-sm font-weight-bolder btn-light-primary"
-                                        style="border-radius:20px;">
-                                        <i
-                                            class="la la-plus"></i>{{ translate('Add List') }}
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div data-repeater-list="package_list" class="col-md-10">
-                            <div data-repeater-item>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>{{ translate('Item Name') }}:</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="{{ translate('Item Name') }}"
-                                            name="item_name" />
-
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>{{ translate('Item Description') }}:</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="{{ translate('Description') }}"
-                                            name="description" />
-                                    </div>
-                                    <div class="col-md-4">
-
-                                        <label>{{ translate('Quantity') }}:</label>
-
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"
-                                                    id="basic-addon1">Q</span>
-                                            </div>
-                                            <input type="text" min="1"
-                                                class="form-control quantity-listener"
-                                                placeholder="{{ translate('Quantity') }}"
-                                                type="text" min="1" name="qty"
-                                                class="form-control" value="1" />
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-md-12">
-
-                                        <div>
-                                            <a href="javascript:;" data-repeater-delete=""
-                                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item"
-                                                style="border-radius:20px;">
-                                                <i
-                                                    class="la la-trash-o"></i>{{ translate('Delete List') }}
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-
-
-                <div class="row">
-                    <div class="col-md-12">
-
-                        <div>
-                            <a href="javascript:;" data-repeater-delete=""
-                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item"
-                                style="border-radius:20px;">
-                                <i
-                                    class="la la-trash-o"></i>{{ translate('Delete Package') }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-group mt-2">
-        <div class="">
-            <div>
-                <a href="javascript:;" data-repeater-create=""
-                    class="btn btn-sm font-weight-bolder btn-light-primary"
-                    style="background: #1393ba;border-radius:20px;">
-                    <i class="la la-plus"></i>{{ translate('Add Package') }}
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
@@ -1277,20 +861,21 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">USD</span>
                             </div>
-                            <input type="text" placeholder="{{ translate('Package Value') }}" class="form-control total-price" id="" name="Shipment[shipment_price]" value="0" readonly />
+                            <input type="text" placeholder="{{ translate('Package Value') }}"
+                                class="form-control total-price" id="" name="Shipment[shipment_price]" value="0" readonly />
 
                         </div>
                     </div>
                     <div class="col-md-4">
 
-                            <div class="input-group mb-3">
-                                <label class="w-100" style="color:#0b2339;">Total Weight</label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">KG</span>
-                                </div>
-                                <input placeholder="{{ translate('Total Weight') }}" type="text"
-                                min="1" class="form-control total-weight" value="1" name="Shipment[total_weight]" />
+                        <div class="input-group mb-3">
+                            <label class="w-100" style="color:#0b2339;">Total Weight</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">KG</span>
                             </div>
+                            <input placeholder="{{ translate('Total Weight') }}" type="text" min="1" id="kt_touchspin_4"
+                                class="form-control total-weight" value="1" name="Shipment[total_weight]" />
+                        </div>
 
                     </div>
 
@@ -1614,6 +1199,18 @@
 
 
         });
+        $.get("{{ route('admin.shipments.get-branches-ajax') }}?country_id=" + id, function(data) {
+            $('select[name ="Shipment[receiver_branch_id]"]').empty();
+            $('select[name ="Shipment[receiver_branch_id]"]').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+
+                $('select[name ="Shipment[receiver_branch_id]"]').append('<option value="' + element['id'] +
+                    '">' + element['name'] + '</option>');
+            }
+
+
+        });
     });
     $('#change-state-from').change(function() {
         var id = $(this).val();
@@ -1875,12 +1472,21 @@
             startDate: new Date(),
         });
         $(document).ready(function() {
-            $('.show_branch').hide();
-            $('input:radio[name="Shipment[type]"]').change(function() {
+            $('.show_client_branch').hide();
+            $('input:radio[name="Shipment[client_shipment_type]"]').change(function() {
                 if ($(this).val() == '2') {
-                    $('.show_branch').show();
+                    $('.show_client_branch').show();
                 } else {
-                    $('.show_branch').hide();
+                    $('.show_client_branch').hide();
+
+                }
+            });
+            $('.show_receiver_branch').hide();
+            $('input:radio[name="Shipment[receiver_shipment_type]"]').change(function() {
+                if ($(this).val() == '2') {
+                    $('.show_receiver_branch').show();
+                } else {
+                    $('.show_receiver_branch').hide();
 
                 }
             });
@@ -2003,17 +1609,17 @@
             maxboostedstep: 10000000,
             prefix: '{{ currency_symbol() }}'
         });
-        $('#kt_touchspin_4').TouchSpin({
-            buttondown_class: 'btn btn-secondary',
-            buttonup_class: 'btn btn-secondary',
+        // $('#kt_touchspin_4').TouchSpin({
+        //     buttondown_class: 'btn btn-secondary',
+        //     buttonup_class: 'btn btn-secondary',
 
-            min: 1,
-            max: 1000000000,
-            stepinterval: 50,
-            maxboostedstep: 10000000,
-            initval: 1,
-            prefix: 'Kg'
-        });
+        //     min: 1,
+        //     max: 1000000000,
+        //     stepinterval: 50,
+        //     maxboostedstep: 10000000,
+        //     initval: 1,
+        //     prefix: 'Kg'
+        // });
         $('.kt_touchspin_weight').TouchSpin({
             buttondown_class: 'btn btn-secondary',
             buttonup_class: 'btn btn-secondary',
@@ -2050,13 +1656,6 @@
         FormValidation.formValidation(
             document.getElementById('kt_form_1'), {
                 fields: {
-                    "Shipment[type]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
                     "Shipment[shipping_date]": {
                         validators: {
                             notEmpty: {
@@ -2064,13 +1663,13 @@
                             }
                         }
                     },
-                    "Shipment[branch_id]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
+                    // "Shipment[branch_id]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
                     // "Shipment[client_id]": {
                     //     validators: {
                     //         callback: {
@@ -2101,6 +1700,20 @@
                             }
                         }
                     },
+                    "Shipment[receiver_address]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{ translate('This is required!') }}'
+                            }
+                        }
+                    },
+                    "Shipment[receiver_phone]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{ translate('This is required!') }}'
+                            }
+                        }
+                    },
                     "Shipment[payment_type]": {
                         validators: {
                             notEmpty: {
@@ -2115,34 +1728,27 @@
                             }
                         }
                     },
-                    "Shipment[tax]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
-                    "Shipment[insurance]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
-                    "Shipment[shipping_cost]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
-                    "Shipment[delivery_time]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
+                    // "Shipment[tax]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
+                    // "Shipment[insurance]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
+                    // "Shipment[shipping_cost]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
                     "Shipment[delivery_time]": {
                         validators: {
                             notEmpty: {
@@ -2171,27 +1777,62 @@
                             }
                         }
                     },
-                    "Shipment[receiver_name]": {
+                    "Shipment[from_state_id]": {
                         validators: {
                             notEmpty: {
                                 message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
-                    "Shipment[receiver_phone]": {
+                    "Shipment[to_state_id]": {
                         validators: {
                             notEmpty: {
                                 message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
-                    "Shipment[receiver_address]": {
+                    "Shipment[from_area_id]": {
                         validators: {
                             notEmpty: {
                                 message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
+                    "Shipment[to_area_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{ translate('This is required!') }}'
+                            }
+                        }
+                    },
+                    // "Shipment[receiver_email]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
+                    // "Shipment[client_email]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
+                    // "Shipment[receiver_phone]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
+                    // "Shipment[receiver_address]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
                     "Package[0][package_id]": {
                         validators: {
                             notEmpty: {

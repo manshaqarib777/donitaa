@@ -13,11 +13,7 @@
                 @csrf
                 {{ method_field('PATCH') }}
                 <div class="card-body">
-                    <div class="form-group">
-                        <label>{{ translate('Address') }}:</label>
-                        <input type="text" id="name" class="form-control" value="{{ $receiver_address->name }}"
-                            placeholder="{{ translate('Here') }}" name="ReceiverAddress[name]">
-                    </div>
+
 
                     <div class="form-group">
                         <label>{{ translate('Address Type') }}:</label>
@@ -25,6 +21,21 @@
                             placeholder="{{ translate('Here') }}" name="ReceiverAddress[type]">
                     </div>
 
+                    <div class="form-group">
+                        <label>{{ translate('Address') }}:</label>
+                        <input type="text" id="name" class="form-control" value="{{ $receiver_address->name }}"
+                            placeholder="{{ translate('Here') }}" name="ReceiverAddress[name]">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ translate('Second Address') }}:</label>
+                        <input type="text" id="address" class="form-control" value="{{ $receiver_address->address }}"
+                            placeholder="{{ translate('Here') }}" name="ReceiverAddress[address]">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ translate('Zip Code') }}:</label>
+                        <input type="text" id="zip_code" class="form-control" value="{{ $receiver_address->zip_code }}"
+                            placeholder="{{ translate('Here') }}" name="ReceiverAddress[zip_code]">
+                    </div>
 
 
                         <div class="form-group">

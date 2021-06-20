@@ -40,153 +40,144 @@ $d = new DNS1D();
 
 
 <!--begin::Card-->
-<div class="card card-custom gutter-b">
-    <div class="p-0 card-body">
-        <!-- begin: Invoice-->
-        <!-- begin: Invoice header-->
-        <div class="px-8 py-8 row justify-content-center pt-md-27 px-md-0">
-            <div class="col-md-10">
-                <div class="pb-10 d-flex justify-content-between pb-md-20 flex-column flex-md-row">
+        <div class="row">
+
+            <div class="col-md-6 row">
+                <div class="col-md-12">
+
+                    <div class="w-100 p-3 pl-5 text-white" style="background:green;">
+                        <img src="@if(setting()->get('main_header_logo_'.app()->getLocale()) && setting()->get('main_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('main_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo-transparent.svg')}} @endif" alt="logo" class="logo-default">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-3 text-center">
+                @php
+                    $code = filter_var($shipment->code, FILTER_SANITIZE_NUMBER_INT);
+                @endphp
+                <h1 class="" style="font-size: 39px;">{{$shipment->code}}</h1>
+                @if($shipment->barcode != null)
+                    <div style="margin-left:25px;">
+                        <?=$d->getBarcodeHTML($code, "EAN13");?>
+                    </div>
+                    <p class="pt-2">
+                        {{translate('SHIPMENT BARCODE')}}
+                    </p>
+                @endif
+            </div>
+        </div>
+        <div class="row pt-3">
+            <div class="col-md-8 row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                            <h6>{{translate('CREATED DATE/TIME')}}</h6>
+                        </div>
+                        <p class="p-3">{{$shipment->created_at->format('Y-m-d h:i:s')}}</p>
+                      </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                            <h6>{{translate('SHIPMENT DATE')}}</h6>
+                        </div>
+                        <p class="p-3">{{translate($shipment->shipping_date)}}</p>
+                      </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                            <h6>{{translate('SHIPMENT STATUS')}}</h6>
+                        </div>
+                        <p class="p-3">{{$shipment->getStatus()}}</p>
+                      </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row pt-3">
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-white" style="padding: 15px 15px;background: hsl(194, 82%, 40%);">
+                        <h4>{{translate('SENDER / FROM')}}</h4>
+                    </div>
                     @php
-                        $code = filter_var($shipment->code, FILTER_SANITIZE_NUMBER_INT);
+                        $client_address= \App\ClientAddress::where('name',$shipment->client_address)->get()->first();
                     @endphp
-                    <h1 class="mb-10 display-4 font-weight-boldest">{{translate('Shipment')}}: {{$shipment->code}}</h1>
-                    <div class="px-0 d-flex flex-column align-items-md-end">
-                        <span class="d-flex flex-column align-items-md-end opacity-70">
-                            @if($shipment->barcode != null)
-                                <span class="mb-5 font-weight-bolder"><?=$d->getBarcodeHTML($code, "EAN13");?></span>
-                            @endif
-                            <span><span class="font-weight-bolder">{{translate('FROM')}}:</span> {{$shipment->client_address}}</span>
-                            <span><span class="font-weight-bolder">{{translate('TO')}}:</span> {{$shipment->receiver_address}}</span>
-                        </span>
+                    <div class="card-body">
+                        <h6 class="text-danger"><b>{{$shipment->client->name}}</b></h6>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}}: </b>{{@$client_address->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Country')}}: </b>{{@$shipment->from_country->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Region')}}: </b>{{@$shipment->from_state->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Area')}}: </b>{{@$shipment->from_area->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Zip Code')}}: </b>{{@$client_address->zip_code}}</p>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-white" style="padding: 15px 15px;background: hsl(21deg 94% 57%);;">
+                        <h4>{{translate('RECEIVER / TO')}}</h4>
+                    </div>
+                    @php
+                        $receiver_address= \App\ReceiverAddress::where('name',$shipment->receiver_address)->get()->first();
+                    @endphp
+                    <div class="card-body">
+                        <h6 class="text-danger"><b>{{@$shipment->receiver->name}}</b></h6>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}}: </b>{{@$receiver_address->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Country')}}: </b>{{@$shipment->to_country->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Region')}}: </b>{{@$shipment->to_state->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Area')}}: </b>{{@$shipment->to_area->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Zip Code')}}: </b>{{@$receiver_address->zip_code}}</p>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="row pt-3">
 
-                <div class="pb-6 d-flex justify-content-between">
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-4 text-dark font-weight-bold">{{translate('Client/Sender')}}</span>
-                        <a class="text-danger font-weight-boldest font-size-lg" href="{{route('admin.clients.show',$shipment->client_id)}}">{{@$shipment->client->name}}</a>
-                        <span class="text-muted font-size-md">{{$shipment->client_phone}}</span>
-                        <span class="text-muted font-size-md">{{$shipment->client_address}}</span>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                        <h6>{{translate('Client Package Handling')}}</h6>
                     </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-4 text-dark font-weight-bold">{{translate('Receiver')}}</span>
-                        <span class="text-danger font-weight-boldest font-size-lg">{{@$shipment->receiver->name}}</span>
-                        <span class="text-muted font-size-md">{{$shipment->receiver_phone}}</span>
-                        <span class="text-muted font-size-md">{{$shipment->receiver_address}}</span>
+                    <p class="p-3">{{$shipment->client_shipment_type}}</p>
+                  </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                        <h6>{{translate('Receiver Package Handling')}}</h6>
                     </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-4 text-dark font-weight-bold">{{translate('Status')}}</span>
-                        <span class="opacity-70 d-block">{{$shipment->getStatus()}}</span>
+                    <p class="p-3">{{$shipment->receiver_shipment_type}}</p>
+                  </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                        <h6>{{translate('Shhipment Zone')}}</h6>
                     </div>
-                    @if ($shipment->amount_to_be_collected && $shipment->amount_to_be_collected  > 0)
-                        <div class="d-flex flex-column flex-root">
-                            <span class="mb-4 text-dark font-weight-bold">{{translate('Amount To Collected')}}</span>
-                            <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price($shipment->amount_to_be_collected))}}</span>
-                        </div>
-                    @endif
-                </div>
-                <div class="border-bottom w-100"></div>
-                <div class="pt-6 d-flex justify-content-between">
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-2 font-weight-bolder">{{translate('Shipment type')}}</span>
-                        <span class="opacity-70">{{$shipment->type}}</span>
+                    <p class="p-3">{{$shipment->zone}}</p>
+                  </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                        <h6>{{translate('Delivery Time')}}</h6>
                     </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-2 font-weight-bolder">{{translate('Shipment Zone')}}</span>
-                        <span class="opacity-70">{{$shipment->zone}}</span>
+                    <p class="p-3">{{$shipment->delivery_time}}</p>
+                  </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                        <h6>{{translate('Branch Office')}}</h6>
                     </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-2 font-weight-bolder">{{translate('Shipment Material')}}</span>
-                        <span class="opacity-70">{{$shipment->material}}</span>
-                    </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-2 font-weight-bolder">{{translate('Current branch')}}</span>
-                        <a class="opacity-70" href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{@$shipment->branch->name}}</a>
-                    </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-2 font-weight-bolder">{{translate('Created date')}}</span>
-                        <span class="opacity-70">{{$shipment->created_at->format('Y-m-d h:i:s')}}</span>
-                    </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-2 font-weight-bolder">{{translate('Shipping date')}}</span>
-                        <span class="opacity-70">{{$shipment->shipping_date}}</span>
-                    </div>
-                </div>
-
-
-                <div class="pt-6 d-flex justify-content-between">
-                    @if ($shipment->prev_branch)
-                        <div class="d-flex flex-column flex-root">
-                            <span class="mb-2 font-weight-bolder">{{translate('Previous Branch')}}</span>
-                            <span class="opacity-70">{{\App\Branch::find($shipment->prev_branch)->name}}</span>
-                        </div>
-                    @endif
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-4 text-dark font-weight-bold">{{translate('Total Weight')}}</span>
-                        <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->total_weight}} {{translate('KG')}}</span>
-                    </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-4 text-dark font-weight-bold">{{translate('Shipping Cost')}}</span>
-                        <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price($shipment->shipping_cost))}}</span>
-                    </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-4 text-dark font-weight-bold">{{translate('Tax &  Duty')}}</span>
-                        <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price($shipment->tax))}}</span>
-                    </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-4 text-dark font-weight-bold">{{translate('Insurance')}}</span>
-                        <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price($shipment->insurance))}}</span>
-                    </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-4 text-dark font-weight-bold">{{translate('Return Cost')}}</span>
-                        <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price($shipment->return_cost))}}</span>
-                    </div>
-                </div>
-
-                <div class="pt-6 d-flex justify-content-between">
-                    <div class="d-flex flex-column flex-root">
-                            <span class="mb-4 text-dark font-weight-bold">{{translate('From Country')}}</span>
-                            <span class="text-muted font-weight-bolder font-size-lg">@if(isset($shipment->from_country->name)){{$shipment->from_country->name}} @endif </span>
-                    </div>
-                    <div class="d-flex flex-column flex-root">
-                            <span class="mb-4 text-dark font-weight-bold">{{translate('To Country')}}</span>
-                            <span class="text-muted font-weight-bolder font-size-lg">@if(isset($shipment->to_country->name)){{$shipment->to_country->name}} @endif </span>
-                    </div>
-                    <div class="d-flex flex-column flex-root">
-                            <span class="mb-4 text-dark font-weight-bold">{{translate('From Ragion')}}</span>
-                            <span class="text-muted font-weight-bolder font-size-lg">@if(isset($shipment->from_state->name)){{$shipment->from_state->name}} @endif </span>
-                    </div>
-                    <div class="d-flex flex-column flex-root">
-                            <span class="mb-4 text-dark font-weight-bold">{{translate('To Ragion')}}</span>
-                            <span class="text-muted font-weight-bolder font-size-lg">@if(isset($shipment->to_state->name)){{$shipment->to_state->name}} @endif </span>
-                    </div>
-                </div>
-
-
-                <div class="pt-6 d-flex justify-content-between">
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-4 text-dark font-weight-bold">{{translate('Max Delivery Days')}}</span>
-                        <span class="text-muted font-weight-bolder font-size-lg">{{$shipment->delivery_time}}</span>
-                    </div>
-                    <div class="d-flex flex-column flex-root">
-                        <span class="mb-4 text-dark font-weight-bold">{{translate('Total Package Value')}}</span>
-                        <span class="text-muted font-weight-bolder font-size-lg">{{format_price(convert_price($shipment->shipment_price))}}</span>
-                    </div>
-                    @if($shipment->captain_id != null)
-                        <div class="d-flex flex-column flex-root">
-                            <span class="mb-4 text-dark font-weight-bold">{{translate('Captain')}}</span>
-                            <a class="text-danger font-weight-boldest font-size-lg" href="{{route('admin.clients.show',$shipment->client_id)}}">{{@$shipment->client->name}} </a>
-                        </div>
-                    @endif
-                    @if ($shipment->mission_id != null)
-                        <div class="d-flex flex-column flex-root">
-                            <span class="mb-4 text-dark font-weight-bold">{{translate('Mission')}}</span>
-                            <a class="text-muted font-weight-bolder font-size-lg" href="{{route('admin.missions.show',$shipment->mission_id)}}">{{@$shipment->current_mission->code}}</a>
-                        </div>
-                    @endif
-                </div>
-                @if($shipment->attachments_before_shipping)
+                    <p class="p-3">{{$shipment->branch->name}}</p>
+                  </div>
+            </div>
+                {{-- @if($shipment->attachments_before_shipping)
                     <div class="pt-6 d-flex justify-content-between">
                         <div class="d-flex flex-column flex-root">
                             <span class="mb-4 text-dark font-weight-bold">{{translate('Attachments')}} <span class="text-muted font-size-xs">({{translate('ADDED WHEN SHIPMENT CREATED')}})</span></span>
@@ -201,64 +192,195 @@ $d = new DNS1D();
                             </div>
                         </div>
                     </div>
-                @endif
+                @endif --}}
 
-
-            </div>
         </div>
-        <!-- end: Invoice header-->
-        <!-- begin: Invoice body-->
-        <div class="px-8 py-8 row justify-content-center py-md-10 px-md-0">
-            <div class="col-md-10">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="pl-0 font-weight-bold text-muted text-uppercase">{{translate('Package Items')}}</th>
-                                <th class="text-right font-weight-bold text-muted text-uppercase">{{translate('Type')}}</th>
-                                <th class="pr-0 text-right font-weight-bold text-muted text-uppercase">{{translate('Weight x Length x Width x Height')}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @foreach(\App\PackageShipment::where('shipment_id',$shipment->id)->get() as $package)
-
-                                <tr class="font-weight-boldest">
-                                    <td class="pl-0 border-0 pt-7 d-flex align-items-center">{{$package->description}}</td>
-                                    <td class="text-right align-middle pt-7">@if(isset($package->package->name)){{$package->package->name}} @else - @endif</td>
-                                    <td class="pr-0 text-right align-middle text-primary pt-7">{{$package->weight." ".translate('KG')." x ".$package->length." ".translate('CM')." x ".$package->width." ".translate('CM')." x ".$package->height." ".translate('CM')}}</td>
-                                </tr>
-                                @if($package->package_list!=null)
-
-                                @foreach($package->package_list as $key => $list)
-                                <tr>
-                                    @if ($loop->first)
-                                    <tr>
-                                        <td rowspan="{{$key+2}}" class="font-weight-boldest">Package Items</td>
-                                        <td><span class="font-weight-boldest">{{translate('Item Name')}}</span></td>
-                                        <td><span class="font-weight-boldest">{{translate('Item Description')}}</span></td>
-                                        <td><span class="font-weight-boldest">{{translate('Item Quantity')}}</span></td>
-                                    <tr>
-                                    @endif
-                                    <tr>
-                                        <td></td>
-                                        <td>{{$list->item_name}}</td>
-                                        <td>{{$list->description}}</td>
-                                        <td>{{$list->qty}}</td>
-                                    <tr>
-                                </tr>
-                                @endforeach
-                                @endif
+        <hr>
+        @foreach(\App\PackageShipment::where('shipment_id',$shipment->id)->get() as $k => $package)
+            <div class="row pt-3">
+                <div class="col-md-3">
+                    @if($k==0)
+                    <h5><b>{{translate('SELECTED PACKAGE')}}</b></h5>
+                    @endif
+                    <div class="card">
+                        <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                            <h6>@if(isset($package->package->name)){{$package->package->name}} @else - @endif</h6>
+                        </div>
+                        <div class="card-body">
+                            @if($package->package_list!=null)
+                            @foreach($package->package_list as $key => $list)
+                                <p style="margin-bottom: 0px;">- {{$list->item_name}}</p>
                             @endforeach
+                            @endif
+                        </div>
 
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
+                <div class="col-md-3">
+                    @if($k==0)
+                    <h5><b>{{translate('PACKAGE DESCRIPTION')}}</b></h5>
+                    @endif
+                    <div class="card">
+                        <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                            <h6>{{$package->description}}</h6>
+                        </div>
+                        <div class="card-body">
+                            @if($package->package_list!=null)
+                            @foreach($package->package_list as $key => $list)
+                                <p style="margin-bottom: 0px;">- {{$list->description}}</p>
+                            @endforeach
+                            @endif
+                        </div>
+
+                    </div>
+                </div>
+                <div style="padding-left:5px;width:8%;">
+
+                    <div class="input-group mb-3">
+                    @if($k==0)
+                        <label class="w-100">{{ translate('Weight') }}</label>
+                    @endif
+                        <input type="text" min="1" class="form-control"
+                            placeholder="{{ translate('Weight') }}" name="width" value="{{$package->weight." ".translate('KG')}}" disabled />
+
+                    </div>
+                </div>
+                <div style="padding-left:5px;width:8%;">
+
+                    <div class="input-group mb-3">
+                    @if($k==0)
+                        <label class="w-100">{{ translate('Length') }}</label>
+                    @endif
+                        <input type="text" min="1" class="form-control"
+                            placeholder="{{ translate('Length') }}" value="{{$package->length." ".translate('CM')}}" disabled />
+
+                    </div>
+                </div>
+                <div style="padding-left:5px;width:8%;">
+
+                    <div class="input-group mb-3">
+                    @if($k==0)
+                        <label class="w-100">{{ translate('Width') }}</label>
+                    @endif
+                        <input type="text" min="1" class="form-control"
+                            placeholder="{{ translate('Width') }}" value="{{$package->width." ".translate('CM')}}" disabled />
+
+                    </div>
+                </div>
+                <div style="padding-left:5px;width:8%;">
+
+                    <div class="input-group mb-3">
+                    @if($k==0)
+                        <label class="w-100">{{ translate('Height') }}</label>
+                    @endif
+                        <input type="text" min="1" class="form-control"
+                            placeholder="{{ translate('Height') }}" value="{{$package->height." ".translate('CM')}}" disabled />
+
+                    </div>
+                </div>
+                <div style="padding-left:5px;width:8%;">
+
+                    <div class="input-group mb-3">
+                    @if($k==0)
+                        <label class="w-100">{{ translate('Fragile') }}</label>
+                    @endif
+                        <p style="pl-2 pt-2">@if($package->shipment_fragile){{ translate('YES') }}@else {{ translate('NO') }} @endif</p>
+
+                    </div>
+                </div>
+                <div class="padding-left:5px;width:8%;">
+                    @if($k==0)
+                    <label class="w-100">{{ translate('QTY') }}</label>
+                    @endif
+                    <div style="margin-top: 40px;">
+                    @if($package->package_list!=null)
+                    @foreach($package->package_list as $key => $list)
+                        <p style="margin-bottom: 0px;">{{$list->qty}}</p>
+                    @endforeach
+                    @endif
+                    </div>
+
+                </div>
+
+            </div>
+        @endforeach
+        <hr style="border: 1px solid skyblue;">
+        <div class="row">
+            <div class="col-md-7">
+            </div>
+            <div class="col-md-5 row">
+                <h4 class="col-md-6">{{translate('Total Weight')}}:</h4>
+                <p class="col-md-6 text-right">{{$shipment->total_weight.' '.translate('KG')}}</p>
+
+                <h4 class="col-md-6">{{translate('Total Shipment Cost')}}:</h4>
+                <p class="col-md-6 text-right">{{format_price(convert_price($shipment->shipping_cost))}}</p>
+
+                <h4 class="col-md-6">{{translate('Total Tax & Duty')}}:</h4>
+                <p class="col-md-6 text-right">{{format_price(convert_price($shipment->tax))}}</p>
+
+                <h4 class="col-md-6">{{translate('Total Protection Value')}}:</h4>
+                <p class="col-md-6 text-right">{{format_price(convert_price($shipment->insurance))}}</p>
+
+                <h4 class="col-md-6">{{translate('Total Return Cost')}}:</h4>
+                <p class="col-md-6 text-right">{{format_price(convert_price($shipment->return_cost))}}</p>
             </div>
         </div>
-        <!-- end: Invoice body-->
-        <!-- begin: Invoice footer-->
-        <div class="px-8 py-8 mx-0 bg-gray-100 row justify-content-center py-md-10 px-md-0">
+
+        <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
+            <h2 class="text-left">
+                {{ translate('PAYMENT INFORMATION') }}
+            </h2>
+        </div>
+            <div class="row pt-3">
+
+
+                <div class="col-md-2">
+                    <div class="card">
+                        <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                            <h6>{{translate('PAYMENT TYPE')}}</h6>
+                        </div>
+                        <p class="p-3">{{$shipment->getPaymentType()}}</p>
+                      </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card">
+                        <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                            <h6>{{translate('PAYMENT MODE')}}</h6>
+                        </div>
+                        <p class="p-3">{{translate($shipment->pay['name'])}}</p>
+                      </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card">
+                        <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                            <h6>{{translate('PAYMENT STATUS')}}</h6>
+                        </div>
+                        <p class="p-3">@if($shipment->paid == 1) {{translate('Paid')}} @else {{translate('Pending')}} @endif</p>
+                      </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card">
+                        <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                            <h6>{{translate('PAYMENT DATE')}}</h6>
+                        </div>
+                        <p class="p-3">@if($shipment->paid == 1) {{$shipment->payment->payment_date ?? ""}} @else - @endif</p>
+                      </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="card">
+                        <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                            <h6>{{translate('TOTAL COST')}}</h6>
+                        </div>
+                        <h4 class="pt-3 text-danger">{{format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}</h4>
+                        <span class="text-muted font-weight-bolder font-size-lg">{{translate('Included tax & insurance')}}</span>
+                      </div>
+                </div>
+
+            </div>
+
+        {{-- <div class="px-8 py-8 mx-0 bg-gray-100 row justify-content-center py-md-10 px-md-0">
             <div class="col-md-10">
                 <div class="table-responsive">
                     <table class="table">
@@ -281,9 +403,11 @@ $d = new DNS1D();
                     </table>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- end: Invoice footer-->
         <!-- begin: Invoice action-->
+        <hr style="border: 1px solid orange;">
+
         <div class="px-8 py-8 row justify-content-center py-md-10 px-md-0">
             <div class="col-md-10">
                 <div class="d-flex justify-content-between">
@@ -297,20 +421,15 @@ $d = new DNS1D();
                         <div id="payment-link" style="display: none">{{route('admin.shipments.pay', $shipment->id)}}</div>
                     @endif
 
-                    <a href="{{route('admin.shipments.print', array($shipment->id, 'label'))}}" class="btn btn-light-primary font-weight-bold" target="_blank">{{translate('Print Label')}}<i class="ml-2 la la-box-open"></i></a>
-                    <a href="{{route('admin.shipments.print', array($shipment->id, 'invoice'))}}" class="btn btn-light-primary font-weight-bold" target="_blank">{{translate('Print Invoice')}}<i class="ml-2 la la-file-invoice-dollar"></i></a>
+                    <a href="{{route('admin.shipments.print', array($shipment->id, 'label'))}}" class="btn btn-light-primary font-weight-bold" target="_blank" style="border-radius:20px;">{{translate('Print Label')}}<i class="ml-2 la la-box-open"></i></a>
+                    <a href="{{route('admin.shipments.print', array($shipment->id, 'invoice'))}}" class="btn btn-light-primary font-weight-bold" target="_blank" style="border-radius:20px;">{{translate('Print Invoice')}}<i class="ml-2 la la-file-invoice-dollar"></i></a>
 
                     @if(Auth::user()->user_type == 'admin' || in_array('1104', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-                    <a href="{{route('admin.shipments.edit', $shipment->id)}}" class="px-6 py-3 btn btn-light-info btn-sm font-weight-bolder font-size-sm">{{translate('Edit Shipment')}}</a>
+                    <a href="{{route('admin.shipments.edit', $shipment->id)}}" class="px-6 py-3 btn btn-light-info btn-sm font-weight-bolder font-size-sm" style="border-radius:20px;">{{translate('Edit Shipment')}}</a>
                     @endif
                 </div>
             </div>
         </div>
-        <!-- end: Invoice action-->
-        <!-- end: Invoice-->
-    </div>
-</div>
-<!--end::Card-->
 
 
 <!--end::List Widget 19-->

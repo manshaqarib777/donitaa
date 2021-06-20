@@ -77,7 +77,12 @@
 	<!--end::Layout Themes-->
 	@endif
 	<link href="{{ static_asset('assets/css/custom-style.css?v=7.2.3') }}" rel="stylesheet" type="text/css" />
-
+<style>
+    html,
+        body {
+            font-size: 10px !important;
+        }
+</style>
 	@yield('style')
 
 	<script>

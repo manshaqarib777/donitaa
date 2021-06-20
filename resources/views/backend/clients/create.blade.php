@@ -13,7 +13,7 @@
                 @csrf
                 {!! redirect_input() !!}
                 <div class="card-body">
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <label class="col-2 col-form-label">{{ translate('Account Type') }}</label>
                         <div class="col-9 col-form-label">
                             <div class="radio-inline">
@@ -32,7 +32,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <label class="change_type">{{ translate('Personal Name') }}:</label>
                         <input type="text" id="name" class="form-control" placeholder="{{ translate('Name') }}"
@@ -46,7 +46,11 @@
 
 
 
-
+                    <div class="form-group">
+                        <label class="change_type">{{ translate('Company Name') }}:</label>
+                        <input type="text" id="company" class="form-control" placeholder="{{ translate('Company Name') }}"
+                            name="Client[company]">
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -66,21 +70,6 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <!-- <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>الفرع المسؤول:</label>
-                            <select class="form-control kt-select2" id="select-responsible-branch" name="Client[responsible_branch_id]">
-                                <option></option>
-
-
-                            </select>
-                        </div>
-                    </div>
-                </div> -->
-
 
 
                     <div class="row">
@@ -196,26 +185,26 @@
 
 @section('script')
     <script type="text/javascript">
-        $('input:radio[name="Client[account_type]"]').change(function() {
-            var change_html="";
-            if ($(this).val() == '2') {
-                $(".change_type").each(function(index,item){
-                    $.get("{{ route('admin.clients.get-translation-ajax') }}?translation=" + $(this).html()+"&type="+$('input[name="Client[account_type]"]:checked').val(), function(data) {
-                        $(item).html(data);
-                    });
-                });
+        // $('input:radio[name="Client[account_type]"]').change(function() {
+        //     var change_html="";
+        //     if ($(this).val() == '2') {
+        //         $(".change_type").each(function(index,item){
+        //             $.get("{{ route('admin.clients.get-translation-ajax') }}?translation=" + $(this).html()+"&type="+$('input[name="Client[account_type]"]:checked').val(), function(data) {
+        //                 $(item).html(data);
+        //             });
+        //         });
 
-            } else {
-                $(".change_type").each(function(index,item){
-                    //alert($(this).html());
-                    $.get("{{ route('admin.clients.get-translation-ajax') }}?translation=" + $(this).html()+"&type="+$('input[name="Client[account_type]"]:checked').val(), function(data) {
-                        $(item).html(data);
+        //     } else {
+        //         $(".change_type").each(function(index,item){
+        //             //alert($(this).html());
+        //             $.get("{{ route('admin.clients.get-translation-ajax') }}?translation=" + $(this).html()+"&type="+$('input[name="Client[account_type]"]:checked').val(), function(data) {
+        //                 $(item).html(data);
 
-                    });
-                });
+        //             });
+        //         });
 
-            }
-        });
+        //     }
+        // });
         $('.how-know-us').select2({
             placeholder: "Client Source",
         });

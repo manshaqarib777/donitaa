@@ -13,7 +13,7 @@
                 @csrf
                 {{ method_field('PATCH') }}
                 <div class="card-body">
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <label class="col-2 col-form-label">{{ translate('Account Type') }}</label>
                         <div class="col-9 col-form-label">
                             <div class="radio-inline">
@@ -32,27 +32,23 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
-                        @if ($client->account_type == 1)
-                            <label class="change_type">{{ translate('Personal Name:') }}</label>
-                        @else
-                            <label class="change_type">{{ translate('Company Name:') }}</label>
-                        @endif
+                        <label class="change_type">{{ translate('Personal Name:') }}</label>
                         <input type="text" id="name" class="form-control" value="{{ $client->name }}"
                             placeholder="{{ translate('Here') }}" name="Client[name]">
                     </div>
                     <div class="form-group">
-                        @if ($client->account_type == 1)
                         <label class="change_type">{{ translate('Personal Email:') }}</label>
-                        @else
-                        <label class="change_type">{{ translate('Company Email:') }}</label>
-                         @endif
                         <input id="email-field" type="text" class="form-control" value="{{ $client->email }}"
                             placeholder="{{ translate('Here') }}" name="Client[email]">
                     </div>
 
-
+                    <div class="form-group">
+                        <label class="change_type">{{ translate('Company Name') }}:</label>
+                        <input type="text" id="company" class="form-control" placeholder="{{ translate('Company Name') }}"
+                            name="Client[company]" value="{{ $client->company }}">
+                    </div>
 
 
                     <div class="row">
@@ -73,21 +69,6 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <!-- <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>الفرع المسؤول:</label>
-                                    <select class="form-control kt-select2" id="select-responsible-branch" name="Client[responsible_branch_id]">
-                                        <option></option>
-
-
-                                    </select>
-                                </div>
-                            </div>
-                        </div> -->
-
 
 
                     <div class="row">

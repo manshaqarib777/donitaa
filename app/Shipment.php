@@ -296,6 +296,41 @@ class Shipment extends Model
             return translate('Pickup');
         }
     }
+    public function getFreightAttribute($value)
+    {
+        if ($value == 1) {
+            return translate('Air Freight');
+        } elseif ($value == 2) {
+            return translate('Ocean Freight');
+        }
+        elseif ($value == 3) {
+            return translate('Road Freight');
+        }
+    }
+    public function getExpTypeAttribute($value)
+    {
+        if ($value == 1) {
+            return translate('One Way');
+        } elseif ($value == 2) {
+            return translate('Ship & Return');
+        }
+    }
+    public function getClientShipmentTypeAttribute($value)
+    {
+        if ($value == 1) {
+            return translate('We Pickup Package');
+        } elseif ($value == 2) {
+            return translate('You Dropoff to Our Store');
+        }
+    }
+    public function getReceiverShipmentTypeAttribute($value)
+    {
+        if ($value == 1) {
+            return translate('We Deliver to You');
+        } elseif ($value == 2) {
+            return translate('You Pickup from Our Store');
+        }
+    }
 
     static public function getType($value)
     {
@@ -402,6 +437,10 @@ class Shipment extends Model
     public function client()
     {
         return $this->hasOne('App\Client', 'id', 'client_id');
+    }
+    public function receiver()
+    {
+        return $this->hasOne('App\Receiver', 'id', 'receiver_id');
     }
 
     public function captain()

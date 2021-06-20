@@ -14,16 +14,20 @@
                 {{ method_field('PATCH') }}
                 <div class="card-body">
                     <div class="form-group">
-                        <label>{{ translate('Commercial Name') }}:</label>
+                        <label>{{ translate('Personal Name') }}:</label>
                         <input type="text" id="name" class="form-control" value="{{ $receiver->name }}"
                             placeholder="{{ translate('Here') }}" name="Receiver[name]">
                     </div>
                     <div class="form-group">
-                        <label>{{ translate('Email') }}:</label>
+                        <label>{{ translate('Personal Email') }}:</label>
                         <input id="email-field" type="text" class="form-control" value="{{ $receiver->email }}"
                             placeholder="{{ translate('Here') }}" name="Receiver[email]">
                     </div>
-
+                    <div class="form-group">
+                        <label>{{ translate('Company Name') }}:</label>
+                        <input type="text" id="company" class="form-control" placeholder="{{ translate('Company Name') }}"
+                            name="Receiver[company]"  value="{{ $receiver->company }}">
+                    </div>
 
 
 

@@ -14,16 +14,20 @@
                 {!! redirect_input() !!}
                 <div class="card-body">
                     <div class="form-group">
-                        <label>{{ translate('Commercial Name') }}:</label>
+                        <label>{{ translate('Personal Name') }}:</label>
                         <input type="text" id="name" class="form-control" placeholder="{{ translate('Commercial Name') }}"
                             name="Receiver[name]">
                     </div>
                     <div class="form-group">
-                        <label>{{ translate('Email') }}:</label>
+                        <label>{{ translate('Personal Email') }}:</label>
                         <input id="email-field" type="text" class="form-control" placeholder="{{ translate('Email') }}"
                             name="Receiver[email]">
                     </div>
-
+                    <div class="form-group">
+                        <label>{{ translate('Company Name') }}:</label>
+                        <input type="text" id="company" class="form-control" placeholder="{{ translate('Company Name') }}"
+                            name="Receiver[company]">
+                    </div>
 
 
 

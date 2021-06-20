@@ -65,7 +65,7 @@ $d = new DNS1D();
                             <div class="d-flex flex-column flex-root">
                                 <span class="font-weight-bolder mb-2">{{translate('INVOICE TO')}}.</span>
                                 <span class="opacity-70">{{$shipment->receiver_address}}.
-                                <br />{{$shipment->receiver->name}}</span>
+                                <br />{{@$shipment->receiver->name}}</span>
                             </div>
                         </div>
                     </div>

@@ -25,12 +25,9 @@ use App\ShipmentSetting;
 use App\Http\Helpers\MissionPRNG;
 use Excel;
 use App\State;
-use App\Transaction;
 use App\ShipmentReason;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Milon\Barcode\DNS1D;
-use function Psy\sh;
 use App\Events\CreateMission;
 use App\Events\AddShipment;
 use App\Events\UpdateShipment;
@@ -39,6 +36,11 @@ use App\Events\ShipmentAction;
 use App\AdminContainer;
 use App\AdminTheme;
 use Harimayco\Menu\Models\Menus;
+
+use App\Http\Helpers\UserRegistrationHelper;
+use App\UserClient;
+use App\Events\AddClient;
+use App\UserReceiver;
 
 class ShipmentController extends Controller
 {
@@ -972,9 +974,17 @@ class ShipmentController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($this->storeClient($request->all()));
+        //dd($request->all());
+        //dd($this->storeReceiver($request->all()));
         try {
             DB::beginTransaction();
-                $model = $this->storeShipment($request);
+            $request->request->add(['client_id'=>  $this->storeClient($request->all())]);
+            $request->request->add(['receiver_id'=>$this->storeReceiver($request->all())]);
+            //dd($request->all());
+
+            $model = $this->storeShipment((object)$request->all());
+            //dd($model);
             DB::commit();
             flash(translate("Shipment added successfully"))->success();
             return redirect()->route('admin.shipments.show', $model->id);
@@ -986,6 +996,154 @@ class ShipmentController extends Controller
             flash(translate("Error"))->error();
             return back();
         }
+    }
+
+
+    public function storeClient($request)
+    {
+        //dd($request['Shipment']);
+        try{	
+			DB::beginTransaction();
+            $add_pass=false;
+            $model = Client::where('email',$request['Shipment']['client_email'])->get()->first();
+            if($model==null)
+			{
+                $model = new Client();
+			    $model->code = -1;
+                $add_pass=true;
+            }
+            
+			$model->name=$request['Shipment']['client_first_name'].' '.$request['Shipment']['client_last_name'];
+			$model->email=$request['Shipment']['client_email'];
+			$model->company=$request['Shipment']['client_company'];
+			$model->responsible_mobile=$request['Shipment']['client_phone'];
+            $auth_user = Auth::user();
+            if($auth_user->user_type == 'admin'){
+                $model->created_by_type = 'admin';
+                $model->created_by = $auth_user->id;
+            }elseif($auth_user->user_type == 'staff'){
+                $model->created_by_type = 'staff';
+                $model->created_by = $auth_user->staff->id;
+            }elseif($auth_user->user_type == 'branch'){
+                $model->created_by_type = 'branch';
+                $model->created_by =  $auth_user->userBranch->branch_id;
+            }
+			$model->save();
+			$model->code = $model->id;
+			$model->save();
+            if($add_pass)
+            {
+
+                $userRegistrationHelper = new UserRegistrationHelper();
+                $userRegistrationHelper->setEmail($model->email); 
+                $userRegistrationHelper->setName($model->name);
+                $userRegistrationHelper->setApiToken();
+                $userRegistrationHelper->setCountryID($request['Shipment']['from_country_id']); 
+                $userRegistrationHelper->setStateID($request['Shipment']['from_state_id']); 
+                $userRegistrationHelper->setAreaID($request['Shipment']['from_area_id']);
+                $userRegistrationHelper->generatePassword();
+                
+                $userRegistrationHelper->setRoleID(UserRegistrationHelper::MAINCLIENT);
+                $response = $userRegistrationHelper->save();
+
+                $userClient = new UserClient();
+                $userClient->user_id = $response['user_id'];
+                $userClient->client_id = $model->id;
+                $userClient->save();
+            }
+
+            $address = ClientAddress::where('name',$request['Shipment']['client_address'])->get()->first();
+            if($address==null)
+			{
+                $address = new ClientAddress();
+            }
+            $address->name=$request['Shipment']['client_address'];
+            $address->type=$request['Shipment']['client_address'];
+			$address->address=$request['Shipment']['client_address_2'];
+			$address->zip_code=$request['Shipment']['client_zip_code'];
+            $address->client_id=$model->id;
+            $address->save();
+
+            DB::commit();
+            return $model->id;
+		}catch(\Exception $e){
+			DB::rollback();	
+			flash($e->getMessage())->error();
+            return $e->getMessage();
+		}
+    }
+
+    public function storeReceiver($request)
+    {
+        try{	
+			DB::beginTransaction();
+            $add_pass=false;
+            $model = Receiver::where('email',$request['Shipment']['receiver_email'])->get()->first();
+            if($model==null)
+			{
+                $model = new Receiver();
+			    $model->code = -1;
+                $add_pass=true;
+            }
+            
+			$model->name=$request['Shipment']['receiver_first_name'].' '.$request['Shipment']['receiver_last_name'];
+			$model->email=$request['Shipment']['receiver_email'];
+			$model->company=$request['Shipment']['receiver_company'];
+			$model->responsible_mobile=$request['Shipment']['receiver_phone'];
+
+            $auth_user = Auth::user();
+            if($auth_user->user_type == 'admin'){
+                $model->created_by_type = 'admin';
+                $model->created_by = $auth_user->id;
+            }elseif($auth_user->user_type == 'staff'){
+                $model->created_by_type = 'staff';
+                $model->created_by = $auth_user->staff->id;
+            }elseif($auth_user->user_type == 'branch'){
+                $model->created_by_type = 'branch';
+                $model->created_by =  $auth_user->userBranch->branch_id;
+            }
+			$model->save();
+			$model->code = $model->id;
+			$model->save();
+            if($add_pass)
+            {
+                $userRegistrationHelper = new UserRegistrationHelper();
+                $userRegistrationHelper->setEmail($model->email); 
+                $userRegistrationHelper->setName($model->name);
+                $userRegistrationHelper->setApiToken();
+                $userRegistrationHelper->setCountryID($request['Shipment']['from_country_id']); 
+                $userRegistrationHelper->setStateID($request['Shipment']['from_state_id']); 
+                $userRegistrationHelper->setAreaID($request['Shipment']['from_area_id']);
+                
+                $userRegistrationHelper->generatePassword();
+                
+                $userRegistrationHelper->setRoleID(UserRegistrationHelper::MAINCLIENT);
+                $response = $userRegistrationHelper->save();
+
+                $userReceiver = new UserReceiver();
+                $userReceiver->user_id = $response['user_id'];
+                $userReceiver->receiver_id = $model->id;
+                $userReceiver->save();
+            }
+            $address = ReceiverAddress::where('name',$request['Shipment']['receiver_address'])->get()->first();
+            if($address==null)
+			{
+                $address = new ReceiverAddress();
+            }
+            $address->name=$request['Shipment']['receiver_address'];
+            $address->type=$request['Shipment']['receiver_address'];
+			$address->address=$request['Shipment']['receiver_address_2'];
+			$address->zip_code=$request['Shipment']['receiver_zip_code'];
+            $address->receiver_id=$model->id;
+            $address->save();
+
+            DB::commit();
+            return $model->id;
+		}catch(\Exception $e){
+			DB::rollback();	
+			flash($e->getMessage())->error();
+            return null;
+		}
     }
 
     public function storeAPI(Request $request)
@@ -1007,8 +1165,15 @@ class ShipmentController extends Controller
         
         $model = new Shipment();
 
+        $remove =['receiver_company','receiver_first_name','receiver_last_name','receiver_address_2','receiver_zip_code','receiver_email',
+        'client_company','client_first_name','client_last_name','client_address_2','client_zip_code','client_email'];
 
+        $request->Shipment= array_diff_key($request->Shipment, array_flip($remove));
+        //dd($request->client_id);
         $model->fill($request->Shipment);
+        $model->client_id =$request->client_id;
+        $model->receiver_id =$request->receiver_id;
+        //dd($request->client_id);
         $model->code = -1;
         $model->status_id = Shipment::SAVED_STATUS;
         $date = date_create();
@@ -1024,7 +1189,7 @@ class ShipmentController extends Controller
         }
         $code   =   substr($code, 0, -strlen($model->id));
         $model->barcode = $code.$model->id;
-        $client=Client::with('userClient.user.country','userClient.user.area')->find($request->Shipment['client_id']);    
+        $client=Client::with('userClient.user.country','userClient.user.area')->find($request->client_id);    
         if(isset($client->userClient->user->country) && isset($client->userClient->user->area))
         {
             $country_code= $client->userClient->user->country->iso2;
@@ -1060,7 +1225,6 @@ class ShipmentController extends Controller
         if (!$model->save()) {
             throw new \Exception();
         }
-
         $counter = 0;
         if (isset($request->Package)) {
 
@@ -1073,7 +1237,6 @@ class ShipmentController extends Controller
                         $package['shipment_insurance'] = $package['shipment_insurance'][0];
                         if(isset($package['shipment_fragile']))
                         $package['shipment_fragile'] = $package['shipment_fragile'][0];
-                        
                         $package_shipment = new PackageShipment();
                         $package_shipment->fill($package);
                         $package_shipment->shipment_id = $model->id;
@@ -1218,51 +1381,23 @@ class ShipmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $shipment)
     {
+        //dd($this->storeClient($request->all()));
+        //dd($request->all());
+        //dd($this->storeReceiver($request->all()));
         try {
             DB::beginTransaction();
+            $request->request->add(['client_id'=>  $this->storeClient($request->all())]);
+            $request->request->add(['receiver_id'=>$this->storeReceiver($request->all())]);
             //dd($request->all());
-            $model = Shipment::find($shipment);
 
-
-            $model->fill($_POST['Shipment']);
-
-
-            if (!$model->save()) {
-                throw new \Exception();
-            }
-            foreach (\App\PackageShipment::where('shipment_id', $model->id)->get() as $pack) {
-                $pack->delete();
-            }
-            $counter = 0;
-            if (isset($_POST['Package'])) {
-
-                if (!empty($_POST['Package'])) {
-
-                    if (isset($_POST['Package'][$counter]['package_id'])) {
-
-                        foreach ($_POST['Package'] as $k=> $package) {
-                            if(isset($package['shipment_insurance']))
-                                $package['shipment_insurance'] = $package['shipment_insurance'][0];
-                            if(isset($package['shipment_fragile']))
-                                $package['shipment_fragile'] = $package['shipment_fragile'][0];
-                            $package_shipment = new PackageShipment();
-                            $package_shipment->fill($package);
-                            $package_shipment->shipment_id = $model->id;
-                            if (!$package_shipment->save()) {
-                                throw new \Exception();
-                            }
-                        }
-                    }
-                }
-            }
-            
-            event(new UpdateShipment($model));
+            $model = $this->updateShipment((object)$request->all(),$shipment);
+            //dd($model);
             DB::commit();
             flash(translate("Shipment added successfully"))->success();
-            $route = 'admin.shipments.index';
-            return execute_redirect($request, $route);
+            return redirect()->route('admin.shipments.show', $model->id);
         } catch (\Exception $e) {
             DB::rollback();
             print_r($e->getMessage());
@@ -1272,6 +1407,110 @@ class ShipmentController extends Controller
             return back();
         }
     }
+
+    private function updateShipment($request,$shipment)
+    {
+        //dd($client);
+        
+        $model = Shipment::find($shipment);
+
+        $remove =['receiver_company','receiver_first_name','receiver_last_name','receiver_address_2','receiver_zip_code','receiver_email',
+        'client_company','client_first_name','client_last_name','client_address_2','client_zip_code','client_email'];
+
+        $request->Shipment= array_diff_key($request->Shipment, array_flip($remove));
+        //dd($request->client_id);
+        $model->fill($request->Shipment);
+        $model->client_id =$request->client_id;
+        $model->receiver_id =$request->receiver_id;
+        //dd($request->client_id);
+
+   
+
+        if (!$model->save()) {
+            throw new \Exception();
+        }
+        $all_packages=$request->Package;
+        if(isset($all_packages))
+        {
+            foreach ($all_packages as $k => $package) {
+                if(isset($package['shipment_insurance']))
+                $all_packages[$k]['shipment_insurance'] = $package['shipment_insurance'][0];
+                if(isset($package['shipment_fragile']))
+                $all_packages[$k]['shipment_fragile'] = $package['shipment_fragile'][0];
+                
+            }
+
+        }
+        //dd($all_packages);
+        $costs = $this->applyShipmentCost($request->Shipment,$all_packages);
+        //dd($costs);
+
+        $model->fill($costs);
+        if (!$model->save()) {
+            throw new \Exception();
+        }
+        
+        foreach (\App\PackageShipment::where('shipment_id', $model->id)->get() as $pack) {
+            $pack->delete();
+        }
+        $counter = 0;
+        if (isset($_POST['Package'])) {
+
+            if (!empty($_POST['Package'])) {
+
+                if (isset($_POST['Package'][$counter]['package_id'])) {
+
+                    foreach ($_POST['Package'] as $k=> $package) {
+                        if(isset($package['shipment_insurance']))
+                            $package['shipment_insurance'] = $package['shipment_insurance'][0];
+                        if(isset($package['shipment_fragile']))
+                            $package['shipment_fragile'] = $package['shipment_fragile'][0];
+                        $package_shipment = new PackageShipment();
+                        $package_shipment->fill($package);
+                        $package_shipment->shipment_id = $model->id;
+                        if (!$package_shipment->save()) {
+                            throw new \Exception();
+                        }
+                    }
+                }
+            }
+        }
+        
+        event(new UpdateShipment($model));
+
+        return $model;
+    }
+    // public function update(Request $request, $shipment)
+    // {
+    //     try {
+    //         DB::beginTransaction();
+    //         //dd($request->all());
+    //         $request->request->add(['client_id'=>  $this->storeClient($request->all())]);
+    //         $request->request->add(['receiver_id'=>$this->storeReceiver($request->all())]);
+            
+    //         $model = Shipment::find($shipment);
+
+
+    //         $model->fill($_POST['Shipment']);
+
+
+    //         if (!$model->save()) {
+    //             throw new \Exception();
+    //         }
+
+    //         DB::commit();
+    //         flash(translate("Shipment added successfully"))->success();
+    //         $route = 'admin.shipments.index';
+    //         return execute_redirect($request, $route);
+    //     } catch (\Exception $e) {
+    //         DB::rollback();
+    //         print_r($e->getMessage());
+    //         exit;
+
+    //         flash(translate("Error"))->error();
+    //         return back();
+    //     }
+    // }
 
 
     public function covered_countries()
@@ -1341,10 +1580,10 @@ class ShipmentController extends Controller
             $cost->delete();
         }
         $counter = 0;
-        $from_country = $request->from_country_h[$counter];
+        $from_country = $request['Shipment']['from_country_h'][$counter];
         $to_country = $request->to_country_h[$counter];
-        if(isset($request->from_state[$counter]))
-        $from_state = $request->from_state[$counter];
+        if(isset($request['Shipment']['from_state'][$counter]))
+        $from_state = $request['Shipment']['from_state'][$counter];
         if(isset($request->to_state[$counter]))
         $to_state = $request->to_state[$counter];
         $shipping_cost = $request->shipping_cost[$counter];
@@ -1380,12 +1619,12 @@ class ShipmentController extends Controller
         $newCost->extra_default_cost = $extra_default_cost;
         $newCost->save();
         $counter = 1;
-        foreach ($request->from_country_h as $cost_data) {
-            if ($counter <= (count($request->from_country_h) - 1)) {
-                $from_country = $request->from_country_h[$counter];
+        foreach ($request['Shipment']['from_country_h'] as $cost_data) {
+            if ($counter <= (count($request['Shipment']['from_country_h']) - 1)) {
+                $from_country = $request['Shipment']['from_country_h'][$counter];
                 $to_country = $request->to_country_h[$counter];
          
-                $from_state = $request->from_state[$counter-1];
+                $from_state = $request['Shipment']['from_state'][$counter-1];
                 $to_state = $request->to_state[$counter-1];
             
                

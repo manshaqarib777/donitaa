@@ -14,14 +14,25 @@
                 {!! redirect_input() !!}
                 <div class="card-body">
                     <div class="form-group">
-                        <label>{{ translate('Address') }}:</label>
-                        <input type="text" id="name" class="form-control" placeholder="{{ translate('Address') }}"
-                            name="ReceiverAddress[name]">
-                    </div>
-                    <div class="form-group">
                         <label>{{ translate('Address Type') }}:</label>
                         <input type="text" id="name" class="form-control" placeholder="{{ translate('Address Type') }}"
                             name="ReceiverAddress[type]">
+                    </div>
+
+                    <div class="form-group">
+                        <label>{{ translate('Address') }}:</label>
+                        <input type="text" id="name" class="form-control"
+                            placeholder="{{ translate('Here') }}" name="ReceiverAddress[name]">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ translate('Second Address') }}:</label>
+                        <input type="text" id="address" class="form-control"
+                            placeholder="{{ translate('Here') }}" name="ReceiverAddress[address]">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ translate('Zip Code') }}:</label>
+                        <input type="text" id="zip_code" class="form-control"
+                            placeholder="{{ translate('Here') }}" name="ReceiverAddress[zip_code]">
                     </div>
 
                     <div class="row">

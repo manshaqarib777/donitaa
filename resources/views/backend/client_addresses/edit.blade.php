@@ -13,6 +13,12 @@
                 @csrf
                 {{ method_field('PATCH') }}
                 <div class="card-body">
+
+                    <div class="form-group">
+                        <label>{{ translate('Address Type') }}:</label>
+                        <input type="text" id="type" class="form-control" value="{{ $client_address->type }}"
+                            placeholder="{{ translate('Here') }}" name="ClientAddress[type]">
+                    </div>
                     <div class="form-group">
                         <label>{{ translate('Address') }}:</label>
                         <input type="text" id="name" class="form-control" value="{{ $client_address->name }}"
@@ -20,10 +26,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label>{{ translate('Address Type') }}:</label>
-                        <input type="text" id="type" class="form-control" value="{{ $client_address->type }}"
-                            placeholder="{{ translate('Here') }}" name="ClientAddress[type]">
+                        <label>{{ translate('Second Address') }}:</label>
+                        <input type="text" id="address" class="form-control" value="{{ $client_address->address }}"
+                            placeholder="{{ translate('Here') }}" name="ClientAddress[address]">
                     </div>
+                    <div class="form-group">
+                        <label>{{ translate('Zip Code') }}:</label>
+                        <input type="text" id="zip_code" class="form-control" value="{{ $client_address->zip_code }}"
+                            placeholder="{{ translate('Here') }}" name="ClientAddress[zip_code]">
+                    </div>
+
 
 
 
