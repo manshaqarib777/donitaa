@@ -17,6 +17,7 @@
     $user_type = Auth::user()->user_type;
     $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? '[]');
     $countries = \App\Country::where('covered', 1)->get();
+    $countries_receiver = \App\Country::get();
     $packages = \App\Package::all();
     $times = \App\Time::all();
     @endphp
@@ -463,7 +464,7 @@
                                     <select id="change-country-to" name="Shipment[to_country_id]"
                                         class="form-control select-country">
                                         <option value=""></option>
-                                        @foreach ($countries as $country)
+                                        @foreach ($countries_receiver as $country)
                                             <option value="{{ $country->id }}">{{ $country->name }}
                                             </option>
                                         @endforeach
