@@ -15,7 +15,7 @@ class UpdateShipmentsTableAddReceiverId extends Migration
     {
         Schema::table('shipments', function (Blueprint $table) {
             
-            $table->integer('receiver_id')->unsigned()->nullable();
+            $table->integer('receiver_id')->unsigned()->nullable()->default(1);
         });
     }
 
