@@ -86,15 +86,15 @@
                                 <div class="plan cf">
                                 <div class="row">
                                     <div class="col-md-4 col-lg-4 col-xl-4">
-                                        <input type="radio" name="radio1" id="free" value="free"><label class="free-label four col" for="free"><i class="fa fa-user-o" aria-hidden="true"></i>  Personal</label>
+                                        <input type="radio" name="radio1" id="free" value="1" class="change_type"><label class="free-label four col" for="free"><i class="fa fa-user-o" aria-hidden="true"></i>  Personal</label>
 
                                     </div>
                                     <div class="col-md-4 col-lg-4 col-xl-4">
-                                        <input type="radio" name="radio1" id="basic" value="basic" checked><label class="basic-label four col" for="basic"><i class="fa fa-dropbox" aria-hidden="true"></i> Business</label>
+                                        <input type="radio" name="radio1" id="basic" value="2" class="change_type" checked><label class="basic-label four col" for="basic"><i class="fa fa-dropbox" aria-hidden="true"></i> Business</label>
 
                                     </div>
                                     <div class="col-md-4 col-lg-4 col-xl-4">
-                                        <input type="radio" name="radio1" id="premium" value="premium"><label class="premium-label four col" for="premium"> <i class="fa fa-truck" aria-hidden="true"></i> Driver</label>
+                                        <input type="radio" name="radio1" id="premium" class="change_type" value="3"><label class="premium-label four col" for="premium"> <i class="fa fa-truck" aria-hidden="true"></i> Driver</label>
                                     </div>
                                 </div>
 
@@ -127,7 +127,7 @@
                                     </span>
                                 @endif
                             </div>
-                            <div class="form-group">
+                            <div class="form-group show_company">
                                 <label>{{translate('Business Legal Name')}}</label>
                                 <input id="company" type="text"
                                     class="form-control{{ $errors->has('company') ? ' is-invalid' : '' }}" name="Client[company]"
@@ -288,6 +288,17 @@
 @endsection
 @section('script')
     <script type="text/javascript">
+    $('.change_type').change(function() {
+            var change_html="";
+            if ($(this).val() == '2') {
+                $('.show_company').show();
+
+            } else {
+                $('.show_company').hide();
+
+
+            }
+        });
         $('.how-know-us').select2({
             placeholder: "Client Source",
         });
