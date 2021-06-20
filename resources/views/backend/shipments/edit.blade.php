@@ -159,7 +159,7 @@ method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label class="">{{ translate('Sender Company') }}:</label>
                                 <input type="text" placeholder="{{ translate('Sender Company') }}"
-                                    name="Shipment[client_company]" id="client_company" class="form-control" value="{{$shipment->client->company}}" />
+                                    name="Shipment[client_company]" id="client_company" class="form-control" value="{{@$shipment->client->company}}" />
 
                             </div>
                         </div>
@@ -312,7 +312,7 @@ method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label class="text-white ">{{ translate('Receiver Company') }}:</label>
                                 <input type="text" placeholder="{{ translate('Receiver Company') }}"
-                                    name="Shipment[receiver_company]" id="receiver_company" class="form-control" value="{{$shipment->receiver->company}}" />
+                                    name="Shipment[receiver_company]" id="receiver_company" class="form-control" value="{{@@$shipment->receiver->company}}" />
 
                             </div>
                         </div>
@@ -345,7 +345,7 @@ method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label class="text-white ">{{ translate('First Name') }}:</label>
                                 <input type="text" placeholder="{{ translate('First Name') }}"
-                                    name="Shipment[receiver_first_name]" id="receiver_first_name" class="form-control" value="{{explode(' ',$shipment->receiver->name)[0]}}" />
+                                    name="Shipment[receiver_first_name]" id="receiver_first_name" class="form-control" value="{{explode(' ',@$shipment->receiver->name)[0]}}" />
 
                             </div>
                         </div>
@@ -353,7 +353,7 @@ method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label class="text-white ">{{ translate('Last Name') }}:</label>
                                 <input type="text" placeholder="{{ translate('Last Name') }}"
-                                    name="Shipment[receiver_last_name]" id="receiver_last_name" class="form-control" value="{{@explode(' ',$shipment->receiver->name,' ')[1]}}" />
+                                    name="Shipment[receiver_last_name]" id="receiver_last_name" class="form-control" value="{{@explode(' ',@$shipment->receiver->name,' ')[1]}}" />
 
                             </div>
                         </div>
@@ -366,7 +366,7 @@ method="POST" enctype="multipart/form-data">
                                                 <option></option>
                                             </select> --}}
                                     <input placeholder="{{ translate('Address') }}" name="Shipment[receiver_address]"
-                                        class="form-control" value="{{@$receiver_address->name}}" id="" />
+                                        class="form-control" value="{{@@$receiver_address->name}}" id="" />
                                 </div>
 
                             </div>
@@ -380,7 +380,7 @@ method="POST" enctype="multipart/form-data">
                                                 <option></option>
                                             </select> --}}
                                     <input placeholder="{{ translate('Address') }}" name="Shipment[receiver_address_2]"
-                                        class="form-control" value="{{$receiver_address->address}}" id="" />
+                                        class="form-control" value="{{@$receiver_address->address}}" id="" />
                                 </div>
 
                             </div>
@@ -432,7 +432,7 @@ method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label class="text-white ">{{ translate('Zip/Postal Code') }}:</label>
                                 <input type="text" placeholder="{{ translate('Zip/Postal Code') }}"
-                                    name="Shipment[receiver_zip_code]" id="receiver_zip_code" value="{{$receiver_address->zip_code}}" class="form-control" />
+                                    name="Shipment[receiver_zip_code]" id="receiver_zip_code" value="{{@$receiver_address->zip_code}}" class="form-control" />
 
                             </div>
                         </div>
@@ -440,14 +440,14 @@ method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label class="text-white ">{{ translate('Email') }}:</label>
                                 <input type="text" placeholder="{{ translate('Email') }}"
-                                    name="Shipment[receiver_email]" id="receiver_email" value="{{$shipment->receiver->email}}" class="form-control" />
+                                    name="Shipment[receiver_email]" id="receiver_email" value="{{@$shipment->receiver->email}}" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="text-white ">{{ translate('Receiver Phone') }}:</label>
                                 <input type="text" placeholder="{{ translate('Receiver Phone') }}"
-                                    name="Shipment[receiver_phone]" id="receiver_phone" value="{{$shipment->receiver->responsible_mobile}}" class="form-control" />
+                                    name="Shipment[receiver_phone]" id="receiver_phone" value="{{@$shipment->receiver->responsible_mobile}}" class="form-control" />
 
                             </div>
                         </div>
@@ -490,241 +490,6 @@ method="POST" enctype="multipart/form-data">
             </div>
 
             <hr>
-
-            {{-- <div id="kt_repeater_1">
-                <div class="row" id="kt_repeater_1">
-                    <h2 class="text-left">{{ translate('Package Info') }}:</h2>
-                    <div data-repeater-list="Package" class="col-lg-12">
-                        @foreach (\App\PackageShipment::where('shipment_id', $shipment->id)->get() as $pack)
-                            <div data-repeater-item class="row align-items-center"
-                                style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;">
-
-
-
-                                <div class="col-md-4">
-
-                                    <label>{{ translate('Package Type') }}:</label>
-                                    <select class="form-control kt-select2 package-type-select"
-                                        id="select-how" name="package_id">
-                                        <option></option>
-                                        @foreach (\App\Package::all() as $package)
-                                            <option @if ($pack->package_id == $package->id) selected @endif
-                                                value="{{ $package->id }}">{{ $package->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="mb-2 d-md-none"></div>
-                                </div>
-                                <div class="col-md-4">
-                                    <label>{{ translate('description') }}:</label>
-                                    <input type="text" value="{{ $pack->description }}"
-                                        class="form-control" name="description">
-                                    <div class="mb-2 d-md-none"></div>
-                                </div>
-
-                                <div class="col-md-4">
-
-                                    <label>{{ translate('Weight') }}:</label>
-
-                                    <input id="kt_touchspin_weight" type="text" name="weight"
-                                        class="form-control weight-listener" onchange="calcTotalWeight()"
-                                        value="{{ $pack->weight }}" />
-                                    <div class="mb-2 d-md-none"></div>
-
-                                </div>
-
-
-                                <div class="col-md-12 row">
-                                    <div class="col-md-12" style="margin-top: 10px;">
-                                        <label>{{ translate('Dimensions [Length x Width x Height] (cm):') }}:</label>
-                                    </div>
-                                    <div class="col-md-4">
-
-                                        <input class="dimensions_r" type="text" class="form-control"
-                                            placeholder="{{ translate('Length') }}"
-                                            value="{{ $pack->length }}" name="length" />
-
-                                    </div>
-                                    <div class="col-md-4">
-
-                                        <input class="dimensions_r" type="text" class="form-control"
-                                            placeholder="{{ translate('Width') }}"
-                                            value="{{ $pack->width }}" name="width" />
-
-                                    </div>
-                                    <div class="col-md-4">
-
-                                        <input class="dimensions_r" type="text" class="form-control "
-                                            placeholder="{{ translate('Height') }}"
-                                            value="{{ $pack->height }}" name="height" />
-
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>{{ translate('Shipment Insurance') }}:</label>
-                                        <label class="checkbox">
-                                            <input type="checkbox" onchange="update_currency_status(this)"
-                                                placeholder="{{ translate('Include Shipment Insurance') }}"
-                                                class="form-control insurance-listener"
-                                                value="{{ $pack->shipment_insurance }}"
-                                                {{ $pack->shipment_insurance == 1 ? 'checked' : '' }}
-                                                name="shipment_insurance" />
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>{{ translate('Package Value') }}:</label>
-                                        <input type="text" placeholder="{{ translate('Package Value') }}"
-                                            class="form-control value-listener" onchange="calcTotalPrice()"
-                                            value="{{ $pack->shipment_price }}" name="shipment_price" />
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12">
-                                    <div class="inner-repeater">
-                                        <div data-repeater-list="package_list">
-                                            @if (isset($pack->package_list))
-                                                @foreach ($pack->package_list as $list)
-                                                    <div data-repeater-item>
-                                                        <div class="row">
-                                                            <div class="col-md-4">
-                                                                <label>{{ translate('Item Name') }}:</label>
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="{{ translate('Item Name') }}"
-                                                                    name="item_name"
-                                                                    value="{{ $list->item_name }}" />
-
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <label>{{ translate('Item Description') }}:</label>
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="{{ translate('Description') }}"
-                                                                    name="description"
-                                                                    value="{{ $list->description }}" />
-                                                            </div>
-                                                            <div class="col-md-4">
-
-                                                                <label>{{ translate('Quantity') }}:</label>
-
-                                                                <input class="kt_touchspin_qty"
-                                                                    placeholder="{{ translate('Quantity') }}"
-                                                                    type="number" min="1" name="qty"
-                                                                    class="form-control"
-                                                                    value="{{ $list->qty }}" />
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-2">
-                                                            <div class="col-md-12">
-
-                                                                <div>
-                                                                    <a href="javascript:;"
-                                                                        data-repeater-delete=""
-                                                                        class="btn btn-sm font-weight-bolder btn-light-danger delete_item">
-                                                                        <i
-                                                                            class="la la-trash-o"></i>{{ translate('Delete List') }}
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-                                                @endforeach
-                                            @else
-                                                <div data-repeater-item>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <label>{{ translate('Item Name') }}:</label>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="{{ translate('Item Name') }}"
-                                                                name="item_name" />
-
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label>{{ translate('Item Description') }}:</label>
-                                                            <input type="text" class="form-control"
-                                                                placeholder="{{ translate('Description') }}"
-                                                                name="description" />
-                                                        </div>
-                                                        <div class="col-md-4">
-
-                                                            <label>{{ translate('Quantity') }}:</label>
-
-                                                            <input class="kt_touchspin_qty"
-                                                                placeholder="{{ translate('Quantity') }}"
-                                                                type="number" min="1" name="qty"
-                                                                class="form-control" value="1" />
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mt-2">
-                                                        <div class="col-md-12">
-
-                                                            <div>
-                                                                <a href="javascript:;"
-                                                                    data-repeater-delete=""
-                                                                    class="btn btn-sm font-weight-bolder btn-light-danger delete_item">
-                                                                    <i
-                                                                        class="la la-trash-o"></i>{{ translate('Delete List') }}
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-
-                                            @endif
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="">
-                                                <label
-                                                    class="text-right col-form-label">{{ translate('Add List') }}</label>
-                                                <div>
-                                                    <a href="javascript:;" data-repeater-create=""
-                                                        class="btn btn-sm font-weight-bolder btn-light-primary">
-                                                        <i
-                                                            class="la la-plus"></i>{{ translate('Add List') }}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <div>
-                                            <a href="javascript:;" data-repeater-delete=""
-                                                class="btn btn-sm font-weight-bolder btn-light-danger">
-                                                <i class="la la-trash-o"></i>{{ translate('Delete') }}
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="">
-                        <label class="text-right col-form-label">{{ translate('Add Package') }}</label>
-                        <div>
-                            <a href="javascript:;" data-repeater-create=""
-                                class="btn btn-sm font-weight-bolder btn-light-primary">
-                                <i class="la la-plus"></i>{{ translate('Add Package') }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-
-
-
-
-
-            </div> --}}
-
 
             <div id="kt_repeater_1">
                 <div id="kt_repeater_1">
@@ -901,11 +666,15 @@ method="POST" enctype="multipart/form-data">
 
                                                                             <label>{{ translate('Quantity') }}:</label>
 
-                                                                            <input class="kt_touchspin_qty"
-                                                                                placeholder="{{ translate('Quantity') }}"
-                                                                                type="number" min="1" name="qty"
-                                                                                class="form-control"
-                                                                                value="{{ $list->qty }}" />
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="input-group-prepend">
+                                                                                    <span class="input-group-text" id="basic-addon1">Q</span>
+                                                                                </div>
+                                                                                <input type="text" min="1"
+                                                                                    class="form-control quantity-listener"
+                                                                                    placeholder="{{ translate('Quantity') }}" type="text"
+                                                                                    min="1" name="qty" class="form-control" value="{{ $list->qty }}" />
+                                                                            </div>
 
                                                                         </div>
                                                                     </div>
@@ -1167,84 +936,6 @@ method="POST" enctype="multipart/form-data">
         }
     }
 
-    $('.select-client').select2({
-        placeholder: "Select Client",
-    })
-    @if ($user_type == 'admin' || in_array('1005', $staff_permission))
-        .on('select2:open', () => {
-        $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                href="{{ route('admin.clients.create') }}?redirect=admin.shipments.create" class="btn btn-primary">+
-                {{ translate('Add New Client') }}</a>
-        </li>`);
-        });
-    @endif
-
-    $('.select-receiver').select2({
-        placeholder: "Select Receiver",
-    })
-    @if ($user_type == 'admin' || in_array('1005', $staff_permission))
-        .on('select2:open', () => {
-        $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                href="{{ route('admin.receivers.create') }}?redirect=admin.shipments.create" class="btn btn-primary">+
-                {{ translate('Add New Receiver') }}</a>
-        </li>`);
-        });
-    @endif
-
-
-    $('.select-client').change(function() {
-        // var client_phone = $(this).find(':selected').data('phone');
-        // document.getElementById("client_phone").value = client_phone;
-        $.get("{{ route('admin.shipments.get-client-address-ajax') }}?client_id=" + $(this).find(
-                ':selected')
-            .val(),
-            function(data) {
-                $('select[name ="Shipment[client_address]"]').empty();
-                $('select[name ="Shipment[client_address]"]').append('<option value=""></option>');
-                for (let index = 0; index < data.length; index++) {
-                    const element = data[index];
-                    $('select[name ="Shipment[client_address]"]').append('<option value="' + element[
-                            'name'] + '" data-id="' + element['id'] + '" data-phone="' + element[
-                            'phone'] +
-                        '" data-country_id="' + element['country_id'] + '" data-country_name="' +
-                        element['country']['name'] + '" data-state_id="' + element[
-                            'state_id'] + '" data-state_name="' + element[
-                            'state']['name'] + '" data-area_id="' + element['area_id'] +
-                        '" data-area_name="' + element['area']['name'] + '">' + element[
-                            'type'] + '</option>');
-                }
-
-            });
-    })
-
-
-    $('.select-receiver').change(function() {
-        // var receiver_phone = $(this).find(':selected').data('phone');
-        // document.getElementById("receiver_phone").value = receiver_phone;
-        $.get("{{ route('admin.shipments.get-receiver-address-ajax') }}?receiver_id=" + $(this).find(
-                ':selected')
-            .val(),
-            function(data) {
-                $('select[name ="Shipment[receiver_address]"]').empty();
-                $('select[name ="Shipment[receiver_address]"]').append('<option value=""></option>');
-                for (let index = 0; index < data.length; index++) {
-                    const element = data[index];
-                    $('select[name ="Shipment[receiver_address]"]').append('<option value="' + element[
-                            'name'] + '" data-id="' + element['id'] + '" data-phone="' + element[
-                            'phone'] +
-                        '" data-country_id="' + element['country_id'] + '" data-country_name="' +
-                        element['country']['name'] + '" data-state_id="' + element[
-                            'state_id'] + '" data-state_name="' + element[
-                            'state']['name'] + '" data-area_id="' + element['area_id'] +
-                        '" data-area_name="' + element['area']['name'] + '">' + element[
-                            'type'] + '</option>');
-                }
-
-            });
-    })
-
-
-
 
     $(document).on('click', '.package-listener', function() {
 
@@ -1257,56 +948,6 @@ method="POST" enctype="multipart/form-data">
             $(this).parent().parent().parent().find('.default-package-show').show();
             $(this).parent().parent().parent().find('.custom-package-show').hide();
         }
-
-    });
-    $('.select-client-address').change(function() {
-        var client_phone = $(this).find(':selected').data('phone');
-        var client_country = $(this).find(':selected').data('country_id');
-        var client_state = $(this).find(':selected').data('state_id');
-        var client_area = $(this).find(':selected').data('area_id');
-        var client_area_name = $(this).find(':selected').data('area_name');
-        var client_state_name = $(this).find(':selected').data('state_name');
-        var client_country_name = $(this).find(':selected').data('country_name');
-        $("#client_phone").val(client_phone);
-
-        $("#change-country").val(client_country).trigger('change');
-        setTimeout(
-            function() {
-                $("#change-state-from").val(client_state).trigger('change');
-            }, 1000
-        );
-        setTimeout(
-            function() {
-                $("#change-area-from").val(client_area).trigger('change');
-            }, 2000
-        );
-
-
-    });
-
-
-    $('.select-receiver-address').change(function() {
-        var receiver_phone = $(this).find(':selected').data('phone');
-        var receiver_country = $(this).find(':selected').data('country_id');
-        var receiver_state = $(this).find(':selected').data('state_id');
-        var receiver_area = $(this).find(':selected').data('area_id');
-        var receiver_area_name = $(this).find(':selected').data('area_name');
-        var receiver_state_name = $(this).find(':selected').data('state_name');
-        var receiver_country_name = $(this).find(':selected').data('country_name');
-        $("#receiver_phone").val(receiver_phone);
-
-        $("#change-country-to").val(receiver_country).trigger('change');
-        setTimeout(
-            function() {
-                $("#change-state-to").val(receiver_state).trigger('change');
-            }, 1000
-        );
-        setTimeout(
-            function() {
-                $("#change-area-to").val(receiver_area).trigger('change');
-            }, 2000
-        );
-
 
     });
 
@@ -1356,9 +997,13 @@ method="POST" enctype="multipart/form-data">
             $('select[name ="Shipment[branch_id]"]').append('<option value=""></option>');
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
-
+                var selected="";
+                if(index==0)
+                {
+                    selected="selected";
+                }
                 $('select[name ="Shipment[branch_id]"]').append('<option value="' + element['id'] +
-                    '">' + element['name'] + '</option>');
+                    '" '+selected+'>' + element['name'] + '</option>');
             }
 
 
@@ -1383,9 +1028,13 @@ method="POST" enctype="multipart/form-data">
             $('select[name ="Shipment[receiver_branch_id]"]').append('<option value=""></option>');
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
-
+                var selected="";
+                if(index==0)
+                {
+                    selected="selected";
+                }
                 $('select[name ="Shipment[receiver_branch_id]"]').append('<option value="' + element['id'] +
-                    '">' + element['name'] + '</option>');
+                    '"'+selected+'>' + element['name'] + '</option>');
             }
 
 
@@ -1424,6 +1073,7 @@ method="POST" enctype="multipart/form-data">
 
     function get_estimation_cost() {
         var total_weight = document.getElementById('kt_touchspin_4').value;
+        var exp_type = document.querySelector('input[name="Shipment[exp_type]"]:checked').value;
         var select_packages = document.getElementsByClassName('package-type-select');
         var select_custom_packages = document.getElementsByClassName('package-listener');
         var select_custom_packages_value = document.getElementsByClassName('package-listener-value');
@@ -1497,6 +1147,7 @@ method="POST" enctype="multipart/form-data">
             _token: '{{ csrf_token() }}',
             package_ids: package_ids,
             total_weight: total_weight,
+            exp_type: exp_type,
             from_country_id: from_country_id,
             to_country_id: to_country_id,
             from_state_id: from_state_id,
@@ -1563,43 +1214,6 @@ method="POST" enctype="multipart/form-data">
             },
         });
 
-        $('.select-client-address').select2({
-            placeholder: "Select Client Address",
-            language: {
-                noResults: function() {
-                    @if ($user_type == 'admin' || in_array('1105', $staff_permission))
-                        return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                                href="{{ route('admin.client-addresses.create') }}" class="btn btn-primary">Manage
-                                {{ translate('Client Addresses') }}</a>
-                        </li>`;
-                    @else
-                        return ``;
-                    @endif
-                },
-            },
-            escapeMarkup: function(markup) {
-                return markup;
-            },
-        });
-
-        $('.select-receiver-address').select2({
-            placeholder: "Select Receiver Address",
-            language: {
-                noResults: function() {
-                    @if ($user_type == 'admin' || in_array('1105', $staff_permission))
-                        return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                                href="{{ route('admin.receiver-addresses.create') }}" class="btn btn-primary">Manage
-                                {{ translate('Receiver Addresses') }}</a>
-                        </li>`;
-                    @else
-                        return ``;
-                    @endif
-                },
-            },
-            escapeMarkup: function(markup) {
-                return markup;
-            },
-        });
 
         $('.select-state').select2({
             placeholder: "Select state",
@@ -1639,6 +1253,7 @@ method="POST" enctype="multipart/form-data">
             },
         });
 
+        //$('.select-client-address').trigger('change');
         $('#kt_datepicker_3').datepicker({
             orientation: "bottom auto",
             autoclose: true,
@@ -1699,16 +1314,6 @@ method="POST" enctype="multipart/form-data">
                 show: function() {
                     $(this).slideDown();
 
-                    $('.kt_touchspin_qty').TouchSpin({
-                        buttondown_class: 'btn btn-secondary',
-                        buttonup_class: 'btn btn-secondary',
-
-                        min: 1,
-                        max: 1000000000,
-                        stepinterval: 50,
-                        maxboostedstep: 10000000,
-                        initval: 1,
-                    });
                 },
 
                 hide: function(deleteElement) {
@@ -1765,227 +1370,182 @@ method="POST" enctype="multipart/form-data">
                 calcTotalPrice();
             }, 500);
         });
-        $('#kt_touchspin_2, #kt_touchspin_2_2').TouchSpin({
-            buttondown_class: 'btn btn-secondary',
-            buttonup_class: 'btn btn-secondary',
-
-            min: -1000000000,
-            max: 1000000000,
-            stepinterval: 50,
-            maxboostedstep: 10000000,
-            prefix: '%'
-        });
-        $('#kt_touchspin_3').TouchSpin({
-            buttondown_class: 'btn btn-secondary',
-            buttonup_class: 'btn btn-secondary',
-
-            min: 0,
-            max: 1000000000,
-            stepinterval: 50,
-            maxboostedstep: 10000000,
-            prefix: '{{ currency_symbol() }}'
-        });
-        $('.kt_touchspin_weight').TouchSpin({
-            buttondown_class: 'btn btn-secondary',
-            buttonup_class: 'btn btn-secondary',
-
-            min: 1,
-            max: 1000000000,
-            stepinterval: 50,
-            maxboostedstep: 10000000,
-            initval: 1,
-            prefix: 'Kg'
-        });
-        $('.kt_touchspin_qty').TouchSpin({
-            buttondown_class: 'btn btn-secondary',
-            buttonup_class: 'btn btn-secondary',
-
-            min: 1,
-            max: 1000000000,
-            stepinterval: 50,
-            maxboostedstep: 10000000,
-            initval: 1,
-        });
-        $('.dimensions_r').TouchSpin({
-            buttondown_class: 'btn btn-secondary',
-            buttonup_class: 'btn btn-secondary',
-
-            min: 1,
-            max: 1000000000,
-            stepinterval: 50,
-            maxboostedstep: 10000000,
-            initval: 1,
-        });
 
 
-        // FormValidation.formValidation(
-        //     document.getElementById('kt_form_1'), {
-        //         fields: {
-        //             "Shipment[shipping_date]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             // "Shipment[branch_id]": {
-        //             //     validators: {
-        //             //         notEmpty: {
-        //             //             message: '{{ translate('This is required!') }}'
-        //             //         }
-        //             //     }
-        //             // },
-        //             // "Shipment[client_id]": {
-        //             //     validators: {
-        //             //         callback: {
-        //             //             message: '{{ translate('This is required!') }}',
-        //             //             callback: function(input) {
-        //             //                 // Get the selected options
-        //             //                 if ((input.value !== "")) {
-        //             //                     $('.client-select').removeClass('has-errors');
-        //             //                 } else {
-        //             //                     $('.client-select').addClass('has-errors');
-        //             //                 }
-        //             //                 return (input.value !== "");
-        //             //             }
-        //             //         }
-        //             //     }
-        //             // },
-        //             "Shipment[client_address]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             "Shipment[client_phone]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             "Shipment[payment_type]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             "Shipment[payment_method_id]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             // "Shipment[tax]": {
-        //             //     validators: {
-        //             //         notEmpty: {
-        //             //             message: '{{ translate('This is required!') }}'
-        //             //         }
-        //             //     }
-        //             // },
-        //             // "Shipment[insurance]": {
-        //             //     validators: {
-        //             //         notEmpty: {
-        //             //             message: '{{ translate('This is required!') }}'
-        //             //         }
-        //             //     }
-        //             // },
-        //             // "Shipment[shipping_cost]": {
-        //             //     validators: {
-        //             //         notEmpty: {
-        //             //             message: '{{ translate('This is required!') }}'
-        //             //         }
-        //             //     }
-        //             // },
-        //             "Shipment[delivery_time]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             "Shipment[total_weight]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             "Shipment[from_country_id]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             "Shipment[to_country_id]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             "Shipment[receiver_email]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             "Shipment[client_email]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             "Shipment[receiver_phone]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             "Shipment[receiver_address]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             },
-        //             "Package[0][package_id]": {
-        //                 validators: {
-        //                     notEmpty: {
-        //                         message: '{{ translate('This is required!') }}'
-        //                     }
-        //                 }
-        //             }
+        FormValidation.formValidation(
+            document.getElementById('kt_form_1'), {
+                fields: {
+                    "Shipment[shipping_date]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[branch_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[receiver_branch_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+
+                    "Shipment[client_address]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[client_phone]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[payment_type]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[payment_method_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[tax]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[insurance]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[shipping_cost]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[delivery_time]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    // "Shipment[total_weight]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{translate("This is required!")}}'
+                    //         }
+                    //     }
+                    // },
+                    "Shipment[from_country_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[to_country_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[from_state_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[to_state_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[from_area_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[to_area_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[receiver_phone]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[receiver_address]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Package[0][package_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    }
 
 
 
-        //         },
+                },
 
 
-        //         plugins: {
-        //             autoFocus: new FormValidation.plugins.AutoFocus(),
-        //             trigger: new FormValidation.plugins.Trigger(),
-        //             // Bootstrap Framework Integration
-        //             bootstrap: new FormValidation.plugins.Bootstrap(),
-        //             // Validate fields when clicking the Submit button
-        //             submitButton: new FormValidation.plugins.SubmitButton(),
-        //             // Submit the form when all fields are valid
-        //             defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-        //             icon: new FormValidation.plugins.Icon({
-        //                 valid: '',
-        //                 invalid: 'fa fa-times',
-        //                 validating: 'fa fa-refresh',
-        //             }),
-        //         }
-        //     }
-        // );
+                plugins: {
+                    autoFocus: new FormValidation.plugins.AutoFocus(),
+                    trigger: new FormValidation.plugins.Trigger(),
+                    // Bootstrap Framework Integration
+                    bootstrap: new FormValidation.plugins.Bootstrap(),
+                    // Validate fields when clicking the Submit button
+                    submitButton: new FormValidation.plugins.SubmitButton(),
+                    // Submit the form when all fields are valid
+                    defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                    icon: new FormValidation.plugins.Icon({
+                        valid: '',
+                        invalid: 'fa fa-times',
+                        validating: 'fa fa-refresh',
+                    }),
+                }
+            }
+        );
     });
 
 </script>

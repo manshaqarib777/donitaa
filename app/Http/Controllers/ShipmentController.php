@@ -763,16 +763,9 @@ class ShipmentController extends Controller
             $from_state_id = $request['from_state_id'];
             $to_state_id = $request['to_state_id'];
         }
-        if (isset($request['from_area_id']) && isset($request['to_area_id'])) {
-            $from_area_id = $request['from_area_id'];
-            $to_area_id = $request['to_area_id'];
-        }
 
         $weight =  $request['total_weight'];
-
         $array = ['return_cost' => 0, 'shipping_cost' => 0, 'tax' => 0, 'insurance' => 0];
-
-        // Shipping Cost = Default + kg + Covered Custom  + Package extra
         $covered_cost = Cost::where('from_country_id', $from_country_id)->where('to_country_id', $to_country_id);
 
         if (isset($request['from_state_id']) && isset($request['to_state_id'])) {
@@ -810,45 +803,16 @@ class ShipmentController extends Controller
 
                 if($package->default_cost)
                 {
-                    if($pack['weight'] > 1){
-
-                        if(!$covered_cost->extra_default_cost)
-                        {
-                            $tax = $tax + (($covered_cost->extra_tax * (float) ($package->cost)) / 100 );
-                        }                        
- 
-                        $shipping_cost = $shipping_cost + (float) ($package->cost);
-        
-                    }else{
-                                        
-                        if(!$covered_cost->default_cost)
-                        {
-                            $tax = $tax + (($covered_cost->tax * (float) ($package->cost)) / 100 );
-                        }
-                        $shipping_cost = $shipping_cost + (float) ($package->cost);
-                        
-                    }
-
+                    $shipping_cost = $shipping_cost + (float) ($package->cost);
                 }
                 else
                 {
-                    if($pack['weight'] > 1){
-
-                                
+                    if($pack['weight'] > 1){                                
                         $shipping_cost_for_extra = (float) ($covered_cost->extra_shipping_cost * ($pack['weight']));
-                        if(!$covered_cost->extra_default_cost)
-                        {
-                            $tax = $tax + (($covered_cost->extra_tax * $shipping_cost_for_extra) / 100 );
-                        }
-        
                         $shipping_cost = $shipping_cost + $shipping_cost_for_extra + (float)$package->cost;
         
                     }else{
                         $shipping_cost = $shipping_cost + (float) $covered_cost->shipping_cost;
-                        if(!$covered_cost->default_cost)
-                        {
-                            $tax = $tax + (($covered_cost->tax * $shipping_cost) / 100 );
-                        }
                         $shipping_cost = $shipping_cost+ (float)$package->cost;
                     }
                 }
@@ -858,12 +822,22 @@ class ShipmentController extends Controller
             {   
                 if($weight > 1)
                 {
-                    $return_cost =  ( $return_fee * (float) ($weight));    
+                    $return_cost =  ( $return_fee * (float) ($weight));
                 }
                 else
                 {
                     $return_cost = (float) $return_fee;
                 }
+            }
+            if($weight > 1)
+            {
+                //$return_cost =  ( $return_fee * (float) ($weight));
+                $tax = (($covered_cost->extra_tax * $shipping_cost) / 100 );   
+            }
+            else
+            {
+                //$return_cost = (float) $return_fee;
+                $tax = (($covered_cost->tax * $shipping_cost) / 100 );
             }
             $array['return_cost'] = $return_cost;
             $array['shipping_cost'] = $shipping_cost;
@@ -896,44 +870,17 @@ class ShipmentController extends Controller
 
                 if($package->default_cost)
                 {
-                    if($pack['weight'] > 1){
-
-                        if(!ShipmentSetting::getCost('extra_default_cost'))
-                        {
-                            $tax = $tax + ((ShipmentSetting::getCost('def_tax_gram') * $package->cost) / 100 );
-                        }   
-        
-                        $shipping_cost = $shipping_cost + $package->cost;
-        
-                    }else{
-                        if(!ShipmentSetting::getCost('default_cost'))
-                        {    
-                            $tax = $tax + ((ShipmentSetting::getCost('def_tax') * $package->cost) / 100 );
-                        }
-                        $shipping_cost = $shipping_cost + $package->cost; 
-                    }
-
-
+                    $shipping_cost = $shipping_cost + $package->cost;
                 }
                 else
                 {
-                    if($pack['weight'] > 1){
-
-                        
+                    if($pack['weight'] > 1)
+                    {                        
                         $shipping_cost_for_extra = (float) (ShipmentSetting::getCost('def_shipping_cost_gram') * ($pack['weight']));
-                        if(!ShipmentSetting::getCost('extra_default_cost'))
-                        {
-                            $tax = $tax + ((ShipmentSetting::getCost('def_tax_gram') * $shipping_cost_for_extra) / 100 );
-                        }   
-        
                         $shipping_cost = $shipping_cost +  $shipping_cost_for_extra + (float) $package->cost;        
-
-                    }else{
-
-                        if(!ShipmentSetting::getCost('default_cost'))
-                        {    
-                            $tax = $tax + ((ShipmentSetting::getCost('def_tax') * ShipmentSetting::getCost('def_shipping_cost')) / 100 );
-                        }
+                    }
+                    else
+                    {
                         $shipping_cost = $shipping_cost + ShipmentSetting::getCost('def_shipping_cost') + (float) $package->cost;
                     }
                 }
@@ -943,11 +890,20 @@ class ShipmentController extends Controller
                 if($weight > 1)
                 {
                     $return_cost = ( $return_fee * (float)($weight));
-                }else
+                }
+                else
                 {
                     $return_cost = $return_fee;
                 }
             }
+            if($weight > 1)
+                {
+                    $tax = ((ShipmentSetting::getCost('def_tax_gram') * $shipping_cost) / 100 );
+                }
+                else
+                {
+                    $tax = ((ShipmentSetting::getCost('def_tax') * $shipping_cost) / 100 );
+                }
             $array['return_cost'] = $return_cost;
             $array['shipping_cost'] = $shipping_cost;
             $array['tax'] = $tax;

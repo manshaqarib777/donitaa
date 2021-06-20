@@ -1091,7 +1091,7 @@
 
     function get_estimation_cost() {
         var total_weight = document.getElementById('kt_touchspin_4').value;
-        var return_package = document.querySelector('input[name="Shipment[exp_type]"]:checked').value;
+        var exp_type = document.querySelector('input[name="Shipment[exp_type]"]:checked').value;
         var select_packages = document.getElementsByClassName('package-type-select');
         var select_custom_packages = document.getElementsByClassName('package-listener');
         var select_custom_packages_value = document.getElementsByClassName('package-listener-value');
