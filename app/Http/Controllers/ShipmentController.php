@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Area;
+use App\User;
 use App\Branch;
 use App\Client;
 use App\Receiver;
@@ -791,6 +792,7 @@ class ShipmentController extends Controller
             $shipping_cost= 0;
             $tax= 0;
             $insurance= 0;
+            $return_cost=0;
      
             foreach ($packages as $pack) {
                 $package = Package::find($pack['package_id']);
@@ -852,16 +854,17 @@ class ShipmentController extends Controller
                 }
 
             }
-
-            if($weight > 1)
-            {
-                $return_cost =  ( $return_fee * (float) ($weight));    
+            if($request['exp_type']==2)
+            {   
+                if($weight > 1)
+                {
+                    $return_cost =  ( $return_fee * (float) ($weight));    
+                }
+                else
+                {
+                    $return_cost = (float) $return_fee;
+                }
             }
-            else
-            {
-                $return_cost = (float) $return_fee;
-            }
-
             $array['return_cost'] = $return_cost;
             $array['shipping_cost'] = $shipping_cost;
             $array['tax'] = $tax;
@@ -874,7 +877,7 @@ class ShipmentController extends Controller
             $shipping_cost= 0;
             $tax= 0;
             $insurance = 0;
-
+            $return_cost=0;
 
             foreach ($packages as $key => $pack) {
                 $package = Package::find($pack['package_id']);
@@ -935,15 +938,16 @@ class ShipmentController extends Controller
                     }
                 }
             }
-            
-            if($weight > 1)
+            if($request['exp_type']==2)
             {
-                $return_cost = ( $return_fee * (float)($weight));
-            }else
-            {
-                $return_cost = $return_fee;
+                if($weight > 1)
+                {
+                    $return_cost = ( $return_fee * (float)($weight));
+                }else
+                {
+                    $return_cost = $return_fee;
+                }
             }
-
             $array['return_cost'] = $return_cost;
             $array['shipping_cost'] = $shipping_cost;
             $array['tax'] = $tax;
@@ -981,7 +985,7 @@ class ShipmentController extends Controller
             DB::beginTransaction();
             $request->request->add(['client_id'=>  $this->storeClient($request->all())]);
             $request->request->add(['receiver_id'=>$this->storeReceiver($request->all())]);
-            //dd($request->all());
+            //dd($this->storeReceiver($request->all()));
 
             $model = $this->storeShipment((object)$request->all());
             //dd($model);
@@ -1034,22 +1038,35 @@ class ShipmentController extends Controller
             if($add_pass)
             {
 
-                $userRegistrationHelper = new UserRegistrationHelper();
-                $userRegistrationHelper->setEmail($model->email); 
-                $userRegistrationHelper->setName($model->name);
-                $userRegistrationHelper->setApiToken();
-                $userRegistrationHelper->setCountryID($request['Shipment']['from_country_id']); 
-                $userRegistrationHelper->setStateID($request['Shipment']['from_state_id']); 
-                $userRegistrationHelper->setAreaID($request['Shipment']['from_area_id']);
-                $userRegistrationHelper->generatePassword();
-                
-                $userRegistrationHelper->setRoleID(UserRegistrationHelper::MAINCLIENT);
-                $response = $userRegistrationHelper->save();
+                $client = User::where('email',$request['Shipment']['client_email'])->get()->first();
 
-                $userClient = new UserClient();
-                $userClient->user_id = $response['user_id'];
-                $userClient->client_id = $model->id;
-                $userClient->save();
+                if($client==null)
+                {
+                    $userRegistrationHelper = new UserRegistrationHelper();
+                    $userRegistrationHelper->setEmail($model->email); 
+                    $userRegistrationHelper->setName($model->name);
+                    $userRegistrationHelper->setApiToken();
+                    $userRegistrationHelper->setCountryID($request['Shipment']['to_country_id']); 
+                    $userRegistrationHelper->setStateID($request['Shipment']['to_state_id']); 
+                    $userRegistrationHelper->setAreaID($request['Shipment']['to_area_id']);
+                    
+                    $userRegistrationHelper->generatePassword();
+                    
+                    $userRegistrationHelper->setRoleID(UserRegistrationHelper::MAINCLIENT);
+                    $response = $userRegistrationHelper->save();
+
+                    $userClient = new UserClient();
+                    $userClient->user_id = $response['user_id'];
+                    $userClient->client_id = $model->id;
+                    $userClient->save();
+                }
+                else
+                {
+                    $userClient = new UserClient();
+                    $userClient->user_id = $client->id;
+                    $userClient->client_id = $model->id;
+                    $userClient->save();
+                }
             }
 
             $address = ClientAddress::where('name',$request['Shipment']['client_address'])->get()->first();
@@ -1079,6 +1096,7 @@ class ShipmentController extends Controller
 			DB::beginTransaction();
             $add_pass=false;
             $model = Receiver::where('email',$request['Shipment']['receiver_email'])->get()->first();
+            //dd($request['Shipment']['receiver_email']);
             if($model==null)
 			{
                 $model = new Receiver();
@@ -1107,23 +1125,35 @@ class ShipmentController extends Controller
 			$model->save();
             if($add_pass)
             {
-                $userRegistrationHelper = new UserRegistrationHelper();
-                $userRegistrationHelper->setEmail($model->email); 
-                $userRegistrationHelper->setName($model->name);
-                $userRegistrationHelper->setApiToken();
-                $userRegistrationHelper->setCountryID($request['Shipment']['from_country_id']); 
-                $userRegistrationHelper->setStateID($request['Shipment']['from_state_id']); 
-                $userRegistrationHelper->setAreaID($request['Shipment']['from_area_id']);
-                
-                $userRegistrationHelper->generatePassword();
-                
-                $userRegistrationHelper->setRoleID(UserRegistrationHelper::MAINCLIENT);
-                $response = $userRegistrationHelper->save();
+                $receiver = User::where('email',$request['Shipment']['receiver_email'])->get()->first();
 
-                $userReceiver = new UserReceiver();
-                $userReceiver->user_id = $response['user_id'];
-                $userReceiver->receiver_id = $model->id;
-                $userReceiver->save();
+                if($receiver==null)
+                {
+                    $userRegistrationHelper = new UserRegistrationHelper();
+                    $userRegistrationHelper->setEmail($model->email); 
+                    $userRegistrationHelper->setName($model->name);
+                    $userRegistrationHelper->setApiToken();
+                    $userRegistrationHelper->setCountryID($request['Shipment']['from_country_id']); 
+                    $userRegistrationHelper->setStateID($request['Shipment']['from_state_id']); 
+                    $userRegistrationHelper->setAreaID($request['Shipment']['from_area_id']);
+                    
+                    $userRegistrationHelper->generatePassword();
+                    
+                    $userRegistrationHelper->setRoleID(UserRegistrationHelper::MAINCLIENT);
+                    $response = $userRegistrationHelper->save();
+
+                    $userReceiver = new UserReceiver();
+                    $userReceiver->user_id = $response['user_id'];
+                    $userReceiver->receiver_id = $model->id;
+                    $userReceiver->save();
+                }
+                else
+                {
+                    $userReceiver = new UserReceiver();
+                    $userReceiver->user_id = $receiver->id;
+                    $userReceiver->receiver_id = $model->id;
+                    $userReceiver->save();
+                }
             }
             $address = ReceiverAddress::where('name',$request['Shipment']['receiver_address'])->get()->first();
             if($address==null)
@@ -1418,12 +1448,9 @@ class ShipmentController extends Controller
         'client_company','client_first_name','client_last_name','client_address_2','client_zip_code','client_email'];
 
         $request->Shipment= array_diff_key($request->Shipment, array_flip($remove));
-        //dd($request->client_id);
         $model->fill($request->Shipment);
         $model->client_id =$request->client_id;
         $model->receiver_id =$request->receiver_id;
-        //dd($request->client_id);
-
    
 
         if (!$model->save()) {

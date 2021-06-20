@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\ClientAddress;
 use App\Customer;
 use App\BusinessSetting;
 use App\OtpConfiguration;
@@ -63,7 +64,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'Client.name' => 'required|string|max:255',
+            'Client.first_name' => 'required|string|max:255',
+            'Client.last_name' => 'required|string|max:255',
             'Client.email' => 'required|string|max:255',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -78,10 +80,17 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         //dd($data);
+       // dd($data);
+
         try{	
 			DB::beginTransaction();
 			$model = new Client();
 			
+
+            $remove =['first_name','last_name'];
+            $data['Client']['name']=$data['Client']['first_name'].' '.$data['Client']['last_name'];
+            $data['Client']= array_diff_key($data['Client'], array_flip($remove));
+            //dd($data);
 			
 			$model->fill($data['Client']);
 			$model->code = -1;
@@ -129,6 +138,16 @@ class RegisterController extends Controller
 				throw new \Exception("Record Could Not Saved Successfully");
 			}
             
+            $address = ClientAddress::where('name',$data['first_address'])->get()->first();
+            if($address==null)
+			{
+                $address = new ClientAddress();
+            }
+            $address->name=$data['first_address'];
+            $address->type=$data['first_address'];
+			$address->address=$data['second_address'];
+            $address->client_id=$model->id;
+            $address->save();
 
             event(new AddClient($model));
 			DB::commit();

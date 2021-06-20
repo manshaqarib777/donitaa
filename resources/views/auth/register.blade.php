@@ -1,147 +1,289 @@
 @extends('backend.layouts.blank')
+@section('style')
+    <style>
+        .cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
 
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    *zoom: 1;
+}
+
+/* FORM */
+
+.form .plan input, .form .payment-plan input, .form .payment-type input{
+	display: none;
+}
+
+.form label{
+	position: relative;
+	color: gray;
+	background-color: white;
+	border: 3px solid gray;
+	font-size: 26px;
+	text-align: center;
+	height: 100px;
+	line-height: 100px;
+	display: block;
+	cursor: pointer;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.form .plan input:checked + label, .form .payment-plan input:checked + label, .form .payment-type input:checked + label{
+	border: 3px solid green;
+	background-color: white;
+}
+
+.form .plan input:checked + label:after, form .payment-plan input:checked + label:after, .form .payment-type input:checked + label:after{
+	content: "\2713";
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	border-radius: 100%;
+	border: 2px solid #333;
+	background-color: white;
+	z-index: 999;
+	position: absolute;
+	top: -10px;
+	right: -10px;
+}
+    </style>
+@endsection
 @section('content')
     @php
         $countries = \App\Country::where('covered',1)->get();
         $user_type = null;
         $staff_permission = json_decode("[]");
     @endphp
-
-    <div class="h-100 bg-cover bg-center py-5 d-flex align-items-center"
-        style="background-image: url({{ uploaded_asset(get_setting('admin_login_background')) }})">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-xl-8 mx-auto">
-                    <div class="card text-left">
-                        <div class="card-header">{{ translate('Create a New Account') }}</div>
-                        <div class="card-body">
-                            <form method="POST" action="{{ route('register') }}">
-                                @csrf
-
-                                <div class="form-group">
-                                    <input id="name" type="text"
-                                        class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="Client[name]"
-                                        value="{{ old('name') }}" required autofocus
-                                        placeholder="{{ translate('Full Name') }}">
-
-                                    @if ($errors->has('name'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('name') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <input id="email" type="email"
-                                        class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="Client[email]"
-                                        value="{{ old('email') }}" required placeholder="{{ translate('Email') }}">
-
-                                    @if ($errors->has('email'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('email') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="form-group">
-                                    <input id="password" type="password"
-                                        class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                        name="password" required placeholder="{{ translate('password') }}">
-
-                                    @if ($errors->has('password'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-
-                                <div class="form-group">
-                                    <input id="password-confirm" type="password" class="form-control"
-                                        name="password_confirmation" required
-                                        placeholder="{{ translate('Confrim Password') }}">
-                                </div>
+    <div class="container-fluid" style="padding-left: 0px;">
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-xl-4" style="background:green;">
+                <div class="p-3 text-white align-self-center" style="margin-top: 300px;">
+                    <img src="@if(setting()->get('main_header_logo_'.app()->getLocale()) && setting()->get('main_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('main_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo-transparent.svg')}} @endif" alt="logo" class="logo-default">
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8" style="padding: 100px;">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-xl-12">
+                        <h1>{{ translate('Create a New Account') }}</h1>
+                        <hr style="    border: 2px solid green;width: 120px;float: left;">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-xl-12">
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
+                            <div class="row"></div>
+                            <div class="form cf">
+                                <div class="plan cf">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="owner_name"
-                                                placeholder="{{ translate('Owner Name') }}"
-                                                name="Client[responsible_name]">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control"
-                                                placeholder="{{ translate('Owner Phone') }}"
-                                                name="Client[responsible_mobile]">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="followup_name"
-                                                placeholder="{{ translate('Followup Name') }}"
-                                                name="Client[follow_up_name]">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control"
-                                                placeholder="{{ translate('Followup Phone') }}"
-                                                name="Client[follow_up_mobile]">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <select id="change-country" name="country_id" class="form-control select-country">
-                                                <option value=""></option>
-                                                @foreach ($countries as $country)
-                                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <select id="change-state" name="state_id" class="form-control select-state">
-                                                <option value=""></option>
+                                    <div class="col-md-4 col-lg-4 col-xl-4">
+                                        <input type="radio" name="radio1" id="free" value="free"><label class="free-label four col" for="free"><i class="fa fa-user-o" aria-hidden="true"></i>  Personal</label>
 
-                                            </select>
-                                        </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <select name="area_id" class="form-control select-area">
-                                                <option value=""></option>
+                                    <div class="col-md-4 col-lg-4 col-xl-4">
+                                        <input type="radio" name="radio1" id="basic" value="basic" checked><label class="basic-label four col" for="basic"><i class="fa fa-dropbox" aria-hidden="true"></i> Business</label>
 
-                                            </select>
-                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-lg-4 col-xl-4">
+                                        <input type="radio" name="radio1" id="premium" value="premium"><label class="premium-label four col" for="premium"> <i class="fa fa-truck" aria-hidden="true"></i> Driver</label>
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="{{ translate('National ID') }}"
-                                        name="Client[national_id]">
-                                    <input type="hidden" value='Website' name="Client[how_know_us]">
                                 </div>
-
-                                <div class="pad-btm text-left">
-                                    <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox" required>
-                                    <label
-                                        for="demo-form-checkbox">{{ translate('I agree with the Terms and Conditions') }}</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">
-                                    {{ translate('Register') }}
-                                </button>
-                            </form>
-                            <div class="mt-3">
-                                {{ translate('Already have an account') }} ? <a href="{{ route('login') }}"
-                                    class="btn-link mar-rgt text-bold">{{ translate('Sign In') }}</a>
                             </div>
+
+                            <div class="form-group">
+                                <label>{{translate('First Name')}}</label>
+                                <input id="first_name" type="text"
+                                    class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" name="Client[first_name]"
+                                    value="{{ old('first_name') }}" required autofocus
+                                    placeholder="{{ translate('First Name') }}">
+
+                                @if ($errors->has('first_name'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('first_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label>{{translate('Last Name')}}</label>
+                                <input id="last_name" type="text"
+                                    class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="Client[last_name]"
+                                    value="{{ old('last_name') }}" required autofocus
+                                    placeholder="{{ translate('Last Name') }}">
+
+                                @if ($errors->has('last_name'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('last_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label>{{translate('Business Legal Name')}}</label>
+                                <input id="company" type="text"
+                                    class="form-control{{ $errors->has('company') ? ' is-invalid' : '' }}" name="Client[company]"
+                                    value="{{ old('company') }}" required autofocus
+                                    placeholder="{{ translate('Business Legal Name') }}">
+
+                                @if ($errors->has('company'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('company') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
+                                <label>{{translate('Email')}}</label>
+                                <input id="email" type="email"
+                                    class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="Client[email]"
+                                    value="{{ old('email') }}" required placeholder="{{ translate('Email') }}">
+
+                                @if ($errors->has('email'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{translate('Password')}}</label>
+
+                                        <input id="password" type="password"
+                                            class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                            name="password" required placeholder="{{ translate('password') }}">
+
+                                        @if ($errors->has('password'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('password') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{translate('Password Confirmation')}}</label>
+
+                                        <input id="password-confirm" type="password" class="form-control"
+                                            name="password_confirmation" required
+                                            placeholder="{{ translate('Confrim Password') }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>{{translate('Address 1')}}</label>
+                                <input id="first_address" type="text"
+                                    class="form-control{{ $errors->has('first_address') ? ' is-invalid' : '' }}" name="first_address"
+                                    value="{{ old('first_address') }}" required autofocus
+                                    placeholder="{{ translate('Address 1') }}">
+
+                                @if ($errors->has('first_address'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('first_address') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <label>{{translate('Address 2')}}</label>
+                                <input id="second_address" type="text"
+                                    class="form-control{{ $errors->has('second_address') ? ' is-invalid' : '' }}" name="second_address"
+                                    value="{{ old('second_address') }}" required autofocus
+                                    placeholder="{{ translate('Address 2') }}">
+
+                                @if ($errors->has('second_address'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('second_address') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>{{translate('Country')}}</label>
+
+                                        <select id="change-country" name="country_id" class="form-control select-country">
+                                            <option value=""></option>
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>{{translate('State/Region')}}</label>
+
+                                        <select id="change-state" name="state_id" class="form-control select-state">
+                                            <option value=""></option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>{{translate('Area')}}</label>
+
+                                        <select name="area_id" class="form-control select-area">
+                                            <option value=""></option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="owner_name"
+                                            placeholder="{{ translate('Owner Name') }}"
+                                            name="Client[responsible_name]">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control"
+                                            placeholder="{{ translate('Owner Phone') }}"
+                                            name="Client[responsible_mobile]">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="{{ translate('National ID') }}"
+                                    name="Client[national_id]">
+                                <input type="hidden" value='Website' name="Client[how_know_us]">
+                            </div> --}}
+
+                            <div class="pad-btm text-left">
+                                <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox" required>
+                                <label
+                                    for="demo-form-checkbox">{{ translate('I agree with the Terms and Conditions') }}</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                {{ translate('Register') }}
+                            </button>
+                        </form>
+                        <div class="mt-3">
+                            {{ translate('Already have an account') }} ? <a href="{{ route('login') }}"
+                                class="btn-link mar-rgt text-bold">{{ translate('Sign In') }}</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 @endsection
 @section('script')

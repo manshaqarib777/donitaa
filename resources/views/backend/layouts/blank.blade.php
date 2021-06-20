@@ -33,6 +33,7 @@
 		<link href="{{ static_asset('assets/dashboard/css/themes/layout/aside/dark.css?v=7.2.3') }}" rel="stylesheet" type="text/css" />
 		<!--end::Layout Themes-->
 		<link rel="shortcut icon" href="{{ static_asset('assets/dashboard/media/logos/favicon.ico') }}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
         @yield('style')
@@ -60,7 +61,7 @@
 
         @yield('script')
 
-    
+
         <script src="{{ static_asset('assets/js/vendors.js') }}" ></script>
 	    <script src="{{ static_asset('assets/js/aiz-core.js') }}" ></script>
 

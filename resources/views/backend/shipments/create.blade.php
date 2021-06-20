@@ -285,7 +285,7 @@
                                                     <option></option>
                                                 </select> --}}
                                         <input placeholder="{{ translate('Address') }}" name="Shipment[client_address]"
-                                            class="form-control" id="" />
+                                            class="form-control" />
                                     </div>
 
                                 </div>
@@ -299,7 +299,7 @@
                                                     <option></option>
                                                 </select> --}}
                                         <input placeholder="{{ translate('Address') }}" name="Shipment[client_address_2]"
-                                            class="form-control" id="" />
+                                            class="form-control" />
                                     </div>
 
                                 </div>
@@ -321,7 +321,7 @@
                                 <div class="form-group">
                                     <label>{{ translate('Branch') }}:</label>
                                     <select class="form-control kt-select2 select-branch" name="Shipment[branch_id]">
-                                        <option value="1"></option>
+                                        <option></option>
                                     </select>
                                 </div>
                             </div>
@@ -412,33 +412,6 @@
 
                                 </div>
                             </div>
-                            {{-- @if (auth()->user()->user_type != 'customer' || isset(auth()->user()->userReceiver->receiver))
-                                        <div class="col-md-6">
-                                            <div class="form-group receiver-select">
-                                                <label class="text-white">{{ translate('Receiver') }}:</label>
-
-                                                <select class="form-control kt-select2 select-receiver"
-                                                    name="Shipment[receiver_id]">
-                                                    <option></option>
-                                                    @foreach ($receivers as $receiver)
-                                                        <option value="{{ $receiver->id }}"
-                                                            data-phone="{{ $receiver->responsible_mobile }}">
-                                                            {{ $receiver->name }}
-                                                        </option>
-                                                    @endforeach
-
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div style="display: none">
-                                            <select class="form-control kt-select2 select-receiver" name="Shipment[receiver_id]">
-                                                <option value="{{ auth()->user()->userClient->receiver->id }}">{{ auth()->user()->userClient->receiver->name }}</option>
-
-                                            </select>
-                                        </div>
-                                    @endif --}}
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="text-white">{{ translate('First Name') }}:</label>
@@ -465,7 +438,7 @@
                                                     <option></option>
                                                 </select> --}}
                                         <input placeholder="{{ translate('Address') }}" name="Shipment[receiver_address]"
-                                            class="form-control" id="" />
+                                            class="form-control" />
                                     </div>
 
                                 </div>
@@ -479,7 +452,7 @@
                                                     <option></option>
                                                 </select> --}}
                                         <input placeholder="{{ translate('Address') }}"
-                                            name="Shipment[receiver_address_2]" class="form-control" id="" />
+                                            name="Shipment[receiver_address_2]" class="form-control" />
                                     </div>
 
                                 </div>
@@ -501,7 +474,7 @@
                                 <div class="form-group">
                                     <label class="text-white">{{ translate('Branch') }}:</label>
                                     <select class="form-control kt-select2 select-branch" name="Shipment[receiver_branch_id]">
-                                        <option value="1"></option>
+                                        <option></option>
                                     </select>
                                 </div>
                             </div>
@@ -519,7 +492,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="text-white">{{ translate('To Area') }}:</label>
-                                    <select name="Shipment[to_area_id]" id='change-area-to'
+                                    <select name="Shipment[to_area_id]" id="change-area-to"
                                         class="form-control select-area">
                                         <option value=""></option>
 
@@ -552,13 +525,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
-
 
                 </div>
                 <hr>
@@ -846,7 +812,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>{{ translate('Delivery Time') }}:</label>
-                            <select class="form-control kt-select2 delivery-time" id="delivery_time"
+                            <select class="form-control delivery-time" id="delivery_time"
                                 name="Shipment[delivery_time]">
                                 @foreach ($times as $time)
                                     <option data-id="{{ $time->id }}" value="{{ $time->name }}">
@@ -862,7 +828,7 @@
                                 <span class="input-group-text" id="basic-addon1">USD</span>
                             </div>
                             <input type="text" placeholder="{{ translate('Package Value') }}"
-                                class="form-control total-price" id="" name="Shipment[shipment_price]" value="0" readonly />
+                                class="form-control total-price" name="Shipment[shipment_price]" value="0" readonly />
 
                         </div>
                     </div>
@@ -988,84 +954,6 @@
         }
     }
 
-    $('.select-client').select2({
-        placeholder: "Select Client",
-    })
-    @if ($user_type == 'admin' || in_array('1005', $staff_permission))
-        .on('select2:open', () => {
-        $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                href="{{ route('admin.clients.create') }}?redirect=admin.shipments.create" class="btn btn-primary">+
-                {{ translate('Add New Client') }}</a>
-        </li>`);
-        });
-    @endif
-
-    $('.select-receiver').select2({
-        placeholder: "Select Receiver",
-    })
-    @if ($user_type == 'admin' || in_array('1005', $staff_permission))
-        .on('select2:open', () => {
-        $(".select2-results:not(:has(a))").append(`<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                href="{{ route('admin.receivers.create') }}?redirect=admin.shipments.create" class="btn btn-primary">+
-                {{ translate('Add New Receiver') }}</a>
-        </li>`);
-        });
-    @endif
-
-
-    $('.select-client').change(function() {
-        // var client_phone = $(this).find(':selected').data('phone');
-        // document.getElementById("client_phone").value = client_phone;
-        $.get("{{ route('admin.shipments.get-client-address-ajax') }}?client_id=" + $(this).find(
-                ':selected')
-            .val(),
-            function(data) {
-                $('select[name ="Shipment[client_address]"]').empty();
-                $('select[name ="Shipment[client_address]"]').append('<option value=""></option>');
-                for (let index = 0; index < data.length; index++) {
-                    const element = data[index];
-                    $('select[name ="Shipment[client_address]"]').append('<option value="' + element[
-                            'name'] + '" data-id="' + element['id'] + '" data-phone="' + element[
-                            'phone'] +
-                        '" data-country_id="' + element['country_id'] + '" data-country_name="' +
-                        element['country']['name'] + '" data-state_id="' + element[
-                            'state_id'] + '" data-state_name="' + element[
-                            'state']['name'] + '" data-area_id="' + element['area_id'] +
-                        '" data-area_name="' + element['area']['name'] + '">' + element[
-                            'type'] + '</option>');
-                }
-
-            });
-    })
-
-
-    $('.select-receiver').change(function() {
-        // var receiver_phone = $(this).find(':selected').data('phone');
-        // document.getElementById("receiver_phone").value = receiver_phone;
-        $.get("{{ route('admin.shipments.get-receiver-address-ajax') }}?receiver_id=" + $(this).find(
-                ':selected')
-            .val(),
-            function(data) {
-                $('select[name ="Shipment[receiver_address]"]').empty();
-                $('select[name ="Shipment[receiver_address]"]').append('<option value=""></option>');
-                for (let index = 0; index < data.length; index++) {
-                    const element = data[index];
-                    $('select[name ="Shipment[receiver_address]"]').append('<option value="' + element[
-                            'name'] + '" data-id="' + element['id'] + '" data-phone="' + element[
-                            'phone'] +
-                        '" data-country_id="' + element['country_id'] + '" data-country_name="' +
-                        element['country']['name'] + '" data-state_id="' + element[
-                            'state_id'] + '" data-state_name="' + element[
-                            'state']['name'] + '" data-area_id="' + element['area_id'] +
-                        '" data-area_name="' + element['area']['name'] + '">' + element[
-                            'type'] + '</option>');
-                }
-
-            });
-    })
-
-
-
 
     $(document).on('click', '.package-listener', function() {
 
@@ -1078,56 +966,6 @@
             $(this).parent().parent().parent().find('.default-package-show').show();
             $(this).parent().parent().parent().find('.custom-package-show').hide();
         }
-
-    });
-    $('.select-client-address').change(function() {
-        var client_phone = $(this).find(':selected').data('phone');
-        var client_country = $(this).find(':selected').data('country_id');
-        var client_state = $(this).find(':selected').data('state_id');
-        var client_area = $(this).find(':selected').data('area_id');
-        var client_area_name = $(this).find(':selected').data('area_name');
-        var client_state_name = $(this).find(':selected').data('state_name');
-        var client_country_name = $(this).find(':selected').data('country_name');
-        $("#client_phone").val(client_phone);
-
-        $("#change-country").val(client_country).trigger('change');
-        setTimeout(
-            function() {
-                $("#change-state-from").val(client_state).trigger('change');
-            }, 1000
-        );
-        setTimeout(
-            function() {
-                $("#change-area-from").val(client_area).trigger('change');
-            }, 2000
-        );
-
-
-    });
-
-
-    $('.select-receiver-address').change(function() {
-        var receiver_phone = $(this).find(':selected').data('phone');
-        var receiver_country = $(this).find(':selected').data('country_id');
-        var receiver_state = $(this).find(':selected').data('state_id');
-        var receiver_area = $(this).find(':selected').data('area_id');
-        var receiver_area_name = $(this).find(':selected').data('area_name');
-        var receiver_state_name = $(this).find(':selected').data('state_name');
-        var receiver_country_name = $(this).find(':selected').data('country_name');
-        $("#receiver_phone").val(receiver_phone);
-
-        $("#change-country-to").val(receiver_country).trigger('change');
-        setTimeout(
-            function() {
-                $("#change-state-to").val(receiver_state).trigger('change');
-            }, 1000
-        );
-        setTimeout(
-            function() {
-                $("#change-area-to").val(receiver_area).trigger('change');
-            }, 2000
-        );
-
 
     });
 
@@ -1177,9 +1015,13 @@
             $('select[name ="Shipment[branch_id]"]').append('<option value=""></option>');
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
-
+                var selected="";
+                if(index==0)
+                {
+                    selected="selected";
+                }
                 $('select[name ="Shipment[branch_id]"]').append('<option value="' + element['id'] +
-                    '">' + element['name'] + '</option>');
+                    '" '+selected+'>' + element['name'] + '</option>');
             }
 
 
@@ -1204,9 +1046,13 @@
             $('select[name ="Shipment[receiver_branch_id]"]').append('<option value=""></option>');
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
-
+                var selected="";
+                if(index==0)
+                {
+                    selected="selected";
+                }
                 $('select[name ="Shipment[receiver_branch_id]"]').append('<option value="' + element['id'] +
-                    '">' + element['name'] + '</option>');
+                    '"'+selected+'>' + element['name'] + '</option>');
             }
 
 
@@ -1245,6 +1091,7 @@
 
     function get_estimation_cost() {
         var total_weight = document.getElementById('kt_touchspin_4').value;
+        var return_package = document.querySelector('input[name="Shipment[exp_type]"]:checked').value;
         var select_packages = document.getElementsByClassName('package-type-select');
         var select_custom_packages = document.getElementsByClassName('package-listener');
         var select_custom_packages_value = document.getElementsByClassName('package-listener-value');
@@ -1318,6 +1165,7 @@
             _token: '{{ csrf_token() }}',
             package_ids: package_ids,
             total_weight: total_weight,
+            exp_type: exp_type,
             from_country_id: from_country_id,
             to_country_id: to_country_id,
             from_state_id: from_state_id,
@@ -1384,43 +1232,6 @@
             },
         });
 
-        $('.select-client-address').select2({
-            placeholder: "Select Client Address",
-            language: {
-                noResults: function() {
-                    @if ($user_type == 'admin' || in_array('1105', $staff_permission))
-                        return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                                href="{{ route('admin.client-addresses.create') }}" class="btn btn-primary">Manage
-                                {{ translate('Client Addresses') }}</a>
-                        </li>`;
-                    @else
-                        return ``;
-                    @endif
-                },
-            },
-            escapeMarkup: function(markup) {
-                return markup;
-            },
-        });
-
-        $('.select-receiver-address').select2({
-            placeholder: "Select Receiver Address",
-            language: {
-                noResults: function() {
-                    @if ($user_type == 'admin' || in_array('1105', $staff_permission))
-                        return `<li style='list-style: none; padding: 10px;'><a style="width: 100%"
-                                href="{{ route('admin.receiver-addresses.create') }}" class="btn btn-primary">Manage
-                                {{ translate('Receiver Addresses') }}</a>
-                        </li>`;
-                    @else
-                        return ``;
-                    @endif
-                },
-            },
-            escapeMarkup: function(markup) {
-                return markup;
-            },
-        });
 
         $('.select-state').select2({
             placeholder: "Select state",
@@ -1461,8 +1272,6 @@
         });
 
         //$('.select-client-address').trigger('change');
-        $('.select-country').trigger('change');
-        $('.select-state').trigger('change');
         $('#kt_datepicker_3').datepicker({
             orientation: "bottom auto",
             autoclose: true,
@@ -1523,16 +1332,6 @@
                 show: function() {
                     $(this).slideDown();
 
-                    $('.kt_touchspin_qty').TouchSpin({
-                        buttondown_class: 'btn btn-secondary',
-                        buttonup_class: 'btn btn-secondary',
-
-                        min: 1,
-                        max: 1000000000,
-                        stepinterval: 50,
-                        maxboostedstep: 10000000,
-                        initval: 1,
-                    });
                 },
 
                 hide: function(deleteElement) {
@@ -1589,68 +1388,6 @@
                 calcTotalPrice();
             }, 500);
         });
-        $('#kt_touchspin_2, #kt_touchspin_2_2').TouchSpin({
-            buttondown_class: 'btn btn-secondary',
-            buttonup_class: 'btn btn-secondary',
-
-            min: -1000000000,
-            max: 1000000000,
-            stepinterval: 50,
-            maxboostedstep: 10000000,
-            prefix: '%'
-        });
-        $('#kt_touchspin_3').TouchSpin({
-            buttondown_class: 'btn btn-secondary',
-            buttonup_class: 'btn btn-secondary',
-
-            min: 0,
-            max: 1000000000,
-            stepinterval: 50,
-            maxboostedstep: 10000000,
-            prefix: '{{ currency_symbol() }}'
-        });
-        // $('#kt_touchspin_4').TouchSpin({
-        //     buttondown_class: 'btn btn-secondary',
-        //     buttonup_class: 'btn btn-secondary',
-
-        //     min: 1,
-        //     max: 1000000000,
-        //     stepinterval: 50,
-        //     maxboostedstep: 10000000,
-        //     initval: 1,
-        //     prefix: 'Kg'
-        // });
-        $('.kt_touchspin_weight').TouchSpin({
-            buttondown_class: 'btn btn-secondary',
-            buttonup_class: 'btn btn-secondary',
-
-            min: 1,
-            max: 1000000000,
-            stepinterval: 50,
-            maxboostedstep: 10000000,
-            initval: 1,
-            prefix: 'Kg'
-        });
-        $('.kt_touchspin_qty').TouchSpin({
-            buttondown_class: 'btn btn-secondary',
-            buttonup_class: 'btn btn-secondary',
-
-            min: 1,
-            max: 1000000000,
-            stepinterval: 50,
-            maxboostedstep: 10000000,
-            initval: 1,
-        });
-        $('.dimensions_r').TouchSpin({
-            buttondown_class: 'btn btn-secondary',
-            buttonup_class: 'btn btn-secondary',
-
-            min: 1,
-            max: 1000000000,
-            stepinterval: 50,
-            maxboostedstep: 10000000,
-            initval: 1,
-        });
 
 
         FormValidation.formValidation(
@@ -1659,184 +1396,148 @@
                     "Shipment[shipping_date]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
-                    // "Shipment[branch_id]": {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: '{{ translate('This is required!') }}'
-                    //         }
-                    //     }
-                    // },
-                    // "Shipment[client_id]": {
-                    //     validators: {
-                    //         callback: {
-                    //             message: '{{ translate('This is required!') }}',
-                    //             callback: function(input) {
-                    //                 // Get the selected options
-                    //                 if ((input.value !== "")) {
-                    //                     $('.client-select').removeClass('has-errors');
-                    //                 } else {
-                    //                     $('.client-select').addClass('has-errors');
-                    //                 }
-                    //                 return (input.value !== "");
-                    //             }
-                    //         }
-                    //     }
-                    // },
+                    "Shipment[branch_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[receiver_branch_id]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+
                     "Shipment[client_address]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
                     "Shipment[client_phone]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
-                    "Shipment[receiver_address]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
-                    "Shipment[receiver_phone]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
                     "Shipment[payment_type]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
                     "Shipment[payment_method_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
-                    // "Shipment[tax]": {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: '{{ translate('This is required!') }}'
-                    //         }
-                    //     }
-                    // },
-                    // "Shipment[insurance]": {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: '{{ translate('This is required!') }}'
-                    //         }
-                    //     }
-                    // },
-                    // "Shipment[shipping_cost]": {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: '{{ translate('This is required!') }}'
-                    //         }
-                    //     }
-                    // },
+                    "Shipment[tax]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[insurance]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[shipping_cost]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
                     "Shipment[delivery_time]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
-                    "Shipment[total_weight]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
+                    // "Shipment[total_weight]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{translate("This is required!")}}'
+                    //         }
+                    //     }
+                    // },
                     "Shipment[from_country_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
                     "Shipment[to_country_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
                     "Shipment[from_state_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
                     "Shipment[to_state_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
                     "Shipment[from_area_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
                     "Shipment[to_area_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     },
-                    // "Shipment[receiver_email]": {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: '{{ translate('This is required!') }}'
-                    //         }
-                    //     }
-                    // },
-                    // "Shipment[client_email]": {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: '{{ translate('This is required!') }}'
-                    //         }
-                    //     }
-                    // },
-                    // "Shipment[receiver_phone]": {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: '{{ translate('This is required!') }}'
-                    //         }
-                    //     }
-                    // },
-                    // "Shipment[receiver_address]": {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: '{{ translate('This is required!') }}'
-                    //         }
-                    //     }
-                    // },
+                    "Shipment[receiver_phone]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
+                    "Shipment[receiver_address]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{translate("This is required!")}}'
+                            }
+                        }
+                    },
                     "Package[0][package_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{ translate('This is required!') }}'
+                                message: '{{translate("This is required!")}}'
                             }
                         }
                     }
