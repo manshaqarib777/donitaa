@@ -67,7 +67,7 @@
         <div class="row">
             <div class="col-md-4 col-lg-4 col-xl-4" style="background:green;">
                 <div class="p-3 text-white align-self-center" style="margin-top: 300px;">
-                    <img src="@if(setting()->get('main_header_logo_'.app()->getLocale()) && setting()->get('main_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('main_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo-transparent.svg')}} @endif" alt="logo" class="logo-default">
+                    <img src="@if(setting()->get('main_header_logo_'.app()->getLocale()) && setting()->get('main_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('main_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo-transparent.svg')}} @endif" alt="logo" class="logo-default" style="width: 400px;">
                 </div>
             </div>
             <div class="col-md-8 col-lg-8 col-xl-8" style="padding: 100px;">
