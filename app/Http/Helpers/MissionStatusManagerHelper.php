@@ -24,7 +24,7 @@ class MissionStatusManagerHelper
             DB::beginTransaction();
             $transaction = new TransactionHelper();
             foreach ($missions as $mission_id) {
-                $mission = Mission::find($mission_id);
+                $mission = Mission::withoutGlobalScope('restriction')->find($mission_id);
                 if($mission->status_id == $to)
                 {
                     throw new \Exception("Out of status changer scope");
@@ -32,7 +32,6 @@ class MissionStatusManagerHelper
                 if ($mission != null) {
                     
                     $oldStatus = $mission->status_id;
-                    
                     if ($to == Mission::APPROVED_STATUS) {
                        
                         if ($captain_id != null) {
@@ -76,8 +75,8 @@ class MissionStatusManagerHelper
 
 
                         // if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
-                        //     foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                        //         $shipment = \App\Shipment::find($shipment_id);
+                        //     foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                        //         $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                         //         $oldClientStatus = $shipment->client_status;
                         //         $shipment->client_status = Shipment::CLIENT_STATUS_RECEIVED_BRANCH;
                         //         $log = new ClientShipmentLog();
@@ -90,8 +89,8 @@ class MissionStatusManagerHelper
                         // }
                         // if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
                         //     if (\Schema::hasTable('shipment_mission') && class_exists("\App\ShipmentMission") && class_exists("\App\Shipment") && class_exists("\App\Http\Helpers\StatusManagerHelper")) {
-                        //         foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                        //             $shipment = \App\Shipment::find($shipment_id);
+                        //         foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                        //             $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                         //             $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
                         //             $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::RECIVED_STATUS);
                         //         }
@@ -123,8 +122,8 @@ class MissionStatusManagerHelper
                         
 
                         if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
-                            foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                                $shipment = \App\Shipment::find($shipment_id);
+                            foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                                $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                                 $oldClientStatus = $shipment->client_status;
                                 $shipment->client_status = Shipment::CLIENT_STATUS_RECEIVED_BRANCH;
                                 $log = new ClientShipmentLog();
@@ -148,8 +147,8 @@ class MissionStatusManagerHelper
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CLIENT,$mission->client_id,Transaction::CREDIT);
 
                             if (\Schema::hasTable('shipment_mission') && class_exists("\App\ShipmentMission") && class_exists("\App\Shipment") && class_exists("\App\Http\Helpers\StatusManagerHelper")) {
-                                foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                                    $shipment = \App\Shipment::find($shipment_id);
+                                foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                                    $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                                     $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
                                     $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::RECIVED_STATUS);
                                 }
@@ -161,8 +160,8 @@ class MissionStatusManagerHelper
                             if ($mission->getOriginal('type') == Mission::PICKUP_TYPE) {
                                 //Hook shipment backend in Mission status changed
 
-                                foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                                    $shipment = \App\Shipment::find($shipment_id);
+                                foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                                    $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                                     $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
                                     $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::APPROVED_STATUS);
                                 }
@@ -170,8 +169,8 @@ class MissionStatusManagerHelper
                             }
 
                             if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
-                                foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                                    $shipment = \App\Shipment::find($shipment_id);
+                                foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                                    $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                                     if($shipment->status_id == \App\Shipment::RETURNED_STATUS){
                                         $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
                                         $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::RETURNED_STOCK);
@@ -183,8 +182,8 @@ class MissionStatusManagerHelper
                             }
 
                             if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
-                                foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                                    $shipment = \App\Shipment::find($shipment_id);
+                                foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                                    $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                                     $oldClientStatus = $shipment->client_status;
                                     $shipment->prev_branch = $shipment->branch_id;
                                     $shipment->branch_id = $mission->to_branch_id;
@@ -200,8 +199,8 @@ class MissionStatusManagerHelper
                             }
 
                             if ($mission->getOriginal('type') == Mission::RETURN_TYPE) {
-                                foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                                    $shipment = \App\Shipment::find($shipment_id);
+                                foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                                    $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                                     if($shipment->status_id == \App\Shipment::RETURNED_STOCK){
                                         $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
                                         $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::RETURNED_CLIENT_GIVEN);
@@ -210,8 +209,8 @@ class MissionStatusManagerHelper
                             }
 
                             if ($mission->getOriginal('type') == Mission::SUPPLY_TYPE) {
-                                foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                                    $shipment = \App\Shipment::find($shipment_id);
+                                foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                                    $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                                     $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
                                     $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::SUPPLIED_STATUS);
                                 }
@@ -239,8 +238,8 @@ class MissionStatusManagerHelper
                             //Hook shipment backend in Mission status changed
                             if (\Schema::hasTable('shipment_mission') && class_exists("\App\ShipmentMission") && class_exists("\App\Shipment") && class_exists("\App\Http\Helpers\StatusManagerHelper")) {
 
-                                foreach (\App\ShipmentMission::where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                                    $shipment = \App\Shipment::find($shipment_id);
+                                foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                                    $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                                     $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
                                     $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::CAPTAIN_ASSIGNED_STATUS, $mission->id);
                                 }
@@ -264,6 +263,7 @@ class MissionStatusManagerHelper
             }
             DB::commit();
         } catch (\Exception $e) {
+            //dd($e->getMessage());
             //echo $e->getMessage();exit;
             DB::rollback();
             $response['success'] = 0;

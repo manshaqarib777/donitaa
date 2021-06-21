@@ -65,7 +65,7 @@ class MissionsController extends Controller
     {
         if(isset($request->checked_ids))
         {
-            $mission = Mission::where('id',$request->checked_ids[0])->first();
+            $mission = Mission::withoutGlobalScope('restriction')->where('id',$request->checked_ids[0])->first();
 
             $params = array();
 
@@ -104,17 +104,17 @@ class MissionsController extends Controller
                     $payment_method_id = $cash->id;
                     if($mission->type == Mission::getType(Mission::PICKUP_TYPE)){
                         $payment_type = Shipment::PREPAID;
-                        $mission = Mission::where('id',$request->checked_ids[0])->where('type',Mission::PICKUP_TYPE)
+                        $mission = Mission::withoutGlobalScope('restriction')->where('id',$request->checked_ids[0])->where('type',Mission::PICKUP_TYPE)
                                     ->with('shipment_mission')->get()->first();
                         $shipment_ids = $mission->shipment_mission->pluck('shipment_id');
                         
                     }elseif($mission->type == Mission::getType(Mission::DELIVERY_TYPE)){
                         $payment_type = Shipment::POSTPAID;
-                        $mission = Mission::where('id',$request->checked_ids[0])->where('type',Mission::DELIVERY_TYPE)
+                        $mission = Mission::withoutGlobalScope('restriction')->where('id',$request->checked_ids[0])->where('type',Mission::DELIVERY_TYPE)
                                     ->with('shipment_mission')->get()->first();
                         $shipment_ids = $mission->shipment_mission->pluck('shipment_id');
                     }
-                    $shipments = Shipment::whereIn("id",$shipment_ids)->where('payment_method_id',$payment_method_id)->where('payment_type',$payment_type)->get();
+                    $shipments = Shipment::withoutGlobalScope('restriction')->whereIn("id",$shipment_ids)->where('payment_method_id',$payment_method_id)->where('payment_type',$payment_type)->get();
                     foreach ($shipments as $shipment) {
                         $payment = new Payment();
                         $payment->shipment_id = $shipment->id;
@@ -137,6 +137,7 @@ class MissionsController extends Controller
             
             $action = new MissionStatusManagerHelper();
             $response = $action->change_mission_status($request->checked_ids,$to,null,$params);
+            //dd($response);
             if($response['success'])
             {
                 event(new MissionAction($to,$request->checked_ids));

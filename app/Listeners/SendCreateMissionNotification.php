@@ -28,7 +28,7 @@ class SendCreateMissionNotification
     public function handle(CreateMission $event)
     {
         $mission =  $event->mission;
-        $mission = \App\Mission::find($mission->id ?? []);
+        $mission = \App\Mission::withoutGlobalScope('restriction')->find($mission->id ?? []);
 
         $gateways = [];
         if(env('MAIL_USERNAME') == null && env('MAIL_PASSWORD') == null && env('MAIL_DRIVER') != 'sendmail'){

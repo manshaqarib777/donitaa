@@ -33,12 +33,12 @@ class Ticket extends Model
         });
     }
     public function user(){
-    	return $this->belongsTo(User::class);
+    	return $this->belongsTo(User::class)->withoutGlobalScope('restriction');
     }
 
     public function ticketreplies()
     {
-        return $this->hasMany(TicketReply::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(TicketReply::class)->orderBy('created_at', 'desc')->withoutGlobalScope('restriction');
     }
 
 }

@@ -8,10 +8,10 @@ class Payment extends Model
 {
     public function shipment()
     {
-        return $this->belongsTo('App\Shipment', 'shipment_id');
+        return $this->belongsTo('App\Shipment', 'shipment_id')->withoutGlobalScope('restriction');
     }
     public function client()
     {
-        return $this->belongsTo('App\Client', 'seller_id');
+        return $this->belongsTo('App\Client', 'seller_id')->withoutGlobalScope('restriction');
     }
 }

@@ -436,26 +436,26 @@ class Shipment extends Model
     }
     public function client()
     {
-        return $this->hasOne('App\Client', 'id', 'client_id');
+        return $this->hasOne('App\Client', 'id', 'client_id')->withoutGlobalScope('restriction');
     }
     public function receiver()
     {
-        return $this->hasOne('App\Receiver', 'id', 'receiver_id');
+        return $this->hasOne('App\Receiver', 'id', 'receiver_id')->withoutGlobalScope('restriction');
     }
 
     public function captain()
     {
-        return $this->hasOne('App\Captain', 'id', 'captain_id');
+        return $this->hasOne('App\Captain', 'id', 'captain_id')->withoutGlobalScope('restriction');
     }
 
     public function current_mission()
     {
-        return $this->hasOne('App\Mission', 'id', 'mission_id');
+        return $this->hasOne('App\Mission', 'id', 'mission_id')->withoutGlobalScope('restriction');
     }
 
     public function branch()
     {
-        return $this->hasOne('App\Branch', 'id', 'branch_id');
+        return $this->hasOne('App\Branch', 'id', 'branch_id')->withoutGlobalScope('restriction');
     }
 
     public function logs()
@@ -489,7 +489,7 @@ class Shipment extends Model
 
     public function payment()
     {
-        return $this->hasOne('App\Payment', 'shipment_id' , 'id');
+        return $this->hasOne('App\Payment', 'shipment_id' , 'id')->withoutGlobalScope('restriction');
     }
 
     public function getTableColumns() {

@@ -108,17 +108,17 @@ class Mission extends Model
     }
 
     public function captain(){
-		return $this->hasOne('App\Captain', 'id' , 'captain_id');
+		return $this->hasOne('App\Captain', 'id' , 'captain_id')->withoutGlobalScope('restriction');
 	}
     public function client(){
-		return $this->hasOne('App\Client', 'id' , 'client_id');
+		return $this->hasOne('App\Client', 'id' , 'client_id')->withoutGlobalScope('restriction');
 	}
     public function to_branch(){
-		return $this->hasOne('App\Branch', 'id' , 'to_branch_id');
+		return $this->hasOne('App\Branch', 'id' , 'to_branch_id')->withoutGlobalScope('restriction');
 	}
 
     public function shipment_mission(){
-		return $this->hasMany('App\ShipmentMission', 'mission_id' , 'id');
+		return $this->hasMany('App\ShipmentMission', 'mission_id' , 'id')->withoutGlobalScope('restriction');
 	}
 
     public function shipment_mission_by_shipment_id($shipment_id){

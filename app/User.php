@@ -38,66 +38,66 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function wishlists()
     {
-    return $this->hasMany(Wishlist::class);
+    return $this->hasMany(Wishlist::class)->withoutGlobalScope('restriction');
     }
 
     public function customer()
     {
-    return $this->hasOne(Customer::class);
+    return $this->hasOne(Customer::class)->withoutGlobalScope('restriction');
     }
 
     public function affiliate_user()
     {
-    return $this->hasOne(AffiliateUser::class);
+    return $this->hasOne(AffiliateUser::class)->withoutGlobalScope('restriction');
     }
 
     public function affiliate_withdraw_request()
     {
-    return $this->hasMany(AffiliateWithdrawRequest::class);
+    return $this->hasMany(AffiliateWithdrawRequest::class)->withoutGlobalScope('restriction');
     }
     public function staff()
     {
-    return $this->hasOne(Staff::class);
+    return $this->hasOne(Staff::class)->withoutGlobalScope('restriction');
     }
 
     public function orders()
     {
-    return $this->hasMany(Order::class);
+    return $this->hasMany(Order::class)->withoutGlobalScope('restriction');
     }
 
     public function wallets()
     {
-    return $this->hasMany(Wallet::class)->orderBy('created_at', 'desc');
+    return $this->hasMany(Wallet::class)->orderBy('created_at', 'desc')->withoutGlobalScope('restriction');
     }
 
     public function club_point()
     {
-    return $this->hasOne(ClubPoint::class);
+    return $this->hasOne(ClubPoint::class)->withoutGlobalScope('restriction');
     }
 
     public function customer_package()
     {
-        return $this->belongsTo(CustomerPackage::class);
+        return $this->belongsTo(CustomerPackage::class)->withoutGlobalScope('restriction');
     }
 
     public function customer_package_payments()
     {
-        return $this->hasMany(CustomerPackagePayment::class);
+        return $this->hasMany(CustomerPackagePayment::class)->withoutGlobalScope('restriction');
     }
 
     public function customer_products()
     {
-        return $this->hasMany(CustomerProduct::class);
+        return $this->hasMany(CustomerProduct::class)->withoutGlobalScope('restriction');
     }
 
     public function reviews()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(Review::class)->withoutGlobalScope('restriction');
     }
 
     public function addresses()
     {
-        return $this->hasMany(Address::class);
+        return $this->hasMany(Address::class)->withoutGlobalScope('restriction');
     }
 
 
@@ -107,18 +107,18 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function userClient(){
-		return $this->hasOne('App\UserClient', 'user_id' , 'id');
+		return $this->hasOne('App\UserClient', 'user_id' , 'id')->withoutGlobalScope('restriction');
 	}
     public function userReceiver(){
-		return $this->hasOne('App\UserReceiver', 'user_id' , 'id');
+		return $this->hasOne('App\UserReceiver', 'user_id' , 'id')->withoutGlobalScope('restriction');
 	}
 
     public function userCaptain(){
-		return $this->hasOne('App\UserCaptain', 'user_id' , 'id');
+		return $this->hasOne('App\UserCaptain', 'user_id' , 'id')->withoutGlobalScope('restriction');
 	}
 
     public function userBranch(){
-		return $this->hasOne('App\UserBranch', 'user_id' , 'id');
+		return $this->hasOne('App\UserBranch', 'user_id' , 'id')->withoutGlobalScope('restriction');
 	}
     public function country(){
 		return $this->belongsTo('App\Country', 'country_id','id');

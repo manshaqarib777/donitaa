@@ -228,7 +228,7 @@ method="POST" enctype="multipart/form-data">
                                                 <option></option>
                                             </select> --}}
                                     <input placeholder="{{ translate('Address') }}" name="Shipment[client_address_2]"
-                                        class="form-control" value="{{$client_address->address}}" id="" />
+                                        class="form-control" value="{{@$client_address->address}}" id="" />
                                 </div>
 
                             </div>
@@ -280,7 +280,7 @@ method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label class="">{{ translate('Zip/Postal Code') }}:</label>
                                 <input type="text" placeholder="{{ translate('Zip/Postal Code') }}"
-                                    name="Shipment[client_zip_code]" id="client_zip_code" value="{{$client_address->zip_code}}" class="form-control" />
+                                    name="Shipment[client_zip_code]" id="client_zip_code" value="{{@$client_address->zip_code}}" class="form-control" />
 
                             </div>
                         </div>

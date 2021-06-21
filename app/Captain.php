@@ -39,14 +39,14 @@ class Captain extends Model
   }
   public function userCaptain()
   {
-    return $this->hasOne('App\UserCaptain', 'captain_id', 'id');
+    return $this->hasOne('App\UserCaptain', 'captain_id', 'id')->withoutGlobalScope('restriction');
   }
   public function branch()
   {
-    return $this->hasOne('App\Branch', 'id', 'branch_id');
+    return $this->hasOne('App\Branch', 'id', 'branch_id')->withoutGlobalScope('restriction');
   }
   public function transaction(){
-    return $this->hasMany(Transaction::class, 'captain_id');
+    return $this->hasMany(Transaction::class, 'captain_id')->withoutGlobalScope('restriction');
   }
   public function getTypeAttribute($value)
   {

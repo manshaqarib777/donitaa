@@ -35,6 +35,6 @@ class Client extends Model
         });
     }
     public function userClient(){
-      return $this->hasOne('App\UserClient', 'client_id' , 'id');
+      return $this->hasOne('App\UserClient', 'client_id' , 'id')->withoutGlobalScope('restriction');
     }
 }

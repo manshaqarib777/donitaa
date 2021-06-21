@@ -130,7 +130,7 @@
                                         <label class="mb-0 mr-3 d-none d-md-block">{{translate('Client')}}:</label>
                                         <select name="client_id" class="form-control" id="kt_datatable_search_status">
                                             <option value="">{{translate('All')}}</option>
-                                            @foreach(\App\Client::all() as $client)
+                                            @foreach(\App\Client::withoutGlobalScope('restriction')->get() as $client)
                                             <option @if(isset($_GET['client_id']) && $_GET['client_id']==$client->id) selected @endif value="{{$client->id}}">{{$client->name}}</option>
                                             @endforeach
                                         </select>
@@ -303,7 +303,7 @@
                                     <label>{{translate('Client/Sender')}}:</label>
                                     <input type="hidden" name="Mission[client_id]" value="" id="pick_up_client_id_hidden">
                                     <select class="form-control" id="pick_up_client_id" disabled>
-                                        @foreach(\App\Client::all() as $client)
+                                        @foreach(\App\Client::withoutGlobalScope('restriction')->get() as $client)
                                         <option value="{{$client->id}}">{{$client->name}}</option>
                                         @endforeach
                                     </select>
@@ -344,7 +344,7 @@
                                     <label>{{translate('Client/Sender')}}:</label>
                                     <input type="hidden" name="Mission[client_id]" value="" id="pick_up_client_id_hidden">
                                     <select style="background:#f3f6f9;color:#3f4254;" name="Mission[client_id]" class="form-control" id="pick_up_client_id" disabled>
-                                        @foreach(\App\Client::all() as $client)
+                                        @foreach(\App\Client::withoutGlobalScope('restriction')->get() as $client)
                                         <option value="{{$client->id}}">{{$client->name}}</option>
                                         @endforeach
                                     </select>
@@ -408,7 +408,7 @@
                                     <label>{{translate('Client/Sender')}}:</label>
                                     <input type="hidden" name="Mission[client_id]" value="" id="pick_up_client_id_hidden">
                                     <select name="Mission[client_id]" class="form-control" id="pick_up_client_id" disabled>
-                                        @foreach(\App\Client::all() as $client)
+                                        @foreach(\App\Client::withoutGlobalScope('restriction')->get() as $client)
                                         <option value="{{$client->id}}">{{$client->name}}</option>
                                         @endforeach
                                     </select>
@@ -449,7 +449,7 @@
                                     <label>{{translate('Client/Sender')}}:</label>
                                     <input type="hidden" name="Mission[client_id]" value="" id="pick_up_client_id_hidden">
                                     <select name="Mission[client_id]" class="form-control" id="pick_up_client_id" disabled>
-                                        @foreach(\App\Client::all() as $client)
+                                        @foreach(\App\Client::withoutGlobalScope('restriction')->get() as $client)
                                         <option value="{{$client->id}}">{{$client->name}}</option>
                                         @endforeach
                                     </select>

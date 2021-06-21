@@ -13,8 +13,8 @@ class TransactionHelper{
 
     private function pickup_mission_prepaid_shipments_ids($mission_id, $cod = false)
     {
-        $m_shipments = ShipmentMission::where('mission_id',$mission_id)->pluck('shipment_id');
-        $shipments = Shipment::whereIn('id',$m_shipments)->where('payment_type',Shipment::PREPAID);
+        $m_shipments = ShipmentMission::withoutGlobalScope('restriction')->where('mission_id',$mission_id)->pluck('shipment_id');
+        $shipments = Shipment::withoutGlobalScope('restriction')->whereIn('id',$m_shipments)->where('payment_type',Shipment::PREPAID);
         if($cod == false){
             $shipments = $shipments->where("paid",0);
         }
@@ -34,8 +34,8 @@ class TransactionHelper{
 
     private function delivery_mission_postpaid_shipments_ids($mission_id, $cod = false)
     {
-        $m_shipments = ShipmentMission::where('mission_id',$mission_id)->pluck('shipment_id');
-        $shipments = Shipment::whereIn('id',$m_shipments)->where('payment_type',Shipment::POSTPAID);
+        $m_shipments = ShipmentMission::withoutGlobalScope('restriction')->where('mission_id',$mission_id)->pluck('shipment_id');
+        $shipments = Shipment::withoutGlobalScope('restriction')->whereIn('id',$m_shipments)->where('payment_type',Shipment::POSTPAID);
         if($cod == false){
             $shipments = $shipments->where("paid",0);
         }
@@ -55,8 +55,8 @@ class TransactionHelper{
 
     private function return_mission_shipments_ids($mission_id)
     {
-        $m_shipments = ShipmentMission::where('mission_id',$mission_id)->pluck('shipment_id');
-        $shipments = Shipment::whereIn('id',$m_shipments)->where("paid",0)->pluck('id');
+        $m_shipments = ShipmentMission::withoutGlobalScope('restriction')->where('mission_id',$mission_id)->pluck('shipment_id');
+        $shipments = Shipment::withoutGlobalScope('restriction')->whereIn('id',$m_shipments)->where("paid",0)->pluck('id');
         return $shipments;
     }
 
@@ -74,7 +74,7 @@ class TransactionHelper{
     {
         $shipments_cost = 0;
 
-        $mission = Mission::find($mission_id);
+        $mission = Mission::withoutGlobalScope('restriction')->find($mission_id);
         $client = $mission->client;
         if($type == Mission::PICKUP_TYPE)
         {
@@ -102,13 +102,13 @@ class TransactionHelper{
     
     public function calcMissionShipmentsCOD($mission_id)
     {
-        $cod = Shipment::where('mission_id',$mission_id)->sum('amount_to_be_collected');
+        $cod = Shipment::withoutGlobalScope('restriction')->where('mission_id',$mission_id)->sum('amount_to_be_collected');
         return $cod;
     }
 
     public function getPickupCost($mession_id)
     {
-        $mission = Mission::find($mession_id);
+        $mission = Mission::withoutGlobalScope('restriction')->find($mession_id);
         $pickup = (double) $mission->amount-$this->calcMissionShipmentsAmount(Mission::PICKUP_TYPE,$mission->id);
         return $pickup;
     }
@@ -116,10 +116,10 @@ class TransactionHelper{
     public function calculate_mission_amount($mission_id)
     {
         $amount = 0;
-        $mission = Mission::find($mission_id);
+        $mission = Mission::withoutGlobalScope('restriction')->find($mission_id);
         if($mission->getOriginal('type') == Mission::PICKUP_TYPE)
         {
-            $client = Client::find($mission->client_id);
+            $client = Client::withoutGlobalScope('restriction')->find($mission->client_id);
             $amount += $client->pickup_cost;
             $amount += $this->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
         }elseif($mission->getOriginal('type') == Mission::DELIVERY_TYPE)
@@ -130,7 +130,7 @@ class TransactionHelper{
             $amount += $this->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
         }elseif($mission->getOriginal('type') == Mission::SUPPLY_TYPE)
         {
-            $client = Client::find($mission->client_id);
+            $client = Client::withoutGlobalScope('restriction')->find($mission->client_id);
             $amount += $this->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
             // $amount -= $client->supply_cost;
         }
@@ -143,7 +143,7 @@ class TransactionHelper{
     {
 		$cost = 0;
         
-        $shipment = Shipment::where('id',$shipment_id)->first();
+        $shipment = Shipment::withoutGlobalScope('restriction')->where('id',$shipment_id)->first();
         if(in_array($shipment->status_id,[Shipment::RETURNED_CLIENT_GIVEN,Shipment::RETURNED_STATUS,Shipment::RETURNED_STOCK]))
         {
                 $cost += $shipment->return_cost;

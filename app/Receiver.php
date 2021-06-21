@@ -35,6 +35,6 @@ class Receiver extends Model
     }
 
     public function userReceiver(){
-        return $this->hasOne('App\UserReceiver', 'receiver_id' , 'id');
+        return $this->hasOne('App\UserReceiver', 'receiver_id' , 'id')->withoutGlobalScope('restriction');
       }
 }

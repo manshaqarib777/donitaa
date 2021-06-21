@@ -35,6 +35,6 @@ class Branch extends Model
         });
     }
     public function userBranch(){
-		return $this->hasOne('App\UserBranch', 'branch_id' , 'id');
+		return $this->hasOne('App\UserBranch', 'branch_id' , 'id')->withoutGlobalScope('restriction');
 	}
 }

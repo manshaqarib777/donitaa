@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class TicketReply extends Model
 {
     public function ticket(){
-    	return $this->belongsTo(Ticket::class);
+    	return $this->belongsTo(Ticket::class)->withoutGlobalScope('restriction');
     }
     public function user(){
-    	return $this->belongsTo(User::class);
+    	return $this->belongsTo(User::class)->withoutGlobalScope('restriction');
     }
 }
