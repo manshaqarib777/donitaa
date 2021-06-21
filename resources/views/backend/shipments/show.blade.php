@@ -142,7 +142,7 @@ $d = new DNS1D();
                     <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
                         <h6>{{translate('Client Package Handling')}}</h6>
                     </div>
-                    <p class="p-3">{{$shipment->client_shipment_type}}</p>
+                    <p class="p-3">{{$shipment->type}}</p>
                   </div>
             </div>
             <div class="col-md-3">

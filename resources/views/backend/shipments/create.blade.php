@@ -244,7 +244,7 @@
                                 <div class="col-12 col-form-label ml-4">
                                     <div class="radio-inline">
                                         <label class="radio radio-success ">
-                                            <input type="radio" name="Shipment[client_shipment_type]" checked="checked"
+                                            <input type="radio" name="Shipment[type]" checked="checked"
                                                 value="1" />
                                             <span></span>
                                             {{ translate('We Pickup Package') }}
@@ -253,7 +253,7 @@
                                             {{ translate('OR') }}
                                         </label>
                                         <label class="radio radio-success ">
-                                            <input type="radio" name="Shipment[client_shipment_type]" value="2" />
+                                            <input type="radio" name="Shipment[type]" value="2" />
                                             <span></span>
                                             {{ translate('You Dropoff to Our Store') }}
                                         </label>
@@ -1285,7 +1285,7 @@
         });
         $(document).ready(function() {
             $('.show_client_branch').hide();
-            $('input:radio[name="Shipment[client_shipment_type]"]').change(function() {
+            $('input:radio[name="Shipment[type]"]').change(function() {
                 if ($(this).val() == '2') {
                     $('.show_client_branch').show();
                 } else {
