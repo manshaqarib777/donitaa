@@ -530,9 +530,9 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-3 p-5" style="background: hsl(21deg 94% 57%);">
                         <div class="form-group">
-                            <label>{{ translate('Payment Details') }}:</label>
+                            <label class="text-white">{{ translate('Payee ( Who’s paying for this shipment)') }}:</label>
                             <select class="form-control kt-select2 payment-type" id="payment_type"
                                 name="Shipment[payment_type]">
                                 <option @if (\App\ShipmentSetting::getVal('def_payment_type') == '1') selected @endif value="1">
@@ -544,9 +544,9 @@
 
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3 p-5" style="background: hsl(21deg 94% 57%);" id="show_payment_method">
                         <div class="form-group">
-                            <label>{{ translate('Payment Method') }}:</label>
+                            <label class="text-white">{{ translate('Payment Method') }}:</label>
                             <select class="form-control kt-select2 payment-method" id="payment_method_id"
                                 name="Shipment[payment_method_id]">
                                 @forelse (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
@@ -957,6 +957,17 @@
         }
     }
 
+    $('.payment-type').change(function() {
+       // alert($(this).val());
+        if ($(this).val() == '1') {
+            $('#show_payment_method').show();
+
+        } else {
+            $('#show_payment_method').hide();
+
+
+        }
+    });
 
     $(document).on('click', '.package-listener', function() {
 

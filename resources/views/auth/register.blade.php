@@ -2,72 +2,82 @@
 @section('style')
     <style>
         .cf:before,
-.cf:after {
-    content: " ";
-    display: table;
-}
+        .cf:after {
+            content: " ";
+            display: table;
+        }
 
-.cf:after {
-    clear: both;
-}
+        .cf:after {
+            clear: both;
+        }
 
-.cf {
-    *zoom: 1;
-}
+        .cf {
+            *zoom: 1;
+        }
 
-/* FORM */
+        /* FORM */
 
-.form .plan input, .form .payment-plan input, .form .payment-type input{
-	display: none;
-}
+        .form .plan input,
+        .form .payment-plan input,
+        .form .payment-type input {
+            display: none;
+        }
 
-.form label{
-	position: relative;
-	color: gray;
-	background-color: white;
-	border: 3px solid gray;
-	font-size: 26px;
-	text-align: center;
-	height: 100px;
-	line-height: 100px;
-	display: block;
-	cursor: pointer;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
+        .form label {
+            position: relative;
+            color: gray;
+            background-color: white;
+            border: 3px solid gray;
+            font-size: 26px;
+            text-align: center;
+            height: 100px;
+            line-height: 100px;
+            display: block;
+            cursor: pointer;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
 
-.form .plan input:checked + label, .form .payment-plan input:checked + label, .form .payment-type input:checked + label{
-	border: 3px solid green;
-	background-color: white;
-}
+        .form .plan input:checked+label,
+        .form .payment-plan input:checked+label,
+        .form .payment-type input:checked+label {
+            border: 3px solid green;
+            background-color: white;
+        }
 
-.form .plan input:checked + label:after, form .payment-plan input:checked + label:after, .form .payment-type input:checked + label:after{
-	content: "\2713";
-	width: 40px;
-	height: 40px;
-	line-height: 40px;
-	border-radius: 100%;
-	border: 2px solid #333;
-	background-color: white;
-	z-index: 999;
-	position: absolute;
-	top: -10px;
-	right: -10px;
-}
+        .form .plan input:checked+label:after,
+        form .payment-plan input:checked+label:after,
+        .form .payment-type input:checked+label:after {
+            content: "\2713";
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 100%;
+            border: 2px solid #333;
+            background-color: white;
+            z-index: 999;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+        }
+
     </style>
 @endsection
 @section('content')
     @php
-        $countries = \App\Country::where('covered',1)->get();
-        $user_type = null;
-        $staff_permission = json_decode("[]");
+    $countries = \App\Country::where('covered', 1)->get();
+    $user_type = null;
+    $staff_permission = json_decode('[]');
     @endphp
     <div class="container-fluid" style="padding-left: 0px;">
         <div class="row">
-            <div class="col-md-4 col-lg-4 col-xl-4" style="background-image: url({{ uploaded_asset(get_setting('admin_login_background')) }})">
+            <div class="col-md-4 col-lg-4 col-xl-4"
+                style="background-image: url({{ uploaded_asset(get_setting('admin_login_background')) }})">
                 <div class="p-3 text-white align-self-center" style="margin-top: 300px;">
-                    <img src="@if(setting()->get('main_header_logo_'.app()->getLocale()) && setting()->get('main_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('main_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo-transparent.svg')}} @endif" alt="logo" class="logo-default" style="width: 400px;">
+                    <img src="@if (setting()->get('main_header_logo_' . app()->getLocale()) &&
+                    setting()->get('main_header_logo_' . app()->getLocale()) != '') {{ asset('/storage/app/public/' . setting()->get('main_header_logo_' . app()->getLocale())) }}
+                @else {{ static_asset('themes/main/frontend/logistic/images/logo-transparent.svg') }} @endif" alt="logo" class="logo-default" style="width: 400px;">
                 </div>
             </div>
             <div class="col-md-8 col-lg-8 col-xl-8" style="padding: 100px;">
@@ -84,29 +94,35 @@
                             <div class="row"></div>
                             <div class="form cf">
                                 <div class="plan cf">
-                                <div class="row">
-                                    <div class="col-md-4 col-lg-4 col-xl-4">
-                                        <input type="radio" name="radio1" id="free" value="1" class="change_type"><label class="free-label four col" for="free"><i class="fa fa-user-o" aria-hidden="true"></i>  Personal</label>
+                                    <div class="row">
+                                        <div class="col-md-4 col-lg-4 col-xl-4">
+                                            <input type="radio" name="radio1" id="free" value="1" class="change_type"><label
+                                                class="free-label four col" for="free"><i class="fa fa-user-o"
+                                                    aria-hidden="true"></i> Personal</label>
 
-                                    </div>
-                                    <div class="col-md-4 col-lg-4 col-xl-4">
-                                        <input type="radio" name="radio1" id="basic" value="2" class="change_type" checked><label class="basic-label four col" for="basic"><i class="fa fa-dropbox" aria-hidden="true"></i> Business</label>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xl-4">
+                                            <input type="radio" name="radio1" id="basic" value="2" class="change_type"
+                                                checked><label class="basic-label four col" for="basic"><i
+                                                    class="fa fa-dropbox" aria-hidden="true"></i> Business</label>
 
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xl-4">
+                                            <input type="radio" name="radio1" id="premium" class="change_type"
+                                                value="3"><label class="premium-label four col" for="premium"> <i
+                                                    class="fa fa-truck" aria-hidden="true"></i> Driver</label>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4 col-lg-4 col-xl-4">
-                                        <input type="radio" name="radio1" id="premium" class="change_type" value="3"><label class="premium-label four col" for="premium"> <i class="fa fa-truck" aria-hidden="true"></i> Driver</label>
-                                    </div>
-                                </div>
 
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>{{translate('First Name')}}</label>
+                                        <label>{{ translate('First Name') }}</label>
                                         <input id="first_name" type="text"
-                                            class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" name="Client[first_name]"
-                                            value="{{ old('first_name') }}" required autofocus
+                                            class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}"
+                                            name="Client[first_name]" value="{{ old('first_name') }}" required autofocus
                                             placeholder="{{ translate('First Name') }}">
 
                                         @if ($errors->has('first_name'))
@@ -118,10 +134,10 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>{{translate('Last Name')}}</label>
+                                        <label>{{ translate('Last Name') }}</label>
                                         <input id="last_name" type="text"
-                                            class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="Client[last_name]"
-                                            value="{{ old('last_name') }}" required autofocus
+                                            class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}"
+                                            name="Client[last_name]" value="{{ old('last_name') }}" required autofocus
                                             placeholder="{{ translate('Last Name') }}">
 
                                         @if ($errors->has('last_name'))
@@ -135,10 +151,10 @@
 
 
                             <div class="form-group show_company">
-                                <label>{{translate('Business Legal Name')}}</label>
+                                <label>{{ translate('Business Legal Name') }}</label>
                                 <input id="company" type="text"
-                                    class="form-control{{ $errors->has('company') ? ' is-invalid' : '' }}" name="Client[company]"
-                                    value="{{ old('company') }}" required autofocus
+                                    class="form-control{{ $errors->has('company') ? ' is-invalid' : '' }}"
+                                    name="Client[company]" value="{{ old('company') }}" required autofocus
                                     placeholder="{{ translate('Business Legal Name') }}">
 
                                 @if ($errors->has('company'))
@@ -149,10 +165,11 @@
                             </div>
 
                             <div class="form-group">
-                                <label>{{translate('Email')}}</label>
+                                <label>{{ translate('Email') }}</label>
                                 <input id="email" type="email"
-                                    class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="Client[email]"
-                                    value="{{ old('email') }}" required placeholder="{{ translate('Email') }}">
+                                    class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                    name="Client[email]" value="{{ old('email') }}" required
+                                    placeholder="{{ translate('Email') }}">
 
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback" role="alert">
@@ -164,7 +181,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>{{translate('Password')}}</label>
+                                        <label>{{ translate('Password') }}</label>
 
                                         <input id="password" type="password"
                                             class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
@@ -179,7 +196,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>{{translate('Password Confirmation')}}</label>
+                                        <label>{{ translate('Password Confirmation') }}</label>
 
                                         <input id="password-confirm" type="password" class="form-control"
                                             name="password_confirmation" required
@@ -188,10 +205,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>{{translate('Address 1')}}</label>
+                                <label>{{ translate('Address 1') }}</label>
                                 <input id="first_address" type="text"
-                                    class="form-control{{ $errors->has('first_address') ? ' is-invalid' : '' }}" name="first_address"
-                                    value="{{ old('first_address') }}" required autofocus
+                                    class="form-control{{ $errors->has('first_address') ? ' is-invalid' : '' }}"
+                                    name="first_address" value="{{ old('first_address') }}" required autofocus
                                     placeholder="{{ translate('Address 1') }}">
 
                                 @if ($errors->has('first_address'))
@@ -201,10 +218,10 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label>{{translate('Address 2')}}</label>
+                                <label>{{ translate('Address 2') }}</label>
                                 <input id="second_address" type="text"
-                                    class="form-control{{ $errors->has('second_address') ? ' is-invalid' : '' }}" name="second_address"
-                                    value="{{ old('second_address') }}" required autofocus
+                                    class="form-control{{ $errors->has('second_address') ? ' is-invalid' : '' }}"
+                                    name="second_address" value="{{ old('second_address') }}" required autofocus
                                     placeholder="{{ translate('Address 2') }}">
 
                                 @if ($errors->has('second_address'))
@@ -216,7 +233,7 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label>{{translate('Country:')}}</label>
+                                        <label>{{ translate('Country:') }}</label>
 
                                         <select id="change-country" name="country_id" class="form-control select-country">
                                             <option value=""></option>
@@ -228,7 +245,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label>{{translate('State/Region')}}</label>
+                                        <label>{{ translate('State/Region') }}</label>
 
                                         <select id="change-state" name="state_id" class="form-control select-state">
                                             <option value=""></option>
@@ -238,7 +255,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label>{{translate('Area')}}</label>
+                                        <label>{{ translate('Area') }}</label>
 
                                         <select name="area_id" class="form-control select-area">
                                             <option value=""></option>
@@ -295,8 +312,8 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-    $('.change_type').change(function() {
-            var change_html="";
+        $('.change_type').change(function() {
+            var change_html = "";
             if ($(this).val() == '2') {
                 $('.show_company').show();
 
@@ -501,6 +518,5 @@
                 }
             );
         });
-
     </script>
 @endsection
