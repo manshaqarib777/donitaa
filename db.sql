@@ -98,7 +98,7 @@ CREATE TABLE `app_settings` (
 --
 
 INSERT INTO `app_settings` (`id`, `name`, `logo`, `currency_id`, `currency_format`, `facebook`, `twitter`, `instagram`, `youtube`, `google_plus`, `created_at`, `updated_at`) VALUES
-(1, 'Spotlayer Framework', 'uploads/logo/matggar.png', 1, 'symbol', 'https://facebook.com', 'https://twitter.com', 'https://instagram.com', 'https://youtube.com', 'https://google.com', '2019-08-04 16:39:15', '2019-08-04 16:39:18');
+(1, 'Donitaa Products', 'uploads/logo/matggar.png', 1, 'symbol', 'https://facebook.com', 'https://twitter.com', 'https://instagram.com', 'https://youtube.com', 'https://google.com', '2019-08-04 16:39:15', '2019-08-04 16:39:18');
 
 -- --------------------------------------------------------
 
@@ -771,7 +771,7 @@ CREATE TABLE `general_settings` (
 --
 
 INSERT INTO `general_settings` (`id`, `frontend_color`, `logo`, `footer_logo`, `admin_logo`, `admin_login_background`, `admin_login_sidebar`, `favicon`, `site_name`, `address`, `description`, `phone`, `email`, `facebook`, `instagram`, `twitter`, `youtube`, `google_plus`, `created_at`, `updated_at`) VALUES
-(1, 'default', 'uploads/logo/pfdIuiMeXGkDAIpPEUrvUCbQrOHu484nbGfz77zB.png', NULL, 'uploads/admin_logo/wCgHrz0Q5QoL1yu4vdrNnQIr4uGuNL48CXfcxOuS.png', NULL, NULL, 'uploads/favicon/uHdGidSaRVzvPgDj6JFtntMqzJkwDk9659233jrb.png', 'Spotlayer Framework CMS', 'Demo Address', 'Spotlayer Framework CMS is a framework to build websites.', '1234567890', 'admin@example.com', 'https://www.facebook.com', 'https://www.instagram.com', 'https://www.twitter.com', 'https://www.youtube.com', 'https://www.googleplus.com', '2019-03-13 08:01:06', '2019-03-13 02:01:06');
+(1, 'default', 'uploads/logo/pfdIuiMeXGkDAIpPEUrvUCbQrOHu484nbGfz77zB.png', NULL, 'uploads/admin_logo/wCgHrz0Q5QoL1yu4vdrNnQIr4uGuNL48CXfcxOuS.png', NULL, NULL, 'uploads/favicon/uHdGidSaRVzvPgDj6JFtntMqzJkwDk9659233jrb.png', 'Donitaa Products CMS', 'Demo Address', 'Donitaa Products CMS is a framework to build websites.', '1234567890', 'admin@example.com', 'https://www.facebook.com', 'https://www.instagram.com', 'https://www.twitter.com', 'https://www.youtube.com', 'https://www.googleplus.com', '2019-03-13 08:01:06', '2019-03-13 02:01:06');
 
 -- --------------------------------------------------------
 
@@ -1375,7 +1375,7 @@ CREATE TABLE `seo_settings` (
 --
 
 INSERT INTO `seo_settings` (`id`, `keyword`, `author`, `revisit`, `sitemap_link`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'bootstrap,responsive,template,developer', 'Active IT Zone', 11, 'https://www.spotlayer.com', 'Spotlayer Framework CMS is a framework to built websites.', '2019-08-08 08:56:11', '2019-08-08 02:56:11');
+(1, 'bootstrap,responsive,template,developer', 'Active IT Zone', 11, 'https://www.spotlayer.com', 'Donitaa Products CMS is a framework to built websites.', '2019-08-08 08:56:11', '2019-08-08 02:56:11');
 
 -- --------------------------------------------------------
 
@@ -7654,7 +7654,7 @@ INSERT INTO `translations` (`id`, `lang`, `lang_key`, `lang_value`, `created_at`
 (1356, 'en', 'Update your product', 'Update your product', '2020-11-15 11:39:14', '2020-11-15 11:39:14'),
 (1357, 'en', 'Product has been updated successfully', 'Product has been updated successfully', '2020-11-15 11:51:36', '2020-11-15 11:51:36'),
 (1358, 'en', 'Add Your Digital Product', 'Add Your Digital Product', '2020-11-15 12:24:21', '2020-11-15 12:24:21'),
-(1359, 'en', 'Spotlayer Framework CMS Update Process', 'Spotlayer Framework CMS Update Process', '2020-11-16 07:53:31', '2020-11-16 07:53:31'),
+(1359, 'en', 'Donitaa Products CMS Update Process', 'Donitaa Products CMS Update Process', '2020-11-16 07:53:31', '2020-11-16 07:53:31'),
 (1360, 'en', 'You will need to know the following items before\r\n        proceeding', 'You will need to know the following items before\r\n        proceeding', '2020-11-16 07:53:31', '2020-11-16 07:53:31'),
 (1361, 'en', 'Codecanyon purchase code', 'Codecanyon purchase code', '2020-11-16 07:53:31', '2020-11-16 07:53:31'),
 (1362, 'en', 'Database Name', 'Database Name', '2020-11-16 07:53:31', '2020-11-16 07:53:31'),
@@ -7741,7 +7741,7 @@ INSERT INTO `translations` (`id`, `lang`, `lang_key`, `lang_value`, `created_at`
 (1443, 'en', 'Merchant Note', 'Merchant Note', '2021-01-20 09:24:24', '2021-01-20 09:24:24'),
 (1444, 'en', 'Facebook Account', 'Facebook Account', '2021-01-20 09:24:24', '2021-01-20 09:24:24'),
 (1445, 'en', 'Client added successfully', 'Client added successfully', '2021-01-20 11:33:21', '2021-01-20 11:33:21'),
-(1446, 'en', 'Spotlayer Framework', 'Spotlayer Framework', '2021-02-10 12:19:20', '2021-02-10 12:19:20'),
+(1446, 'en', 'Donitaa Products', 'Donitaa Products', '2021-02-10 12:19:20', '2021-02-10 12:19:20'),
 (1447, 'en', 'Administration', 'Administration', '2021-02-10 12:19:20', '2021-02-10 12:19:20'),
 (1448, 'en', 'Media', 'Media', '2021-02-10 12:19:20', '2021-02-10 12:19:20'),
 (1449, 'en', 'Settings', 'Settings', '2021-02-10 12:19:21', '2021-02-10 12:19:21'),

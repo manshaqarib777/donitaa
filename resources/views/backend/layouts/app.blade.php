@@ -15,7 +15,7 @@
 	@if(get_setting('website_name'))
 		<title> @if(View::hasSection('sub_title')) @yield('sub_title') | @endif {{ get_setting('website_name').get_setting('site_motto') ?' | '.get_setting('site_motto'):'' }}</title>
 	@else
-		<title>@if(View::hasSection('sub_title')) @yield('sub_title') | @endif {{ translate('Spotlayer Framework') }} </title>
+		<title>@if(View::hasSection('sub_title')) @yield('sub_title') | @endif {{ translate('Donitaa Products') }} </title>
 	@endif
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 

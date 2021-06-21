@@ -53,7 +53,7 @@ $d = new DNS1D();
                                                         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
                                                             <tr>
                                                                 <td style="padding-left:10px; font-size:14px; font-weight:bold; width:420px">
-                                                                    @if(get_setting('website_name')){{ get_setting('website_name').get_setting('site_motto') ?' | '.get_setting('site_motto'):'' }}{{ translate('Spotlayer Framework') }}@else{{ translate('Spotlayer Framework') }}@endif
+                                                                    @if(get_setting('website_name')){{ get_setting('website_name').get_setting('site_motto') ?' | '.get_setting('site_motto'):'' }}{{ translate('Donitaa Products') }}@else{{ translate('Donitaa Products') }}@endif
                                                                 </td>
                                                                 <td nowrap="nowrap">
                                                                     <span style="font-size:20px; font-weight:bold; padding-right:10px;">{{$shipment->code}}</span>
@@ -167,9 +167,9 @@ $d = new DNS1D();
                                         <td valign="middle" style="padding-left:5px; height: 90px;">
 
                                             @if(get_setting('system_logo_white') != null)
-                                                <img src="{{ uploaded_asset(get_setting('system_logo_white')) }}">
+                                                <img src="{{ uploaded_asset(get_setting('system_logo_white')) }}" style="width:400px;">
                                             @else
-                                                <img src="{{ static_asset('assets/img/logo.svg') }}">
+                                                <img src="{{ static_asset('assets/img/logo.svg') }}" style="width:400px;">
                                             @endif
                                         </td>
                                     </tr>
@@ -187,7 +187,7 @@ $d = new DNS1D();
                                                         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
                                                             <tr>
                                                                 <td style="padding-left:10px; font-size:14px; font-weight:bold; width:420px">
-                                                                    @if(get_setting('website_name')){{ get_setting('website_name').get_setting('site_motto') ?' | '.get_setting('site_motto'):'' }}{{ translate('Spotlayer Framework') }}@else{{ translate('Spotlayer Framework') }}@endif
+                                                                    @if(get_setting('website_name')){{ get_setting('website_name').get_setting('site_motto') ?' | '.get_setting('site_motto'):'' }}{{ translate('Donitaa Products') }}@else{{ translate('Donitaa Products') }}@endif
                                                                 </td>
                                                                 <td nowrap="nowrap">
                                                                     <span style="font-size:20px; font-weight:bold; padding-right:10px;">{{$shipment->code}}</span>
