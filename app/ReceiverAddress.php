@@ -32,7 +32,7 @@ class ReceiverAddress extends Model
             }
             if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
             {
-                $builder->where('receiver_id',auth()->user()->userReceiver->receiver->id);
+                $builder->where('receiver_id',@auth()->user()->userReceiver->receiver->id);
             }
                 
         });

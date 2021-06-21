@@ -32,7 +32,7 @@ class ClientAddress extends Model
             }
             if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
             {
-                $builder->where('client_id',auth()->user()->userClient->client->id);
+                $builder->where('client_id',@auth()->user()->userClient->client->id);
             }
                 
         });

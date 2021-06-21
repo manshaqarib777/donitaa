@@ -14,26 +14,27 @@ class Receiver extends Model
         static::addGlobalScope('restriction', function ($builder) {
             if(isset(auth()->user()->staff->role) && (auth()->user()->staff->role->id  == '1' || auth()->user()->staff->role->name  == 'Manager'))
             {
-                $builder->whereHas('user', function($query) {
+                $builder->whereHas('userReceiver.user', function($query) {
                     return $query->where('users.country_id', auth()->user()->country_id);
                 });
             }    
             if(isset(auth()->user()->staff->role) && (auth()->user()->staff->role->id  == '2' || auth()->user()->staff->role->name  == 'Supervisor'))
             {
-                $builder->whereHas('user', function($query) {
+                $builder->whereHas('userReceiver.user', function($query) {
                     return $query->where('users.country_id', auth()->user()->country_id);
                  });
             }
             if(isset(auth()->user()->staff->role) && (auth()->user()->staff->role->id  == '4' || auth()->user()->staff->role->name  == 'Agent'))
             {
-                $builder->whereHas('user', function($query) {
+                $builder->whereHas('userReceiver.user', function($query) {
                     return $query->where('users.country_id', auth()->user()->country_id);
                  });
             }
                 
         });
     }
-    public function user(){
-      return $this->belongsTo('App\User', 'user_id' , 'id');
-    }
+
+    public function userReceiver(){
+        return $this->hasOne('App\UserReceiver', 'receiver_id' , 'id');
+      }
 }
