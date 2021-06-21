@@ -956,14 +956,14 @@
             }
         }
     }
-
     $('.payment-type').change(function() {
        // alert($(this).val());
-        if ($(this).val() == '1') {
-            $('#show_payment_method').show();
+        if ($(this).val() == '2') {
+            $('.payment-method').attr('disabled','disabled');
 
         } else {
-            $('#show_payment_method').hide();
+            $('.payment-method').removeAttr('disabled','disabled');
+
 
 
         }
