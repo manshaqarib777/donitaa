@@ -458,9 +458,9 @@ method="POST" enctype="multipart/form-data">
             <hr>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-3 p-5" style="background: hsl(21deg 94% 57%);">
                     <div class="form-group">
-                        <label>{{ translate('Payment Details') }}:</label>
+                        <label class="text-white">{{ translate('Payee ( Who’s paying for this shipment)') }}:</label>
                         <select class="form-control kt-select2 payment-type" id="payment_type"
                             name="Shipment[payment_type]">
                             <option @if ($shipment->payment_type == '1') selected @endif value="1">
@@ -472,11 +472,11 @@ method="POST" enctype="multipart/form-data">
 
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3 p-5" style="background: hsl(21deg 94% 57%);" id="show_payment_method">
                     <div class="form-group">
-                        <label>{{ translate('Payment Method') }}:</label>
+                        <label class="text-white">{{ translate('Payment Method') }}:</label>
                         <select class="form-control kt-select2 payment-method" id="payment_method_id"
-                            name="Shipment[payment_method_id]">
+                            name="Shipment[payment_method_id]" style="width:100%">
                             @forelse (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
                                 <option @if ($shipment->payment_method_id == $gateway->id) selected @endif value="{{ $gateway->id }}">
                                     {{ $gateway->name }}</option>
@@ -936,8 +936,27 @@ method="POST" enctype="multipart/form-data">
             }
         }
     }
+    if ($('.payment-type').val() == '2') {
+        $('.payment-method').attr('disabled','disabled');
+
+    } else {
+        $('.payment-method').removeAttr('disabled','disabled');
 
 
+
+    }
+    $('.payment-type').change(function() {
+       // alert($(this).val());
+       if ($(this).val() == '2') {
+            $('.payment-method').attr('disabled','disabled');
+
+        } else {
+            $('.payment-method').removeAttr('disabled','disabled');
+
+
+
+        }
+    });
     $(document).on('click', '.package-listener', function() {
 
         if ($(this).is(":checked")) {
@@ -1264,8 +1283,13 @@ method="POST" enctype="multipart/form-data">
             startDate: new Date(),
         });
         $(document).ready(function() {
-            $('.show_client_branch').hide();
-            $('input:radio[name="Shipment[type]"]').change(function() {
+            if ($('input:radio[name="Shipment[client_shipment_type]').val() == '2') {
+                $('.show_client_branch').show();
+            } else {
+                $('.show_client_branch').hide();
+
+            }
+            $('input:radio[name="Shipment[client_shipment_type]"]').change(function() {
                 if ($(this).val() == '2') {
                     $('.show_client_branch').show();
                 } else {
@@ -1273,7 +1297,12 @@ method="POST" enctype="multipart/form-data">
 
                 }
             });
-            $('.show_receiver_branch').hide();
+            if ($('input:radio[name="Shipment[receiver_shipment_type]').val() == '2') {
+                    $('.show_receiver_branch').show();
+                } else {
+                    $('.show_receiver_branch').hide();
+
+                }
             $('input:radio[name="Shipment[receiver_shipment_type]"]').change(function() {
                 if ($(this).val() == '2') {
                     $('.show_receiver_branch').show();
