@@ -153,8 +153,8 @@
 
 
                                             <option @if ($shipment->payment_type == 1) selected @endif value="1">
-                                                {{ translate('Postpaid') }}</option>
-                                            <option @if ($shipment->payment_type == 2) selected @endif value="2">{{ translate('Prepaid') }}
+                                                {{ translate('Shipper') }}</option>
+                                            <option @if ($shipment->payment_type == 2) selected @endif value="2">{{ translate('Receiver') }}
                                             </option>
 
 

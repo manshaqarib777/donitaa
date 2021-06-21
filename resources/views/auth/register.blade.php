@@ -65,7 +65,7 @@
     @endphp
     <div class="container-fluid" style="padding-left: 0px;">
         <div class="row">
-            <div class="col-md-4 col-lg-4 col-xl-4" style="background:green;">
+            <div class="col-md-4 col-lg-4 col-xl-4" style="background-image: url({{ uploaded_asset(get_setting('admin_login_background')) }})">
                 <div class="p-3 text-white align-self-center" style="margin-top: 300px;">
                     <img src="@if(setting()->get('main_header_logo_'.app()->getLocale()) && setting()->get('main_header_logo_'.app()->getLocale()) != '') {{asset('/storage/app/public/'. setting()->get('main_header_logo_'.app()->getLocale()) )}} @else {{ static_asset('themes/main/frontend/logistic/images/logo-transparent.svg')}} @endif" alt="logo" class="logo-default" style="width: 400px;">
                 </div>
@@ -100,33 +100,40 @@
 
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{translate('First Name')}}</label>
+                                        <input id="first_name" type="text"
+                                            class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" name="Client[first_name]"
+                                            value="{{ old('first_name') }}" required autofocus
+                                            placeholder="{{ translate('First Name') }}">
 
-                            <div class="form-group">
-                                <label>{{translate('First Name')}}</label>
-                                <input id="first_name" type="text"
-                                    class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" name="Client[first_name]"
-                                    value="{{ old('first_name') }}" required autofocus
-                                    placeholder="{{ translate('First Name') }}">
+                                        @if ($errors->has('first_name'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('first_name') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{translate('Last Name')}}</label>
+                                        <input id="last_name" type="text"
+                                            class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="Client[last_name]"
+                                            value="{{ old('last_name') }}" required autofocus
+                                            placeholder="{{ translate('Last Name') }}">
 
-                                @if ($errors->has('first_name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('first_name') }}</strong>
-                                    </span>
-                                @endif
+                                        @if ($errors->has('last_name'))
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $errors->first('last_name') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>{{translate('Last Name')}}</label>
-                                <input id="last_name" type="text"
-                                    class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="Client[last_name]"
-                                    value="{{ old('last_name') }}" required autofocus
-                                    placeholder="{{ translate('Last Name') }}">
 
-                                @if ($errors->has('last_name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('last_name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+
                             <div class="form-group show_company">
                                 <label>{{translate('Business Legal Name')}}</label>
                                 <input id="company" type="text"
@@ -207,9 +214,9 @@
                                 @endif
                             </div>
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label>{{translate('Country')}}</label>
+                                        <label>{{translate('Country:')}}</label>
 
                                         <select id="change-country" name="country_id" class="form-control select-country">
                                             <option value=""></option>
@@ -219,7 +226,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>{{translate('State/Region')}}</label>
 
@@ -229,7 +236,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>{{translate('Area')}}</label>
 

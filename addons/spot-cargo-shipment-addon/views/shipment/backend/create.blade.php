@@ -285,8 +285,8 @@
                                 <div class="form-group">
                                     <label>{{translate('Payment Type')}}:</label>
                                     <select class="form-control kt-select2 payment-type" id="payment_type" name="Shipment[payment_type]">
-                                        <option @if(\App\ShipmentSetting::getVal('def_payment_type')=='1' ) selected @endif value="1">{{translate('Postpaid')}}</option>
-                                        <option @if(\App\ShipmentSetting::getVal('def_payment_type')=='2' ) selected @endif value="2">{{translate('Prepaid')}}</option>
+                                        <option @if(\App\ShipmentSetting::getVal('def_payment_type')=='1' ) selected @endif value="1">{{translate('Shipper')}}</option>
+                                        <option @if(\App\ShipmentSetting::getVal('def_payment_type')=='2' ) selected @endif value="2">{{translate('Receiver')}}</option>
                                     </select>
 
                                 </div>

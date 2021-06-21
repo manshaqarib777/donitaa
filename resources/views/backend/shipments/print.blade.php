@@ -29,9 +29,9 @@ $d = new DNS1D();
                         <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
                             <h1 class="display-4 font-weight-boldest mb-10">
                                 @if(get_setting('system_logo_white') != null)
-                                    <img src="{{ uploaded_asset(get_setting('system_logo_white')) }}" class="d-block mb-5">
+                                    <img src="{{ uploaded_asset(get_setting('system_logo_white')) }}" class="d-block mb-5" style="width:400px;">
                                 @else
-                                    <img src="{{ static_asset('assets/img/logo.svg') }}" class="d-block mb-5">
+                                    <img src="{{ static_asset('assets/img/logo.svg') }}" class="d-block mb-5" style="width:400px;">
                                 @endif
                                 {{translate('INVOICE')}}
                             </h1>

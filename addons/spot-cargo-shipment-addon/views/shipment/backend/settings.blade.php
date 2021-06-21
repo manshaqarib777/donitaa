@@ -186,8 +186,8 @@
                             <select class="form-control kt-select2 def_payment_type" name="Setting[def_payment_type]">
 
 
-                                <option @if(\App\ShipmentSetting::getVal('def_payment_type')== '1') selected @endif value="1">{{translate('Postpaid')}}</option>
-                                <option @if(\App\ShipmentSetting::getVal('def_payment_type')== '2') selected @endif  value="2">{{translate('Prepaid')}}</option>
+                                <option @if(\App\ShipmentSetting::getVal('def_payment_type')== '1') selected @endif value="1">{{translate('Shipper')}}</option>
+                                <option @if(\App\ShipmentSetting::getVal('def_payment_type')== '2') selected @endif  value="2">{{translate('Receiver')}}</option>
 
 
                             </select>

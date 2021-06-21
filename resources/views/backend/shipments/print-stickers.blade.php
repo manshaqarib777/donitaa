@@ -43,9 +43,9 @@ $d = new DNS1D();
 												<td valign="middle" style="padding-left:5px; height: 90px;">
 
 													@if(get_setting('system_logo_white') != null)
-														<img src="{{ uploaded_asset(get_setting('system_logo_white')) }}">
+														<img src="{{ uploaded_asset(get_setting('system_logo_white')) }}" style="width:400px;">
 													@else
-														<img src="{{ static_asset('assets/img/logo.svg') }}">
+														<img src="{{ static_asset('assets/img/logo.svg') }}" style="width:400px;">
 													@endif
 												</td>
 											</tr>

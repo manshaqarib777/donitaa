@@ -395,9 +395,9 @@ class Shipment extends Model
     public function getPaymentType()
     {
         if ($this->payment_type == Self::POSTPAID) {
-            return translate('Postpaid');
+            return translate('Shipper');
         } elseif ($this->payment_type == Self::PREPAID) {
-            return translate('Prepaid');
+            return translate('Receiver');
         }
     }
 

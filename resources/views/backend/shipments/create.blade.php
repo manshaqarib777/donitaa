@@ -532,13 +532,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>{{ translate('Payment Type') }}:</label>
+                            <label>{{ translate('Payment Details') }}:</label>
                             <select class="form-control kt-select2 payment-type" id="payment_type"
                                 name="Shipment[payment_type]">
                                 <option @if (\App\ShipmentSetting::getVal('def_payment_type') == '1') selected @endif value="1">
-                                    {{ translate('Postpaid') }}</option>
+                                    {{ translate('Shipper') }}</option>
                                 <option @if (\App\ShipmentSetting::getVal('def_payment_type') == '2') selected @endif value="2">
-                                    {{ translate('Prepaid') }}
+                                    {{ translate('Receiver') }}
                                 </option>
                             </select>
 
@@ -560,7 +560,7 @@
                     </div>
                 </div>
 
-
+                <hr>
                 <div id="kt_repeater_1">
                     <div id="kt_repeater_1">
                         <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
@@ -604,7 +604,7 @@
 
 
                                     <div class="row col-md-3 ml-1">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <label>{{ translate('Description') }}:</label>
                                         </div>
                                         <div class="col-md-4">
@@ -632,29 +632,6 @@
 
                                         </div>
                                         <div class="mb-2 d-md-none"></div>
-                                    </div>
-                                    <div class="" style="padding-left:5px;width:8%;">
-                                        <label class="w-100" style="color:#0b2339;">Insurance</label>
-                                        <label class="checkbox">
-                                            <input type="checkbox" onchange="update_currency_status(this)"
-                                                placeholder="{{ translate('Include Shipment Insurance') }}"
-                                                class="form-control insurance-listener" name="shipment_insurance" />
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                    <div class="" style="padding-left:5px;width:11%;">
-                                        <div class="input-group mb-3">
-                                            <label class="w-100" style="color:#0b2339;">Protection
-                                                Value</label>
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"
-                                                    id="basic-addon1">{{ translate('PV') }}</span>
-                                            </div>
-                                            <input type="text" placeholder="{{ translate('Package Value') }}"
-                                                class="form-control value-listener" name="shipment_price"
-                                                onchange="calcTotalPrice()" value="0" />
-
-                                        </div>
                                     </div>
                                     <div class="" style="padding-left:5px;width:8%;">
                                         <div class="input-group mb-3">
@@ -691,6 +668,29 @@
                                         </div>
 
                                     </div>
+                                    <div class="" style="padding-left:5px;width:8%;">
+                                        <label class="w-100" style="color:#0b2339;">Insurance</label>
+                                        <label class="checkbox">
+                                            <input type="checkbox" onchange="update_currency_status(this)"
+                                                placeholder="{{ translate('Include Shipment Insurance') }}"
+                                                class="form-control insurance-listener" name="shipment_insurance" />
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                    <div class="" style="padding-left:5px;width:11%;">
+                                        <div class="input-group mb-3">
+                                            <label class="w-100" style="color:#0b2339;">Protection
+                                                Value</label>
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                    id="basic-addon1">{{ translate('PV') }}</span>
+                                            </div>
+                                            <input type="text" placeholder="{{ translate('Package Value') }}"
+                                                class="form-control value-listener" name="shipment_price"
+                                                onchange="calcTotalPrice()" value="0" />
+
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
                                     <hr>
@@ -716,13 +716,13 @@
                                                             name="item_name" />
 
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <label>{{ translate('Item Description') }}:</label>
                                                         <input type="text" class="form-control"
                                                             placeholder="{{ translate('Description') }}"
                                                             name="description" />
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-2">
 
                                                         <label>{{ translate('Quantity') }}:</label>
 
@@ -810,7 +810,9 @@
 
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>{{ translate('Delivery Time') }}:</label>
                             <select class="form-control delivery-time" id="delivery_time"
@@ -822,7 +824,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-2">
                         <div class="input-group mb-3">
                             <label class="w-100" style="color:#0b2339;">Total Package Value</label>
                             <div class="input-group-prepend">
@@ -833,7 +835,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
 
                         <div class="input-group mb-3">
                             <label class="w-100" style="color:#0b2339;">Total Weight</label>
@@ -870,8 +872,8 @@
             {!! hookView('shipment_addon', $currentView) !!}
 
             <div class="mb-0 text-right form-group">
-                <button type="button" class="btn btn-sm btn-primary"
-                    onclick="get_estimation_cost()">{{ translate('Get Rates') }}</button>
+                <button type="button" class="btn btn-lg btn-primary"
+                    onclick="get_estimation_cost()" style="margin-left: 20px;font-size: 20px;">{{ translate('Get Rates') }}</button>
 
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-sm btn-primary d-none" data-toggle="modal"
@@ -971,21 +973,21 @@
     });
 
     $('.payment-method').select2({
-        placeholder: "Payment Method",
+        placeholder: "Search Payment Method",
     });
 
     $('.payment-type').select2({
-        placeholder: "Payment Type",
+        placeholder: "Search Payment Type",
     });
 
 
 
     $('.delivery-time').select2({
-        placeholder: "Delivery Time",
+        placeholder: "Search Delivery Time",
     });
 
     $('.select-branch').select2({
-        placeholder: "Select Branch",
+        placeholder: "Search Branch",
     })
     @if ($user_type == 'admin' || in_array('1006', $staff_permission))
         .on('select2:open', () => {
@@ -1215,7 +1217,7 @@
             $('.select-receiver').val("{{ auth()->user()->userReceiver->receiver->id }}").trigger('change');
         @endif
         $('.select-country').select2({
-            placeholder: "Select country",
+            placeholder: "Search country",
             language: {
                 noResults: function() {
                     @if ($user_type == 'admin' || in_array('1105', $staff_permission))
@@ -1235,7 +1237,7 @@
 
 
         $('.select-state').select2({
-            placeholder: "Select state",
+            placeholder: "Search state",
             language: {
                 noResults: function() {
                     @if ($user_type == 'admin' || in_array('1105', $staff_permission))
@@ -1254,7 +1256,7 @@
         });
 
         $('.select-area').select2({
-            placeholder: "Select Area",
+            placeholder: "Search Area",
             language: {
                 noResults: function() {
                     @if ($user_type == 'admin' || in_array('1105', $staff_permission))
@@ -1301,7 +1303,7 @@
                 }
             });
             $('.package-type-select').select2({
-                placeholder: "Package Type",
+                placeholder: "Search Package Type",
                 language: {
                     noResults: function() {
                         @if ($user_type == 'admin' || in_array('1105', $staff_permission))
@@ -1346,7 +1348,7 @@
                 $(this).slideDown();
 
                 $('.package-type-select').select2({
-                    placeholder: "Package Type",
+                    placeholder: "Search Package Type",
                     language: {
                         noResults: function() {
                             @if ($user_type == 'admin' || in_array('1105', $staff_permission))
