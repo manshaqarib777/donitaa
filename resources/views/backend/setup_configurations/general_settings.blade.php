@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-3 col-from-label">{{translate('Admin login page background')}}</label>
+                            <label class="col-sm-3 col-from-label">{{translate('Admin Register page background')}}</label>
                             <div class="col-sm-9">
                                 <div class="input-group" data-toggle="aizuploader" data-type="image">
                                     <div class="input-group-prepend">
