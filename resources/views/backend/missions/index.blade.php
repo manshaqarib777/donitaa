@@ -207,8 +207,13 @@
                                             <label>{{translate('Captain')}}:</label>
 
                                             <select name="Mission[captain_id]" class="form-control captain_id kt-select2">
-                                                @foreach(\App\Captain::all() as $captain)
-                                                <option value="{{$captain->id}}">{{$captain->name}}</option>
+                                                @foreach(\App\Captain::withoutGlobalScope('restriction')->get() as $captain)
+                                                    @foreach($missions as $key=>$mission)
+                                                        @if($mission->shipmentMissionID->shipment->client->userClient->user->country_id== $captain->userCaptain->user->country_id || $mission->shipmentMissionID->shipment->receiver->userReceiver->user->country_id== $captain->userCaptain->user->country_id)
+                                                            <option value="{{$captain->id}}">{{$captain->name}}</option>
+                                                            @break
+                                                        @endif
+                                                    @endforeach
                                                 @endforeach
                                             </select>
                                         </div>

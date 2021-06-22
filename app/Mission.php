@@ -117,6 +117,10 @@ class Mission extends Model
 		return $this->hasOne('App\Branch', 'id' , 'to_branch_id')->withoutGlobalScope('restriction');
 	}
 
+    public function shipmentMissionID(){
+		return $this->belongsTo('App\ShipmentMission', 'id','mission_id')->withoutGlobalScope('restriction');
+	}
+
     public function shipment_mission(){
 		return $this->hasMany('App\ShipmentMission', 'mission_id' , 'id')->withoutGlobalScope('restriction');
 	}

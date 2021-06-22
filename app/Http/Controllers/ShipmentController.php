@@ -934,9 +934,7 @@ class ShipmentController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($this->storeClient($request->all()));
-        //dd($request->all());
-        //dd($this->storeReceiver($request->all()));
+        
         try {
             DB::beginTransaction();
             $request->request->add(['client_id'=>  $this->storeClient($request->all())]);
@@ -1002,9 +1000,9 @@ class ShipmentController extends Controller
                     $userRegistrationHelper->setEmail($model->email); 
                     $userRegistrationHelper->setName($model->name);
                     $userRegistrationHelper->setApiToken();
-                    $userRegistrationHelper->setCountryID($request['Shipment']['to_country_id']); 
-                    $userRegistrationHelper->setStateID($request['Shipment']['to_state_id']); 
-                    $userRegistrationHelper->setAreaID($request['Shipment']['to_area_id']);
+                    $userRegistrationHelper->setCountryID($request['Shipment']['from_country_id']); 
+                    $userRegistrationHelper->setStateID($request['Shipment']['from_state_id']); 
+                    $userRegistrationHelper->setAreaID($request['Shipment']['from_area_id']);
                     
                     $userRegistrationHelper->generatePassword();
                     
@@ -1022,7 +1020,20 @@ class ShipmentController extends Controller
                     $userClient->user_id = $client->id;
                     $userClient->client_id = $model->id;
                     $userClient->save();
+
+                    $client->country_id=$request['Shipment']['from_country_id']; 
+                    $client->state_id=$request['Shipment']['from_state_id']; 
+                    $client->area_id=$request['Shipment']['from_area_id']; 
+                    $client->save();
                 }
+            }
+            else
+            {
+                $client = User::where('email',$request['Shipment']['client_email'])->get()->first();
+                $client->country_id=$request['Shipment']['from_country_id']; 
+                $client->state_id=$request['Shipment']['from_state_id']; 
+                $client->area_id=$request['Shipment']['from_area_id']; 
+                $client->save();
             }
 
             $address = ClientAddress::where('name',$request['Shipment']['client_address'])->get()->first();
@@ -1081,6 +1092,7 @@ class ShipmentController extends Controller
 			$model->save();
             if($add_pass)
             {
+
                 $receiver = User::where('email',$request['Shipment']['receiver_email'])->get()->first();
 
                 if($receiver==null)
@@ -1089,9 +1101,9 @@ class ShipmentController extends Controller
                     $userRegistrationHelper->setEmail($model->email); 
                     $userRegistrationHelper->setName($model->name);
                     $userRegistrationHelper->setApiToken();
-                    $userRegistrationHelper->setCountryID($request['Shipment']['from_country_id']); 
-                    $userRegistrationHelper->setStateID($request['Shipment']['from_state_id']); 
-                    $userRegistrationHelper->setAreaID($request['Shipment']['from_area_id']);
+                    $userRegistrationHelper->setCountryID($request['Shipment']['to_country_id']); 
+                    $userRegistrationHelper->setStateID($request['Shipment']['to_state_id']); 
+                    $userRegistrationHelper->setAreaID($request['Shipment']['to_area_id']);
                     
                     $userRegistrationHelper->generatePassword();
                     
@@ -1109,7 +1121,20 @@ class ShipmentController extends Controller
                     $userReceiver->user_id = $receiver->id;
                     $userReceiver->receiver_id = $model->id;
                     $userReceiver->save();
+
+                    $receiver->country_id=$request['Shipment']['to_country_id']; 
+                    $receiver->state_id=$request['Shipment']['to_state_id']; 
+                    $receiver->area_id=$request['Shipment']['to_area_id']; 
+                    $receiver->save();
                 }
+            }
+            else
+            {
+                $receiver = User::where('email',$request['Shipment']['receiver_email'])->get()->first();
+                $receiver->country_id=$request['Shipment']['to_country_id']; 
+                $receiver->state_id=$request['Shipment']['to_state_id']; 
+                $receiver->area_id=$request['Shipment']['to_area_id']; 
+                $receiver->save();
             }
             $address = ReceiverAddress::where('name',$request['Shipment']['receiver_address'])->get()->first();
             if($address==null)
@@ -1370,9 +1395,6 @@ class ShipmentController extends Controller
 
     public function update(Request $request, $shipment)
     {
-        //dd($this->storeClient($request->all()));
-        //dd($request->all());
-        //dd($this->storeReceiver($request->all()));
         try {
             DB::beginTransaction();
             $request->request->add(['client_id'=>  $this->storeClient($request->all())]);
@@ -1463,38 +1485,6 @@ class ShipmentController extends Controller
 
         return $model;
     }
-    // public function update(Request $request, $shipment)
-    // {
-    //     try {
-    //         DB::beginTransaction();
-    //         //dd($request->all());
-    //         $request->request->add(['client_id'=>  $this->storeClient($request->all())]);
-    //         $request->request->add(['receiver_id'=>$this->storeReceiver($request->all())]);
-            
-    //         $model = Shipment::find($shipment);
-
-
-    //         $model->fill($_POST['Shipment']);
-
-
-    //         if (!$model->save()) {
-    //             throw new \Exception();
-    //         }
-
-    //         DB::commit();
-    //         flash(translate("Shipment added successfully"))->success();
-    //         $route = 'admin.shipments.index';
-    //         return execute_redirect($request, $route);
-    //     } catch (\Exception $e) {
-    //         DB::rollback();
-    //         print_r($e->getMessage());
-    //         exit;
-
-    //         flash(translate("Error"))->error();
-    //         return back();
-    //     }
-    // }
-
 
     public function covered_countries()
     {

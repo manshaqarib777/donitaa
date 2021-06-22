@@ -99,12 +99,16 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //dd('asas');
         if(env('DEMO_MODE') == 'On'){
             flash(translate('Sorry! the action is not permitted in demo '))->error();
             return back();
         }
 
-        $user = User::findOrFail($id);
+        $user = User::with('userClient.client','userReceiver.receiver','userBranch.branch','userCaptain.captain')->findOrFail($id);
+
+        //dd($user);
+        
         $user->name = $request->name;
         $user->email = $request->email;
         $user->country_id = $request->country_id;
@@ -114,6 +118,34 @@ class ProfileController extends Controller
             $user->password = Hash::make($request->new_password);
         }
         $user->avatar_original = $request->avatar;
+        if($user->userClient!==null)
+        {
+
+            $user->userClient->client->email=$user->email;
+            $user->userClient->client->name=$user->name;
+            $user->userClient->client->save();
+        }
+        if($user->userReceiver!==null)
+        {
+
+            $user->userReceiver->receiver->email=$user->email;
+            $user->userReceiver->receiver->name=$user->name;
+            $user->userReceiver->receiver->save();
+        }
+        if($user->userBranch!==null)
+        {
+
+            $user->userBranch->branch->email=$user->email;
+            $user->userBranch->branch->name=$user->name;
+            $user->userBranch->branch->save();
+        }
+        if($user->userCaptain!==null)
+        {
+
+            $user->userCaptain->captain->email=$user->email;
+            $user->userCaptain->captain->name=$user->name;
+            $user->userCaptain->captain->save();
+        }
         if($user->save()){
             flash(translate('Your Profile has been updated successfully!'))->success();
             return back();
