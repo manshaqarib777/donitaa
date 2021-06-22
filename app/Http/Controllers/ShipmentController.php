@@ -865,6 +865,7 @@ class ShipmentController extends Controller
                 if(@$pack['shipment_insurance']==1)
                 {
                     $insurance = $insurance + ($insurance_fee * (float) $pack['shipment_price'])/100;
+                    //dd($insurance);
                 }
 
 

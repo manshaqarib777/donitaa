@@ -106,7 +106,6 @@ $packages = \App\Package::all();
                                     <label>Distance</label>
                                     <span class="holder" style="display: inline-flex;">
                                         <input type="radio" name="type" checked id="domestic">
-
                                        <label for="domestic" style="cursor: pointer">Domestic</label>
                                     </span> 
                                     <span class="holder" style="display: inline-flex;">
@@ -116,124 +115,126 @@ $packages = \App\Package::all();
                                     </span>
                                 </div>
                                 <!-- end form-group -->
-                                <div class="form-group size-field">
-                                    <label>Weight</label>
-                                    <input type="text" placeholder="kg" name="kg" id="kt_touchspin_4">
-                                    <span>x</span>
-                                    <input type="text" placeholder="cm">
-                                    <span>x</span>
-                                    <input type="text" placeholder="cm">
-                                </div>
-                                <!-- end form-group -->
-                                <div class="form-group" style="width:70%">
-                                    <label>Fragile</label>
-                                    <select class="form-control selectpicker">
-                                        <option>YES</option>
-                                        <option>NO</option>
-                                    </select>
+                                <div class="row">
+                                    <div class="row col-md-12 col-sm-12">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('From Country') }}:</label>
+                                                <select id="change-country" name="Shipment[from_country_id]"
+                                                    class="form-control change-country">
+                                                    <option value=""></option>
+                                                    @foreach ($countries as $country)
+                                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('To Country') }}:</label>
+                                                <select id="change-country-to" name="Shipment[to_country_id]"
+                                                    class="form-control change-country">
+                                                    <option value=""></option>
+                                                    @foreach ($countries as $country)
+                                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12 col-sm-12">
+                                    
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('From Region') }}:</label>
+                                                <select id="change-state-from" name="Shipment[from_state_id]"
+                                                    class="form-control change-state">
+                                                    <option value=""></option>
+        
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('To Region') }}:</label>
+                                                <select id="change-state-to" name="Shipment[to_state_id]"
+                                                    class="form-control change-state">
+                                                    <option value=""></option>
+        
+                                                </select>
+                                            </div>
+        
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12 col-sm-12">
+        
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('From Area') }}:</label>
+                                                <select id='change-area-from' name="Shipment[from_area_id]"
+                                                    class="form-control change-area">
+                                                    <option value=""></option>
+        
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('To Area') }}:</label>
+                                                <select id='change-area-to' name="Shipment[to_area_id]" class="form-control change-area">
+                                                    <option value=""></option>
+        
+                                                </select>
+                                            </div>
+        
+                                        </div>
+                                    </div>
                                 </div>
                                 
-                                <!-- end form-group -->
                             </div>
                             <div class="col-md-6 col-sm-6">
-                                <div class="form-group" style="width:70%">
-                                    <label>{{ translate('Package Type') }}:</label>
-                                    <select class="form-control selectpicker" name="package_id" id="package-type-select">
-                                        @foreach ($packages as $package)
-                                            <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif
-                                                value="{{ $package->id }}">{{ $package->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="mb-2 d-md-none"></div>
-                                </div>
-                                <div class="form-group" style="width:70%">
-                                    <label>{{ translate('Package Value') }}:</label>
-                                    <input type="text" class="form-control" value="0" id="value-listener">
-                                </div>
                                 <div class="form-group">
                                     <label>Extra Services</label>
                                     <span class="full-block">
                                         <input type="checkbox" checked>
                                         Quick Delivery</span> <span class="full-block">
                                         <input type="checkbox" onchange="update_currency_status(this)" id="insurance-listener">
-                                        Warranty</span> <span class="full-block">
+                                        Insurance</span> <span class="full-block">
                                         <input type="checkbox">
-                                        Gift Box</span>
+                                        Fragile</span>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" style="width:100%;margin-bottom:22px;">
+                                            <label>{{ translate('Package Type') }}:</label>
+                                            <select class="form-control selectpicker" name="package_id" id="package-type-select">
+                                                @foreach ($packages as $package)
+                                                    <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif
+                                                        value="{{ $package->id }}">{{ $package->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="mb-2 d-md-none"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group" style="width:100%;display: none;" id="value-listener-show">
+                                            <label>{{ translate('Package Value') }}:</label>
+                                            <input type="text" class="form-control" value="0" id="value-listener">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group size-field">
+                                    <label>Weight</label>
+                                    <input type="text" placeholder="kg" name="kg" id="kt_touchspin_4" value="1">
+                                    <span>x</span>
+                                    <input type="text" placeholder="cm" value="0">
+                                    <span>x</span>
+                                    <input type="text" placeholder="cm" value="0">
+                                </div>
+                                
+                                
                             </div>
-                            {{-- <div class="row col-md-6 col-sm-6">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('From Country') }}:</label>
-                                        <select id="change-country" name="Shipment[from_country_id]"
-                                            class="form-control select2">
-                                            <option value=""></option>
-                                            @foreach ($countries as $country)
-                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('To Country') }}:</label>
-                                        <select id="change-country-to" name="Shipment[to_country_id]"
-                                            class="form-control select2">
-                                            <option value=""></option>
-                                            @foreach ($countries as $country)
-                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row col-md-6 col-sm-6">
-                            
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('From Region') }}:</label>
-                                        <select id="change-state-from" name="Shipment[from_state_id]"
-                                            class="form-control select2">
-                                            <option value=""></option>
 
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('To Region') }}:</label>
-                                        <select id="change-state-to" name="Shipment[to_state_id]"
-                                            class="form-control select2">
-                                            <option value=""></option>
-
-                                        </select>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="row col-md-6 col-sm-6">
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('From Area') }}:</label>
-                                        <select id='change-area-from' name="Shipment[from_area_id]"
-                                            class="form-control select2">
-                                            <option value=""></option>
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>{{ translate('To Area') }}:</label>
-                                        <select name="Shipment[to_area_id]" class="form-control select2">
-                                            <option value=""></option>
-
-                                        </select>
-                                    </div>
-
-                                </div>
-                            </div> --}}
                             
                             <!-- col-6 -->
                             <div class="row col-md-12 col-sm-12">
@@ -386,11 +387,11 @@ $packages = \App\Package::all();
             function update_currency_status(el) {
         if (el.checked) {
             el.value = 1;
-            $('#show_shipment').show();
+            $('#value-listener-show').show();
 
         } else {
             el.value = 0;
-            $('#show_shipment').hide();
+            $('#value-listener-show').hide();
 
         }
 
@@ -400,6 +401,12 @@ $packages = \App\Package::all();
                 var select_weights = $('#kt_touchspin_4');
                 var select_insurances = $('#insurance-listener');
                 var select_values = $('#value-listener');
+                var from_country_id = $('#change-country').val();
+                var to_country_id = $('#change-country-to').val();
+                var from_state_id = $('#change-state-from').val();
+                var to_state_id = $('#change-state-to').val();
+                var from_area_id = $('#change-area-from').val();
+                var to_area_id = $('#change-area-to').val();
 
                 var package_ids = [];
                 if(select_weights.val()=="")
@@ -423,12 +430,12 @@ $packages = \App\Package::all();
                     _token: '{{ csrf_token() }}',
                     package_ids: package_ids,
                     total_weight: select_weights.val(),
-                    // from_country_id: from_country_id,
-                    // to_country_id: to_country_id,
-                    // from_state_id: from_state_id,
-                    // to_state_id: to_state_id,
-                    // from_area_id: from_area_id,
-                    // to_area_id: to_area_id,
+                    from_country_id: from_country_id,
+                    to_country_id: to_country_id,
+                    from_state_id: from_state_id,
+                    to_state_id: to_state_id,
+                    from_area_id: from_area_id,
+                    to_area_id: to_area_id,
                 };
                 $.post('{{ route('admin.shipments.get-estimation-cost') }}', request_data, function(response) {
                     document.getElementById("shipping_cost").value = response.shipping_cost;
@@ -438,8 +445,30 @@ $packages = \App\Package::all();
                 });
             }
         $(document).ready(function(){
-            $('.select2').select2();
-            
+            $('.change-country').select2({
+                placeholder: "Search country",
+            });
+
+
+            $('.change-state').select2({
+                placeholder: "Search state",
+            });
+
+            $('.change-area').select2({
+                placeholder: "Search Area",
+            });
+            // $('#insurance-listener').change(function() {
+
+            //     if($(this).va()==1)
+            //     {
+            //         $('#value-listener-show').show();
+            //     }
+            //     else
+            //     {
+            //         $('#value-listener-show').hide();
+            //     }
+
+            // });
 
             $('#change-country').change(function() {
                 var id = $(this).val();
@@ -451,6 +480,13 @@ $packages = \App\Package::all();
 
                         $('select[name ="Shipment[from_state_id]"]').append('<option value="' + element['id'] +
                             '">' + element['name'] + '</option>');
+                    }
+                    //$('#change-country-to').val($(this).val()).trigger('change');
+                    //alert($('#domestic').is(':checked'));
+                    if($('#domestic').is(':checked'))
+                    {
+                        $('#change-country-to').val(id).trigger('change');
+
                     }
 
 
@@ -470,11 +506,6 @@ $packages = \App\Package::all();
 
 
                 });
-            });
-            $('.package-type-select').change(function() {
-                alert($(this).val());
-
-
             });
             $('#change-state-from').change(function() {
                 var id = $(this).val();
