@@ -203,7 +203,7 @@
                                     <label class="">{{ translate('Last Name') }}:</label>
                                     <input type="text" placeholder="{{ translate('Last Name') }}"
                                         name="Shipment[client_last_name]" id="client_last_name" class="form-control"
-                                        value="{{ @explode(' ', $shipment->client->name, ' ')[1] }}" />
+                                        value="{{ @explode(' ', $shipment->client->name)[1] }}" />
 
                                 </div>
                             </div>
@@ -365,7 +365,7 @@
                                     <label class="text-white ">{{ translate('Last Name') }}:</label>
                                     <input type="text" placeholder="{{ translate('Last Name') }}"
                                         name="Shipment[receiver_last_name]" id="receiver_last_name" class="form-control"
-                                        value="{{ @explode(' ', @$shipment->receiver->name, ' ')[1] }}" />
+                                        value="{{ @explode(' ', @$shipment->receiver->name)[1] }}" />
 
                                 </div>
                             </div>
