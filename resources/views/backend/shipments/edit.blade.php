@@ -1450,7 +1450,7 @@
             startDate: new Date(),
         });
         $(document).ready(function() {
-            if ($('input:radio[name="Shipment[type]').val() == '2') {
+            if ($('input:radio[name="Shipment[type]"').val() == '2') {
                 $('.show_client_branch').show();
             } else {
                 $('.show_client_branch').hide();
@@ -1464,7 +1464,7 @@
 
                 }
             });
-            if ($('input:radio[name="Shipment[receiver_shipment_type]').val() == '2') {
+            if ($('input:radio[name="Shipment[receiver_shipment_type]"').val() == '2') {
                 $('.show_receiver_branch').show();
             } else {
                 $('.show_receiver_branch').hide();
