@@ -350,7 +350,7 @@
                                 $receiver_address = \App\ReceiverAddress::where('name', $shipment->receiver_address)
                                     ->get()
                                     ->first();
-                                dd($shipment->receiver_address);
+                                dd($receiver_address);
                             @endphp
                             <div class="col-md-6">
                                 <div class="form-group">
