@@ -1450,13 +1450,13 @@
             startDate: new Date(),
         });
         $(document).ready(function() {
-            if ($('input:radio[name="Shipment[client_shipment_type]').val() == '2') {
+            if ($('input:radio[name="Shipment[type]').val() == '2') {
                 $('.show_client_branch').show();
             } else {
                 $('.show_client_branch').hide();
 
             }
-            $('input:radio[name="Shipment[client_shipment_type]"]').change(function() {
+            $('input:radio[name="Shipment[type]"]').change(function() {
                 if ($(this).val() == '2') {
                     $('.show_client_branch').show();
                 } else {
