@@ -1450,12 +1450,43 @@
             startDate: new Date(),
         });
         $(document).ready(function() {
-            if ($('input:radio[name="Shipment[type]"').val() == '2') {
-                $('.show_client_branch').show();
-            } else {
-                $('.show_client_branch').hide();
+            // if ($('input:radio[name="Shipment[type]"').val() == '2') {
+            //     $('.show_client_branch').show();
+            // } else {
+            //     $('.show_client_branch').hide();
 
-            }
+            // }
+            // $('input:radio[name="Shipment[type]"]').change(function() {
+            //     if ($(this).val() == '2') {
+            //         $('.show_client_branch').show();
+            //     } else {
+            //         $('.show_client_branch').hide();
+
+            //     }
+            // });
+            // if ($('input:radio[name="Shipment[receiver_shipment_type]"').val() == '2') {
+            //     $('.show_receiver_branch').show();
+            // } else {
+            //     $('.show_receiver_branch').hide();
+
+            // }
+            // $('input:radio[name="Shipment[receiver_shipment_type]"]').change(function() {
+            //     if ($(this).val() == '2') {
+            //         $('.show_receiver_branch').show();
+            //     } else {
+            //         $('.show_receiver_branch').hide();
+
+            //     }
+            // });
+
+
+
+            if ($('input:radio[name="Shipment[type]"]').val() == '2') {
+                    $('.show_client_branch').show();
+                } else {
+                    $('.show_client_branch').hide();
+
+                }
             $('input:radio[name="Shipment[type]"]').change(function() {
                 if ($(this).val() == '2') {
                     $('.show_client_branch').show();
@@ -1464,12 +1495,12 @@
 
                 }
             });
-            if ($('input:radio[name="Shipment[receiver_shipment_type]"').val() == '2') {
-                $('.show_receiver_branch').show();
-            } else {
-                $('.show_receiver_branch').hide();
+            if ($('input:radio[name="Shipment[receiver_shipment_type]"]').val() == '2') {
+                    $('.show_receiver_branch').show();
+                } else {
+                    $('.show_receiver_branch').hide();
 
-            }
+                }
             $('input:radio[name="Shipment[receiver_shipment_type]"]').change(function() {
                 if ($(this).val() == '2') {
                     $('.show_receiver_branch').show();
@@ -1478,6 +1509,10 @@
 
                 }
             });
+
+
+
+
             $('.package-type-select').select2({
                 placeholder: "Search Package Type",
                 language: {
