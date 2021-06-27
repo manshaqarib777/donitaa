@@ -167,17 +167,17 @@
                                 <div class="col-12 col-form-label ml-4">
                                     <div class="radio-inline">
                                         <label class="radio radio-success ">
-                                            <input type="radio" name="Shipment[type]" @if ($shipment->type == 'We Pickup Package') checked="checked" @endif value="1" />
+                                            <input type="radio" name="Shipment[type]" @if ($shipment->type == 'Agent Pickup Package') checked="checked" @endif value="1" />
                                             <span></span>
-                                            {{ translate('We Pickup Package') }}
+                                            {{ translate('Agent Pickup Package') }}
                                         </label>
                                         <label class="radio radio-success ">
                                             {{ translate('OR') }}
                                         </label>
                                         <label class="radio radio-success ">
-                                            <input type="radio" name="Shipment[type]" @if ($shipment->type == 'You Dropoff to Our Store') checked="checked" @endif value="2" />
+                                            <input type="radio" name="Shipment[type]" @if ($shipment->type == 'Client Dropoff to Our Store') checked="checked" @endif value="2" />
                                             <span></span>
-                                            {{ translate('You Dropoff to Our Store') }}
+                                            {{ translate('Client Dropoff to Our Store') }}
                                         </label>
                                     </div>
 
@@ -329,17 +329,17 @@
                                 <div class="col-12 col-form-label ml-4">
                                     <div class="radio-inline">
                                         <label class="text-white radio radio-success ">
-                                            <input type="radio" name="Shipment[receiver_shipment_type]" @if ($shipment->receiver_shipment_type == 'We Deliver to You') checked="checked" @endif value="1" />
+                                            <input type="radio" name="Shipment[receiver_shipment_type]" @if ($shipment->receiver_shipment_type == 'Agent Deliver to You') checked="checked" @endif value="1" />
                                             <span></span>
-                                            {{ translate('We Deliver to You') }}
+                                            {{ translate('Agent Deliver to You') }}
                                         </label>
                                         <label class="text-white radio radio-success ">
                                             {{ translate('OR') }}
                                         </label>
                                         <label class="text-white radio radio-success ">
-                                            <input type="radio" name="Shipment[receiver_shipment_type]" @if ($shipment->receiver_shipment_type == 'You Pickup from Our Store') checked="checked" @endif value="2" />
+                                            <input type="radio" name="Shipment[receiver_shipment_type]" @if ($shipment->receiver_shipment_type == 'Client Pickup from Our Store') checked="checked" @endif value="2" />
                                             <span></span>
-                                            {{ translate('You Pickup from Our Store') }}
+                                            {{ translate('Client Pickup from Our Store') }}
                                         </label>
                                     </div>
 

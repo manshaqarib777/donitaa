@@ -291,9 +291,9 @@ class Shipment extends Model
     public function getTypeAttribute($value)
     {
         if ($value == Self::PICKUP) {
-            return translate('We Pickup Package');
+            return translate('Agent Pickup Package');
         } else if ($value == Self::DROPOFF) {
-            return translate('You Dropoff to Our Store');
+            return translate('Client Dropoff to Our Store');
         }
     }
     public function getFreightAttribute($value)
@@ -318,17 +318,17 @@ class Shipment extends Model
     public function getClientShipmentTypeAttribute($value)
     {
         if ($value == 1) {
-            return translate('We Pickup Package');
+            return translate('Agent Pickup Package');
         } elseif ($value == 2) {
-            return translate('You Dropoff to Our Store');
+            return translate('Client Dropoff to Our Store');
         }
     }
     public function getReceiverShipmentTypeAttribute($value)
     {
         if ($value == 1) {
-            return translate('We Deliver to You');
+            return translate('Agent Deliver to You');
         } elseif ($value == 2) {
-            return translate('You Pickup from Our Store');
+            return translate('Client Pickup from Our Store');
         }
     }
 

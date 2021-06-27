@@ -247,7 +247,7 @@
                                             <input type="radio" name="Shipment[type]" checked="checked"
                                                 value="1" />
                                             <span></span>
-                                            {{ translate('We Pickup Package') }}
+                                            {{ translate('Agent Pickup Package') }}
                                         </label>
                                         <label class="radio radio-success ">
                                             {{ translate('OR') }}
@@ -255,7 +255,7 @@
                                         <label class="radio radio-success ">
                                             <input type="radio" name="Shipment[type]" value="2" />
                                             <span></span>
-                                            {{ translate('You Dropoff to Our Store') }}
+                                            {{ translate('Client Dropoff to Our Store') }}
                                         </label>
                                     </div>
 
@@ -399,7 +399,7 @@
                                             <input type="radio" name="Shipment[receiver_shipment_type]" checked="checked"
                                                 value="1" />
                                             <span></span>
-                                            {{ translate('We Deliver to You') }}
+                                            {{ translate('Agent Deliver to You') }}
                                         </label>
                                         <label class="radio radio-success text-white">
                                             {{ translate('OR') }}
@@ -407,7 +407,7 @@
                                         <label class="radio radio-success text-white">
                                             <input type="radio" name="Shipment[receiver_shipment_type]" value="2" />
                                             <span></span>
-                                            {{ translate('You Pickup from Our Store') }}
+                                            {{ translate('Client Pickup from Our Store') }}
                                         </label>
                                     </div>
 

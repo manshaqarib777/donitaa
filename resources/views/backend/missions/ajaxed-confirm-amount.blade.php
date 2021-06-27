@@ -18,7 +18,7 @@
 <form id="kt_form_1" class="kt_form" action="{{route('admin.missions.action',['to'=>\App\Mission::DONE_STATUS])}}" method="POST">
     @csrf
     <div class="modal-header">
-        <h4 class="modal-title h6">{{translate('Confirm Mission Amount')}}</h4>
+        <h4 class="modal-title h6" id="confirm_mission">{{translate('Confirm Mission Amount')}}</h4>
     </div>
     <div class="modal-body">
         <div class="row">

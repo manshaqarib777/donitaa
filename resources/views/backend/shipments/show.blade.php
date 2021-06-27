@@ -80,7 +80,7 @@ $d = new DNS1D();
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
-                            <h6>{{translate('SHIPMENT DATE')}}</h6>
+                            <h6 style="text-transform: uppercase;">{{translate('SHIPMENT DATE')}}</h6>
                         </div>
                         <p class="p-3">{{translate($shipment->shipping_date)}}</p>
                       </div>

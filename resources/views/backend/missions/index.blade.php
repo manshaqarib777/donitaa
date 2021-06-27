@@ -168,14 +168,14 @@
                                 </a> --}}
                                 {{-- @endif --}}
 
-                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" title="{{ translate('Receive Mission') }}" onclick="set_mission_id({{$mission->id}} , {{$shipment_cost}} , {{$mission->getOriginal('type')}})">
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" title="{{ translate('Receive Mission') }}" onclick="set_mission_id({{$mission->id}} , {{$shipment_cost}} , '{{$mission->type}}')">
                                     {{ translate('Receive Mission') }}
                                 </button>
                             @endif
                             @if($status == \App\Mission::RECIVED_STATUS)
                                 @if($user_type != 'captain' || $mission->getOriginal('type') == \App\Mission::DELIVERY_TYPE || $mission->getOriginal('type') == \App\Mission::SUPPLY_TYPE)
                                 {{-- @if(Auth::user()->user_type == 'admin' || in_array(1030, json_decode(Auth::user()->staff->role->permissions ?? "[]"))) --}}
-                                <a class="btn btn-success btn-sm" data-url="{{route('admin.missions.action.confirm_amount',['mission_id'=>$mission->id])}}" data-action="POST" onclick="openAjexedModel(this,event)" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
+                                <a class="btn btn-success btn-sm" data-url="{{route('admin.missions.action.confirm_amount',['mission_id'=>$mission->id])}}" data-action="POST" onclick="openAjexedModel(this,event, '{{$mission->type}}')" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
                                     <i class="fa fa-check"></i> {{translate('Confirm Mission / Done')}}
                                 </a>
                                 {{-- @endif --}}
@@ -309,6 +309,7 @@
         document.getElementById("amount_pickup").value              = mission_amount;
         document.getElementById("selected_mission_amount").value    = mission_amount;
         document.getElementById("mission_modal_body").style.display = "block";
+        document.getElementById("exampleModalLabel").innerHTML = mission_type+" Mission Cost";
 
 
     }
@@ -339,7 +340,7 @@
                Swal.fire("{{translate('Please Select Missions')}}", "", "error");
             }
     }
-    function openAjexedModel(element,event)
+    function openAjexedModel(element,event,mission_type)
     {
         event.preventDefault();
 
@@ -349,9 +350,12 @@
             type: 'get',
             success: function(response){
             // Add response in Modal body
+
             $('#ajaxed-model .modal-content').html(response);
             // Display Modal
             $('#ajaxed-model').modal('toggle');
+            document.getElementById("confirm_mission").innerHTML = "Confirm "+mission_type+" Mission Cost";
+
             }
         });
     }
