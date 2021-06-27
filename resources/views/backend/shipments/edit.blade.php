@@ -350,6 +350,7 @@
                                 $receiver_address = \App\ReceiverAddress::where('name', $shipment->receiver_address)
                                     ->get()
                                     ->first();
+                                dd($receiver_address);
                             @endphp
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -378,7 +379,7 @@
                                                 <option></option>
                                             </select> --}}
                                         <input placeholder="{{ translate('Address') }}" name="Shipment[receiver_address]"
-                                            class="form-control" value="{{ @@$receiver_address->name }}" id="" />
+                                            class="form-control" value="{{ @$receiver_address->name }}" id="" />
                                     </div>
 
                                 </div>
