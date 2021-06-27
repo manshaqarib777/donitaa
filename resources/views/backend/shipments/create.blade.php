@@ -571,7 +571,7 @@
                             @foreach (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
                                 @if ($gateway->id == 11)
                                     <label class="radio radio-success text-white">
-                                        <input type="radio" value="{{ $gateway->id }}" name="group"  class="payment_method_id_radio" />
+                                        <input type="radio" value="{{ $gateway->id }}" name="group" checked="checked"  class="payment_method_id_radio" />
                                         <span></span>
                                         {{ $gateway->name }}
                                     </label>
