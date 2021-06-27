@@ -595,13 +595,13 @@ class ShipmentController extends Controller
     public function ajaxGetAddressesClient()
     {
         $country_id = $_GET['client_id'];
-        $states = ClientAddress::where('client_id', $country_id)->with('country','state','area')->get();
+        $states = ClientAddress::withoutGlobalScope('restriction')->where('client_id', $country_id)->with('country','state','area')->get();
         return response()->json($states);
     }
     public function ajaxGetAddressesReceiver()
     {
         $country_id = $_GET['receiver_id'];
-        $states = ReceiverAddress::where('receiver_id', $country_id)->with('country','state','area')->get();
+        $states = ReceiverAddress::withoutGlobalScope('restriction')->where('receiver_id', $country_id)->with('country','state','area')->get();
         return response()->json($states);
     }
     public function ajaxGetAreas()
@@ -1037,7 +1037,7 @@ class ShipmentController extends Controller
                 $client->save();
             }
 
-            $address = ClientAddress::where('name',$request['Shipment']['client_address'])->get()->first();
+            $address = ClientAddress::withoutGlobalScope('restriction')->where('name',$request['Shipment']['client_address'])->get()->first();
             if($address==null)
 			{
                 $address = new ClientAddress();
@@ -1137,7 +1137,7 @@ class ShipmentController extends Controller
                 $receiver->area_id=$request['Shipment']['to_area_id']; 
                 $receiver->save();
             }
-            $address = ReceiverAddress::where('name',$request['Shipment']['receiver_address'])->get()->first();
+            $address = ReceiverAddress::withoutGlobalScope('restriction')->where('name',$request['Shipment']['receiver_address'])->get()->first();
             if($address==null)
 			{
                 $address = new ReceiverAddress();
