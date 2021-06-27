@@ -290,10 +290,10 @@ class Shipment extends Model
 
     public function getTypeAttribute($value)
     {
-        if ($value == Self::DROPOFF) {
-            return translate('Dropoff');
-        } elseif ($value == Self::PICKUP) {
-            return translate('Pickup');
+        if ($value == Self::PICKUP) {
+            return translate('We Pickup Package');
+        } else if ($value == Self::DROPOFF) {
+            return translate('You Dropoff to Our Store');
         }
     }
     public function getFreightAttribute($value)

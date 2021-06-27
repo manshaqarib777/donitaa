@@ -530,34 +530,121 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-3 p-5" style="background: hsl(21deg 94% 57%);">
-                        <div class="form-group">
-                            <label class="text-white">{{ translate('Payee ( Who’s paying for this shipment)') }}:</label>
-                            <select class="form-control kt-select2 payment-type" id="payment_type"
-                                name="Shipment[payment_type]">
-                                <option @if (\App\ShipmentSetting::getVal('def_payment_type') == '1') selected @endif value="1">
-                                    {{ translate('Shipper') }}</option>
-                                <option @if (\App\ShipmentSetting::getVal('def_payment_type') == '2') selected @endif value="2">
-                                    {{ translate('Receiver') }}
-                                </option>
-                            </select>
+                    <label class="col-3 col-form-label">{{ translate('Payee ( Who’s paying for this shipment)') }}:</label>
+                    <div class="col-9 col-form-label">
+                        <div class="radio-inline">
+                            <label class="radio radio-success">
+                                <input @if (\App\ShipmentSetting::getVal('def_payment_type') == '1') checked="checked" @endif  type="radio" class="payment-type" name="Shipment[payment_type]"
+                                        value="1" />
+                                <span></span>
+                                {{ translate('Shipper') }}
+                            </label>
+                            <label class="radio radio-success">
+                                <input @if (\App\ShipmentSetting::getVal('def_payment_type') == '2') checked="checked" @endif type="radio" class="payment-type" name="Shipment[payment_type]"
+                                    value="2" />
+                                <span></span>
+                                {{ translate('Receiver') }}
+                            </label>
+                        </div>
 
-                        </div>
                     </div>
-                    <div class="col-md-3 p-5" style="background: hsl(21deg 94% 57%);" id="show_payment_method">
-                        <div class="form-group">
-                            <label class="text-white">{{ translate('Payment Method') }}:</label>
-                            <select class="form-control kt-select2 payment-method" id="payment_method_id"
-                                name="Shipment[payment_method_id]">
-                                @forelse (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
-                                    <option value="{{ $gateway->id }}" @if ($gateway->id == 11) selected @endif>
-                                        {{ $gateway->name }}</option>
-                                @empty
-                                    <option value="11">{{ translate('Cash') }}</option>
-                                @endforelse
+                </div>
+                <div class="row ml-1 mr-1 p-5 pl-0" style="background: hsl(21deg 94% 57%);">
+                    <div class="col-6">
+                        <input type="hidden" name="Shipment[payment_method_id]" value="11" />
+                        <input type="hidden" name="Shipment[payment_method_id_details]" value="" />
+                        <input type="radio" name="group" class="no_option" value="null" style="display:none">
+                        <div class="form-group row ml-1" id="show_payment_method">
+                            <label class="text-white col-12" style="margin-left: -10px;">{{ translate('Payment Method') }}:</label>
+                            <select class="form-control kt-select2 payment-method col-7">
+                                <option></option>
+                                @foreach(\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
+                                    @if ($gateway->id != 11 && $gateway->id != 286 && $gateway->id != 287 && $gateway->id != 288  )
+                                        <option value="{{ $gateway->id }}" >
+                                            {{ $gateway->name }}
+                                        </option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
+                        <div class="radio-inline">
+                            @foreach (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
+                                @if ($gateway->id == 11)
+                                    <label class="radio radio-success text-white">
+                                        <input type="radio" value="{{ $gateway->id }}" name="group"  class="payment_method_id_radio" />
+                                        <span></span>
+                                        {{ $gateway->name }}
+                                    </label>
+                                @endif
+                            @endforeach
+                        </div>
                     </div>
+                    <div class="col-6">
+                        <div class="row" style="margin-bottom: -10px;">
+                            @foreach (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
+                                @if ($gateway->id == 286  )
+                                    <div class="col-5">
+                                        <div class="p-5 pl-0 radio-inline">
+                                            <label class="radio radio-success text-white">
+                                                <input type="radio" value="{{ $gateway->id }}" name="group"   class="payment_method_id_radio" />
+                                                <span></span>
+                                                {{ $gateway->name }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="{{ translate('Check Number Here (Optional)') }}"
+                                                 id="client_email" class="form-control payment_method_id_radio_detail" />
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="row" style="margin-bottom: -10px;">
+                            @foreach (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
+                                @if ($gateway->id == 287  )
+                                    <div class="col-5">
+                                        <div class="p-5 pl-0 radio-inline">
+                                            <label class="radio radio-success text-white">
+                                                <input type="radio" value="{{ $gateway->id }}" name="group"  class="payment_method_id_radio" />
+                                                <span></span>
+                                                {{ $gateway->name }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="{{ translate('Transfer Number Here (Optional)') }}"
+                                                id="client_email" class="form-control payment_method_id_radio_detail" />
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="row" style="margin-bottom: -10px;">
+                            @foreach (\App\BusinessSetting::where("key","payment_gateway")->where("value","1")->get() as $gateway)
+                                @if ($gateway->id == 288  )
+                                    <div class="col-5">
+                                        <div class="p-5 pl-0 radio-inline">
+                                            <label class="radio radio-success text-white">
+                                                <input value="{{ $gateway->id }}" name="group" type="radio" class="payment_method_id_radio" />
+                                                <span></span>
+                                                {{ $gateway->name }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="{{ translate('Please type the Transfer Number Here (Optional)') }}"
+                                                 id="client_email" class="form-control payment_method_id_radio_detail" />
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+
                 </div>
 
                 <hr>
@@ -956,17 +1043,47 @@
             }
         }
     }
+
     $('.payment-type').change(function() {
        // alert($(this).val());
         if ($(this).val() == '2') {
             $('.payment-method').attr('disabled','disabled');
+            $('.payment_method_id_radio').attr('disabled','disabled');
+            $('.payment_method_id_radio_detail').attr('disabled','disabled');
 
         } else {
             $('.payment-method').removeAttr('disabled','disabled');
-
-
+            $('.payment_method_id_radio').removeAttr('disabled','disabled');
+            $('.payment_method_id_radio_detail').removeAttr('disabled','disabled');
 
         }
+    });
+
+    $('.payment_method_id_radio_detail').change(function() {
+        $('input[name ="Shipment[payment_method_id_details]"]').val($(this).val());
+
+    });
+    $('.payment_method_id_radio').change(function() {
+        $(".payment-method").val('').change();
+        $('input[name ="Shipment[payment_method_id]"]').val($(this).val());
+        $('.payment_method_id_radio_detail').attr('disabled','disabled');
+        if($(this).val()=='286' || $(this).val()=='287' || $(this).val()=='288' )
+        {
+            $(this).parent().parent().parent().parent().find('.payment_method_id_radio_detail').removeAttr('disabled','disabled');
+
+        }
+        $('.payment_method_id_radio_detail').val('');
+        $('input[name ="Shipment[payment_method_id_details]"]').val('');
+
+    });
+    $('.payment-method').on("change", function (e) {
+        $('input[name ="Shipment[payment_method_id]"]').val($(this).val());
+    });
+    $('.payment-method').on("select2:close", function (e) {
+        $('input[name=group][value=null]').prop("checked",true);
+        $('.payment_method_id_radio_detail').attr('disabled','disabled');
+        $('.payment_method_id_radio_detail').val('');
+        $('input[name ="Shipment[payment_method_id_details]"]').val('');
     });
 
     $(document).on('click', '.package-listener', function() {
@@ -987,9 +1104,9 @@
         placeholder: "Search Payment Method",
     });
 
-    $('.payment-type').select2({
-        placeholder: "Search Payment Type",
-    });
+    // $('.payment-type').select2({
+    //     placeholder: "Search Payment Type",
+    // });
 
 
 
@@ -1410,148 +1527,161 @@
                     "Shipment[shipping_date]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[branch_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[receiver_branch_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
-
                     "Shipment[client_address]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
+                            }
+                        }
+                    },
+                    "Shipment[client_email]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{ translate('This is required!') }}'
+                            }
+                        }
+                    },
+                    "Shipment[receiver_email]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[client_phone]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
-                    "Shipment[payment_type]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{translate("This is required!")}}'
-                            }
-                        }
-                    },
-                    "Shipment[payment_method_id]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{translate("This is required!")}}'
-                            }
-                        }
-                    },
+                    // "Shipment[payment_type]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
+                    // "Shipment[payment_method_id]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
                     "Shipment[tax]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[insurance]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[shipping_cost]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[delivery_time]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     // "Shipment[total_weight]": {
                     //     validators: {
                     //         notEmpty: {
-                    //             message: '{{translate("This is required!")}}'
+                    //             message: '{{ translate('This is required!') }}'
                     //         }
                     //     }
                     // },
                     "Shipment[from_country_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[to_country_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[from_state_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[to_state_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[from_area_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[to_area_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[receiver_phone]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Shipment[receiver_address]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
                     "Package[0][package_id]": {
                         validators: {
                             notEmpty: {
-                                message: '{{translate("This is required!")}}'
+                                message: '{{ translate('This is required!') }}'
                             }
                         }
                     }

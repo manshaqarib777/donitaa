@@ -347,7 +347,10 @@ $d = new DNS1D();
                         <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
                             <h6>{{translate('PAYMENT MODE')}}</h6>
                         </div>
-                        <p class="p-3">{{translate($shipment->pay['name'])}}</p>
+                        <p class="p-3" style="padding-bottom:0px !important;">{{translate($shipment->pay['name'])}}</p>
+                        @if($shipment->payment_method_id==286 || $shipment->payment_method_id==287 || $shipment->payment_method_id==288)
+                        <p class="p-3" style="padding-top:0px !important;"><b>{{translate("Transaction ID:")}}</b> #{{translate($shipment->payment_method_id_details)}}</p>
+                        @endif
                       </div>
                 </div>
                 <div class="col-md-2">
