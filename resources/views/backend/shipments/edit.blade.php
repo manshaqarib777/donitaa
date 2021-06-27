@@ -185,7 +185,7 @@
                             </div>
 
                             @php
-                                $client_address = \App\ClientAddress::where('name', $shipment->client_address)
+                                $client_address = \App\ClientAddress::withoutGlobalScope('restriction')->where('name', $shipment->client_address)
                                     ->get()
                                     ->first();
                             @endphp
@@ -347,7 +347,7 @@
                             </div>
 
                             @php
-                                $receiver_address = \App\ReceiverAddress::where('name', $shipment->receiver_address)
+                                $receiver_address = \App\ReceiverAddress::withoutGlobalScope('restriction')->where('name', $shipment->receiver_address)
                                     ->get()
                                     ->first();
                                 dd($receiver_address);
