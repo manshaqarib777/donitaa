@@ -28,6 +28,8 @@ class MissionStatusManagerHelper
             foreach ($missions as $mission_id) {
                 $mission = Mission::withoutGlobalScope('restriction')->find($mission_id);
                 //dd($mission);
+                $shipment = $mission->shipmentMissionID->shipment;
+                            
                 if($mission->status_id == $to)
                 {
                     throw new \Exception("Out of status changer scope");
@@ -73,7 +75,12 @@ class MissionStatusManagerHelper
                                 $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
                             }
                             $client = $mission->client;
-                            $transaction->create_mission_transaction($mission->id,$client->supply_cost,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
+                            $cost=$client->supply_cost;
+                            if($client->supply_cost<=0)
+                            {
+                                $cost = convert_price(\App\ShipmentSetting::getVal('def_supply_cost_'.$shipment->receiver->userReceiver->user->country->iso2));
+                            }
+                            $transaction->create_mission_transaction($mission->id,$cost,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
                             
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CLIENT,$mission->client_id,Transaction::CREDIT);
@@ -95,7 +102,12 @@ class MissionStatusManagerHelper
                                 $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
                             }
                             $client = $mission->client;
-                            $transaction->create_mission_transaction($mission->id,$client->supply_cost,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                            $cost=$client->supply_cost;
+                            if($client->supply_cost<=0)
+                            {
+                                $cost = convert_price(\App\ShipmentSetting::getVal('def_supply_cost_'.$shipment->receiver->userReceiver->user->country->iso2));
+                            }
+                            $transaction->create_mission_transaction($mission->id,$cost,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
                             
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
