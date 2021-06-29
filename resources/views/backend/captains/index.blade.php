@@ -41,7 +41,14 @@
                             <td width="20%">{{$captain->email}}</td>
 
                             <td width="20%">{{$captain->responsible_mobile}}</td>
-                            <td><a href="{{route('admin.branchs.show',@$captain->branch_id)}}">{{@$captain->branch->name}}</a></td>
+                            @if($captain->branch_id!=null)
+                            <td>
+                                <a href="{{route('admin.branchs.show',$captain->branch_id)}}">{{$captain->branch->name}}</a>
+                            </td>
+                            @else
+                            <td>
+                            </td>
+                            @endif
 
                             <td class="text-center">
                                     <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.captains.show', $captain->id)}}" title="{{ translate('Show') }}">
