@@ -36,9 +36,9 @@ class TransactionHelper{
     {
         $m_shipments = ShipmentMission::withoutGlobalScope('restriction')->where('mission_id',$mission_id)->pluck('shipment_id');
         $shipments = Shipment::withoutGlobalScope('restriction')->whereIn('id',$m_shipments)->where('payment_type',Shipment::POSTPAID);
-        if($cod == false){
-            $shipments = $shipments->where("paid",0);
-        }
+        // if($cod == false){
+        //     $shipments = $shipments->where("paid",0);
+        // }
         $shipments = $shipments->pluck('id');
         return $shipments;
     }
@@ -98,6 +98,7 @@ class TransactionHelper{
         }elseif($type == Mission::DELIVERY_TYPE)
         {
             $ids= $this->delivery_mission_postpaid_shipments_ids($mission_id);
+            //dd($ids);
             $shipments_cost += (double) $this->delivery_mission_postpaid_shipments_cost_calculator($ids, true);
             $ids= $this->pickup_mission_prepaid_shipments_ids($mission_id, true);
             $shipments_cost += (double) $this->pickup_mission_prepaid_shipments_cost_calculator($ids, true);
@@ -153,7 +154,7 @@ class TransactionHelper{
             $amount += $this->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
             // $amount -= $client->supply_cost;
         }
-        
+        //dd($mission);
         $mission->amount = $amount;
         $mission->save();
     }
