@@ -69,6 +69,8 @@ class MissionsController extends Controller
 
             $params = array();
 
+            //dd(Mission::DONE_STATUS);
+            //dd($request->all());
             if($to == Mission::DONE_STATUS)
             {
                 if(isset($request->amount) && (in_array(Auth::user()->user_type,['admin','branch']) || in_array('1210', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) )
@@ -98,6 +100,13 @@ class MissionsController extends Controller
                     }
                     $params['otp'] = $request->otp;
                 }
+                if($to == Mission::RECIVED_STATUS)
+                {
+                    $params['amount'] = $request->amount;
+                }
+                
+                $action = new MissionStatusManagerHelper();
+                $response = $action->change_mission_status($request->checked_ids,$to,null,$params);
 
                 if(in_array($mission->type,[Mission::getType(Mission::PICKUP_TYPE),Mission::getType(Mission::DELIVERY_TYPE)])){
                     $cash = BusinessSetting::where("type","cash_payment")->get()->first();
@@ -129,14 +138,13 @@ class MissionsController extends Controller
                     }
                 }
             }
-
-            if($to == Mission::RECIVED_STATUS)
+            else
             {
-                $params['amount'] = $request->amount;
+                $action = new MissionStatusManagerHelper();
+                $response = $action->change_mission_status($request->checked_ids,$to,null,$params);
             }
-            
-            $action = new MissionStatusManagerHelper();
-            $response = $action->change_mission_status($request->checked_ids,$to,null,$params);
+
+
             //dd($response);
             if($response['success'])
             {

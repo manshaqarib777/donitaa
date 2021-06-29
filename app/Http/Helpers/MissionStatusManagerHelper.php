@@ -17,6 +17,8 @@ class MissionStatusManagerHelper
 
     public function change_mission_status($missions, $to, $captain_id = null,$params=array())
     {
+
+        //dd($to);
         $response = array();
         $response['success'] = 1;
         $response['error_msg'] = '';
@@ -25,6 +27,7 @@ class MissionStatusManagerHelper
             $transaction = new TransactionHelper();
             foreach ($missions as $mission_id) {
                 $mission = Mission::withoutGlobalScope('restriction')->find($mission_id);
+                //dd($mission);
                 if($mission->status_id == $to)
                 {
                     throw new \Exception("Out of status changer scope");
@@ -62,42 +65,20 @@ class MissionStatusManagerHelper
                         
                         if($mission->getOriginal('type')  == Mission::SUPPLY_TYPE)
                         {
+
+
                             $amount_to_bo_collected = 0 ;
                             foreach ($mission->shipment_mission as $shipment_mission)
                             {
                                 $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
                             }
-                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected ,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
+                            $client = $mission->client;
+                            $transaction->create_mission_transaction($mission->id,$client->supply_cost,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
+                            
+                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
+                            $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CLIENT,$mission->client_id,Transaction::CREDIT);
                         }
-                        
 
-                        // comment this after moveing Move confirm amount and signature and otp to be in "Received Missions" 
-
-
-                        // if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
-                        //     foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                        //         $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
-                        //         $oldClientStatus = $shipment->client_status;
-                        //         $shipment->client_status = Shipment::CLIENT_STATUS_RECEIVED_BRANCH;
-                        //         $log = new ClientShipmentLog();
-                        //         $log->from = $oldClientStatus;
-                        //         $log->to = Shipment::CLIENT_STATUS_RECEIVED_BRANCH;
-                        //         $log->shipment_id = $shipment->id;
-                        //         $log->created_by = \Auth::user()->id;
-                        //         $log->save();
-                        //     }
-                        // }
-                        // if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
-                        //     if (\Schema::hasTable('shipment_mission') && class_exists("\App\ShipmentMission") && class_exists("\App\Shipment") && class_exists("\App\Http\Helpers\StatusManagerHelper")) {
-                        //         foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
-                        //             $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
-                        //             $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
-                        //             $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::RECIVED_STATUS);
-                        //         }
-                        //     }
-                        // }
-                        
-                        // $transaction->create_mission_transaction($mission->id,$mission->amount,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
                     }
 
                     if ($to == Mission::DONE_STATUS) {
@@ -114,7 +95,7 @@ class MissionStatusManagerHelper
                                 $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
                             }
                             $client = $mission->client;
-                            $transaction->create_mission_transaction($mission->id,$client->supply_cost,Transaction::CAPTAIN,$mission->captain_id,Transaction::CREDIT);
+                            $transaction->create_mission_transaction($mission->id,$client->supply_cost,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
                             
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
                             $transaction->create_mission_transaction($mission->id,$amount_to_bo_collected,Transaction::CLIENT,$mission->client_id,Transaction::DEBIT);
@@ -136,6 +117,7 @@ class MissionStatusManagerHelper
                         }
                         if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
                             $captain_amount = $transaction->calcMissionShipmentsAmount($mission->getOriginal('type'), $mission->id);
+                            //dd($captain_amount);
 
                             $amount_to_bo_collected = 0 ;
                             foreach ($mission->shipment_mission as $shipment_mission)
@@ -249,7 +231,7 @@ class MissionStatusManagerHelper
 
                     if ($to == Mission::CLOSED_STATUS || $to == Mission::DONE_STATUS ) 
                     {
-                        $shipments = \App\Shipment::where('mission_id',$mission_id)->get();
+                        $shipments = \App\Shipment::withoutGlobalScope('restriction')->where('mission_id',$mission_id)->get();
                         foreach ($shipments as $shipment) 
                         {
                             $shipment->mission_id = null ;

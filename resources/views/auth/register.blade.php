@@ -96,20 +96,20 @@
                                 <div class="plan cf">
                                     <div class="row">
                                         <div class="col-md-4 col-lg-4 col-xl-4">
-                                            <input type="radio" name="radio1" id="free" value="1" class="change_type"><label
-                                                class="free-label four col" for="free"><i class="fa fa-user-o"
+                                            <input type="radio" name="type" id="personal" value="1" class="change_type"><label
+                                                class="personal-label four col" for="personal"><i class="fa fa-user-o"
                                                     aria-hidden="true"></i> Personal</label>
 
                                         </div>
                                         <div class="col-md-4 col-lg-4 col-xl-4">
-                                            <input type="radio" name="radio1" id="basic" value="2" class="change_type"
-                                                checked><label class="basic-label four col" for="basic"><i
+                                            <input type="radio" name="type" id="company" value="2" class="change_type"
+                                                checked><label class="company-label four col" for="company"><i
                                                     class="fa fa-dropbox" aria-hidden="true"></i> Business</label>
 
                                         </div>
                                         <div class="col-md-4 col-lg-4 col-xl-4">
-                                            <input type="radio" name="radio1" id="premium" class="change_type"
-                                                value="3"><label class="premium-label four col" for="premium"> <i
+                                            <input type="radio" name="type" id="captain" class="change_type"
+                                                value="3"><label class="captain-label four col" for="captain"> <i
                                                     class="fa fa-truck" aria-hidden="true"></i> Driver</label>
                                         </div>
                                     </div>
@@ -154,7 +154,7 @@
                                 <label>{{ translate('Business Legal Name') }}</label>
                                 <input id="company" type="text"
                                     class="form-control{{ $errors->has('company') ? ' is-invalid' : '' }}"
-                                    name="Client[company]" value="{{ old('company') }}" required autofocus
+                                    name="Client[company]" value="{{ old('company') }}" autofocus
                                     placeholder="{{ translate('Business Legal Name') }}">
 
                                 @if ($errors->has('company'))

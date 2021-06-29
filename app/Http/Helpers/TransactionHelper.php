@@ -72,14 +72,27 @@ class TransactionHelper{
     
     public function calcMissionShipmentsAmount($type,$mission_id)
     {
+        if(session()->get('country')==null)
+            $country='US';
+        else
+            $country=session()->get('country');
         $shipments_cost = 0;
 
         $mission = Mission::withoutGlobalScope('restriction')->find($mission_id);
         $client = $mission->client;
+        $shipment = $mission->shipmentMissionID->shipment;
+
         if($type == Mission::PICKUP_TYPE)
         {
             $ids= $this->pickup_mission_prepaid_shipments_ids($mission_id);
-            $shipments_cost += $client->pickup_cost;
+            $cost=$client->pickup_cost;
+            if($client->pickup_cost<=0)
+            {
+                $cost = convert_price(\App\ShipmentSetting::getVal('def_pickup_cost_'.$shipment->client->userClient->user->country->iso2));
+            }
+            //dd($cost);
+            $shipments_cost += $cost;
+            
             $shipments_cost += (double) $this->pickup_mission_prepaid_shipments_cost_calculator($ids);
           
         }elseif($type == Mission::DELIVERY_TYPE)
@@ -95,7 +108,14 @@ class TransactionHelper{
         }elseif($type == Mission::SUPPLY_TYPE)
         {
             $shipments_cost += (double) $this->calcMissionShipmentsCOD($mission_id);
-            $shipments_cost -= $client->supply_cost;
+            $cost=$client->supply_cost;
+            if($client->supply_cost<=0)
+            {
+                $cost = convert_price(\App\ShipmentSetting::getVal('def_supply_cost_'.$shipment->receiver->userReceiver->user->country->iso2));
+            }
+            $shipments_cost += $cost;
+
+            //$shipments_cost += $client->supply_cost;
         }
         return $shipments_cost;
     }
@@ -120,7 +140,6 @@ class TransactionHelper{
         if($mission->getOriginal('type') == Mission::PICKUP_TYPE)
         {
             $client = Client::withoutGlobalScope('restriction')->find($mission->client_id);
-            $amount += $client->pickup_cost;
             $amount += $this->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
         }elseif($mission->getOriginal('type') == Mission::DELIVERY_TYPE)
         {

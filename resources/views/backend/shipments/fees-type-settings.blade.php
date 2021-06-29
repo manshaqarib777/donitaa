@@ -27,12 +27,17 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-6">
-
+                        @php
+                        if(session()->get('country')==null)
+                            $country='US';
+                            else
+                                $country=session()->get('country');
+                        @endphp
 
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label>{{translate('Default Pickup Mission Cost')}} ({{currency_symbol()}}):</label>
-                                <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Shipping Cost')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_pickup_cost'))}}" name="Setting[def_pickup_cost]">
+                                <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Shipping Cost')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_pickup_cost_'.$country))}}" name="Setting[def_pickup_cost_{{$country}}]">
                             </div>
                         </div>
                         <hr>
@@ -45,7 +50,7 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label>{{translate('Default Supply Mission Cost')}} ({{currency_symbol()}}):</label>
-                                <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Shipping Cost')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_supply_cost'))}}" name="Setting[def_supply_cost]">
+                                <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Shipping Cost')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_supply_cost_'.$country))}}" name="Setting[def_supply_cost_{{$country}}]">
                             </div>
                         </div>
                         <hr>

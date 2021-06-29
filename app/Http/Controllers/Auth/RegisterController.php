@@ -17,10 +17,13 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Cookie;
 use Nexmo;
 use App\Client;
+use App\Captain;
 use App\Http\Helpers\UserRegistrationHelper;
 use DB;
 use App\UserClient;
 use App\Events\AddClient;
+use App\UserCaptain;
+use App\Events\AddCaptain;
 
 
 class RegisterController extends Controller
@@ -84,12 +87,23 @@ class RegisterController extends Controller
 
         try{	
 			DB::beginTransaction();
-			$model = new Client();
-			
+            //dd($data['type']);
 
-            $remove =['first_name','last_name'];
-            $data['Client']['name']=$data['Client']['first_name'].' '.$data['Client']['last_name'];
-            $data['Client']= array_diff_key($data['Client'], array_flip($remove));
+            if($data['type']=="3")
+            {
+                $model = new Captain();
+                $remove =['first_name','last_name','company'];
+                $data['Client']['name']=$data['Client']['first_name'].' '.$data['Client']['last_name'];
+                $data['Client']= array_diff_key($data['Client'], array_flip($remove));
+            }
+            else
+            {
+                $model = new  Client();
+                $remove =['first_name','last_name'];
+                $data['Client']['name']=$data['Client']['first_name'].' '.$data['Client']['last_name'];
+                $data['Client']= array_diff_key($data['Client'], array_flip($remove));
+                $model->created_by_type = 'admin';
+            }
             //dd($data);
 			
 			$model->fill($data['Client']);
@@ -98,7 +112,7 @@ class RegisterController extends Controller
 			if (!$model->save()){
                 throw new \Exception();
 			}
-            $model->created_by_type = 'admin';
+
             $model->created_by = 1;
             
 			$model->code = $model->id;
@@ -119,6 +133,10 @@ class RegisterController extends Controller
 				$userRegistrationHelper->generatePassword();
 			}
 			$userRegistrationHelper->setRoleID(UserRegistrationHelper::MAINCLIENT);
+            if($data['type'] == "3")
+            {
+			    $userRegistrationHelper->setUserType("captain");
+            }
 			if(Cookie::has('referral_code')){
                 $referral_code = Cookie::get('referral_code');
                 $referred_by_user = User::where('referral_code', $referral_code)->first();
@@ -131,29 +149,45 @@ class RegisterController extends Controller
                 //dd($response);
 				throw new \Exception($response['error_msg']);
 			}
-			$userClient = new UserClient();
-			$userClient->user_id = $response['user_id'];
-			$userClient->client_id = $model->id;
-			if (!$userClient->save()){
-				throw new \Exception("Record Could Not Saved Successfully");
-			}
-            
-            $address = ClientAddress::where('name',$data['first_address'])->get()->first();
-            if($address==null)
-			{
-                $address = new ClientAddress();
-            }
-            $address->name=$data['first_address'];
-            $address->type=$data['first_address'];
-			$address->address=$data['second_address'];
-            $address->client_id=$model->id;
-            $address->save();
+			
+            if($data['type'] != "3")
+            {
 
-            event(new AddClient($model));
+                $userClient = new UserClient();
+                $userClient->user_id = $response['user_id'];
+                $userClient->client_id = $model->id;
+                if (!$userClient->save()){
+                    throw new \Exception("Record Could Not Saved Successfully");
+                }
+                
+                $address = ClientAddress::where('name',$data['first_address'])->get()->first();
+                if($address==null)
+                {
+                    $address = new ClientAddress();
+                }
+                $address->name=$data['first_address'];
+                $address->type=$data['first_address'];
+                $address->address=$data['second_address'];
+                $address->client_id=$model->id;
+                $address->save();
+                event(new AddClient($model));
+
+            }
+            else
+            {
+                $userCaptain = new UserCaptain();
+                $userCaptain->user_id = $response['user_id'];
+                $userCaptain->Captain_id = $model->id;
+                if (!$userCaptain->save()){
+                    throw new \Exception();
+                }
+                event(new AddCaptain($model));
+            }
 			DB::commit();
             $user=User::find($response['user_id']);
             return $user;
 		}catch(\Exception $e){
+            dd($e->getMessage());
             DB::rollback();
             flash('Email Already Exist')->error();
             return false;             
