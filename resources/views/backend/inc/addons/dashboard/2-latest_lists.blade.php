@@ -43,7 +43,7 @@
 
                                 <tr>
 
-                                    <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
+                                    <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->code}}</a></td>
                                     <td>{{$shipment->getStatus()}}</td>
                                     <td>{{$shipment->type}}</td>
                                     <td>
@@ -169,7 +169,7 @@
 
                                     <tr>
 
-                                        <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
+                                        <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->code}}</a></td>
                                         <td>{{$shipment->getStatus()}}</td>
                                         <td>{{$shipment->type}}</td>
                                         <td>
@@ -250,7 +250,7 @@
 
                                 <tr>
 
-                                    <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
+                                    <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->code}}</a></td>
                                     <td>{{$shipment->getStatus()}}</td>
                                     <td>{{$shipment->type}}</td>
                                     <td>{{$shipment->client->name}}</td>
@@ -361,7 +361,7 @@
 
                                     <tr>
 
-                                        <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
+                                        <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->code}}</a></td>
                                         <td>{{$shipment->getStatus()}}</td>
                                         <td>{{$shipment->type}}</td>
                                         <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
@@ -430,7 +430,7 @@
 
                             <tr>
 
-                                <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->barcode}}</a></td>
+                                <td width="5%"><a href="{{route('admin.shipments.show',$shipment->id)}}">{{$shipment->code}}</a></td>
                                 <td>{{$shipment->getStatus()}}</td>
                                 <td>{{$shipment->type}}</td>
                                 <td><a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a></td>
