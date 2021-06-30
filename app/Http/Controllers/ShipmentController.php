@@ -587,10 +587,16 @@ class ShipmentController extends Controller
     public function ajaxGetBranches()
     {
         $country_id = $_GET['country_id'];
-        $states = Branch::whereHas('userBranch.user', function($query) use ($country_id) {
+        $branches = Branch::whereHas('userBranch.user', function($query) use ($country_id) {
             return $query->where('users.country_id', $country_id);
          })->get();
-        return response()->json($states);
+         if(empty($branches))
+         {
+            $branches = Branch::whereHas('userBranch.user', function($query) use ($country_id) {
+                return $query->where('users.country_id', $country_id);
+             })->limit(1)->get();
+         }
+        return response()->json($branches);
     }
     public function ajaxGetAddressesClient()
     {
