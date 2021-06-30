@@ -1614,20 +1614,6 @@
                             }
                         }
                     },
-                    "Shipment[branch_id]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
-                    "Shipment[receiver_branch_id]": {
-                        validators: {
-                            notEmpty: {
-                                message: '{{ translate('This is required!') }}'
-                            }
-                        }
-                    },
 
                     "Shipment[client_address]": {
                         validators: {
