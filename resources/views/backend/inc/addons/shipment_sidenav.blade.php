@@ -67,7 +67,7 @@ $user_type = Auth::user()->user_type;
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">{{translate('Requested Pickup')}}</span>
+                                    <span class="menu-text">{{translate('Create Pickup Mission')}}</span>
 
                                 </a>
                             </li>

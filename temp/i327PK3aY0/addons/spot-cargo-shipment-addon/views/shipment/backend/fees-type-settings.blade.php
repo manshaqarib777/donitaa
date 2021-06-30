@@ -44,7 +44,7 @@
 
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label>{{translate('Default Supply Mission Cost')}} ({{currency_symbol()}}):</label>
+                                <label>{{translate('Default Delivery Mission Cost')}} ({{currency_symbol()}}):</label>
                                 <input type="text" min="0" id="name" class="form-control" placeholder="{{translate('Default Shipping Cost')}}" value="{{convert_price(\App\ShipmentSetting::getVal('def_supply_cost'))}}" name="Setting[def_supply_cost]">
                             </div>
                         </div>

@@ -160,7 +160,7 @@ class Shipment extends Model
         $array = [
             [
                 'status' => Self::SAVED_STATUS,
-                'text' => translate('Saved'),
+                'text' => translate('Shipment Accepted'),
                 'route_name' => 'admin.shipments.saved.index',
                 'permissions' => 1014,
                 'route_url' => 'saved',
@@ -169,7 +169,7 @@ class Shipment extends Model
 
             [
                 'status' => Self::REQUESTED_STATUS,
-                'text' => translate('Requested'),
+                'text' => translate('Pickup Requested'),
                 'route_name' => 'admin.shipments.requested.index',
                 'permissions' => 1015,
                 'route_url' => 'requested',
@@ -178,7 +178,7 @@ class Shipment extends Model
 
             [
                 'status' => Self::APPROVED_STATUS,
-                'text' => translate('Approved'),
+                'text' => translate('Shipment Approved'),
                 'route_name' => 'admin.shipments.approved.index',
                 'permissions' => 1016,
                 'route_url' => 'approved'
@@ -186,7 +186,7 @@ class Shipment extends Model
 
             [
                 'status' => Self::CLOSED_STATUS,
-                'text' => translate('Closed'),
+                'text' => translate('Shipment Closed'),
                 'route_name' => 'admin.shipments.closed.index',
                 'permissions' => 1017,
                 'route_url' => 'closed'
@@ -194,7 +194,7 @@ class Shipment extends Model
 
             [
                 'status' => Self::CAPTAIN_ASSIGNED_STATUS,
-                'text' => translate('Assigned'),
+                'text' => translate('Shipment Assigned'),
                 'route_name' => 'admin.shipments.assigned.index',
                 'permissions' => 1018,
                 'route_url' => 'assigned'
@@ -202,21 +202,21 @@ class Shipment extends Model
 
             [
                 'status' => Self::RECIVED_STATUS,
-                'text' => translate('Received'),
+                'text' => translate('Shipment Received'),
                 'route_name' => 'admin.shipments.captain.given.index',
                 'permissions' => 1019,
                 'route_url' => 'deliverd-to-driver'
             ],
             [
                 'status' => Self::DELIVERED_STATUS,
-                'text' => translate('Deliverd'),
+                'text' => translate('Shipment Deliverd'),
                 'route_name' => 'admin.shipments.delivred.index',
                 'permissions' => 1020,
                 'route_url' => 'delivred'
             ],
             [
                 'status' => Self::SUPPLIED_STATUS,
-                'text' => translate('Supplied'),
+                'text' => translate('Shipment Supplied'),
                 'route_name' => 'admin.shipments.supplied.index',
                 'permissions' => 1041,
                 'route_url' => 'supplied'
@@ -224,7 +224,7 @@ class Shipment extends Model
 
             [
                 'status' => Self::RETURNED_STATUS,
-                'text' => translate('Returned'),
+                'text' => translate('Shipment Returned'),
                 'route_name' => 'admin.shipments.returned.sender.index',
                 'permissions' => 1024,
                 'route_url' => 'returned-on-sender'
@@ -232,7 +232,7 @@ class Shipment extends Model
 
             [
                 'status' => Self::RETURNED_STOCK,
-                'text' => translate('Returned Stock'),
+                'text' => translate('Shipment Returned Stock'),
                 'route_name' => 'admin.shipments.returned.stock.index',
                 'permissions' => 1025,
                 'route_url' => 'returned-stock'
@@ -240,7 +240,7 @@ class Shipment extends Model
 
             [
                 'status' => Self::RETURNED_CLIENT_GIVEN,
-                'text' => translate('Returned & Deliverd'),
+                'text' => translate('Shipment Returned & Deliverd'),
                 'route_name' => 'admin.shipments.returned.deliverd.index',
                 'permissions' => 1026,
                 'route_url' => 'returned-deliverd'
