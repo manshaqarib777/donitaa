@@ -51,11 +51,15 @@
                                             <a href="{{route('admin.clients.show',$shipment->client_id)}}">{{$shipment->client->name}}</a>
                                         @endif
                                     </td>
+                                     @if(isset($shipment->branch_id))
                                     <td>
                                         @if($shipment->branch)
                                         <a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{$shipment->branch->name}}</a>
                                         @endif
                                     </td>
+                                    @else
+                                        <td></td>
+                                    @endif
                                     <td>{{format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}</td>
                                     <td>{{$shipment->pay->name}}</td>
                                     <td>{{$shipment->shipping_date}}</td>
