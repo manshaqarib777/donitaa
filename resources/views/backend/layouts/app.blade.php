@@ -11,7 +11,7 @@
 	<meta name="file-base-url" content="{{ getFileBaseURL() }}">
 	<base href="">
 	<meta charset="utf-8" />
-	<link rel="icon" href="@if(get_setting('site_icon')) {{uploaded_asset(get_setting('site_icon'))}} @else {{static_asset('assets/dashboard/media/logos/favicon.ico')}} @endif">
+    <link rel="icon" href="@if(setting()->get('main_site_icon_'.app()->getLocale())) {{asset('/storage/app/public/'. setting()->get('main_site_icon_'.app()->getLocale()) )}} @else {{static_asset('assets/dashboard/media/logos/favicon.ico')}} @endif">
 	@if(get_setting('website_name'))
 		<title> @if(View::hasSection('sub_title')) @yield('sub_title') | @endif {{ get_setting('website_name').get_setting('site_motto') ?' | '.get_setting('site_motto'):'' }}</title>
 	@else

@@ -110138,15 +110138,25 @@ $.fn.repeater = function (fig) {
         var $itemTemplate = $list.find('[data-repeater-item]')
                                  .first().clone().hide();
 
-        var $firstDeleteButton = $filterNested(
-            $filterNested($(this).find('[data-repeater-item]'), fig.repeaters)
-            .first().find('[data-repeater-delete]'),
-            fig.repeaters
-        );
-
-        if(fig.isFirstItemUndeletable && $firstDeleteButton) {
-            $firstDeleteButton.remove();
-        }
+								 var $firstDeleteButton = $filterNested(
+									$filterNested($(this).find('[data-repeater-item]'), fig.repeaters)
+									.first().find('[data-repeater-delete]'),
+									fig.repeaters
+								);
+						
+								var $firstDelete = $filterNested(
+									$filterNested($(this).find('[data-repeater-item]'), fig.repeaters)
+									.first(),
+									fig.repeaters
+								);
+						
+								if(fig.isFirstItemUndeletable && $firstDeleteButton) {
+									$firstDeleteButton.remove();
+									
+								}
+								if(fig.isFirstItemDelete && $firstDelete){
+									$firstDelete.remove();
+								}
 
         var getGroupName = function () {
             var groupName = $list.data('repeater-list');

@@ -181,7 +181,7 @@
                         </div>
                         <div class="form-group row">
                             <label
-                                class="col-4 col-form-label">{{ translate('If International Checked, please choose:') }}</label>
+                                class="col-4 col-form-label">{{ translate('Shipping Mode') }}</label>
                             <div class="col-8 col-form-label">
                                 <div class="radio-inline">
                                     <label class="radio radio-success">
@@ -788,13 +788,13 @@
                                                     <a href="javascript:;" data-repeater-create=""
                                                         class="btn btn-sm font-weight-bolder btn-light-primary"
                                                         style="border-radius:20px;">
-                                                        <i class="la la-plus"></i>{{ translate('Add List') }}
+                                                        <i class="la la-plus"></i>{{ translate('Add Content List') }}
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div data-repeater-list="package_list" class="col-md-10">
-                                            <div data-repeater-item>
+                                            <div data-repeater-item >
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <label>{{ translate('Item Name') }}:</label>
@@ -1468,7 +1468,8 @@
                 hide: function(deleteElement) {
                     $(this).slideUp(deleteElement);
                 },
-                isFirstItemUndeletable: true
+                isFirstItemUndeletable: true,
+                isFirstItemDelete:true
 
             }],
 

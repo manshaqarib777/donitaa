@@ -83810,9 +83810,19 @@ $.fn.repeater = function (fig) {
             fig.repeaters
         );
 
+		var $firstDelete = $filterNested(
+			$filterNested($(this).find('[data-repeater-item]'), fig.repeaters)
+			.first(),
+			fig.repeaters
+		);
+
         if(fig.isFirstItemUndeletable && $firstDeleteButton) {
             $firstDeleteButton.remove();
+            
         }
+		if(fig.isFirstItemDelete && $firstDelete){
+			$firstDelete.remove();
+		}
 
         var getGroupName = function () {
             var groupName = $list.data('repeater-list');

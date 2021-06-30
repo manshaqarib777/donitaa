@@ -102,7 +102,7 @@
                         </div>
                         <div class="form-group row">
                             <label
-                                class="col-4 col-form-label">{{ translate('If International Checked, please choose:') }}</label>
+                                class="col-4 col-form-label">{{ translate('Shipping Mode') }}</label>
                             <div class="col-8 col-form-label">
                                 <div class="radio-inline">
                                     <label class="radio radio-success">
