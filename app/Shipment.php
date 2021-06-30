@@ -458,6 +458,11 @@ class Shipment extends Model
         return $this->hasOne('App\Branch', 'id', 'branch_id')->withoutGlobalScope('restriction');
     }
 
+    public function receiverBranch()
+    {
+        return $this->hasOne('App\Branch', 'id', 'receiver_branch_id')->withoutGlobalScope('restriction');
+    }
+
     public function logs()
     {
         return $this->hasMany('App\ClientShipmentLog', 'shipment_id', 'id');

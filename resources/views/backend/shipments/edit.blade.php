@@ -253,7 +253,7 @@
                                 <div class="form-group">
                                     <label>{{ translate('Branch') }}:</label>
                                     <select class="form-control kt-select2 select-branch" name="Shipment[branch_id]">
-                                        <option value="{{ $shipment->branch_id }}">{{ $shipment->branch->name }}
+                                        <option value="{{ @$shipment->branch_id }}">{{ @$shipment->branch->name }}
                                         </option>
                                     </select>
                                 </div>
@@ -416,7 +416,7 @@
                                 <div class="form-group">
                                     <label>{{ translate('Branch') }}:</label>
                                     <select class="form-control kt-select2 select-branch" name="Shipment[receiver_branch_id]">
-                                        <option value="{{ $shipment->receiver_branch_id }}">{{ $shipment->branch->name }}
+                                        <option value="{{ @$shipment->receiver_branch_id }}">{{ @$shipment->receiverBranch->name }}
                                         </option>
                                     </select>
                                 </div>
@@ -671,7 +671,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">KG</span>
                                                 </div>
-                                                <input type="text" min="1" placeholder="{{ translate('Weight') }}"
+                                                <input type="text" min="0" placeholder="{{ translate('Weight') }}"
                                                     name="weight" class="form-control weight-listener"
                                                     onchange="calcTotalWeight()" value="{{ $pack->weight }}" />
 
@@ -684,7 +684,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">CM</span>
                                                 </div>
-                                                <input type="text" min="1" class="form-control length-listener"
+                                                <input type="text" min="0" class="form-control length-listener"
                                                     placeholder="{{ translate('Length') }}" name="length"
                                                     value="{{ $pack->length }}" />
 
@@ -697,7 +697,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">CM</span>
                                                 </div>
-                                                <input type="text" min="1" class="form-control width-listener"
+                                                <input type="text" min="0" class="form-control width-listener"
                                                     placeholder="{{ translate('Width') }}" name="width"
                                                     value="{{ $pack->width }}" />
 
@@ -709,7 +709,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon1">CM</span>
                                                 </div>
-                                                <input type="text" min="1" class="form-control height-listener"
+                                                <input type="text" min="0" class="form-control height-listener"
                                                     placeholder="{{ translate('Height') }}" name="height"
                                                     value="{{ $pack->height }}" />
 
@@ -785,10 +785,10 @@
                                                                             <span class="input-group-text"
                                                                                 id="basic-addon1">Q</span>
                                                                         </div>
-                                                                        <input type="text" min="1"
+                                                                        <input type="text" min="0"
                                                                             class="form-control quantity-listener"
                                                                             placeholder="{{ translate('Quantity') }}"
-                                                                            type="text" min="1" name="qty"
+                                                                            type="text" min="0" name="qty"
                                                                             class="form-control"
                                                                             value="{{ $list->qty }}" />
                                                                     </div>
@@ -833,7 +833,7 @@
 
                                                                 <input class="kt_touchspin_qty"
                                                                     placeholder="{{ translate('Quantity') }}"
-                                                                    type="number" min="1" name="qty" class="form-control"
+                                                                    type="number" min="0" name="qty" class="form-control"
                                                                     value="1" />
 
                                                             </div>
@@ -1579,10 +1579,10 @@
                 });
 
                 $(".value-listener:last").val(0);
-                $(".weight-listener:last").val(1);
-                $(".length-listener:last").val(1);
-                $(".width-listener:last").val(1);
-                $(".height-listener:last").val(1);
+                $(".weight-listener:last").val(0);
+                $(".length-listener:last").val(0);
+                $(".width-listener:last").val(0);
+                $(".height-listener:last").val(0);
                 $(".quantity-listener:last").val(1);
                 calcTotalWeight();
                 calcTotalPrice();

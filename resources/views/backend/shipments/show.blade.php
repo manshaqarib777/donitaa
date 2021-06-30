@@ -169,6 +169,7 @@ $d = new DNS1D();
                     <p class="p-3">{{$shipment->delivery_time}}</p>
                   </div>
             </div>
+            @if(issset($shipment->branch_id))
             <div class="col-md-2">
                 <div class="card">
                     <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
@@ -177,6 +178,8 @@ $d = new DNS1D();
                     <p class="p-3">{{$shipment->branch->name}}</p>
                   </div>
             </div>
+            @endif
+
                 {{-- @if($shipment->attachments_before_shipping)
                     <div class="pt-6 d-flex justify-content-between">
                         <div class="d-flex flex-column flex-root">

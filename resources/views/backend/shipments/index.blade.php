@@ -240,13 +240,16 @@
                             <td width="3%">{{ ($key+1) + ($shipments->currentPage() - 1)*$shipments->perPage() }}</td>
                             <td width="5%">{{$shipment->code}}</td>
                         @endif
-
+                        @if(isset($shipment->branch_id))
                         @if($status == "all") <td>{{$shipment->getStatus()}}</td> @endif
                         <td>{{$shipment->type}}</td>
                         @if( in_array($user_type ,['admin']) || in_array('1100', $staff_permission) || in_array('1006', $staff_permission) )
-                            <td><a href="{{route('admin.branchs.show',$shipment->branch_id)}}">{{@$shipment->branch->name}}</a></td>
+                            <td><a href="{{route('admin.branchs.show',@$shipment->branch_id)}}">{{@$shipment->branch->name}}</a></td>
                         @else
                             <td>{{@$shipment->branch->name}}</td>
+                        @endif
+                        @else
+                        <td></td>
                         @endif
 
                         <td>{{format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}</td>
