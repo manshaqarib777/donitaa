@@ -400,7 +400,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>{{ translate('To Country') }}:</label>
+                                    <label class="text-white">{{ translate('To Country') }}:</label>
                                     <select id="change-country-to" name="Shipment[to_country_id]"
                                         class="form-control select-country">
                                         <option value=""></option>
@@ -414,7 +414,7 @@
                             </div>
                             <div class="col-md-6 show_receiver_branch">
                                 <div class="form-group">
-                                    <label>{{ translate('Branch') }}:</label>
+                                    <label class="text-white">{{ translate('Branch') }}:</label>
                                     <select class="form-control kt-select2 select-branch" name="Shipment[receiver_branch_id]">
                                         <option value="{{ @$shipment->receiver_branch_id }}">{{ @$shipment->receiverBranch->name }}
                                         </option>
@@ -423,7 +423,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>{{ translate('To Region') }}:</label>
+                                    <label class="text-white">{{ translate('To Region') }}:</label>
                                     <select id="change-state-to" name="Shipment[to_state_id]"
                                         class="form-control select-state">
                                         <option value="{{ $shipment->to_state_id }}">{{ $shipment->to_state->name }}
@@ -434,7 +434,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>{{ translate('To Area') }}:</label>
+                                    <label class="text-white">{{ translate('To Area') }}:</label>
                                     <select id='change-area-to' name="Shipment[to_area_id]"
                                         class="form-control select-area">
                                         <option value="{{ $shipment->to_area_id }}">{{ $shipment->to_area->name }}
