@@ -110145,7 +110145,7 @@ $.fn.repeater = function (fig) {
 								);
 						
 								var $firstDelete = $filterNested(
-									$filterNested($(this).find('[data-repeater-item]'), fig.repeaters)
+									$filterNested($(this).find('[data-repeater-first-delete]'), fig.repeaters)
 									.first(),
 									fig.repeaters
 								);
