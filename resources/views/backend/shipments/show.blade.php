@@ -169,7 +169,7 @@ $d = new DNS1D();
                     <p class="p-3">{{$shipment->delivery_time}}</p>
                   </div>
             </div>
-            @if(issset($shipment->branch_id))
+            @if(isset($shipment->branch_id))
             <div class="col-md-2">
                 <div class="card">
                     <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
