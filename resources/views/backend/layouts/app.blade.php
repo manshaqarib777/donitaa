@@ -83,6 +83,11 @@
             font-size: 10px !important;
         }
 </style>
+<style media="print">
+    .no-print, div#kt_header_mobile, div#kt_header, div#kt_footer{
+        display: none;
+    }
+</style>
 	@yield('style')
 
 	<script>

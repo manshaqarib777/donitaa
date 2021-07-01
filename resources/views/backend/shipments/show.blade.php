@@ -104,7 +104,7 @@ $d = new DNS1D();
                         <h4>{{translate('SENDER / FROM')}}</h4>
                     </div>
                     @php
-                        $client_address= \App\ClientAddress::where('name',$shipment->client_address)->get()->first();
+                        $client_address= \App\ClientAddress::withoutGlobalScope('restriction')->where('name',$shipment->client_address)->get()->first();
                     @endphp
                     <div class="card-body">
                         <h6 class="text-danger"><b>{{$shipment->client->name}}</b></h6>
@@ -113,6 +113,8 @@ $d = new DNS1D();
                         <p style="margin-bottom: 0px;"><b>{{translate('Region')}}: </b>{{@$shipment->from_state->name}}</p>
                         <p style="margin-bottom: 0px;"><b>{{translate('Area')}}: </b>{{@$shipment->from_area->name}}</p>
                         <p style="margin-bottom: 0px;"><b>{{translate('Zip Code')}}: </b>{{@$client_address->zip_code}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Email')}}: </b>{{@$shipment->client->email}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Phone Number')}}: </b>{{@$shipment->client->responsible_mobile}}</p>
                     </div>
                 </div>
             </div>
@@ -122,7 +124,7 @@ $d = new DNS1D();
                         <h4>{{translate('RECEIVER / TO')}}</h4>
                     </div>
                     @php
-                        $receiver_address= \App\ReceiverAddress::where('name',$shipment->receiver_address)->get()->first();
+                        $receiver_address= \App\ReceiverAddress::withoutGlobalScope('restriction')->where('name',$shipment->receiver_address)->get()->first();
                     @endphp
                     <div class="card-body">
                         <h6 class="text-danger"><b>{{@$shipment->receiver->name}}</b></h6>
@@ -131,6 +133,8 @@ $d = new DNS1D();
                         <p style="margin-bottom: 0px;"><b>{{translate('Region')}}: </b>{{@$shipment->to_state->name}}</p>
                         <p style="margin-bottom: 0px;"><b>{{translate('Area')}}: </b>{{@$shipment->to_area->name}}</p>
                         <p style="margin-bottom: 0px;"><b>{{translate('Zip Code')}}: </b>{{@$receiver_address->zip_code}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Email')}}: </b>{{@$shipment->receiver->email}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Phone Number')}}: </b>{{@$shipment->receiver->responsible_mobile}}</p>
                     </div>
                   </div>
             </div>
@@ -199,7 +203,7 @@ $d = new DNS1D();
 
         </div>
         <hr>
-        @foreach(\App\PackageShipment::where('shipment_id',$shipment->id)->get() as $k => $package)
+        @foreach(\App\PackageShipment::withoutGlobalScope('restriction')->where('shipment_id',$shipment->id)->get() as $k => $package)
             <div class="row pt-3">
                 <div class="col-md-3">
                     @if($k==0)
@@ -414,7 +418,7 @@ $d = new DNS1D();
         <!-- begin: Invoice action-->
         <hr style="border: 1px solid orange;">
 
-        <div class="px-8 py-8 row justify-content-center py-md-10 px-md-0">
+        <div class="px-8 py-8 row justify-content-center py-md-10 px-md-0 no-print">
             <div class="col-md-10">
                 <div class="d-flex justify-content-between">
                     @if($shipment->paid == 0 && $shipment->pay['id'] != 11)
@@ -428,7 +432,7 @@ $d = new DNS1D();
                     @endif
 
                     <a href="{{route('admin.shipments.print', array($shipment->id, 'label'))}}" class="btn btn-light-primary font-weight-bold" target="_blank" style="border-radius:20px;">{{translate('Print Label')}}<i class="ml-2 la la-box-open"></i></a>
-                    <a href="{{route('admin.shipments.print', array($shipment->id, 'invoice'))}}" class="btn btn-light-primary font-weight-bold" target="_blank" style="border-radius:20px;">{{translate('Print Invoice')}}<i class="ml-2 la la-file-invoice-dollar"></i></a>
+                    <a href="javascript:void(0)" onclick="window.print();" class="btn btn-light-primary font-weight-bold" target="_blank" style="border-radius:20px;">{{translate('Print Invoice')}}<i class="ml-2 la la-file-invoice-dollar"></i></a>
 
                     @if(Auth::user()->user_type == 'admin' || in_array('1104', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                     <a href="{{route('admin.shipments.edit', $shipment->id)}}" class="px-6 py-3 btn btn-light-info btn-sm font-weight-bolder font-size-sm" style="border-radius:20px;">{{translate('Edit Shipment')}}</a>
@@ -439,7 +443,9 @@ $d = new DNS1D();
 
 
 <!--end::List Widget 19-->
-@if((Auth::user()->user_type == 'admin' || in_array('1102', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) && !empty($shipment->logs->toArray()))
+
+<div class="no-print">
+    @if((Auth::user()->user_type == 'admin' || in_array('1102', json_decode(Auth::user()->staff->role->permissions ?? "[]"))) && !empty($shipment->logs->toArray()))
     <div class="card card-custom card-stretch card-stretch-half gutter-b">
         <!--begin::List Widget 19-->
 
@@ -455,7 +461,7 @@ $d = new DNS1D();
         </div>
         <!--end::Header-->
         <!--begin::Body-->
-        <div class="pt-2 card-body" style="padding-bottom: 0;overflow:hidden">
+        <div class="pt-2 card-body " style="padding-bottom: 0;overflow:hidden">
             <div class="mt-3 timeline timeline-6 scroll scroll-pull" style="overflow:hidden" data-scroll="true" data-wheel-propagation="true">
 
             @foreach($shipment->logs()->orderBy('id','desc')->get() as $log)
@@ -487,7 +493,7 @@ $d = new DNS1D();
         </div>
     </div>
 @endif
-
+</div>
 @endsection
 
 @section('modal')

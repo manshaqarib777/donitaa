@@ -88,7 +88,7 @@ class TransactionHelper{
             $cost=$client->pickup_cost;
             if($client->pickup_cost<=0)
             {
-                $cost = convert_price(\App\ShipmentSetting::getVal('def_pickup_cost_'.$shipment->client->userClient->user->country->iso2));
+                $cost = \App\ShipmentSetting::getVal('def_pickup_cost_'.$shipment->client->userClient->user->country->iso2);
             }
             //dd($cost);
             $shipments_cost += $cost;
@@ -112,7 +112,7 @@ class TransactionHelper{
             $cost=$client->supply_cost;
             if($client->supply_cost<=0)
             {
-                $cost = convert_price(\App\ShipmentSetting::getVal('def_supply_cost_'.$shipment->receiver->userReceiver->user->country->iso2));
+                $cost = \App\ShipmentSetting::getVal('def_supply_cost_'.$shipment->receiver->userReceiver->user->country->iso2);
             }
             $shipments_cost += $cost;
 

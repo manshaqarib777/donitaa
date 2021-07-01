@@ -168,7 +168,7 @@
                                 </a> --}}
                                 {{-- @endif --}}
 
-                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" title="{{ translate('Receive Mission') }}" onclick="set_mission_id({{$mission->id}} , {{$shipment_cost}} , '{{$mission->type}}')">
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" title="{{ translate('Receive Mission') }}" onclick="set_mission_id({{$mission->id}} , {{convert_price($shipment_cost)}} , '{{$mission->type}}')">
                                     {{ translate('Receive Mission') }}
                                 </button>
                             @endif

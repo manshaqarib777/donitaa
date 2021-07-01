@@ -104,7 +104,7 @@ class MissionsController extends Controller
                 {
                     $params['amount'] = $request->amount;
                 }
-                
+                //dd($params);
                 $action = new MissionStatusManagerHelper();
                 $response = $action->change_mission_status($request->checked_ids,$to,null,$params);
 

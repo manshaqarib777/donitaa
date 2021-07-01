@@ -95,35 +95,35 @@ class Shipment extends Model
         $array = [
             [
                 'status' => Self::CLIENT_STATUS_CREATED,
-                'text' => translate('Created'),
+                'text' => translate('Shipment Created'),
             ],
             [
                 'status' => Self::CLIENT_STATUS_READY,
-                'text' => translate('Ready for shipping'),
+                'text' => translate('Shipment Ready for shipping'),
             ],
             [
                 'status' => Self::CLIENT_STATUS_IN_PROCESSING,
-                'text' => translate('In Processing'),
+                'text' => translate('Shipment In Processing'),
             ],
             [
                 'status' => Self::CLIENT_STATUS_TRANSFERED,
-                'text' => translate('Moving to Branch'),
+                'text' => translate('Shipment Moving to Branch'),
             ],
             [
                 'status' => Self::CLIENT_STATUS_RECEIVED_BRANCH,
-                'text' => translate('Received in branch'),
+                'text' => translate('Shipment Received in branch'),
             ],
             [
                 'status' => Self::CLIENT_STATUS_OUT_FOR_DELIVERY,
-                'text' => translate('Out for delivery'),
+                'text' => translate('Shipment Out for delivery'),
             ],
             [
                 'status' => Self::CLIENT_STATUS_DELIVERED,
-                'text' => translate('Delivered'),
+                'text' => translate('Shipment Delivered'),
             ],
             [
                 'status' => Self::CLIENT_STATUS_SUPPLIED,
-                'text' => translate('Supplied'),
+                'text' => translate('Shipment Supplied'),
             ]
         ];
         return $array;

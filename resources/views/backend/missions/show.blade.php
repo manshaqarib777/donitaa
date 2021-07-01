@@ -75,7 +75,33 @@ $d = new DNS1D();
                             @else
                                 <div class="d-flex flex-column flex-root">
                                     <span class="font-weight-bolder d-block mb-2">{{translate('MISSION ADDRESS')}}<span>
-                                    <span class="opacity-70 d-block">{{$mission->address}}</span>
+                                    @if($mission->type=='Pickup')
+                                    <span class="opacity-70 d-block">
+                                        @php
+                                            $client_address= \App\ClientAddress::where('name',$mission->shipmentMissionID->shipment->client_address)->get()->first();
+                                        @endphp
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}}: </b>{{@$client_address->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Country')}}: </b>{{@$mission->shipmentMissionID->shipment->to_country->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Region')}}: </b>{{@$mission->shipmentMissionID->shipment->to_state->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Area')}}: </b>{{@$mission->shipmentMissionID->shipment->to_area->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Zip Code')}}: </b>{{@$client_address->zip_code}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Email')}}: </b>{{@$mission->shipmentMissionID->shipment->client->email}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Zip Code')}}: </b>{{@$mission->shipmentMissionID->shipment->client->responsible_mobile}}</p>
+                                    </span>
+                                    @else
+                                    <span class="opacity-70 d-block">
+                                        @php
+                                            $receiver_address= \App\ReceiverAddress::where('name',$mission->shipmentMissionID->shipment->receiver_address)->get()->first();
+                                        @endphp
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}}: </b>{{@$receiver_address->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Country')}}: </b>{{@$mission->shipmentMissionID->shipment->to_country->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Region')}}: </b>{{@$mission->shipmentMissionID->shipment->to_state->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Area')}}: </b>{{@$mission->shipmentMissionID->shipment->to_area->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Zip Code')}}: </b>{{@$receiver_address->zip_code}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Email')}}: </b>{{@$mission->shipmentMissionID->shipment->receiver->email}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Zip Code')}}: </b>{{@$mission->shipmentMissionID->shipment->receiver->responsible_mobile}}</p>
+                                    </span>
+                                    @endif
                                 </div>
                             @endif
                             <div class="d-flex flex-column flex-root">

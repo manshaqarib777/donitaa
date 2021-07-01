@@ -21,16 +21,20 @@
         <h4 class="modal-title h6" id="confirm_mission">{{translate('Confirm Mission Amount')}}</h4>
     </div>
     <div class="modal-body">
+        @php
+            $helper = new \App\Http\Helpers\TransactionHelper();
+            $shipment_cost = $helper->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
+        @endphp
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <label>{{translate('Amount')}}({{currency_symbol()}}):</label>
                     <input type="hidden" class="form-control" value="{{$mission->id}}" name="checked_ids[]" />
                     @if(in_array(Auth::user()->user_type,['admin']) || in_array('1030', json_decode(Auth::user()->staff->role->permissions ?? "[]")) )
-                        <input type="number" class="form-control" value="{{convert_price($mission->amount)}}" name="amount"
+                        <input type="number" class="form-control" value="{{convert_price($shipment_cost)}}" name="amount"
                         style="background:#f3f6f9;color:#3f4254;" disabled />
                     @else
-                        <input type="number" class="form-control" value="{{convert_price($mission->amount)}}" name="amount" disabled/>
+                        <input type="number" class="form-control" value="{{convert_price($shipment_cost)}}" name="amount" disabled/>
                     @endif
                 </div>
             </div>

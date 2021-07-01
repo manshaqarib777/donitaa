@@ -60,7 +60,7 @@ class Mission extends Model
     {
        $array = [
            ['status' => Self::REQUESTED_STATUS,
-            'text' => translate('Requested'),
+            'text' => translate('Pickup Requested'),
             'route_name' => 'admin.missions.requested.index',
             'route_url'=>'requested',
             'optional_params'=>'/{type?}',
@@ -69,7 +69,7 @@ class Mission extends Model
             'permissions'=>1009],
 
             ['status' => Self::APPROVED_STATUS,
-            'text' => translate('Assigned & Approved'),
+            'text' => translate('Mission Assigned & Approved'),
             'route_name' => 'admin.missions.approved.index',
             'route_url'=>'approved',
             'optional_params'=>'/{type?}',
@@ -78,7 +78,7 @@ class Mission extends Model
             'permissions'=>1010],
 
             ['status' => Self::RECIVED_STATUS,
-            'text' => translate('Recived'),
+            'text' => translate('Mission Recived'),
             'route_name' => 'admin.missions.recived.index',
             'route_url'=>'recived',
             'optional_params'=>'/{type?}',
@@ -87,7 +87,7 @@ class Mission extends Model
             'permissions'=>1011],
 
             ['status' => Self::DONE_STATUS,
-            'text' => translate('Done'),
+            'text' => translate('Mission Done'),
             'route_name' => 'admin.missions.done.index',
             'route_url'=>'done',
             'optional_params'=>'/{type?}',
@@ -96,7 +96,7 @@ class Mission extends Model
             'permissions'=>1012],
 
             ['status' => Self::CLOSED_STATUS,
-            'text' => translate('Closed'),
+            'text' => translate('Mission Closed'),
             'route_name' => 'admin.missions.closed.index',
             'route_url'=>'closed',
             'optional_params'=>'/{type?}',
