@@ -50,7 +50,7 @@ class MissionsController extends Controller
         {
             $missions = $missions->where('type',$type);
         }
-        $missions = $missions->orderBy('id','DESC')->paginate(20);
+        $missions = $missions->orderBy('updated_at','DESC')->paginate(20);
         
         $show_due_date = ($status == Mission::APPROVED_STATUS) ? true : false;
 
