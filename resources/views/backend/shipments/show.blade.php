@@ -108,7 +108,8 @@ $d = new DNS1D();
                     @endphp
                     <div class="card-body">
                         <h6 class="text-danger"><b>{{$shipment->client->name}}</b></h6>
-                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}}: </b>{{@$client_address->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}} <small>{{ translate('Building, Street Name etc') }}</small>: </b>{{@$client_address->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}} <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small>: </b>{{@$client_address->address}}</p>
                         <p style="margin-bottom: 0px;"><b>{{translate('Country')}}: </b>{{@$shipment->from_country->name}}</p>
                         <p style="margin-bottom: 0px;"><b>{{translate('Region')}}: </b>{{@$shipment->from_state->name}}</p>
                         <p style="margin-bottom: 0px;"><b>{{translate('Area')}}: </b>{{@$shipment->from_area->name}}</p>
@@ -128,7 +129,8 @@ $d = new DNS1D();
                     @endphp
                     <div class="card-body">
                         <h6 class="text-danger"><b>{{@$shipment->receiver->name}}</b></h6>
-                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}}: </b>{{@$receiver_address->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}} <small>{{ translate('Building, Street Name etc') }}</small>: </b>{{@$receiver_address->name}}</p>
+                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}} <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small>: </b>{{@$receiver_address->address}}</p>
                         <p style="margin-bottom: 0px;"><b>{{translate('Country')}}: </b>{{@$shipment->to_country->name}}</p>
                         <p style="margin-bottom: 0px;"><b>{{translate('Region')}}: </b>{{@$shipment->to_state->name}}</p>
                         <p style="margin-bottom: 0px;"><b>{{translate('Area')}}: </b>{{@$shipment->to_area->name}}</p>
@@ -231,10 +233,10 @@ $d = new DNS1D();
                         <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
                             <h6>{{$package->description}}</h6>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="border-style: none;">
                             @if($package->package_list!=null)
                             @foreach($package->package_list as $key => $list)
-                                <p style="margin-bottom: 0px;">- {{$list->description}}</p>
+                                <p style="margin-bottom: 0px;"> {{$list->description}}</p>
                             @endforeach
                             @endif
                         </div>

@@ -32,6 +32,17 @@
 @endsection
 
 @section('content')
+    @php
+        if(isset(Auth::user()->userClient->client))
+        {
+            $data=Auth::user()->userClient->client;
+        }
+        elseif(isset(Auth::user()->userReceiver->receiver))
+        {
+            $data=Auth::user()->userReceiver->receiver;
+        }
+
+    @endphp
 
     <div class="col-lg-10  mx-auto">
         <div class="card">
@@ -80,6 +91,51 @@
                             </div>
                         </div>
                     </div>
+
+                    @if(Auth::user()->user_type == 'customer')
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ translate('Owner Name') }}:</label>
+                                <input type="text" class="form-control" id="owner_name"
+                                    value="{{ $data->responsible_name }}" placeholder="{{ translate('Here') }}"
+                                    name="responsible_name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ translate('Owner Phone') }}:</label>
+                                <input type="text" class="form-control" placeholder="{{ translate('Here') }}"
+                                    value="{{ $data->responsible_mobile }}" name="responsible_mobile">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ translate('Followup Name') }} :</label>
+                                <input type="text" class="form-control" id="followup_name"
+                                    placeholder="{{ translate('Here') }}" value="{{ $data->follow_up_name }}"
+                                    name="follow_up_name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>{{ translate('Followup Phone') }}:</label>
+                                <input type="text" class="form-control" placeholder="{{ translate('Here') }}"
+                                    value="{{ $data->follow_up_mobile }}" name="follow_up_mobile">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3">{{ translate('National ID') }}:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="{{ translate('Here') }}"
+                            value="{{ $data->national_id }}" name="national_id">
+                        </div>
+                    </div>
+                    @endif
                     <div class="form-group row">
                         <label class="col-sm-3 col-from-label" for="country_id">{{ translate('Country') }}:</label>
                         <div class="col-sm-9">

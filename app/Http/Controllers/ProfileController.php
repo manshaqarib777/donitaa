@@ -123,6 +123,11 @@ class ProfileController extends Controller
 
             $user->userClient->client->email=$user->email;
             $user->userClient->client->name=$user->name;
+            $user->userClient->client->responsible_name=$request->responsible_name;
+            $user->userClient->client->responsible_mobile=$request->responsible_mobile;
+            $user->userClient->client->follow_up_name=$request->follow_up_name;
+            $user->userClient->client->follow_up_mobile=$request->follow_up_mobile;
+            $user->userClient->client->national_id=$request->national_id;
             $user->userClient->client->save();
         }
         if($user->userReceiver!==null)
@@ -130,6 +135,11 @@ class ProfileController extends Controller
 
             $user->userReceiver->receiver->email=$user->email;
             $user->userReceiver->receiver->name=$user->name;
+            $user->userReceiver->receiver->responsible_name=$request->responsible_name;
+            $user->userReceiver->receiver->responsible_mobile=$request->responsible_mobile;
+            $user->userReceiver->receiver->follow_up_name=$request->follow_up_name;
+            $user->userReceiver->receiver->follow_up_mobile=$request->follow_up_mobile;
+            $user->userReceiver->receiver->national_id=$request->national_id;
             $user->userReceiver->receiver->save();
         }
         if($user->userBranch!==null)

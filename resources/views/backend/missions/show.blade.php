@@ -80,7 +80,8 @@ $d = new DNS1D();
                                         @php
                                             $client_address= \App\ClientAddress::where('name',$mission->shipmentMissionID->shipment->client_address)->get()->first();
                                         @endphp
-                                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}}: </b>{{@$client_address->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}} <small>{{ translate('Building, Street Name etc') }}</small>: </b>{{@$client_address->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}} <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small>: </b>{{@$client_address->address}}</p>
                                         <p style="margin-bottom: 0px;"><b>{{translate('Country')}}: </b>{{@$mission->shipmentMissionID->shipment->to_country->name}}</p>
                                         <p style="margin-bottom: 0px;"><b>{{translate('Region')}}: </b>{{@$mission->shipmentMissionID->shipment->to_state->name}}</p>
                                         <p style="margin-bottom: 0px;"><b>{{translate('Area')}}: </b>{{@$mission->shipmentMissionID->shipment->to_area->name}}</p>
@@ -93,8 +94,8 @@ $d = new DNS1D();
                                         @php
                                             $receiver_address= \App\ReceiverAddress::where('name',$mission->shipmentMissionID->shipment->receiver_address)->get()->first();
                                         @endphp
-                                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}}: </b>{{@$receiver_address->name}}</p>
-                                        <p style="margin-bottom: 0px;"><b>{{translate('Country')}}: </b>{{@$mission->shipmentMissionID->shipment->to_country->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}} <small>{{ translate('Building, Street Name etc') }}</small>: </b>{{@$receiver_address->name}}</p>
+                                        <p style="margin-bottom: 0px;"><b>{{translate('Address')}} <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small>: </b>{{@$receiver_address->address}}</p>                                        <p style="margin-bottom: 0px;"><b>{{translate('Country')}}: </b>{{@$mission->shipmentMissionID->shipment->to_country->name}}</p>
                                         <p style="margin-bottom: 0px;"><b>{{translate('Region')}}: </b>{{@$mission->shipmentMissionID->shipment->to_state->name}}</p>
                                         <p style="margin-bottom: 0px;"><b>{{translate('Area')}}: </b>{{@$mission->shipmentMissionID->shipment->to_area->name}}</p>
                                         <p style="margin-bottom: 0px;"><b>{{translate('Zip Code')}}: </b>{{@$receiver_address->zip_code}}</p>
