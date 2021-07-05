@@ -782,7 +782,7 @@
                                                                 <div class="input-group mb-3">
                                                                     <div class="input-group-prepend">
                                                                         <span class="input-group-text"
-                                                                            id="basic-addon1">Q</span>
+                                                                            id="basic-addon1">Qty</span>
                                                                     </div>
                                                                     <input type="text" min="0"
                                                                         class="form-control quantity-listener"
@@ -933,7 +933,7 @@
 
             <div class="mb-0 text-right form-group">
                 <button type="button" class="btn btn-lg btn-primary" onclick="get_estimation_cost()"
-                    style="margin-left: 20px;font-size: 20px;">{{ translate('Get Rates') }}</button>
+                    style="margin-left: 20px;font-size: 20px;">{{ translate('Update Shipment') }}</button>
 
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-sm btn-primary d-none" data-toggle="modal"
@@ -1612,8 +1612,21 @@
                             }
                         }
                     },
-
                     "Shipment[client_address]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{ translate('This is required!') }}'
+                            }
+                        }
+                    },
+                    "Shipment[client_email]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{ translate('This is required!') }}'
+                            }
+                        }
+                    },
+                    "Shipment[receiver_email]": {
                         validators: {
                             notEmpty: {
                                 message: '{{ translate('This is required!') }}'
@@ -1627,41 +1640,41 @@
                             }
                         }
                     },
-                    "Shipment[payment_type]": {
+                    // "Shipment[payment_type]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
+                    // "Shipment[payment_method_id]": {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: '{{ translate('This is required!') }}'
+                    //         }
+                    //     }
+                    // },
+                    "Shipment[tax]": {
                         validators: {
                             notEmpty: {
                                 message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
-                    "Shipment[payment_method_id]": {
+                    "Shipment[insurance]": {
                         validators: {
                             notEmpty: {
                                 message: '{{ translate('This is required!') }}'
                             }
                         }
                     },
-                    // "Shipment[tax]": {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: '{{ translate('This is required!') }}'
-                    //         }
-                    //     }
-                    // },
-                    // "Shipment[insurance]": {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: '{{ translate('This is required!') }}'
-                    //         }
-                    //     }
-                    // },
-                    // "Shipment[shipping_cost]": {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: '{{ translate('This is required!') }}'
-                    //         }
-                    //     }
-                    // },
+                    "Shipment[shipping_cost]": {
+                        validators: {
+                            notEmpty: {
+                                message: '{{ translate('This is required!') }}'
+                            }
+                        }
+                    },
                     "Shipment[delivery_time]": {
                         validators: {
                             notEmpty: {

@@ -714,7 +714,7 @@
                                         </div>
                                         <input type="text" min="1" placeholder="{{ translate('Weight') }}"
                                             name="weight" class="form-control weight-listener"
-                                            onchange="calcTotalWeight()" value="1" />
+                                            onchange="calcTotalWeight()" value="0" />
 
                                     </div>
                                     <div class="mb-2 d-md-none"></div>
@@ -726,7 +726,7 @@
                                             <span class="input-group-text" id="basic-addon1">CM</span>
                                         </div>
                                         <input type="text" min="1" class="form-control length-listener"
-                                            placeholder="{{ translate('Length') }}" name="length" value="1" />
+                                            placeholder="{{ translate('Length') }}" name="length" value="0" />
 
                                     </div>
                                 </div>
@@ -738,7 +738,7 @@
                                             <span class="input-group-text" id="basic-addon1">CM</span>
                                         </div>
                                         <input type="text" min="1" class="form-control width-listener"
-                                            placeholder="{{ translate('Width') }}" name="width" value="1" />
+                                            placeholder="{{ translate('Width') }}" name="width" value="0" />
 
                                     </div>
                                 </div>
@@ -749,7 +749,7 @@
                                             <span class="input-group-text" id="basic-addon1">CM</span>
                                         </div>
                                         <input type="text" min="1" class="form-control height-listener"
-                                            placeholder="{{ translate('Height') }}" name="height" value="1" />
+                                            placeholder="{{ translate('Height') }}" name="height" value="0" />
 
                                     </div>
 
@@ -814,7 +814,7 @@
 
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="basic-addon1">Q</span>
+                                                            <span class="input-group-text" id="basic-addon1">Qty</span>
                                                         </div>
                                                         <input type="text" min="1"
                                                             class="form-control quantity-listener"
@@ -1495,11 +1495,11 @@
                 });
 
                 $(".value-listener:last").val(0);
-                $(".weight-listener:last").val(1);
-                $(".length-listener:last").val(1);
-                $(".width-listener:last").val(1);
-                $(".height-listener:last").val(1);
-                $(".quantity-listener:last").val(1);
+                $(".weight-listener:last").val(0);
+                $(".length-listener:last").val(0);
+                $(".width-listener:last").val(0);
+                $(".height-listener:last").val(0);
+                $(".quantity-listener:last").val(0);
                 calcTotalWeight();
                 calcTotalPrice();
             },
