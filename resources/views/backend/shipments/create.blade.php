@@ -1237,7 +1237,7 @@
         var package_ids = [];
         var return_package_id = null;
         for (let index = 0; index < select_packages.length; index++) {
-            if (select_packages[select_custom_packagesindex].value) {
+            if (select_packages[index].value) {
                 package_ids[index] = new Object();
                 if (select_custom_packages[index].value == 1) {
                     return_package_id = function() {
