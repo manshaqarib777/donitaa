@@ -673,10 +673,8 @@
                                     </div>
                                     <div class="default-package-show" style="width:100%">
                                         <select class="form-control kt-select2 package-type-select" name="package_id">
-                                            <option></option>
-                                            @foreach ($packages as $package)
-                                                <option @if (\App\ShipmentSetting::getVal('def_package_type') == $package->id) selected @endif
-                                                    value="{{ $package->id }}">
+                                            @foreach ($packages as $key => $package)
+                                                <option value="{{ $package->id }}">
                                                     {{ $package->name }}
                                                 </option>
                                             @endforeach
@@ -1239,7 +1237,7 @@
         var package_ids = [];
         var return_package_id = null;
         for (let index = 0; index < select_packages.length; index++) {
-            if (select_packages[index].value) {
+            if (select_packages[select_custom_packagesindex].value) {
                 package_ids[index] = new Object();
                 if (select_custom_packages[index].value == 1) {
                     return_package_id = function() {
@@ -1500,6 +1498,7 @@
                 $(".width-listener:last").val(0);
                 $(".height-listener:last").val(0);
                 $(".quantity-listener:last").val(0);
+                $(".package-type-select:last").val(1).change();
                 calcTotalWeight();
                 calcTotalPrice();
             },
