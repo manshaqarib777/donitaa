@@ -289,6 +289,7 @@ $auth_user = Auth::user();
                                             data-clientzipcode="{{ @$client_address->zip_code }}"
                                             data-clientemail="{{ $shipment->client->email }}"
                                             data-clientphone="{{ $shipment->client->responsible_mobile }}"
+                                            data-pickupdate="{{ $shipment->pickup_date }}"
 
 
                                             data-receiverid="{{ @$shipment->receiver->id }}"
@@ -413,6 +414,13 @@ $auth_user = Auth::user();
                                                         <option value="{{ $client->id }}">{{ $client->name }}</option>
                                                     @endforeach
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="">{{ translate('Pickup Date') }}:</label>
+                                                <input type="text" placeholder="{{ translate('Pickup Date') }}"
+                                                    id="pick_up_date" class="form-control" disabled style="background:#f3f6f9;color:#3f4254;" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -932,6 +940,7 @@ $auth_user = Auth::user();
             var selected_client_email = [];
             var selected_client_zip_code = [];
             var selected_client_phone = [];
+            var selected_client_pickup_date = [];
 
 
             var selected_receiver_id = [];
@@ -966,6 +975,7 @@ $auth_user = Auth::user();
                 selected_client_zip_code.push($(this).data('clientzipcode'));
                 selected_client_email.push($(this).data('clientemail'));
                 selected_client_phone.push($(this).data('clientphone'));
+                selected_client_pickup_date.push($(this).data('pickupdate'));
 
 
 
@@ -1017,6 +1027,7 @@ $auth_user = Auth::user();
                     $('#pick_up_client_zip_code').val(selected_client_zip_code[0]);
                     $('#pick_up_client_email').val(selected_client_email[0]);
                     $('#pick_up_client_phone').val(selected_client_phone[0]);
+                    $('#pick_up_date').val(selected_client_pickup_date[0]);
 
 
 
