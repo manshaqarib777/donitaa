@@ -160,7 +160,7 @@ class Shipment extends Model
         $array = [
             [
                 'status' => Self::SAVED_STATUS,
-                'text' => translate('Shipment Accepted'),
+                'text' => translate('Pending Shipment'),
                 'route_name' => 'admin.shipments.saved.index',
                 'permissions' => 1014,
                 'route_url' => 'saved',
@@ -169,7 +169,7 @@ class Shipment extends Model
 
             [
                 'status' => Self::REQUESTED_STATUS,
-                'text' => translate('Pickup Requested'),
+                'text' => translate('Shipment Confirmed'),
                 'route_name' => 'admin.shipments.requested.index',
                 'permissions' => 1015,
                 'route_url' => 'requested',

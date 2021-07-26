@@ -23,6 +23,7 @@ class StatusManagerHelper{
             foreach($shipments as $shipment_id)
             {
                 $shipment = Shipment::find($shipment_id);
+                $shipment->updated_at =  date('Y-m-d H:i:s');
                 if($shipment->status_id == $to)
                 {
                     throw new \Exception("Out of status changer scope");

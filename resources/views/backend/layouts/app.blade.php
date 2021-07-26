@@ -76,6 +76,7 @@
 		type="text/css" />
 	<!--end::Layout Themes-->
 	@endif
+    <link href="{{ static_asset('assets/css/intlTelInput.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ static_asset('assets/css/custom-style.css?v=7.2.3') }}" rel="stylesheet" type="text/css" />
 <style>
     html,
@@ -331,6 +332,7 @@
 
 	<script src="{{ static_asset('assets/js/vendors.js') }}" ></script>
 	<script src="{{ static_asset('assets/js/aiz-core.js') }}" ></script>
+	<script src="{{ static_asset('assets/js/intlTelInput.js') }}" ></script>
 
     @yield('script')
 

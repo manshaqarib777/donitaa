@@ -293,7 +293,7 @@
                     @if(isset($status))
                     @if($status == \App\Shipment::SAVED_STATUS || $status == \App\Shipment::REQUESTED_STATUS)
                     <div class="modal-header">
-                        <h4 class="modal-title h6">{{translate('Create Pickup Mission')}}</h4>
+                        <h4 class="modal-title h6">{{translate('Confirm Shipment')}}</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">

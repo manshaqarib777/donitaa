@@ -75,7 +75,8 @@ class ShipmentController extends Controller
         }elseif(Auth::user()->user_type == 'branch'){
             $shipments = $shipments->where('branch_id', Auth::user()->userBranch->branch_id);
         }
-        $shipments = $shipments->with('pay')->orderBy('client_id')->orderBy('id','DESC')->paginate(20);
+        $shipments = $shipments->with('pay')->orderBy('updated_at','DESC')->paginate(20);
+        //dd($shipments);
         $actions = new ShipmentActionHelper();
         $actions = $actions->get('all');
         $page_name = translate('All Shipments');
@@ -257,6 +258,7 @@ class ShipmentController extends Controller
                 if ($model->id != null) {
                     $shipment = Shipment::find($shipment_id);
                     $shipment->mission_id = $model->id;
+                    $shipment->updated_at =  date('Y-m-d H:i:s');
                     $shipment->save();
                 }
             }
@@ -319,6 +321,7 @@ class ShipmentController extends Controller
                     $shipment = Shipment::find($shipment_id);
                     $shipment_mission = new ShipmentMission();
                     $shipment_mission->shipment_id = $shipment->id;
+                    $shipment->updated_at =  date('Y-m-d H:i:s');
                     $shipment_mission->mission_id = $model->id;
                     if ($shipment_mission->save()) {
                         $shipment->mission_id = $model->id;
@@ -372,6 +375,7 @@ class ShipmentController extends Controller
                     $shipment_mission = new ShipmentMission();
                     $shipment_mission->shipment_id = $shipment->id;
                     $shipment_mission->mission_id = $model->id;
+                    $shipment->updated_at =  date('Y-m-d H:i:s');
                     if ($shipment_mission->save()) {
                         $shipment->mission_id = $model->id;
                         $shipment->save();
@@ -430,6 +434,7 @@ class ShipmentController extends Controller
                     $shipment_mission = new ShipmentMission();
                     $shipment_mission->shipment_id = $shipment->id;
                     $shipment_mission->mission_id = $model->id;
+                    $shipment->updated_at =  date('Y-m-d H:i:s');
                     if ($shipment_mission->save()) {
                         $shipment->mission_id = $model->id;
                         $shipment->save();
@@ -483,6 +488,7 @@ class ShipmentController extends Controller
                     $shipment_mission = new ShipmentMission();
                     $shipment_mission->shipment_id = $shipment->id;
                     $shipment_mission->mission_id = $model->id;
+                    $shipment->updated_at =  date('Y-m-d H:i:s');
                     if ($shipment_mission->save()) {
                         $shipment->mission_id = $model->id;
                         $shipment->save();
@@ -941,6 +947,7 @@ class ShipmentController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         
         try {
             DB::beginTransaction();
@@ -1435,6 +1442,7 @@ class ShipmentController extends Controller
         $request->Shipment= array_diff_key($request->Shipment, array_flip($remove));
         $model->fill($request->Shipment);
         $model->client_id =$request->client_id;
+        $model->updated_at =  date('Y-m-d H:i:s');
         $model->receiver_id =$request->receiver_id;
    
 

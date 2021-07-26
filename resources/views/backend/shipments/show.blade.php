@@ -69,7 +69,7 @@ $d = new DNS1D();
         </div>
         <div class="row pt-3">
             <div class="col-md-8 row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card">
                         <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
                             <h6>{{translate('CREATED DATE/TIME')}}</h6>
@@ -77,7 +77,7 @@ $d = new DNS1D();
                         <p class="p-3">{{$shipment->created_at->format('Y-m-d h:i:s')}}</p>
                       </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card">
                         <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
                             <h6 style="text-transform: uppercase;">{{translate('SHIPMENT DATE')}}</h6>
@@ -85,12 +85,20 @@ $d = new DNS1D();
                         <p class="p-3">{{translate($shipment->shipping_date)}}</p>
                       </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="card">
                         <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
                             <h6>{{translate('SHIPMENT STATUS')}}</h6>
                         </div>
                         <p class="p-3">{{$shipment->getStatus()}}</p>
+                      </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header" style="padding: 7px 7px;background:#ecebeb;">
+                            <h6>{{translate('PICKUP DATE')}}</h6>
+                        </div>
+                        <p class="p-3">{{$shipment->pickup_date}}</p>
                       </div>
                 </div>
 

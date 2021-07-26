@@ -62,15 +62,17 @@ $user_type = Auth::user()->user_type;
                                 </a>
                             </li>
                             @elseif($item['status'] == \App\Shipment::REQUESTED_STATUS)
+                            {{-- @if( auth()->user()->user_type  != 'customer')
                             <li class="menu-item @if(isset($type) && $type==\App\Shipment::PICKUP && isset($status) && $status == $item['status']) menu-item-active menu-item-open @endif" aria-haspopup="true">
                                 <a href="{{ route($item['route_name'],['status'=>$item['status'],'type'=>\App\Shipment::PICKUP]) }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
-                                    <span class="menu-text">{{translate('Create Pickup Mission')}}</span>
+                                    <span class="menu-text">{{translate('Confirm Shipment')}}</span>
 
                                 </a>
                             </li>
+                            @endif --}}
 
                             @else
                             <li class="menu-item {{ areActiveRoutes([$item['route_name']])}}" aria-haspopup="true">

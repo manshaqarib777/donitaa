@@ -70,7 +70,7 @@ class ShipmentActionHelper{
                 "permissions"=>1032,
             ],
             [
-                "text"=> translate('Create Pickup Mission'),
+                "text"=> translate('Confirm Shipment'),
                 "permissions"=>1033,
             ],
             [
@@ -125,7 +125,7 @@ class ShipmentActionHelper{
     private function savedPickup()
     {
             $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Create Pickup Mission');
+            $this->actions[count($this->actions)-1]['title'] = translate('Confirm Shipment');
             $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.pickup.mission',['type'=>Mission::PICKUP_TYPE]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';
@@ -136,7 +136,7 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['index'] = true;
 
             $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Print Barcodes');
+            $this->actions[count($this->actions)-1]['title'] = translate('Print Label');
             $this->actions[count($this->actions)-1]['icon'] = 'fa fa-print';
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.print.stickers');
             $this->actions[count($this->actions)-1]['method'] = 'POST';

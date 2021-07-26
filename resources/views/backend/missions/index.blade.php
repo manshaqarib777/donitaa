@@ -158,7 +158,7 @@
 
                     <td class="text-center">
                         <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
-                            <i class="las la-eye"></i>
+                            <i class="las la-eye" style="color: #f9732c;font-size: 20px;"></i>
                         </a>
                         @if(isset($status))
                             @if($status == \App\Mission::APPROVED_STATUS)
@@ -169,7 +169,7 @@
                                 {{-- @endif --}}
 
                                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" title="{{ translate('Receive Mission') }}" onclick="set_mission_id({{$mission->id}} , {{convert_price($shipment_cost)}} , '{{$mission->type}}')">
-                                    {{ translate('Receive Mission') }}
+                                    {{ translate('Receive Package') }}
                                 </button>
                             @endif
                             @if($status == \App\Mission::RECIVED_STATUS)
@@ -198,7 +198,7 @@
                         @if(isset($status))
                              @if( $status == \App\Mission::REQUESTED_STATUS)
                             <div class="modal-header">
-                                <h4 class="modal-title h6">{{translate('Assign To Captain')}}</h4>
+                                <h4 class="modal-title h6">{{translate('Driver Assignment')}}</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -232,7 +232,7 @@
                             @endif
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
-                                <button type="submit" class="btn btn-primary">{{translate('Create Mission')}}</button>
+                                <button type="submit" class="btn btn-primary">{{translate('Assign Mission')}}</button>
                             </div>
                         </div>
                     </div>
@@ -272,7 +272,7 @@
 
         <div class="modal-body" id="mission_modal_body" style="display:none">
             <h5 class="mb-2 modal-title" id="exampleModalLabel">{{translate('Mission Amount')}}</h5>
-            <input type="number" id="amount_pickup" class="form-control" name="amount"/>
+            <input type="number" id="amount_pickup" class="form-control" name="amount" style="background:#f3f6f9;color:#3f4254;" disabled/>
         </div>
 
         <div class="modal-footer">
@@ -281,7 +281,7 @@
                 <input type="hidden" name="checked_ids[]"  id="selected_mission_id" />
                 <input type="hidden" name="amount"  id="selected_mission_amount" />
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{translate('Close')}}</button>
-                <button type="submit" class="btn btn-primary">{{translate('Confirm')}}</button>
+                <button type="submit" class="btn btn-primary">{{translate('Confirm Payment')}}</button>
             </form>
         </div>
       </div>
@@ -309,7 +309,7 @@
         document.getElementById("amount_pickup").value              = mission_amount;
         document.getElementById("selected_mission_amount").value    = mission_amount;
         document.getElementById("mission_modal_body").style.display = "block";
-        document.getElementById("exampleModalLabel").innerHTML = mission_type+" Mission Cost";
+        document.getElementById("exampleModalLabel").innerHTML = mission_type+" Confirm Payment";
 
 
     }
