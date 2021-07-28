@@ -1387,51 +1387,12 @@
             format: "DD d, MM yyyy"
         });
 
-        window.intlTelInput(document.querySelector("#client_phone"), {
-            // allowDropdown: false,
-            // autoHideDialCode: false,
-            // autoPlaceholder: "off",
-            // dropdownContainer: document.body,
-            // excludeCountries: ["us"],
-            // formatOnDisplay: false,
-            // geoIpLookup: function(callback) {
-            //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
-            //     var countryCode = (resp && resp.country) ? resp.country : "";
-            //     callback(countryCode);
-            //   });
-            // },
-            // hiddenInput: "full_number",
-            // initialCountry: "auto",
-            // localizedCountries: { 'de': 'Deutschland' },
-            // nationalMode: false,
-            // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-            // placeholderNumberType: "MOBILE",
-            // preferredCountries: ['cn', 'jp'],
-            // separateDialCode: true,
-            utilsScript:  "{{ static_asset('assets/js/utils.js') }}",
+
+        $("#client_phone").intlTelInput({
+
         });
-        window.intlTelInput(document.querySelector("#receiver_phone"), {
-            // allowDropdown: false,
-            // autoHideDialCode: false,
-            // autoPlaceholder: "off",
-            // dropdownContainer: document.body,
-            // excludeCountries: ["us"],
-            // formatOnDisplay: false,
-            // geoIpLookup: function(callback) {
-            //   $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
-            //     var countryCode = (resp && resp.country) ? resp.country : "";
-            //     callback(countryCode);
-            //   });
-            // },
-            // hiddenInput: "full_number",
-            // initialCountry: "auto",
-            // localizedCountries: { 'de': 'Deutschland' },
-            // nationalMode: false,
-            // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
-            // placeholderNumberType: "MOBILE",
-            // preferredCountries: ['cn', 'jp'],
-            // separateDialCode: true,
-            utilsScript:  "{{ static_asset('assets/js/utils.js') }}",
+        $("#receiver_phone").intlTelInput({
+
         });
 
         @if (auth()->user()->user_type == 'customer' && isset(auth()->user()->userClient->client))
