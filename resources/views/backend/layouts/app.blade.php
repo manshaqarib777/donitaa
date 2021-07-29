@@ -319,6 +319,7 @@
 	<!--end::Global Config-->
 
 	<!--begin::Global Theme Bundle(used by all pages)-->
+
 	<script src="{{ static_asset('assets/dashboard/plugins/global/plugins.bundle.js') }}"></script>
 	<script src="{{ static_asset('assets/dashboard/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
 	<script src="{{ static_asset('assets/dashboard/js/scripts.bundle.js') }}"></script>
