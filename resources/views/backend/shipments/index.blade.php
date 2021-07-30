@@ -505,7 +505,7 @@ $auth_user = Auth::user();
                                             <div class="form-group">
                                                 <label>{{ translate('Status') }}:</label>
                                                 <input style="background:#f3f6f9;color:#3f4254;" type="text"
-                                                    class="form-control disabled" value="{{ translate('Requested') }}"
+                                                    class="form-control disabled" value="{{ translate('Shipment Pending') }}"
                                                     disabled="disabled" readonly />
                                             </div>
                                         </div>

@@ -50,7 +50,7 @@
                                     <tbody>
                                         <tr>
                                             <td>{{$shipment->created_at->diffForHumans()}}</td>
-                                            <td>{{translate('Created')}}</td>
+                                            <td>{{translate('Shipment Created')}}</td>
                                             <td></td>
                                             <td></td>
                                         </tr>

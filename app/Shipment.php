@@ -99,7 +99,7 @@ class Shipment extends Model
             ],
             [
                 'status' => Self::CLIENT_STATUS_READY,
-                'text' => translate('Shipment Ready for shipping'),
+                'text' => translate('Shipment was review and accepted by the Agent'),
             ],
             [
                 'status' => Self::CLIENT_STATUS_IN_PROCESSING,

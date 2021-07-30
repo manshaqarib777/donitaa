@@ -181,7 +181,7 @@
                                 </div>
 
                             </div>
-                            <div class='col-6'>
+                            <div class='col-6 show_pickup_date'>
                                 <div class="form-group">
                                     <label class="">{{ translate('Pickup Date:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('Pickup Date') }}"
@@ -194,24 +194,26 @@
                                     ->get()
                                     ->first();
                             @endphp
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
-                                    <input type="text" placeholder="{{ translate('First Name') }}"
-                                        name="Shipment[client_first_name]" id="client_first_name" class="form-control"
-                                        value="{{ explode(' ', $shipment->client->name)[0] }}" />
+                            <div class="row col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                        <input type="text" placeholder="{{ translate('First Name') }}"
+                                            name="Shipment[client_first_name]" id="client_first_name" class="form-control"
+                                            value="{{ explode(' ', $shipment->client->name)[0] }}" />
 
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
-                                    <input type="text" placeholder="{{ translate('Last Name') }}"
-                                        name="Shipment[client_last_name]" id="client_last_name" class="form-control"
-                                        value="{{ @explode(' ', $shipment->client->name)[1] }}" />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                        <input type="text" placeholder="{{ translate('Last Name') }}"
+                                            name="Shipment[client_last_name]" id="client_last_name" class="form-control"
+                                            value="{{ @explode(' ', $shipment->client->name)[1] }}" />
 
+                                    </div>
                                 </div>
-                            </div>
+                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
@@ -228,7 +230,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
+                                    <label class="">{{ translate('Address') }}:
                                         <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small></label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-client-address" name="Shipment[client_address]">
@@ -404,7 +406,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="text-white ">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
+                                    <label class="text-white ">{{ translate('Address') }}:
                                         <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small></label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
@@ -1327,6 +1329,11 @@
             if (select_packages[index].value) {
                 package_ids[index] = new Object();
                 if (select_custom_packages[index].value == 1) {
+                    if(select_weights[index].value<=0)
+                    {
+                        AIZ.plugins.notify('danger', '{{ translate('Wait Must be greater then zero') }} ' + (index + 1));
+                        return 0;
+                    }
                     return_package_id = function() {
                         var package_id = null;
                         $.ajax({
@@ -1514,48 +1521,22 @@
             startDate: new Date(),
         });
         $(document).ready(function() {
-            // if ($('input:radio[name="Shipment[type]"').val() == '2') {
-            //     $('.show_client_branch').show();
-            // } else {
-            //     $('.show_client_branch').hide();
-
-            // }
-            // $('input:radio[name="Shipment[type]"]').change(function() {
-            //     if ($(this).val() == '2') {
-            //         $('.show_client_branch').show();
-            //     } else {
-            //         $('.show_client_branch').hide();
-
-            //     }
-            // });
-            // if ($('input:radio[name="Shipment[receiver_shipment_type]"').val() == '2') {
-            //     $('.show_receiver_branch').show();
-            // } else {
-            //     $('.show_receiver_branch').hide();
-
-            // }
-            // $('input:radio[name="Shipment[receiver_shipment_type]"]').change(function() {
-            //     if ($(this).val() == '2') {
-            //         $('.show_receiver_branch').show();
-            //     } else {
-            //         $('.show_receiver_branch').hide();
-
-            //     }
-            // });
-
-
 
             if ($('input:radio[name="Shipment[type]"]').val() == '2') {
                     $('.show_client_branch').show();
+                    $('.show_pickup_date').hide();
                 } else {
                     $('.show_client_branch').hide();
+                    $('.show_pickup_date').show();
 
                 }
             $('input:radio[name="Shipment[type]"]').change(function() {
                 if ($(this).val() == '2') {
                     $('.show_client_branch').show();
+                    $('.show_pickup_date').hide();
                 } else {
                     $('.show_client_branch').hide();
+                    $('.show_pickup_date').show();
 
                 }
             });
