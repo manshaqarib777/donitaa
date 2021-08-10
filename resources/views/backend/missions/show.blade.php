@@ -107,7 +107,7 @@ $d = new DNS1D();
                             @endif
                             <div class="d-flex flex-column flex-root">
                                 <span class="font-weight-bolder d-block mb-2">{{translate('MISSION STATUS')}}<span>
-                                <span class="opacity-70 d-block text-{{\App\Mission::getStatusColor($mission->status_id)}}">{{$mission->getStatus()}}</span>
+                                <span class="opacity-70 d-block text-{{\App\Mission::getStatusColor($mission->status_id)}}">{{$mission->shipment_mission[0]->shipment->getStatus()}}</span>
                             </div>
                             @if($mission->captain_id)
                                 <div class="d-flex flex-column flex-root">

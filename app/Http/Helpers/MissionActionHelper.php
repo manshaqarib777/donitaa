@@ -59,7 +59,7 @@ class MissionActionHelper{
     private function requested()
     {
             $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Assign Driver');
+            $this->actions[count($this->actions)-1]['title'] = translate('Assign For Pickup');
             $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
             $this->actions[count($this->actions)-1]['url'] = route('admin.mission.action.approve',['to'=>Mission::APPROVED_STATUS]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';

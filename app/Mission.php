@@ -60,7 +60,7 @@ class Mission extends Model
     {
        $array = [
            ['status' => Self::REQUESTED_STATUS,
-            'text' => translate('Confirmed Shipments'),
+            'text' => translate('Shipment Approved'),
             'route_name' => 'admin.missions.requested.index',
             'route_url'=>'requested',
             'optional_params'=>'/{type?}',
@@ -69,7 +69,7 @@ class Mission extends Model
             'permissions'=>1009],
 
             ['status' => Self::APPROVED_STATUS,
-            'text' => translate('Mission Assigned to Drivers'),
+            'text' => translate('Assigned For Pickup'),
             'route_name' => 'admin.missions.approved.index',
             'route_url'=>'approved',
             'optional_params'=>'/{type?}',

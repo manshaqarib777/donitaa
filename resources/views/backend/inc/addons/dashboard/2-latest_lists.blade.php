@@ -553,7 +553,7 @@
 
                             <tr>
                                 <td width="5%"><a href="{{route('admin.missions.show',$mission->id)}}">{{$mission->code}}</a></td>
-                                <td>{{$mission->getStatus()}}</td>
+                                <td>{{$mission->shipment_mission[0]->shipment->getStatus()}}</td>
                                 <td>{{$mission->type}}</td>
                                 @php
                                     $helper = new \App\Http\Helpers\TransactionHelper();

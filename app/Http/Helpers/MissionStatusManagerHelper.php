@@ -39,7 +39,41 @@ class MissionStatusManagerHelper
                     
                     $oldStatus = $mission->status_id;
                     if ($to == Mission::APPROVED_STATUS) {
-                       
+                        
+
+
+                        if ($mission->getOriginal('type') == Mission::PICKUP_TYPE) 
+                        {
+                            $shipment->status_id =Shipment::ASSIGNED_FOR_PICKUP;
+                            $shipment->save();
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::RETURN_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::SUPPLY_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::PICKUP_TYPE) {
+
+                        }
+
+                        if($mission->getOriginal('type')  == Mission::SUPPLY_TYPE)
+                        {
+
+                        }
+
+
                         if ($captain_id != null) {
                             $mission->captain_id = $captain_id;
                            
@@ -52,8 +86,41 @@ class MissionStatusManagerHelper
                         }
                         
                     }   
-                     
-                    if ($to == Mission::RECIVED_STATUS) {
+                     //dd($to);
+                    if ($to == Mission::RECIVED_STATUS) 
+                    {
+                       
+                        if ($mission->getOriginal('type') == Mission::PICKUP_TYPE) 
+                        {
+                            $shipment->status_id =Shipment::PACKAGE_PICKED_UP;
+                            $shipment->save();
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::RETURN_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::SUPPLY_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::PICKUP_TYPE) {
+
+                        }
+
+                        if($mission->getOriginal('type')  == Mission::SUPPLY_TYPE)
+                        {
+
+                        }
+                        
 
                         if(isset($params['amount']))
                         {
@@ -90,23 +157,33 @@ class MissionStatusManagerHelper
                     if ($to == Mission::DONE_STATUS) {
 
                         if ($mission->getOriginal('type') == Mission::PICKUP_TYPE) {
-                            $transaction->create_mission_transaction($mission->id,$mission->amount,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+                            $shipment->status_id =Shipment::PACKAGE_PICKUP_COMPLETED;
+                            $shipment->save();
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::RETURN_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::SUPPLY_TYPE) {
+                            
+                        }
+
+                        if ($mission->getOriginal('type') == Mission::PICKUP_TYPE) {
+
                         }
 
                         if($mission->getOriginal('type')  == Mission::SUPPLY_TYPE)
                         {
-                            $amount_to_bo_collected = 0 ;
-                            foreach ($mission->shipment_mission as $shipment_mission)
-                            {
-                                $amount_to_bo_collected += $shipment_mission->shipment->amount_to_be_collected; 
-                            }
-                            $client = $mission->client;
-                            $cost=$client->supply_cost;
-                            if($client->supply_cost<=0)
-                            {
-                                $cost = convert_price(\App\ShipmentSetting::getVal('def_supply_cost_'.$shipment->receiver->userReceiver->user->country->iso2));
-                            }
-                            $transaction->create_mission_transaction($mission->id,$cost,Transaction::CAPTAIN,$mission->captain_id,Transaction::DEBIT);
+
                         }
                         
 

@@ -140,7 +140,11 @@
                         <td width="5%">{{@$mission->shipment_mission[0]->shipment->code}}</td>
                     @endif
 
-                    <td><span class="btn btn-sm btn-{{\App\Mission::getStatusColor($mission->status_id)}}">{{$mission->getStatus()}}</span></td>
+                    <td>
+                        <span class="btn btn-sm btn-{{\App\Mission::getStatusColor($mission->status_id)}}">
+                            {{$mission->shipment_mission[0]->shipment->getStatus()}}
+                        </span>
+                    </td>
                     @if ($mission->captain_id)
                         <td><a href="{{route('admin.captains.show', $mission->captain->id)}}">{{$mission->captain->name}}</a></td>
                     @else
@@ -169,7 +173,7 @@
                                 {{-- @endif --}}
 
                                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" title="{{ translate('Receive Mission') }}" onclick="set_mission_id({{$mission->id}} , {{convert_price($shipment_cost)}} , '{{$mission->type}}')">
-                                    {{ translate('Receive Package') }}
+                                    {{ translate('Collect Package') }}
                                 </button>
                             @endif
                             @if($status == \App\Mission::RECIVED_STATUS)

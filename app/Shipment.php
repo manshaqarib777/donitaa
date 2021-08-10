@@ -46,6 +46,13 @@ class Shipment extends Model
     const RETURNED_STOCK = 14;
     const RETURNED_CLIENT_GIVEN = 15;
 
+    const ASSIGNED_FOR_PICKUP = 20;
+    const PACKAGE_PICKED_UP = 21;
+    const PACKAGE_PICKUP_COMPLETED = 22;
+
+
+
+
     const CLIENT_STATUS_CREATED = 1;
     const CLIENT_STATUS_READY = 2;
     const CLIENT_STATUS_IN_PROCESSING = 3;
@@ -169,7 +176,7 @@ class Shipment extends Model
 
             [
                 'status' => Self::REQUESTED_STATUS,
-                'text' => translate('Shipment Confirmed'),
+                'text' => translate('Shipment Approved'),
                 'route_name' => 'admin.shipments.requested.index',
                 'permissions' => 1015,
                 'route_url' => 'requested',
@@ -178,7 +185,7 @@ class Shipment extends Model
 
             [
                 'status' => Self::APPROVED_STATUS,
-                'text' => translate('Shipment Approved'),
+                'text' => translate('Package Pickup Completed'),
                 'route_name' => 'admin.shipments.approved.index',
                 'permissions' => 1016,
                 'route_url' => 'approved'
@@ -244,6 +251,30 @@ class Shipment extends Model
                 'route_name' => 'admin.shipments.returned.deliverd.index',
                 'permissions' => 1026,
                 'route_url' => 'returned-deliverd'
+            ],
+            [
+                'status' => Self::ASSIGNED_FOR_PICKUP,
+                'text' => translate('ASSIGNED FOR PICKUP'),
+                'route_name' => 'admin.shipments.requested.index',
+                'permissions' => 1015,
+                'route_url' => 'requested',
+                'optional_params' => '/{type?}'
+            ],
+            [
+                'status' => Self::PACKAGE_PICKED_UP,
+                'text' => translate('PACKAGE PICKED UP'),
+                'route_name' => 'admin.shipments.requested.index',
+                'permissions' => 1015,
+                'route_url' => 'requested',
+                'optional_params' => '/{type?}'
+            ],
+            [
+                'status' => Self::PACKAGE_PICKUP_COMPLETED,
+                'text' => translate('PACKAGE PICKUP COMPLETED'),
+                'route_name' => 'admin.shipments.requested.index',
+                'permissions' => 1015,
+                'route_url' => 'requested',
+                'optional_params' => '/{type?}'
             ],
 
 

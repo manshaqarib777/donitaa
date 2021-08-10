@@ -6,7 +6,7 @@ $user_type = Auth::user()->user_type;
 @if ($addon != null)
     @if($addon->activated)
         @if( in_array($user_type,['admin','customer','branch']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.shipments.index','admin.shipments.update','admin.shipments.create','admin.shipments.show'])}} @foreach(\App\Shipment::status_info() as $item) {{ areActiveRoutes([$item['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.shipments.index','admin.shipments.update','admin.shipments.create','admin.shipments.show'])}} @foreach(\App\Shipment::status_info() as $item) {{ areActiveRoutes([\App\Shipment::status_info()[0]['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon fas fa-box-open"></i>
                     <span class="menu-text">{{translate('Source Shipments')}}</span>
@@ -15,78 +15,250 @@ $user_type = Auth::user()->user_type;
                 <div class="menu-submenu">
                     <i class="menu-arrow"></i>
                     <ul class="menu-subnav">
-                        <li class="menu-item menu-item-parent" aria-haspopup="true">
+                        <li class="menu-item" aria-haspopup="true">
                             <span class="menu-link">
-                                <span class="menu-text">{{translate('Shipments')}}</span>
+                                <span class="menu-text">{{translate('Shipment Request')}}</span>
+                            </span>
+                        </li>
+                        @if( in_array($user_type,['admin','customer','captain','branch']) || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            <li class="menu-item {{ areActiveRoutes(['admin.shipments.create'])}}" aria-haspopup="true">
+                                <a href="{{ route('admin.shipments.create') }}" class="menu-link">
+                                        <i class="menu-bullet menu-icon flaticon2-plus" style="font-size: 10px;"></i>
+                                    <span class="menu-text">{{translate('Add Shipment')}}</span>
+                                </a>
+                            </li>
+                            <li class="menu-item {{ areActiveRoutes(['admin.shipments.index','admin.shipments.show',])}}" aria-haspopup="true">
+                                <a href="{{ route('admin.shipments.index') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">{{translate('All Shipments')}}</span>
+
+                                </a>
+                            </li>
+                        @endif
+                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array(\App\Shipment::status_info()[0]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Shipment::status_info()[0]['status'] == \App\Shipment::SAVED_STATUS)
+                                <li class="menu-item @if(isset($type) && $type==\App\Shipment::PICKUP && isset($status) && $status ==  \App\Shipment::status_info()[0]['status']) menu-item-active menu-item-open @endif" aria-haspopup="true">
+                                    <a href="{{ route(\App\Shipment::status_info()[0]['route_name'],['status'=>\App\Shipment::status_info()[0]['status'],'type'=>\App\Shipment::PICKUP]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{translate('Saved Pickup')}}</span>
+
+                                    </a>
+                                </li>
+                                <li class="menu-item @if(isset($type) && $type==\App\Shipment::DROPOFF && isset($status) && $status ==  \App\Shipment::status_info()[0]['status']) menu-item-active menu-item-open @endif" aria-haspopup="true">
+                                    <a href="{{ route(\App\Shipment::status_info()[0]['route_name'],['status'=>\App\Shipment::status_info()[0]['status'],'type'=>\App\Shipment::DROPOFF]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{translate('Saved Dropoff')}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+                        @if(in_array($user_type, \App\Mission::status_info()[0]['user_role']) || in_array(\App\Mission::status_info()[0]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Mission::status_info()[0]['status'] == \App\Mission::REQUESTED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Mission::status_info()[0]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Mission::status_info()[0]['route_name'],['status'=>\App\Mission::status_info()[0]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{translate('Confirmed Shipments')}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+                        <li class="menu-item" aria-haspopup="true">
+                            <span class="menu-link">
+                                <span class="menu-text">{{translate('Pickup Mission')}}</span>
+                            </span>
+                        </li>
+                        @if(in_array($user_type, \App\Mission::status_info()[1]['user_role']) || in_array(\App\Mission::status_info()[1]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Mission::status_info()[1]['status'] == \App\Mission::APPROVED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Mission::status_info()[1]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Mission::status_info()[1]['route_name'],['status'=>\App\Mission::status_info()[1]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Mission::status_info()[1]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+
+                        @if(in_array($user_type, \App\Mission::status_info()[2]['user_role']) || in_array(\App\Mission::status_info()[2]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Mission::status_info()[2]['status'] == \App\Mission::RECIVED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Mission::status_info()[2]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Mission::status_info()[2]['route_name'],['status'=>\App\Mission::status_info()[2]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Mission::status_info()[2]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+
+                        @if(in_array($user_type, \App\Mission::status_info()[3]['user_role']) || in_array(\App\Mission::status_info()[3]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Mission::status_info()[3]['status'] == \App\Mission::DONE_STATUS)
+
+                            <li class="menu-item {{ areActiveRoutes([\App\Mission::status_info()[3]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Mission::status_info()[3]['route_name'],['status'=>\App\Mission::status_info()[3]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Mission::status_info()[3]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+
+                        @if(in_array($user_type, \App\Mission::status_info()[4]['user_role']) || in_array(\App\Mission::status_info()[4]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Mission::status_info()[4]['status'] == \App\Mission::CLOSED_STATUS)
+
+                            <li class="menu-item {{ areActiveRoutes([\App\Mission::status_info()[4]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Mission::status_info()[4]['route_name'],['status'=>\App\Mission::status_info()[4]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Mission::status_info()[4]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+
+                        <li class="menu-item" aria-haspopup="true">
+                            <span class="menu-link">
+                                <span class="menu-text">{{translate('Package Shipment')}}</span>
                             </span>
                         </li>
 
-                        @if( in_array($user_type,['admin','customer','captain','branch']) || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-                        <li class="menu-item {{ areActiveRoutes(['admin.shipments.create'])}}" aria-haspopup="true">
-                            <a href="{{ route('admin.shipments.create') }}" class="menu-link">
-                                    <i class="menu-bullet menu-icon flaticon2-plus" style="font-size: 10px;"></i>
-                                <span class="menu-text">{{translate('Add Shipment')}}</span>
-                            </a>
-                        </li>
-                        <li class="menu-item {{ areActiveRoutes(['admin.shipments.index','admin.shipments.show',])}}" aria-haspopup="true">
-                            <a href="{{ route('admin.shipments.index') }}" class="menu-link">
-                                <i class="menu-bullet menu-bullet-dot">
-                                    <span></span>
-                                </i>
-                                <span class="menu-text">{{translate('All Shipments')}}</span>
+                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array(\App\Shipment::status_info()[2]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Shipment::status_info()[2]['status'] == \App\Shipment::APPROVED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Shipment::status_info()[2]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Shipment::status_info()[2]['route_name'],['status'=>\App\Shipment::status_info()[2]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Shipment::status_info()[2]['text']}}</span>
 
-                            </a>
-                        </li>
-
-
-                        @endif
-                        @foreach(\App\Shipment::status_info() as $item)
-                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array($item['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-                            @if($item['status'] == \App\Shipment::SAVED_STATUS)
-                            <li class="menu-item @if(isset($type) && $type==\App\Shipment::PICKUP && isset($status) && $status ==  $item['status']) menu-item-active menu-item-open @endif" aria-haspopup="true">
-                                <a href="{{ route($item['route_name'],['status'=>$item['status'],'type'=>\App\Shipment::PICKUP]) }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{translate('Saved Pickup')}}</span>
-
-                                </a>
-                            </li>
-                            <li class="menu-item @if(isset($type) && $type==\App\Shipment::DROPOFF && isset($status) && $status ==  $item['status']) menu-item-active menu-item-open @endif" aria-haspopup="true">
-                                <a href="{{ route($item['route_name'],['status'=>$item['status'],'type'=>\App\Shipment::DROPOFF]) }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{translate('Saved Dropoff')}}</span>
-
-                                </a>
-                            </li>
-                            @elseif($item['status'] == \App\Shipment::REQUESTED_STATUS)
-                            {{-- @if( auth()->user()->user_type  != 'customer')
-                            <li class="menu-item @if(isset($type) && $type==\App\Shipment::PICKUP && isset($status) && $status == $item['status']) menu-item-active menu-item-open @endif" aria-haspopup="true">
-                                <a href="{{ route($item['route_name'],['status'=>$item['status'],'type'=>\App\Shipment::PICKUP]) }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{translate('Confirm Shipment')}}</span>
-
-                                </a>
-                            </li>
-                            @endif --}}
-
-                            @else
-                            <li class="menu-item {{ areActiveRoutes([$item['route_name']])}}" aria-haspopup="true">
-                                <a href="{{ route($item['route_name'],['status'=>$item['status']]) }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{$item['text']}}</span>
-
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
                             @endif
                         @endif
-                        @endforeach
+                        {{-- @if(in_array($user_type,['admin','customer','captain','branch']) || in_array(\App\Shipment::status_info()[3]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Shipment::status_info()[3]['status'] == \App\Shipment::CLOSED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Shipment::status_info()[3]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Shipment::status_info()[3]['route_name'],['status'=>\App\Shipment::status_info()[3]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Shipment::status_info()[3]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array(\App\Shipment::status_info()[4]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+
+                            @if(\App\Shipment::status_info()[4]['status'] == \App\Shipment::CAPTAIN_ASSIGNED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Shipment::status_info()[4]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Shipment::status_info()[4]['route_name'],['status'=>\App\Shipment::status_info()[4]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Shipment::status_info()[4]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array(\App\Shipment::status_info()[5]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Shipment::status_info()[5]['status'] == \App\Shipment::RECIVED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Shipment::status_info()[5]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Shipment::status_info()[5]['route_name'],['status'=>\App\Shipment::status_info()[5]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Shipment::status_info()[5]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array(\App\Shipment::status_info()[6]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Shipment::status_info()[6]['status'] == \App\Shipment::DELIVERED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Shipment::status_info()[6]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Shipment::status_info()[6]['route_name'],['status'=>\App\Shipment::status_info()[6]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Shipment::status_info()[6]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array(\App\Shipment::status_info()[7]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Shipment::status_info()[7]['status'] == \App\Shipment::SUPPLIED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Shipment::status_info()[7]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Shipment::status_info()[7]['route_name'],['status'=>\App\Shipment::status_info()[7]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Shipment::status_info()[7]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array(\App\Shipment::status_info()[8]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Shipment::status_info()[8]['status'] == \App\Shipment::RETURNED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Shipment::status_info()[8]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Shipment::status_info()[8]['route_name'],['status'=>\App\Shipment::status_info()[8]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Shipment::status_info()[8]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array(\App\Shipment::status_info()[9]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Shipment::status_info()[9]['status'] == \App\Shipment::RETURNED_STOCK)
+                                <li class="menu-item {{ areActiveRoutes([\App\Shipment::status_info()[9]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Shipment::status_info()[9]['route_name'],['status'=>\App\Shipment::status_info()[9]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Shipment::status_info()[9]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array(\App\Shipment::status_info()[10]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Shipment::status_info()[10]['status'] == \App\Shipment::RETURNED_CLIENT_GIVEN)
+                                <li class="menu-item {{ areActiveRoutes([\App\Shipment::status_info()[10]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Shipment::status_info()[10]['route_name'],['status'=>\App\Shipment::status_info()[10]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Shipment::status_info()[10]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif --}}
                     </ul>
 
                     <ul class="menu-subnav">
@@ -102,99 +274,6 @@ $user_type = Auth::user()->user_type;
     @endif
 @endif
 
-{{-- @php
-$addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->first();
-$user_type = Auth::user()->user_type;
-@endphp
-@if ($addon != null)
-    @if($addon->activated)
-        @if( in_array($user_type,['admin','customer','branch']) || in_array('1009', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.shipments.index','admin.shipments.update','admin.shipments.create','admin.shipments.show'])}} @foreach(\App\Shipment::status_info() as $item) {{ areActiveRoutes([$item['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
-                <a href="javascript:;" class="menu-link menu-toggle">
-                    <i class="menu-icon fas fa-box-open"></i>
-                    <span class="menu-text">{{translate('Shipments')}}</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="menu-submenu">
-                    <i class="menu-arrow"></i>
-                    <ul class="menu-subnav">
-                        <li class="menu-item menu-item-parent" aria-haspopup="true">
-                            <span class="menu-link">
-                                <span class="menu-text">{{translate('Shipments')}}</span>
-                            </span>
-                        </li>
-
-                        @if( in_array($user_type,['admin','customer','captain','branch']) || in_array('1005', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-                        <li class="menu-item {{ areActiveRoutes(['admin.shipments.create'])}}" aria-haspopup="true">
-                            <a href="{{ route('admin.shipments.create') }}" class="menu-link">
-                                    <i class="menu-bullet menu-icon flaticon2-plus" style="font-size: 10px;"></i>
-                                <span class="menu-text">{{translate('Add Shipment')}}</span>
-                            </a>
-                        </li>
-                        <li class="menu-item {{ areActiveRoutes(['admin.shipments.index','admin.shipments.show',])}}" aria-haspopup="true">
-                            <a href="{{ route('admin.shipments.index') }}" class="menu-link">
-                                <i class="menu-bullet menu-bullet-dot">
-                                    <span></span>
-                                </i>
-                                <span class="menu-text">{{translate('All Shipments')}}</span>
-
-                            </a>
-                        </li>
-
-
-                        @endif
-                        @foreach(\App\Shipment::status_info() as $item)
-                        @if(in_array($user_type,['admin','customer','captain','branch']) || in_array($item['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-                            @if($item['status'] == \App\Shipment::SAVED_STATUS)
-                            <li class="menu-item @if(isset($type) && $type==\App\Shipment::PICKUP && isset($status) && $status ==  $item['status']) menu-item-active menu-item-open @endif" aria-haspopup="true">
-                                <a href="{{ route($item['route_name'],['status'=>$item['status'],'type'=>\App\Shipment::PICKUP]) }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{translate('Saved Pickup')}}</span>
-
-                                </a>
-                            </li>
-                            <li class="menu-item @if(isset($type) && $type==\App\Shipment::DROPOFF && isset($status) && $status ==  $item['status']) menu-item-active menu-item-open @endif" aria-haspopup="true">
-                                <a href="{{ route($item['route_name'],['status'=>$item['status'],'type'=>\App\Shipment::DROPOFF]) }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{translate('Saved Dropoff')}}</span>
-
-                                </a>
-                            </li>
-                            @elseif($item['status'] == \App\Shipment::REQUESTED_STATUS)
-
-
-                            @else
-                            <li class="menu-item {{ areActiveRoutes([$item['route_name']])}}" aria-haspopup="true">
-                                <a href="{{ route($item['route_name'],['status'=>$item['status']]) }}" class="menu-link">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="menu-text">{{$item['text']}}</span>
-
-                                </a>
-                            </li>
-                            @endif
-                        @endif
-                        @endforeach
-                    </ul>
-
-                    <ul class="menu-subnav">
-                        <li class="menu-item menu-item-parent" aria-haspopup="true">
-                            <span class="menu-link">
-                                <span class="menu-text">{{translate('Shipments')}}</span>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-        @endif
-    @endif
-@endif --}}
-
 
 
 <!-- Missions-->
@@ -205,7 +284,10 @@ $user_type = Auth::user()->user_type;
 @if ($addon != null)
     @if($addon->activated)
         @if(in_array($user_type, ['admin','captain','branch']) || in_array('1008', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.missions.index','admin.missions.update','admin.missions.create','admin.missions.show','admin.missions.get.manifest'])}} @foreach(\App\Mission::status_info() as $item) {{ areActiveRoutes([$item['route_name']])}} @endforeach " aria-haspopup="true" data-menu-toggle="hover">
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.missions.index','admin.missions.update','admin.missions.create','admin.missions.show','admin.missions.get.manifest'])}}
+            @foreach(\App\Mission::status_info() as $item)
+                {{ areActiveRoutes([\App\Shipment::status_info()[0]['route_name']])}}
+            @endforeach " aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon fas fa-shipping-fast"></i>
                     <span class="menu-text">{{translate('Missions')}}</span>
@@ -220,22 +302,63 @@ $user_type = Auth::user()->user_type;
                             </span>
                         </li>
 
-
-
-                        @foreach(\App\Mission::status_info() as $item)
-
-                            @if(in_array($user_type, $item['user_role']) || in_array($item['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-                                <li class="menu-item {{ areActiveRoutes([$item['route_name']])}}" aria-haspopup="true">
-                                    <a href="{{ route($item['route_name'],['status'=>$item['status']]) }}" class="menu-link">
+                        @if(in_array($user_type, \App\Mission::status_info()[1]['user_role']) || in_array(\App\Mission::status_info()[1]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Mission::status_info()[1]['status'] == \App\Mission::APPROVED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Mission::status_info()[1]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Mission::status_info()[1]['route_name'],['status'=>\App\Mission::status_info()[1]['status']]) }}" class="menu-link">
                                         <i class="menu-bullet menu-bullet-dot">
                                             <span></span>
                                         </i>
-                                        <span class="menu-text">{{$item['text']}}</span>
+                                        <span class="menu-text">{{\App\Mission::status_info()[1]['text']}}</span>
 
                                     </a>
                                 </li>
                             @endif
-                        @endforeach
+                        @endif
+
+                        @if(in_array($user_type, \App\Mission::status_info()[2]['user_role']) || in_array(\App\Mission::status_info()[2]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Mission::status_info()[2]['status'] == \App\Mission::RECIVED_STATUS)
+                                <li class="menu-item {{ areActiveRoutes([\App\Mission::status_info()[2]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Mission::status_info()[2]['route_name'],['status'=>\App\Mission::status_info()[2]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Mission::status_info()[2]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+
+                        @if(in_array($user_type, \App\Mission::status_info()[3]['user_role']) || in_array(\App\Mission::status_info()[3]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Mission::status_info()[3]['status'] == \App\Mission::DONE_STATUS)
+
+                            <li class="menu-item {{ areActiveRoutes([\App\Mission::status_info()[3]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Mission::status_info()[3]['route_name'],['status'=>\App\Mission::status_info()[3]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Mission::status_info()[3]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
+
+                        @if(in_array($user_type, \App\Mission::status_info()[4]['user_role']) || in_array(\App\Mission::status_info()[4]['permissions'], json_decode(Auth::user()->staff->role->permissions ?? "[]")))
+                            @if(\App\Mission::status_info()[4]['status'] == \App\Mission::CLOSED_STATUS)
+
+                            <li class="menu-item {{ areActiveRoutes([\App\Mission::status_info()[4]['route_name']])}}" aria-haspopup="true">
+                                    <a href="{{ route(\App\Mission::status_info()[4]['route_name'],['status'=>\App\Mission::status_info()[4]['status']]) }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">{{\App\Mission::status_info()[4]['text']}}</span>
+
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
 
                     </ul>
                 </div>
