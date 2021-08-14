@@ -69,6 +69,10 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
     Route::post('shipments/action/delivery_mission/{type}','ShipmentController@createDeliveryMission')->name('admin.shipments.action.create.delivery.mission');
     Route::post('shipments/action/return_mission/{type}','ShipmentController@createReturnMission')->name('admin.shipments.action.create.return.mission');
     Route::post('shipments/action/transfer_mission/{type}','ShipmentController@createTransferMission')->name('admin.shipments.action.create.transfer.mission');
+
+    Route::post('shipments/action/transfer_mission_branch/{type}','ShipmentController@createTransferMissionBranchCountry')->name('admin.shipments.action.create.transfer.branch.mission');
+    Route::post('shipments/action/transfer_mission_country/{type}','ShipmentController@createTransferMissionBranchCountry')->name('admin.shipments.action.create.transfer.country.mission');
+    Route::post('shipments/action/transfer__mission_country/{type}','ShipmentController@createTransferMissionCountry')->name('admin.shipments.action.create.transfer.country2.mission');
    
     Route::post('shipments/remove-shipment-from-mission','ShipmentController@removeShipmentFromMission')->name('admin.shipments.delete-shipment-from-mission');
     

@@ -127,6 +127,7 @@
             <tbody>
 
                 @foreach($missions as $key=>$mission)
+                @if($mission->getOriginal('type')==\App\Mission::PICKUP_TYPE && $_GET['country_transfer']==1)
 
                 <tr>
                     <td><label class="checkbox checkbox-success"><input class="ms-check" type="checkbox" name="checked_ids[]" value="{{$mission->id}}" /><span></span></label></td>
@@ -190,7 +191,70 @@
 
                     </td>
                 </tr>
+                @elseif($mission->getOriginal('type')==\App\Mission::DELIVERY_TYPE && $_GET['country_transfer']==2)
+                <tr>
+                    <td><label class="checkbox checkbox-success"><input class="ms-check" type="checkbox" name="checked_ids[]" value="{{$mission->id}}" /><span></span></label></td>
+                    @if($user_type == 'admin' || in_array('1100', $staff_permission) || in_array('1008', $staff_permission) )
+                        <td width="3%"><a href="{{route('admin.missions.show', $mission->id)}}">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</a></td>
+                        <td width="5%"><a href="{{route('admin.missions.show', $mission->id)}}">{{$mission->code}}</a></td>
+                        <td width="5%"><a href="{{route('admin.shipments.show', $mission->shipment_mission[0]->shipment->id)}}">{{$mission->shipment_mission[0]->shipment->code}}</a></td>
+                    @else
+                        <td width="3%">{{ ($key+1) + ($missions->currentPage() - 1)*$missions->perPage() }}</td>
+                        <td width="5%">{{$mission->code}}</td>
+                        <td width="5%">{{@$mission->shipment_mission[0]->shipment->code}}</td>
+                    @endif
 
+                    <td>
+                        <span class="btn btn-sm btn-{{\App\Mission::getStatusColor($mission->status_id)}}">
+                            {{$mission->shipment_mission[0]->shipment->getStatus()}}
+                        </span>
+                    </td>
+                    @if ($mission->captain_id)
+                        <td><a href="{{route('admin.captains.show', $mission->captain->id)}}">{{$mission->captain->name}}</a></td>
+                    @else
+                        <td>{{translate('No Captain')}}</td>
+                    @endif
+                    <td>{{$mission->type}}</td>
+
+                    @php
+                        $helper = new \App\Http\Helpers\TransactionHelper();
+                        $shipment_cost = $helper->calcMissionShipmentsAmount($mission->getOriginal('type'),$mission->id);
+                    @endphp
+
+                    <td>{{format_price(convert_price($shipment_cost))}}</td>
+                    @if($show_due_date) <td>{{$mission->due_date ?? "-"}}</td> @endif
+
+                    <td class="text-center">
+                        <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
+                            <i class="las la-eye" style="color: #f9732c;font-size: 20px;"></i>
+                        </a>
+                        @if(isset($status))
+                            @if($status == \App\Mission::APPROVED_STATUS)
+                                {{-- @if(Auth::user()->user_type == 'admin' || in_array(1030, json_decode(Auth::user()->staff->role->permissions ?? "[]"))) --}}
+                                {{-- <a class="btn btn-success btn-sm" data-url="{{route('admin.missions.action.confirm_amount',['mission_id'=>$mission->id])}}" data-action="POST" onclick="openAjexedModel(this,event)" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
+                                <i class="fa fa-check"></i> {{translate('Receive Mission')}}
+                                </a> --}}
+                                {{-- @endif --}}
+
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" title="{{ translate('Receive Mission') }}" onclick="set_mission_id({{$mission->id}} , {{convert_price($shipment_cost)}} , '{{$mission->type}}')">
+                                    {{ translate('Deliver Package') }}
+                                </button>
+                            @endif
+                            @if($status == \App\Mission::RECIVED_STATUS)
+                                @if($user_type != 'captain' || $mission->getOriginal('type') == \App\Mission::DELIVERY_TYPE || $mission->getOriginal('type') == \App\Mission::SUPPLY_TYPE)
+                                {{-- @if(Auth::user()->user_type == 'admin' || in_array(1030, json_decode(Auth::user()->staff->role->permissions ?? "[]"))) --}}
+                                <a class="btn btn-success btn-sm" data-url="{{route('admin.missions.action.confirm_amount',['mission_id'=>$mission->id])}}" data-action="POST" onclick="openAjexedModel(this,event, '{{$mission->type}}')" href="{{route('admin.missions.show', $mission->id)}}" title="{{ translate('Show') }}">
+                                    <i class="fa fa-check"></i> {{translate('Confirm Mission / Done')}}
+                                </a>
+                                {{-- @endif --}}
+                                @endif
+
+                            @endif
+                        @endif
+
+                    </td>
+                </tr>
+                @endif
                 @endforeach
 
             </tbody>

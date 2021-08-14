@@ -49,9 +49,12 @@ class Shipment extends Model
     const ASSIGNED_FOR_PICKUP = 20;
     const PACKAGE_PICKED_UP = 21;
     const PACKAGE_PICKUP_COMPLETED = 22;
-
-
-
+    const PACKAGE_DEPARTED = 23;
+    const DOMESTIC_FACILITY = 24;
+    const SHIPMENT_RECEIVED = 25;
+    const ASSIGNED_FOR_DELIVERY = 26;
+    const PACKAGE_DELIVERY_COMPLETED = 27;
+    
 
     const CLIENT_STATUS_CREATED = 1;
     const CLIENT_STATUS_READY = 2;
@@ -273,10 +276,50 @@ class Shipment extends Model
                 'text' => translate('PACKAGE PICKUP COMPLETED'),
                 'route_name' => 'admin.shipments.requested.index',
                 'permissions' => 1015,
-                'route_url' => 'requested',
+                'route_url' => 'departed',
                 'optional_params' => '/{type?}'
             ],
-
+            [
+                'status' => Self::PACKAGE_DEPARTED,
+                'text' => translate('PACKAGE DEPARTED'),
+                'route_name' => 'admin.shipments.requested.index',
+                'permissions' => 1015,
+                'route_url' => 'departed',
+                'optional_params' => '/{type?}'
+            ],
+            [
+                'status' => Self::DOMESTIC_FACILITY,
+                'text' => translate('DOMESTIC FACILITY'),
+                'route_name' => 'admin.shipments.requested.index',
+                'permissions' => 1015,
+                'route_url' => 'domestic',
+                'optional_params' => '/{type?}'
+            ],
+            [
+                'status' => Self::SHIPMENT_RECEIVED,
+                'text' => translate('SHIPMENT RECEIVED'),
+                'route_name' => 'admin.shipments.requested.index',
+                'permissions' => 1015,
+                'route_url' => 'received',
+                'optional_params' => '/{type?}'
+            ],
+            [
+                'status' => Self::ASSIGNED_FOR_DELIVERY,
+                'text' => translate('ASSIGNED FOR DELIVERY'),
+                'route_name' => 'admin.shipments.requested.index',
+                'permissions' => 1015,
+                'route_url' => 'assigned',
+                'optional_params' => '/{type?}'
+            ],
+            [
+                'status' => Self::PACKAGE_DELIVERY_COMPLETED,
+                'text' => translate('PACKAGE DELIVERY COMPLETED'),
+                'route_name' => 'admin.shipments.requested.index',
+                'permissions' => 1015,
+                'route_url' => 'delivered',
+                'optional_params' => '/{type?}'
+            ],
+            
 
 
         ];

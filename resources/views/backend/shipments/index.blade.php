@@ -171,6 +171,12 @@ $auth_user = Auth::user();
                                                                     @endphp
                                                                     <a href="#" class="action_checker navi-link @if (!isset($action['js_function_caller'])) action-caller @endif" @if (isset($action['js_function_caller']))
                                                                         onclick="{{ $action['js_function_caller'] }}" @endif
+                                                                        @if (isset($action['status']))
+                                                                            data-status="{{ $action['status'] }}"
+                                                                        @endif
+                                                                        @if (isset($action['text']))
+                                                                            data-text="{{ $action['text'] }}"
+                                                                        @endif
                                                                         data-url="{{ $action['url'] }}" data-method="{{ $action['method'] }}">
                                                                         <span class="navi-icon">
                                                                             <i class="{{ $action['icon'] }}"></i>
@@ -512,9 +518,9 @@ $auth_user = Auth::user();
                                     </div>
 
                                 </div>
-                            @elseif($status == \App\Shipment::APPROVED_STATUS)
+                            @elseif($status == \App\Shipment::APPROVED_STATUS || $status == \App\Shipment::PACKAGE_DEPARTED || $status == \App\Shipment::DOMESTIC_FACILITY)
                                 <div class="modal-header">
-                                    <h4 class="modal-title h6">{{ translate('Create Delivery Mission') }}</h4>
+                                    <h4 class="modal-title h6">{{ translate('Create Delivery Mission to Receiver') }}</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
@@ -627,7 +633,7 @@ $auth_user = Auth::user();
                                             <div class="form-group">
                                                 <label>{{ translate('Status') }}:</label>
                                                 <input style="background:#f3f6f9;color:#3f4254;" type="text"
-                                                    class="form-control disabled" value="{{ translate('Requested') }}"
+                                                    class="form-control disabled update_status" value="{{ translate('PACKAGE DEPARTED') }}"
                                                     disabled="disabled" readonly />
                                             </div>
                                         </div>
@@ -899,6 +905,123 @@ $auth_user = Auth::user();
                     </div>
                 </div>
             </div>
+
+            <div id="transfer-to-branch--modal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title h6">{{ translate('Create Transfer Mission') }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{ translate('From Branch') }}:</label>
+                                        <input style="background:#f3f6f9;color:#3f4254;"
+                                            type="text" class="form-control disabled" value="{{ translate('Transfer') }}"
+                                            disabled="disabled" readonly />
+                                        <input  type="hidden" class="branch_status_id" name="Mission[status_id]" disabled="disabled" readonly />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{ translate('To Branch') }}:</label>
+                                        <select class="form-control">
+                                            <option value="" disabled selected hidden>Choose Branch...</option>
+                                            @foreach (\App\Branch::all() as $branch)
+                                                <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Type') }}:</label>
+                                        <input style="background:#f3f6f9;color:#3f4254;" type="text"
+                                            class="form-control disabled" value="{{ translate('Transfer') }}"
+                                            disabled="disabled" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Status') }}:</label>
+                                        <input style="background:#f3f6f9;color:#3f4254;" type="text"
+                                            class="form-control disabled" value="{{ translate('Requested') }}"
+                                            disabled="disabled" readonly />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">{{ translate('Close') }}</button>
+                            <input type="submit" class="btn btn-primary" value="{{ translate('Create Mission') }}"
+                                id="submit_transfer_branch" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="transfer-to-country--modal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title h6">{{ translate('Create Transfer Mission') }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{ translate('From Branch') }}:</label>
+                                        <input style="background:#f3f6f9;color:#3f4254;" id="from_branch_transfer"
+                                            type="text" class="form-control disabled" value="{{ translate('Transfer') }}"
+                                            disabled="disabled" readonly />
+                                            <input type="hidden" class="country_status_id"  name="Mission[status_id]" disabled="disabled" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{ translate('To Country') }}:</label>
+
+                                        <select  class="form-control">
+                                            <option value="" disabled selected hidden>Choose Country...</option>
+                                            @foreach (\App\Country::where('covered',1)->get() as $country)
+                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Type') }}:</label>
+                                        <input style="background:#f3f6f9;color:#3f4254;" type="text"
+                                            class="form-control disabled" value="{{ translate('Transfer') }}"
+                                            disabled="disabled" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ translate('Status') }}:</label>
+                                        <input style="background:#f3f6f9;color:#3f4254;" type="text"
+                                            class="form-control disabled" value="{{ translate('Requested') }}"
+                                            disabled="disabled" readonly />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-dismiss="modal">{{ translate('Close') }}</button>
+                            <input type="submit" class="btn btn-primary" value="{{ translate('Create Mission') }}"
+                                id="submit_transfer_country" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
         <div class="aiz-pagination">
             {{ $shipments->appends(request()->input())->links() }}
@@ -916,6 +1039,12 @@ $auth_user = Auth::user();
 @section('script')
     <script type="text/javascript">
         $(document).on('click', '#submit_transfer', function() {
+            $('#tableForm').submit();
+        });
+        $(document).on('click', '#submit_transfer_branch', function() {
+            $('#tableForm').submit();
+        });
+        $(document).on('click', '#submit_transfer_country', function() {
             $('#tableForm').submit();
         });
         $('#reset_search').click(function(e) {
@@ -997,7 +1126,6 @@ $auth_user = Auth::user();
                 selected_branch_id.push($(this).data('branchid'));
                 mission_id.push($(this).data('missionid'));
             });
-
 
             if (mission_id[0] == "") {
                 var sum = selected_client_id.reduce(function(acc, val) {
@@ -1110,6 +1238,7 @@ $auth_user = Auth::user();
                 mission_id.push($(this).data('missionid'));
             });
 
+
             if (mission_id[0] == "") {
                 var sum = selected_client_id.reduce(function(acc, val) {
                     return acc + val;
@@ -1145,6 +1274,8 @@ $auth_user = Auth::user();
 
                     $('#supply_client_id').val(selected_client_id[0]);
                     $('#supply_client_id_hidden').val(selected_client_id[0]);
+
+                    $('.update_status').val($(element).data('text'));
                     $('#assign-to-captain-modal').modal('toggle');
 
                 } else if (selected_client_id.length == 0) {
@@ -1157,6 +1288,117 @@ $auth_user = Auth::user();
             }
 
 
+        }
+
+        function openTransferShipmentBranchModel(element, e) {
+            var selected_client_id = [];
+            var branchId = '';
+            var branchName = '';
+            var mission_id = [];
+
+            $('#to_branch_id option').css("display", "block");
+
+
+            $('.sh-check:checked').each(function() {
+                selected_client_id.push($(this).data('clientid'));
+                branchId = $(this).data('branchid');
+                branchName = $(this).data('branchname');
+                mission_id.push($(this).data('missionid'));
+            });
+
+            if (mission_id[0] == "") {
+
+                if (selected_client_id.length == 1) {
+
+                    $('#assign-to-captain-modal').remove();
+                    $('#transfer-to-branch-modal').remove();
+                    $('#transfer-to-country--modal').remove();
+                    $('#tableForm').attr('action', $(element).data('url'));
+                    $('#tableForm').attr('method', $(element).data('method'));
+                    $('.branch_status_id').val($(element).data('status'));
+                    $('#transfer-to-branch--modal').modal('toggle');
+
+                } else  {
+                    Swal.fire("{{ translate('Please Select Shipments') }}", "", "error");
+                }
+            } else {
+                Swal.fire("{{ translate('This Shipment Already In Mission') }}", "", "error");
+            }
+        }
+        function openTransferShipmentCountryModel(element, e) {
+            var selected_client_id = [];
+            var branchId = '';
+            var branchName = '';
+            var mission_id = [];
+
+            $('#to_branch_id option').css("display", "block");
+
+
+            $('.sh-check:checked').each(function() {
+                selected_client_id.push($(this).data('clientid'));
+                branchId = $(this).data('branchid');
+                branchName = $(this).data('branchname');
+                mission_id.push($(this).data('missionid'));
+            });
+
+            if (mission_id[0] == "") {
+
+                if (selected_client_id.length == 1) {
+                    $('#assign-to-captain-modal').remove();
+                    $('#transfer-to-branch-modal').remove();
+                    $('#transfer-to-branch--modal').remove();
+                    $('#tableForm').attr('action', $(element).data('url'));
+                    $('#tableForm').attr('method', $(element).data('method'));
+                    $('.country_status_id').val($(element).data('status'));
+
+
+                    $('#transfer-to-country--modal').modal('toggle');
+
+                } else  {
+                    Swal.fire("{{ translate('Please Select Shipments') }}", "", "error");
+                }
+            } else {
+                Swal.fire("{{ translate('This Shipment Already In Mission') }}", "", "error");
+            }
+        }
+
+        function openTransferShipmentCountry2Model(element, e) {
+            var selected_client_id = [];
+            var branchId = '';
+            var branchName = '';
+            var mission_id = [];
+
+            $('#to_branch_id option').css("display", "block");
+
+
+            $('.sh-check:checked').each(function() {
+                selected_client_id.push($(this).data('clientid'));
+                branchId = $(this).data('branchid');
+                branchName = $(this).data('branchname');
+                mission_id.push($(this).data('missionid'));
+            });
+
+            if (mission_id[0] == "") {
+
+                if (selected_client_id.length == 1) {
+                    $('#assign-to-captain-modal').remove();
+                    $('#transfer-to-branch-modal').remove();
+                    $('#transfer-to-branch--modal').remove();
+                    $('#tableForm').attr('action', $(element).data('url'));
+                    $('#tableForm').attr('method', $(element).data('method'));
+                    $('.country_status_id').val($(element).data('status'));
+
+
+
+
+                    $('#transfer-to-country--modal').modal('toggle');
+
+                } else  {
+                    Swal.fire("{{ translate('Please Select Shipments') }}", "", "error");
+                }
+            } else {
+                Swal.fire("{{ translate('This Shipment Already In Mission') }}", "", "error");
+            }
         }
 
         function openTransferShipmentCaptainModel(element, e) {

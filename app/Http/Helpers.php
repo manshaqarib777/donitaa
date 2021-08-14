@@ -274,10 +274,26 @@ if (! function_exists('sendSMS')) {
 
 //highlights the selected navigation on admin panel
 if (! function_exists('areActiveRoutes')) {
-    function areActiveRoutes(Array $routes, $output = "menu-item-active menu-item-open")
+    function areActiveRoutes(Array $routes, $output = "menu-item-active menu-item-open",$open_div=null)
     {
         foreach ($routes as $route) {
-            if (Route::currentRouteName() == $route) return $output;
+            if (Route::currentRouteName() == $route) 
+            {
+                if(isset($_GET['open_div']) && $open_div==$_GET['open_div'])
+                {
+                    return $output;
+                }
+                else if((isset($_GET['open_div']) && $open_div!=$_GET['open_div']))
+                {
+                    return "";
+                }
+                else
+                {
+                    return $output;
+                }
+            }
+            
+
         }
 
     }
@@ -966,6 +982,7 @@ if (! function_exists('convertPrice')) {
 
 
 function translate($key, $lang = null){
+    return $key;
     if($lang == null){
         $lang = App::getLocale();
     }

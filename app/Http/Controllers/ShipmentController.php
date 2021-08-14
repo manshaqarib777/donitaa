@@ -166,6 +166,7 @@ class ShipmentController extends Controller
 
     public function statusIndex($status, $type = null)
     {
+        //dd($type);
         $shipments = Shipment::where('status_id', $status);
         if ($type != null) {
             $shipments = $shipments->where('type', $type);
@@ -184,6 +185,9 @@ class ShipmentController extends Controller
             }
             if (isset($_GET['type']) && !empty($_GET['type'])) {
                 $shipments = $shipments->where('type', $_GET['type']);
+            }
+            if (isset($_GET['zone']) && !empty($_GET['zone'])) {
+                $shipments = $shipments->where('zone', $_GET['zone']);
             }
         }
         if(Auth::user()->user_type == 'customer'){
@@ -325,6 +329,7 @@ class ShipmentController extends Controller
                     $shipment_mission->mission_id = $model->id;
                     if ($shipment_mission->save()) {
                         $shipment->mission_id = $model->id;
+                        $shipment->status_id = Shipment::SHIPMENT_RECEIVED;
                         $shipment->save();
                     }
                 }
@@ -393,6 +398,54 @@ class ShipmentController extends Controller
             flash(translate("Mission created successfully"))->success();
             return back();
         } catch (\Exception $e) {
+            DB::rollback();
+            print_r($e->getMessage());
+            exit;
+
+            flash(translate("Error"))->error();
+            return back();
+        }
+    }
+
+    public function createTransferMissionBranchCountry(Request $request, $type)
+    {
+        //dd($request->all());
+        try {
+                foreach ($request->checked_ids as $shipment_id) 
+                {
+                    $shipment = Shipment::find($shipment_id);
+                    $shipment->status_id = Shipment::PACKAGE_DEPARTED;
+                    $shipment->save();
+                }
+
+                flash(translate("Mission created successfully"))->success();
+                return back();
+        } catch (\Exception $e) {
+
+            DB::rollback();
+            print_r($e->getMessage());
+            exit;
+
+            flash(translate("Error"))->error();
+            return back();
+        }
+    }
+
+    public function createTransferMissionCountry(Request $request, $type)
+    {
+        //dd($request->all());
+        try {
+                foreach ($request->checked_ids as $shipment_id) 
+                {
+                    $shipment = Shipment::find($shipment_id);
+                    $shipment->status_id = Shipment::DOMESTIC_FACILITY;
+                    $shipment->save();
+                }
+
+                flash(translate("Mission created successfully"))->success();
+                return back();
+        } catch (\Exception $e) {
+
             DB::rollback();
             print_r($e->getMessage());
             exit;

@@ -34,7 +34,8 @@ class ShipmentActionHelper{
                 return $this->savedPickup();
             }
             
-        }elseif($status == Shipment::APPROVED_STATUS)
+        }
+        elseif($status == Shipment::APPROVED_STATUS || $status == Shipment::DOMESTIC_FACILITY || (($status == Shipment::PACKAGE_DEPARTED) && !isset($_GET['action'])))
         {
             return $this->accepted();
         }elseif($status == Shipment::CAPTAIN_ASSIGNED_STATUS)
@@ -82,7 +83,7 @@ class ShipmentActionHelper{
                 "permissions"=>1035,
             ],
             [
-                "text"=> translate('Create Delivery Mission'),
+                "text"=> translate('Create Delivery Mission to Receiver'),
                 "permissions"=>1036,
             ],
             [
@@ -256,9 +257,43 @@ class ShipmentActionHelper{
 
     private function accepted()
     {
+
+        if(isset($_GET['zone']) && $_GET['zone']==1 && !isset($_GET['country_transfer']))
+        {
             $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Create Delivery Mission');
+            $this->actions[count($this->actions)-1]['title'] = translate('Transfer To Branch');
             $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
+            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.transfer.branch.mission',['type'=>Mission::TRANSFER_TYPE]);
+            $this->actions[count($this->actions)-1]['method'] = 'POST';
+            $this->actions[count($this->actions)-1]['js_function_caller'] = 'openTransferShipmentBranchModel(this,event)';
+            $this->actions[count($this->actions)-1]['type'] = 1; 
+            $this->actions[count($this->actions)-1]['status'] = Shipment::PACKAGE_DEPARTED;
+            $this->actions[count($this->actions)-1]['permissions'] = 1200; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
+            $this->actions[count($this->actions)-1]['index'] = true;
+        }
+        else if(isset($_GET['zone']) && $_GET['zone']==2 && !isset($_GET['country_transfer']))
+        {
+            $this->actions[count($this->actions)] = array();
+            $this->actions[count($this->actions)-1]['title'] = translate('Transfer To Country');
+            $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
+            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.transfer.country.mission',['type'=>Mission::TRANSFER_TYPE]);
+            $this->actions[count($this->actions)-1]['method'] = 'POST';
+            $this->actions[count($this->actions)-1]['status'] = Shipment::PACKAGE_DEPARTED;
+            $this->actions[count($this->actions)-1]['js_function_caller'] = 'openTransferShipmentCountryModel(this,event)';
+            $this->actions[count($this->actions)-1]['type'] = 1; 
+            $this->actions[count($this->actions)-1]['permissions'] = 1200; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
+            $this->actions[count($this->actions)-1]['index'] = true;
+        }
+        else if(!isset($_GET['country_transfer']))
+        {
+            
+            $this->actions[count($this->actions)] = array();
+            $this->actions[count($this->actions)-1]['title'] = translate('Create Delivery Mission to Receiver');
+            $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
+            $this->actions[count($this->actions)-1]['text'] =  translate('PACKAGE DEPARTED');
+
             $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.delivery.mission',['type'=>Mission::DELIVERY_TYPE]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';
             $this->actions[count($this->actions)-1]['js_function_caller'] = 'openAssignShipmentCaptainModel(this,event)';
@@ -267,16 +302,62 @@ class ShipmentActionHelper{
             $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
             $this->actions[count($this->actions)-1]['index'] = true;
 
+            // $this->actions[count($this->actions)] = array();
+            // $this->actions[count($this->actions)-1]['title'] = translate('Transfer To Branch');
+            // $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
+            // $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.transfer.mission',['type'=>Mission::TRANSFER_TYPE]);
+            // $this->actions[count($this->actions)-1]['method'] = 'POST';
+            // $this->actions[count($this->actions)-1]['js_function_caller'] = 'openTransferShipmentCaptainModel(this,event)';
+            // $this->actions[count($this->actions)-1]['type'] = 1; 
+            // $this->actions[count($this->actions)-1]['permissions'] = 1200; 
+            // $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
+            // $this->actions[count($this->actions)-1]['index'] = true;
+            
+        }
+
+
+
+        if(isset($_GET['country_transfer']) && $_GET['country_transfer']==2)
+        {
             $this->actions[count($this->actions)] = array();
-            $this->actions[count($this->actions)-1]['title'] = translate('Transfer To Branch');
+            $this->actions[count($this->actions)-1]['title'] = translate('Transfer To Country');
             $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
-            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.transfer.mission',['type'=>Mission::TRANSFER_TYPE]);
+            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.transfer.country2.mission',['type'=>Mission::TRANSFER_TYPE]);
             $this->actions[count($this->actions)-1]['method'] = 'POST';
-            $this->actions[count($this->actions)-1]['js_function_caller'] = 'openTransferShipmentCaptainModel(this,event)';
+            $this->actions[count($this->actions)-1]['status'] = Shipment::DOMESTIC_FACILITY;
+            $this->actions[count($this->actions)-1]['js_function_caller'] = 'openTransferShipmentCountry2Model(this,event)';
             $this->actions[count($this->actions)-1]['type'] = 1; 
             $this->actions[count($this->actions)-1]['permissions'] = 1200; 
             $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
             $this->actions[count($this->actions)-1]['index'] = true;
+        }
+        else if(isset($_GET['country_transfer']) && $_GET['country_transfer']==1)
+        {
+            
+            $this->actions[count($this->actions)] = array();
+            $this->actions[count($this->actions)-1]['title'] = translate('Create Delivery Mission to Receiver');
+            $this->actions[count($this->actions)-1]['text'] =  translate('DOMESTIC FACILITY');
+            $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
+            $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.delivery.mission',['type'=>Mission::DELIVERY_TYPE]);
+            $this->actions[count($this->actions)-1]['method'] = 'POST';
+            $this->actions[count($this->actions)-1]['js_function_caller'] = 'openAssignShipmentCaptainModel(this,event)';
+            $this->actions[count($this->actions)-1]['type'] = 1; 
+            $this->actions[count($this->actions)-1]['permissions'] = 1036; 
+            $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
+            $this->actions[count($this->actions)-1]['index'] = true;
+        }
+
+            // $this->actions[count($this->actions)] = array();
+            // $this->actions[count($this->actions)-1]['title'] = translate('Transfer To Branch');
+            // $this->actions[count($this->actions)-1]['icon'] = 'fa fa-check';
+            // $this->actions[count($this->actions)-1]['url'] = route('admin.shipments.action.create.transfer.mission',['type'=>Mission::TRANSFER_TYPE]);
+            // $this->actions[count($this->actions)-1]['method'] = 'POST';
+            // $this->actions[count($this->actions)-1]['js_function_caller'] = 'openTransferShipmentCaptainModel(this,event)';
+            // $this->actions[count($this->actions)-1]['type'] = 1; 
+            // $this->actions[count($this->actions)-1]['permissions'] = 1200; 
+            // $this->actions[count($this->actions)-1]['user_role'] = ['admin','branch']; 
+            // $this->actions[count($this->actions)-1]['index'] = true;
+
 
             $this->actions[count($this->actions)] = array();
             $this->actions[count($this->actions)-1]['title'] = translate('Close');

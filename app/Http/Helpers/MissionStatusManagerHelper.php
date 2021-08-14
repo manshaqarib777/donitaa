@@ -47,10 +47,12 @@ class MissionStatusManagerHelper
                             $shipment->status_id =Shipment::ASSIGNED_FOR_PICKUP;
                             $shipment->save();
                         }
-
                         if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
-                            
+                            $shipment->status_id =Shipment::ASSIGNED_FOR_DELIVERY;
+                            $shipment->save();
                         }
+                        //dd($shipment);
+                        
 
                         if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
                             
@@ -97,7 +99,8 @@ class MissionStatusManagerHelper
                         }
 
                         if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
-                            
+                            $shipment->status_id =Shipment::DELIVERED_STATUS;
+                            $shipment->save();
                         }
 
                         if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
@@ -162,8 +165,10 @@ class MissionStatusManagerHelper
                         }
 
                         if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
-                            
+                            $shipment->status_id =Shipment::PACKAGE_DELIVERY_COMPLETED;
+                            $shipment->save();   
                         }
+                        //dd($shipment);
 
                         if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
                             
@@ -220,6 +225,7 @@ class MissionStatusManagerHelper
                                     $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::RECIVED_STATUS);
                                 }
                             }
+                            //dd($shipment);
                         }
 
                         
@@ -234,19 +240,24 @@ class MissionStatusManagerHelper
                                 }
                                 
                             }
+                            //dd($shipment);
+
 
                             if ($mission->getOriginal('type') == Mission::DELIVERY_TYPE) {
                                 foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
+                                    
                                     $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                                     if($shipment->status_id == \App\Shipment::RETURNED_STATUS){
                                         $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
                                         $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::RETURNED_STOCK);
                                     }else{
                                         $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
-                                        $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::DELIVERED_STATUS);
+                                        $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::PACKAGE_DELIVERY_COMPLETED);
                                     }
                                 }
                             }
+                            //dd($shipment);
+
 
                             if ($mission->getOriginal('type') == Mission::TRANSFER_TYPE) {
                                 foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
@@ -308,7 +319,7 @@ class MissionStatusManagerHelper
                                 foreach (\App\ShipmentMission::withoutGlobalScope('restriction')->where('mission_id', $mission->id)->pluck('shipment_id') as $shipment_id) {
                                     $shipment = \App\Shipment::withoutGlobalScope('restriction')->find($shipment_id);
                                     $change_status_to_be_approved = new \App\Http\Helpers\StatusManagerHelper();
-                                    $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::CAPTAIN_ASSIGNED_STATUS, $mission->id);
+                                    $change_status_to_be_approved->change_shipment_status([$shipment->id], \App\Shipment::ASSIGNED_FOR_DELIVERY, $mission->id);
                                 }
                             }
                         }
