@@ -27,6 +27,7 @@
                     <th >{{translate('Address')}}</th>
                     <th >{{translate('Address Name')}}</th>
                     <th >{{translate('Phone')}}</th>
+                    <th >{{translate('Default')}}</th>
 
                     <th  width="10%" class="text-center">{{translate('Options')}}</th>
                 </tr>
@@ -39,7 +40,12 @@
                             <td width="20%">{{$client_address->name}}</td>
                             <td width="20%">{{$client_address->type}}</td>
                             <td width="20%">{{$client_address->phone}}</td>
-
+                            <td width="20%">
+                                <label class="checkbox">
+                                    <input type="checkbox" onchange="update_currency_status(this,{{$client_address->id}})" class="form-control" {{($client_address->default==1)?'checked':''}} />
+                                    <span></span>
+                                </label>
+                            </td>
                             <td class="text-center">
 		                            <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.client-addresses.edit', $client_address->id)}}" title="{{ translate('Edit') }}">
 		                                <i class="las la-edit"></i>
@@ -62,6 +68,32 @@
 
 @endsection
 
+
+
+@section('script')
+    <script type="text/javascript">
+        function update_currency_status(el,id)
+        {
+            var checked=0;
+            if(el.checked){
+                checked = 1;
+            }
+
+            $.post('{{ route('admin.client-addresses.update-status') }}', {_token:'{{ csrf_token() }}', id:id, checked:checked}, function(data){
+                if(data == 1){
+                    AIZ.plugins.notify('success', '{{ translate('Status updated successfully') }}');
+                }
+                else{
+                    AIZ.plugins.notify('danger', '{{ translate('Something went wrong') }}');
+                }
+                location.reload();
+            });
+
+        }
+
+
+    </script>
+@endsection
 @section('modal')
     @include('modals.delete_modal')
 @endsection

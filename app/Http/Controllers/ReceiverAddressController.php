@@ -172,4 +172,21 @@ class ReceiverAddressController extends Controller
         }
         return back();
     }
+    public function status(Request $request)
+    {
+        $client_addresses = ReceiverAddress::where('default',1)->get();
+        if($client_addresses)
+        {
+            foreach($client_addresses as $client_address){
+                $client_address->default=0;
+                $client_address->save();
+            }
+        }
+        $model = ReceiverAddress::findOrFail($request->id);
+        $model->default = $request->checked;
+        if($model->save()){
+            return 1;
+        }
+        return 0;
+    }
 }
