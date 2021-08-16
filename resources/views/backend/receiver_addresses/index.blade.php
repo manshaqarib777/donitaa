@@ -27,7 +27,9 @@
                     <th >{{translate('Address')}}</th>
                     <th >{{translate('Address Name')}}</th>
                     <th >{{translate('Phone')}}</th>
-                    <th >{{translate('Default')}}</th>
+                    @if(auth()->user()->user_type == 'customer')
+                        <th >{{translate('Default')}}</th>
+                    @endif
                     @if(auth()->user()->user_type != 'customer')
                         <th >{{translate('Client')}}</th>
                     @endif
@@ -42,12 +44,15 @@
                             <td width="20%">{{$receiver_address->name}}</td>
                             <td width="20%">{{$receiver_address->type}}</td>
                             <td width="20%">{{$receiver_address->phone}}</td>
-                            <td width="20%">
-                                <label class="checkbox">
-                                    <input type="checkbox" onchange="update_currency_status(this,{{$receiver_address->id}})" class="form-control" {{($receiver_address->default==1)?'checked':''}} />
-                                    <span></span>
-                                </label>
-                            </td>
+                            @if(auth()->user()->user_type == 'customer')
+                                <td width="20%">
+                                    <label class="checkbox">
+                                        <input type="checkbox" onchange="update_currency_status(this,{{$receiver_address->id}})" class="form-control" {{($receiver_address->default==1)?'checked':''}} />
+                                        <span></span>
+                                    </label>
+                                </td>
+                            @endif
+
                             @if(auth()->user()->user_type != 'customer')
                                 <td width="20%">{{$receiver_address->receiver->name}}</td>
                             @endif
