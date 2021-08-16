@@ -25,7 +25,7 @@
                 <tr>
                     <th  width="3%">#</th>
                     <th >{{translate('Address')}}</th>
-                    <th >{{translate('Address Type')}}</th>
+                    <th >{{translate('Address Name')}}</th>
                     <th >{{translate('Phone')}}</th>
 
                     <th  width="10%" class="text-center">{{translate('Options')}}</th>

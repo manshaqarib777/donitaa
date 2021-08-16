@@ -99,7 +99,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{ translate('Owner Phone') }}:</label>
-                                <input type="text" class="form-control" placeholder="{{ translate('Here') }}"
+                                <input type="text" class="form-control client_phone" placeholder="{{ translate('Here') }}"
                                     value="{{ $client->responsible_mobile }}" name="Client[responsible_mobile]">
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{ translate('Followup Phone') }}:</label>
-                                <input type="text" class="form-control" placeholder="{{ translate('Here') }}"
+                                <input type="text" class="form-control client_phone" placeholder="{{ translate('Here') }}"
                                     value="{{ $client->follow_up_mobile }}" name="Client[follow_up_mobile]">
                             </div>
                         </div>
@@ -207,6 +207,9 @@
 @section('script')
     <script type="text/javascript">
         $(document).ready(function() {
+            $(".client_phone").intlTelInput({
+
+            });
             $('input:radio[name="Client[account_type]"]').change(function() {
                 var change_html="";
                 if ($(this).val() == '2') {

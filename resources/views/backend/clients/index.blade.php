@@ -27,19 +27,21 @@
                     <th >{{translate('Name')}}</th>
                     <th >{{translate('Email')}}</th>
                     <th >{{translate('Phone')}}</th>
-                    
+                    <th >{{translate('Country')}}</th>
+
                     <th  width="10%" class="text-center">{{translate('Options')}}</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($clients as $key => $client)
-                    
+
                         <tr>
                             <td  width="3%">{{ ($key+1) + ($clients->currentPage() - 1)*$clients->perPage() }}</td>
                             <td width="20%">{{$client->name}}</td>
                             <td width="20%">{{$client->email}}</td>
                             <td width="20%">{{$client->responsible_mobile}}</td>
-                           
+                            <td width="20%">{{@$client->userClient->user->country->name}}</td>
+
                             <td class="text-center">
                                     <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.clients.show', $client->id)}}" title="{{ translate('Show') }}">
 		                                <i class="las la-eye"></i>
@@ -52,7 +54,7 @@
 		                            </a>
 		                        </td>
                         </tr>
-               
+
                 @endforeach
             </tbody>
         </table>

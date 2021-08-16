@@ -15,7 +15,7 @@
                 <div class="card-body">
 
                     <div class="form-group">
-                        <label>{{ translate('Address Type') }}:</label>
+                        <label>{{ translate('Address Name') }}:</label>
                         <input type="text" id="type" class="form-control" value="{{ $client_address->type }}"
                             placeholder="{{ translate('Here') }}" name="ClientAddress[type]">
                     </div>

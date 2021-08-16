@@ -14,8 +14,8 @@
                 {!! redirect_input() !!}
                 <div class="card-body">
                     <div class="form-group">
-                        <label>{{ translate('Address Type') }}:</label>
-                        <input type="text" id="name" class="form-control" placeholder="{{ translate('Address Type') }}"
+                        <label>{{ translate('Address Name') }}:</label>
+                        <input type="text" id="name" class="form-control" placeholder="{{ translate('Address Name') }}"
                             name="ReceiverAddress[type]">
                     </div>
 

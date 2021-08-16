@@ -94,7 +94,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{ translate('Owner Phone') }}:</label>
-                                <input type="text" class="form-control" placeholder="{{ translate('Owner Phone') }}"
+                                <input type="text" class="form-control client_phone" placeholder="{{ translate('Owner Phone') }}"
                                     name="Receiver[responsible_mobile]">
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{ translate('Followup Phone') }}:</label>
-                                <input type="text" class="form-control" placeholder="{{ translate('Followup Phone') }}"
+                                <input type="text" class="form-control client_phone" placeholder="{{ translate('Followup Phone') }}"
                                     name="Receiver[follow_up_mobile]">
                             </div>
                         </div>
@@ -182,6 +182,9 @@
     <script type="text/javascript">
         $('.how-know-us').select2({
             placeholder: "Receiver Source",
+        });
+        $(".client_phone").intlTelInput({
+
         });
 
         $(document).ready(function() {

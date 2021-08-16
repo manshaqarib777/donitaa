@@ -106,7 +106,6 @@ $auth_user = Auth::user();
                                         <div class="d-flex align-items-center">
                                             <label class="mb-0 mr-3 d-none d-md-block">{{ translate('Branch') }}:</label>
                                             <select name="branch_id" class="form-control" id="kt_datatable_search_type">
-                                                <option value="">{{ translate('All') }}</option>
                                                 @foreach (\App\Branch::all() as $Branch)
                                                     <option @if (isset($_GET['branch_id']) && $_GET['branch_id'] == $Branch->id) selected @endif value="{{ $Branch->id }}">
                                                         {{ $Branch->name }}</option>
