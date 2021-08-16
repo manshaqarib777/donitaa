@@ -443,7 +443,12 @@ $d = new DNS1D();
 
                     <a href="{{route('admin.shipments.print', array($shipment->id, 'label'))}}" class="btn btn-light-primary font-weight-bold" target="_blank" style="border-radius:20px;">{{translate('Print Label')}}<i class="ml-2 la la-box-open"></i></a>
                     <a href="javascript:void(0)" onclick="window.print();" class="btn btn-light-primary font-weight-bold" target="_blank" style="border-radius:20px;">{{translate('Print Invoice')}}<i class="ml-2 la la-file-invoice-dollar"></i></a>
-
+                    @if($shipment->branch_id==null && isset(auth()->user()->user_type) &&  auth()->user()->user_type == 'branch')
+                    <a href="javascript:void(0)" onclick="assign_shipment({{$shipment->id}},'branch_id')" class="px-6 py-3 btn btn-light-info btn-sm font-weight-bolder font-size-sm" style="border-radius:20px;">{{translate('Assign Source Shipment to Yourself')}}</a>
+                    @endif
+                    @if($shipment->receiver_branch_id==null && isset(auth()->user()->user_type) &&  auth()->user()->user_type == 'branch' && $shipment->status_id >= \App\Shipment::PACKAGE_DEPARTED)
+                    <a href="javascript:void(0)" onclick="assign_shipment({{$shipment->id}},'receiver_branch_id')" class="px-6 py-3 btn btn-light-info btn-sm font-weight-bolder font-size-sm" style="border-radius:20px;">{{translate('Assign Destination Shipment to Yourself')}}</a>
+                    @endif
                     @if(Auth::user()->user_type == 'admin' || in_array('1104', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
                     <a href="{{route('admin.shipments.edit', $shipment->id)}}" class="px-6 py-3 btn btn-light-info btn-sm font-weight-bolder font-size-sm" style="border-radius:20px;">{{translate('Edit Shipment')}}</a>
                     @endif
@@ -513,6 +518,24 @@ $d = new DNS1D();
 @section('script')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script>
+        function assign_shipment(id,branch_name)
+        {
+            var branch="branch_id";
+            if(branch_name!='' && branch_name == 'receiver_branch_id'){
+                branch = 'receiver_branch_id';
+            }
+
+            $.post('{{ route('admin.shipments.assign') }}', {_token:'{{ csrf_token() }}', id:id, branch:branch}, function(data){
+                if(data == 1){
+                    AIZ.plugins.notify('success', '{{ translate('Status updated successfully') }}');
+                }
+                else{
+                    AIZ.plugins.notify('danger', '{{ translate('Something went wrong') }}');
+                }
+                location.reload();
+            });
+
+        }
         function copyToClipboard(element) {
             var $temp = $("<input>");
             $("body").append($temp);

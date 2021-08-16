@@ -28,7 +28,9 @@
                     <th >{{translate('Address Name')}}</th>
                     <th >{{translate('Phone')}}</th>
                     <th >{{translate('Default')}}</th>
-
+                    @if(auth()->user()->user_type != 'customer')
+                        <th >{{translate('Client')}}</th>
+                    @endif
                     <th  width="10%" class="text-center">{{translate('Options')}}</th>
                 </tr>
             </thead>
@@ -46,6 +48,9 @@
                                     <span></span>
                                 </label>
                             </td>
+                            @if(auth()->user()->user_type != 'customer')
+                                <td width="20%">{{$receiver_address->receiver->name}}</td>
+                            @endif
                             <td class="text-center">
 		                            <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.receiver-addresses.edit', $receiver_address->id)}}" title="{{ translate('Edit') }}">
 		                                <i class="las la-edit"></i>

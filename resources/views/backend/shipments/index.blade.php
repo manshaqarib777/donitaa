@@ -334,6 +334,7 @@ $auth_user = Auth::user();
                                 <td>{{ $shipment->getStatus() }}</td>
                             @endif
                             <td>{{ $shipment->type }}</td>
+                            @if ($auth_user->user_type != 'branch')
                             @if (isset($shipment->branch_id))
                                 @if (in_array($user_type, ['admin']) || in_array('1100', $staff_permission) || in_array('1006', $staff_permission))
                                     <td><a
@@ -344,6 +345,7 @@ $auth_user = Auth::user();
                                 @endif
                             @else
                                 <td></td>
+                            @endif
                             @endif
 
                             <td>{{ format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}

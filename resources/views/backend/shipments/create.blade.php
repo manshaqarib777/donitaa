@@ -284,35 +284,48 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
-                                        <small>{{ translate('Building, Street Name etc') }}</small></label>
+                            @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        {{-- <select class="form-control select-client-address" name="Shipment[client_address]">
-                                                    <option></option>
-                                                </select> --}}
-                                        <input placeholder="{{ translate('Address') }}" name="Shipment[client_address]"
-                                            class="form-control" />
+                                        <label>{{ translate('Choose Address') }}:</label>
+                                        <select id="change-address" class="form-control select-address">
+                                            <option value=""></option>
+                                            @foreach ($addresses as $address)
+                                                <option value="{{ $address->id }}" data-email="{{ $address->client->email }}" data-responsible_mobile="{{ $address->client->responsible_mobile }}" data-zip_code="{{ $address->zip_code }}" data-address="{{ $address->type }}" data-address2="{{ $address->address }}" data-country_id="{{ $address->country_id }}" data-area_id="{{ $address->area_id }}" data-state_id="{{ $address->state_id }}" >{{ $address->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
-
                                 </div>
-                            </div>
-                            <div class="col-md-12">
+                            @endif
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="">{{ translate('Address') }}:
-                                        <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small></label>
+                                    <label class="">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-client-address" name="Shipment[client_address]">
                                                     <option></option>
                                                 </select> --}}
-                                        <input placeholder="{{ translate('Address') }}" name="Shipment[client_address_2]"
+                                        <input placeholder="{{ translate('Address') }}" name="Shipment[client_address]" id="client_address"
                                             class="form-control" />
                                     </div>
 
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="">{{ translate('Floor/Apt No.') }}:
+                                    </label>
+                                    <div class="form-group">
+                                        {{-- <select class="form-control select-client-address" name="Shipment[client_address]">
+                                                    <option></option>
+                                                </select> --}}
+                                        <input placeholder="{{ translate('Floor/Apt No.') }}" name="Shipment[client_address_2]" id="client_address_2"
+                                            class="form-control" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>{{ translate('From Country') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <select id="change-country" name="Shipment[from_country_id]"
@@ -325,6 +338,8 @@
                                     </select>
                                 </div>
                             </div>
+                            @if(isset(auth()->user()->user_type) && (auth()->user()->user_type != 'customer') && auth()->user()->user_type != 'branch')
+
                             <div class="col-md-6 show_client_branch">
                                 <div class="form-group">
                                     <label>{{ translate('Branch') }}: <small style="font-size:12px;color: red">*</small></label>
@@ -333,13 +348,14 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            @endif
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-8">
                                             <label>{{ translate('From Region') }}: <small style="font-size:12px;color: red">*</small></label>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_client_regions"></i>
                                         </div>
                                     </div>
@@ -350,13 +366,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-8">
                                             <label>{{ translate('From Area') }}: <small style="font-size:12px;color: red">*</small></label>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_client_areas"></i>
                                         </div>
                                     </div>
@@ -367,28 +383,31 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="">{{ translate('Zip/Postal Code') }}:</label>
-                                    <input type="text" placeholder="{{ translate('Zip/Postal Code') }}"
-                                        name="Shipment[client_zip_code]" id="client_zip_code" class="form-control" />
+                            <div class="row col-md-12">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="">{{ translate('Zip/Postal Code') }}:</label>
+                                        <input type="text" placeholder="{{ translate('Zip/Postal Code') }}"
+                                            name="Shipment[client_zip_code]" id="client_zip_code" class="form-control" />
 
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="">{{ translate('Email') }}: <small style="font-size:12px;color: red">*</small></label>
-                                    <input type="text" placeholder="{{ translate('Email') }}"
-                                        name="Shipment[client_email]" id="client_email" class="form-control" />
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="">{{ translate('Email') }}: <small style="font-size:12px;color: red">*</small></label>
+                                        <input type="text" placeholder="{{ translate('Email') }}"
+                                            name="Shipment[client_email]" id="client_email" class="form-control" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="">{{ translate('Sender Phone') }}: <small style="font-size:12px;color: red">*</small></label>
-                                    <input type="text" name="Shipment[client_phone]" id="client_phone" class="form-control" />
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="">{{ translate('Sender Phone') }}: <small style="font-size:12px;color: red">*</small></label>
+                                        <input type="text" name="Shipment[client_phone]" id="client_phone" class="form-control" />
 
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
 
@@ -450,10 +469,10 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="text-white">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
-                                        <small>{{ translate('Building, Street Name etc') }}</small></label>
+                                    </label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
                                                     <option></option>
@@ -464,15 +483,15 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-white">{{ translate('Address') }}:
-                                        <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small></label>
+                                    <label class="text-white">{{ translate('Floor/Apt No.') }}:
+                                    </label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
                                                     <option></option>
                                                 </select> --}}
-                                        <input placeholder="{{ translate('Address') }}"
+                                        <input placeholder="{{ translate('Floor/Apt No.') }}"
                                             name="Shipment[receiver_address_2]" class="form-control" />
                                     </div>
 
@@ -491,14 +510,16 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6 show_receiver_branch">
-                                <div class="form-group">
-                                    <label class="text-white">{{ translate('Branch:') }} <small style="font-size:12px;color: red">*</small></label>
-                                    <select class="form-control kt-select2 select-branch" name="Shipment[receiver_branch_id]">
-                                        <option></option>
-                                    </select>
+                            @if(isset(auth()->user()->user_type) && (auth()->user()->user_type != 'customer') && auth()->user()->user_type != 'branch')
+                                <div class="col-md-6 show_receiver_branch">
+                                    <div class="form-group">
+                                        <label class="text-white">{{ translate('Branch:') }} <small style="font-size:12px;color: red">*</small></label>
+                                        <select class="form-control kt-select2 select-branch" name="Shipment[receiver_branch_id]">
+                                            <option></option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="row">
@@ -1166,8 +1187,34 @@
         </li>`);
         });
     @endif
+    $('.select-address').select2({
+        placeholder: "Search Address"
+    });
+
+    $('#change-address').change(function() {
+        var id = $(this).val();
+        $('#client_address').val($(this).find(':selected').data('address'));
+        $('#client_address_2').val($(this).find(':selected').data('address2'));
+        $('#client_email').val($(this).find(':selected').data('email'));
+        $('#client_zip_code').val($(this).find(':selected').data('zip_code'));
+        $('#client_phone').val($(this).find(':selected').data('responsible_mobile')).change();
+        //alert($(this).find(':selected').data('address'));
+
+        $('#change-country').val($(this).find(':selected').data('country_id')).change();
+        var state_id=$(this).find(':selected').data('state_id');
+        var area_id=$(this).find(':selected').data('area_id');
+
+        setTimeout(function() {
+            $('#change-state-from').val(state_id).change();
+
+        }, 1000);
+        setTimeout(function() {
+            $('#change-area-from').val(area_id).change();
+
+        }, 2000);
 
 
+    });
     $('#change-country').change(function() {
         var id = $(this).val();
         $.get("{{ route('admin.shipments.get-states-ajax') }}?country_id=" + id, function(data) {
@@ -1590,7 +1637,27 @@
             }, 500);
         });
 
+        @if($default_address!=null)
+            $('#client_address').val('{{$default_address->type}}');
+            $('#client_address_2').val('{{$default_address->address}}');
+            $('#client_email').val('{{$default_address->client->email}}');
+            $('#client_zip_code').val('{{$default_address->zip_code}}');
+            $('#client_phone').val('{{$default_address->client->responsible_mobile}}').change();
+            //alert($(this).find(':selected').data('address'));
 
+            $('#change-country').val('{{$default_address->country_id}}').change();
+            var state_id={{$default_address->state_id}};
+            var area_id={{$default_address->area_id}};
+            alert(area_id);
+            setTimeout(function() {
+                $('#change-state-from').val(state_id).change();
+
+            }, 1000);
+            setTimeout(function() {
+                $('#change-area-from').val(area_id).change();
+
+            }, 2000);
+        @endif
         FormValidation.formValidation(
             document.getElementById('kt_form_1'), {
                 fields: {

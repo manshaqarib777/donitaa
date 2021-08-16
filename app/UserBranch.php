@@ -12,4 +12,8 @@ class UserBranch extends Model
     {
         return $this->belongsTo(User::class)->withoutGlobalScope('restriction');
     }
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class)->withoutGlobalScope('restriction');
+    }
 }

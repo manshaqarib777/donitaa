@@ -214,35 +214,49 @@
                                     </div>
                                 </div>
                              </div>
-                            <div class="col-md-12">
+                             @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>{{ translate('Choose Address') }}:</label>
+                                        <select id="change-address" class="form-control select-address">
+                                            <option value=""></option>
+                                            @foreach ($addresses as $address)
+                                                <option value="{{ $address->id }}" data-email="{{ $address->client->email }}" data-responsible_mobile="{{ $address->client->responsible_mobile }}" data-zip_code="{{ $address->zip_code }}" data-address="{{ $address->type }}" data-address2="{{ $address->address }}" data-country_id="{{ $address->country_id }}" data-area_id="{{ $address->area_id }}" data-state_id="{{ $address->state_id }}" >{{ $address->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
-                                        <small>{{ translate('Building, Street Name etc') }}</small></label>
+                                    </label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-client-address" name="Shipment[client_address]">
                                                 <option></option>
                                             </select> --}}
-                                        <input placeholder="{{ translate('Address') }}" name="Shipment[client_address]"
+                                        <input placeholder="{{ translate('Address') }}" name="Shipment[client_address]" id="client_address"
                                             class="form-control" value="{{ @$client_address->name }}" id="" />
                                     </div>
 
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="">{{ translate('Address') }}:
-                                        <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small></label>
+                                    <label class="">{{ translate('Floor/Apt No.') }}:
+                                    </label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-client-address" name="Shipment[client_address]">
                                                 <option></option>
                                             </select> --}}
-                                        <input placeholder="{{ translate('Address') }}" name="Shipment[client_address_2]"
+                                        <input placeholder="{{ translate('Floor/Apt No.') }}" name="Shipment[client_address_2]" id="client_address_2"
                                             class="form-control" value="{{ @$client_address->address }}" id="" />
                                     </div>
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>{{ translate('From Country') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <select id="change-country" name="Shipment[from_country_id]"
@@ -256,6 +270,7 @@
                                     </select>
                                 </div>
                             </div>
+                            @if(isset(auth()->user()->user_type) && (auth()->user()->user_type != 'customer') && auth()->user()->user_type != 'branch')
                             <div class="col-md-6 show_client_branch">
                                 <div class="form-group">
                                     <label>{{ translate('Branch') }}: <small style="font-size:12px;color: red">*</small></label>
@@ -265,13 +280,14 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            @endif
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-8">
                                             <label>{{ translate('From Region') }}: <small style="font-size:12px;color: red">*</small></label>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_client_regions"></i>
                                         </div>
                                     </div>
@@ -284,13 +300,13 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-8">
                                             <label>{{ translate('From Area') }}: <small style="font-size:12px;color: red">*</small></label>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_client_areas"></i>
                                         </div>
                                     </div>
@@ -301,7 +317,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="">{{ translate('Zip/Postal Code') }}:</label>
                                     <input type="text" placeholder="{{ translate('Zip/Postal Code') }}"
@@ -310,7 +326,7 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="form-group">
                                     <label class="">{{ translate('Email') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('Email') }}"
@@ -318,7 +334,7 @@
                                         value="{{ $shipment->client->email }}" class="form-control" />
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="">{{ translate('Sender Phone') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('Sender Phone') }}"
@@ -390,10 +406,10 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="text-white ">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
-                                        <small>{{ translate('Building, Street Name etc') }}</small></label>
+                                    </label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
                                                 <option></option>
@@ -404,15 +420,15 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-white ">{{ translate('Address') }}:
-                                        <small>{{ translate('Store, Dept, Apt No, Floor etc') }}</small></label>
+                                    <label class="text-white ">{{ translate('Floor/Apt No.') }}:
+                                    </label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
                                                 <option></option>
                                             </select> --}}
-                                        <input placeholder="{{ translate('Address') }}"
+                                        <input placeholder="{{ translate('Floor/Apt No.') }}"
                                             name="Shipment[receiver_address_2]" class="form-control"
                                             value="{{ @$receiver_address->address }}" id="" />
                                     </div>
@@ -433,15 +449,17 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6 show_receiver_branch">
-                                <div class="form-group">
-                                    <label class="text-white">{{ translate('Branch') }}: <small style="font-size:12px;color: red">*</small></label>
-                                    <select class="form-control kt-select2 select-branch" name="Shipment[receiver_branch_id]">
-                                        <option value="{{ @$shipment->receiver_branch_id }}">{{ @$shipment->receiverBranch->name }}
-                                        </option>
-                                    </select>
+                            @if(isset(auth()->user()->user_type) && (auth()->user()->user_type != 'customer') && auth()->user()->user_type != 'branch')
+                                <div class="col-md-6 show_receiver_branch">
+                                    <div class="form-group">
+                                        <label class="text-white">{{ translate('Branch') }}: <small style="font-size:12px;color: red">*</small></label>
+                                        <select class="form-control kt-select2 select-branch" name="Shipment[receiver_branch_id]">
+                                            <option value="{{ @$shipment->receiver_branch_id }}">{{ @$shipment->receiverBranch->name }}
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="row">
@@ -602,7 +620,7 @@
                                     <div class="col-7">
                                         <div class="form-group">
                                             <input type="text" placeholder="{{ translate('Transfer Number Here (Optional)') }}"
-                                                id="client_email" class="form-control payment_method_id_radio_detail" value="{{($gateway->id==$shipment->payment_method_id)?$shipment->payment_method_id_details:''}}" />
+                                            class="form-control payment_method_id_radio_detail" value="{{($gateway->id==$shipment->payment_method_id)?$shipment->payment_method_id_details:''}}" />
                                         </div>
                                     </div>
                                 @endif
@@ -623,7 +641,7 @@
                                     <div class="col-7">
                                         <div class="form-group">
                                             <input type="text" placeholder="{{ translate('Please type the Transfer Number Here (Optional)') }}"
-                                                 id="client_email" class="form-control payment_method_id_radio_detail" value="{{($gateway->id==$shipment->payment_method_id)?$shipment->payment_method_id_details:''}}" />
+                                            class="form-control payment_method_id_radio_detail" value="{{($gateway->id==$shipment->payment_method_id)?$shipment->payment_method_id_details:''}}" />
                                         </div>
                                     </div>
                                 @endif
@@ -1081,27 +1099,7 @@
             }
         }
     }
-    // if ($('.payment-type').val() == '2') {
-    //     $('.payment-method').attr('disabled','disabled');
 
-    // } else {
-    //     $('.payment-method').removeAttr('disabled','disabled');
-
-
-
-    // }
-    // $('.payment-type').change(function() {
-    //    // alert($(this).val());
-    //    if ($(this).val() == '2') {
-    //         $('.payment-method').attr('disabled','disabled');
-
-    //     } else {
-    //         $('.payment-method').removeAttr('disabled','disabled');
-
-
-
-    //     }
-    // });
     if ($('.payment-type').val() == '2') {
         $('.payment-method').attr('disabled', 'disabled');
         $('.payment_method_id_radio').attr('disabled', 'disabled');
@@ -1169,8 +1167,34 @@
         $('.payment_method_id_radio_detail').val('');
         $('input[name ="Shipment[payment_method_id_details]"]').val('');
     });
+    $('.select-address').select2({
+        placeholder: "Search Address"
+    });
+
+    $('#change-address').change(function() {
+        var id = $(this).val();
+        $('#client_address').val($(this).find(':selected').data('address'));
+        $('#client_address_2').val($(this).find(':selected').data('address2'));
+        $('#client_email').val($(this).find(':selected').data('email'));
+        $('#client_zip_code').val($(this).find(':selected').data('zip_code'));
+        $('#client_phone').val($(this).find(':selected').data('responsible_mobile')).change();
+        //alert($(this).find(':selected').data('address'));
+
+        $('#change-country').val($(this).find(':selected').data('country_id')).change();
+        var state_id=$(this).find(':selected').data('state_id');
+        var area_id=$(this).find(':selected').data('area_id');
+
+        setTimeout(function() {
+            $('#change-state-from').val(state_id).change();
+
+        }, 1000);
+        setTimeout(function() {
+            $('#change-area-from').val(area_id).change();
+
+        }, 2000);
 
 
+    });
 
     $(document).on('click', '.package-listener', function() {
 
@@ -1521,8 +1545,7 @@
             startDate: new Date(),
         });
         $(document).ready(function() {
-
-            if ($('input:radio[name="Shipment[type]"]').val() == '2') {
+            if ($('input:radio[name="Shipment[type]"]:checked').val() == '2') {
                     $('.show_client_branch').show();
                     $('.show_pickup_date').hide();
                 } else {
@@ -1540,7 +1563,7 @@
 
                 }
             });
-            if ($('input:radio[name="Shipment[receiver_shipment_type]"]').val() == '2') {
+            if ($('input:radio[name="Shipment[receiver_shipment_type]:checked"]').val() == '2') {
                     $('.show_receiver_branch').show();
                 } else {
                     $('.show_receiver_branch').hide();
@@ -1648,7 +1671,6 @@
                 calcTotalPrice();
             }, 500);
         });
-
 
         FormValidation.formValidation(
             document.getElementById('kt_form_1'), {

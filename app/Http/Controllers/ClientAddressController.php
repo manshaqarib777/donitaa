@@ -17,7 +17,7 @@ class ClientAddressController extends Controller
      */
     public function index()
     {
-        $client_addresses = ClientAddress::where('is_archived',0)->paginate(15);
+        $client_addresses = ClientAddress::where('is_archived',0)->orderBy('client_id')->paginate(15);
         return view('backend.client_addresses.index', compact('client_addresses'));
     }
 
@@ -174,7 +174,8 @@ class ClientAddressController extends Controller
     }
     public function status(Request $request)
     {
-        $client_addresses = ClientAddress::where('default',1)->get();
+        $model = ClientAddress::findOrFail($request->id);
+        $client_addresses = ClientAddress::where('client_id',$model->client_id)->where('default',1)->get();
         if($client_addresses)
         {
             foreach($client_addresses as $client_address){
@@ -182,7 +183,6 @@ class ClientAddressController extends Controller
                 $client_address->save();
             }
         }
-        $model = ClientAddress::findOrFail($request->id);
         $model->default = $request->checked;
         if($model->save()){
             return 1;

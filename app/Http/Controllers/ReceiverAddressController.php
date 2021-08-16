@@ -17,7 +17,7 @@ class ReceiverAddressController extends Controller
      */
     public function index()
     {
-        $receiver_addresses = ReceiverAddress::where('is_archived',0)->paginate(15);
+        $receiver_addresses = ReceiverAddress::where('is_archived',0)->orderBy('receiver_id')->paginate(15);
         return view('backend.receiver_addresses.index', compact('receiver_addresses'));
     }
 
@@ -174,15 +174,15 @@ class ReceiverAddressController extends Controller
     }
     public function status(Request $request)
     {
-        $client_addresses = ReceiverAddress::where('default',1)->get();
-        if($client_addresses)
+        $model = ReceiverAddress::findOrFail($request->id);
+        $receiver_addresses = ReceiverAddress::where('receiver_id',$model->receiver_id)->where('default',1)->get();
+        if($receiver_addresses)
         {
-            foreach($client_addresses as $client_address){
-                $client_address->default=0;
-                $client_address->save();
+            foreach($receiver_addresses as $receiver_address){
+                $receiver_address->default=0;
+                $receiver_address->save();
             }
         }
-        $model = ReceiverAddress::findOrFail($request->id);
         $model->default = $request->checked;
         if($model->save()){
             return 1;

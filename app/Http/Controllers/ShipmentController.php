@@ -989,7 +989,15 @@ class ShipmentController extends Controller
         $branchs = Branch::where('is_archived', 0)->get();
         $clients = Client::where('is_archived', 0)->get();
         $receivers = Receiver::where('is_archived', 0)->get();
-        return view('backend.shipments.create', compact('branchs', 'clients','receivers'));
+        $addresses=array();
+        $default_address=null;
+        if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+        {
+            $addresses= ClientAddress::where('client_id',@auth()->user()->userClient->client->id)->get();
+            $default_address= ClientAddress::where('client_id',@auth()->user()->userClient->client->id)->where('default',1)->first();
+            //dd($default_address);
+        }
+        return view('backend.shipments.create', compact('branchs', 'clients','receivers','addresses','default_address'));
     }
 
     /**
@@ -1449,7 +1457,13 @@ class ShipmentController extends Controller
         $branchs = Branch::where('is_archived', 0)->get();
         $clients = Client::where('is_archived', 0)->get();
         $shipment = Shipment::find($id);
-        return view('backend.shipments.edit', compact('branchs', 'clients', 'shipment'));
+        $addresses=array();
+        $default_address=null;
+        if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+        {
+            $addresses= ClientAddress::where('client_id',@auth()->user()->userClient->client->id)->get();
+        }
+        return view('backend.shipments.edit', compact('branchs', 'clients', 'shipment','addresses'));
     }
 
     /**
@@ -1861,5 +1875,24 @@ class ShipmentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function assign(Request $request)
+    {
+        //dd(auth()->user()->userBranch->branch->id);
+        if(auth()->user()->userBranch->branch->id)
+        {
+            $model = Shipment::find($request->id);
+            if($request->branch=='receiver_branch_id')       
+                $model->receiver_branch_id =auth()->user()->userBranch->branch->id;
+            else
+                $model->branch_id =auth()->user()->userBranch->branch->id;
+    
+            if($model->save()){
+                return 1;
+            }
+        }
+        return 0;
+
     }
 }
