@@ -266,25 +266,26 @@
                                         name="Shipment[pickup_date]" id="datepicker" class="form-control" value="{{  date('l j, F Y')}}" />
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="radio-inline">
-                                    <label class="radio radio-success ">
-                                        <input type="radio" class="address-listener" name="client_test_address"
-                                            value="1" />
-                                        <span></span>
-                                        {{ translate('New Address') }}
-                                    </label>
-                                    <label class="radio radio-success ">
-                                        {{ translate('OR') }}
-                                    </label>
-                                    <label class="radio radio-success ">
-                                        <input type="radio" class="address-listener" name="client_test_address" value="2" />
-                                        <span></span>
-                                        {{ translate('Existing Address') }}
-                                    </label>
-                                </div>
-                            </div>
+
                             @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+                                <div class="col-md-6">
+                                    <div class="radio-inline">
+                                        <label class="radio radio-success ">
+                                            <input type="radio" class="address-listener" name="client_test_address"
+                                                value="1" />
+                                            <span></span>
+                                            {{ translate('New Address') }}
+                                        </label>
+                                        <label class="radio radio-success ">
+                                            {{ translate('OR') }}
+                                        </label>
+                                        <label class="radio radio-success ">
+                                            <input type="radio" class="address-listener" name="client_test_address" value="2" />
+                                            <span></span>
+                                            {{ translate('Existing Address') }}
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="col-md-12 existing-address-show">
                                     <div class="form-group">
                                         <label>{{ translate('Choose Address') }}:</label>
@@ -469,7 +470,51 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+                                <div class="col-md-6">
+                                    <div class="radio-inline">
+                                        <label class="radio radio-success ">
+                                            <input type="radio" class="address-listener-receiver" name="receiver_test_address"
+                                                value="1" />
+                                            <span></span>
+                                            {{ translate('New Address') }}
+                                        </label>
+                                        <label class="radio radio-success ">
+                                            {{ translate('OR') }}
+                                        </label>
+                                        <label class="radio radio-success ">
+                                            <input type="radio" class="address-listener-receiver" name="receiver_test_address" value="2" />
+                                            <span></span>
+                                            {{ translate('Existing Address') }}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 existing-receiver-address-show">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('Choose Receiver') }}:</label>
+                                                <select id="change-receiver" class="form-control select-receiver">
+                                                    <option value=""></option>
+                                                    @foreach ($receivers as $receiver)
+                                                        <option value="{{ $receiver->id }}" >{{ $receiver->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{ translate('Choose Address') }}:</label>
+                                                <select id="change-receiver-address" class="form-control select-receiver-address">
+                                                    <option value=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="col-md-6 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('First Name') }}"
@@ -478,7 +523,7 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('Last Name') }}"
@@ -486,7 +531,7 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
                                     </label>
@@ -494,13 +539,13 @@
                                         {{-- <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
                                                     <option></option>
                                                 </select> --}}
-                                        <input placeholder="{{ translate('Address') }}" name="Shipment[receiver_address]"
+                                        <input placeholder="{{ translate('Address') }}" name="Shipment[receiver_address]" id="receiver_address"
                                             class="form-control" />
                                     </div>
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('Floor/Apt No.') }}:
                                     </label>
@@ -509,12 +554,12 @@
                                                     <option></option>
                                                 </select> --}}
                                         <input placeholder="{{ translate('Floor/Apt No.') }}"
-                                            name="Shipment[receiver_address_2]" class="form-control" />
+                                            name="Shipment[receiver_address_2]" id="receiver_address_2" class="form-control" />
                                     </div>
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('To Country:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <select id="change-country-to" name="Shipment[to_country_id]"
@@ -537,7 +582,7 @@
                                     </div>
                                 </div>
                             @endif
-                            <div class="col-md-6">
+                            <div class="col-md-6 new-receiver-address-show">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -555,7 +600,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 new-receiver-address-show">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -573,7 +618,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('Zip/Postal Code') }}:</label>
                                     <input type="text" placeholder="{{ translate('Zip/Postal Code') }}"
@@ -581,14 +626,14 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('Email:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('Email') }}"
                                         name="Shipment[receiver_email]" id="receiver_email" class="form-control" />
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('Receiver Phone:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" name="Shipment[receiver_phone]" id="receiver_phone" class="form-control" />
@@ -942,27 +987,6 @@
                     </div>
                 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div class="row">
                     <div class="col-md-5">
                     </div>
@@ -1003,22 +1027,6 @@
                     </div>
 
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
 
 
@@ -1165,33 +1173,11 @@
         $('input[name ="Shipment[payment_method_id_details]"]').val('');
     });
 
+    $('.existing-address-show').hide();
+    $('.new-address-show').hide();
+    $('.existing-receiver-address-show').hide();
+    $('.new-receiver-address-show').hide();
 
-    $(document).on('change', '.address-listener', function() {
-
-        if ($(this).val()=="1") {
-            $('#client_first_name').val('');
-            $('#client_last_name').val('');
-            $('#client_address').val('');
-            $('#client_address_2').val('');
-            $('#client_email').val('');
-            $('#client_zip_code').val('');
-            $('#client_phone').val('');
-            $('#change-country').val('').change();
-            $('#change-state-from').val('').change();
-            $('#change-area-from').val('').change();
-
-
-            $('.existing-address-show').hide();
-            $('.new-address-show').show();
-        } else {
-
-            $('#change-address').val('').change();
-
-            $('.existing-address-show').show();
-            $('.new-address-show').hide();
-        }
-
-    });
 
     $(document).on('click', '.package-listener', function() {
 
@@ -1262,6 +1248,113 @@
 
 
     });
+
+    $(document).on('change', '.address-listener', function() {
+
+        if ($(this).val()=="1") {
+            $('#client_first_name').val('');
+            $('#client_last_name').val('');
+            $('#client_address').val('');
+            $('#client_address_2').val('');
+            $('#client_email').val('');
+            $('#client_zip_code').val('');
+            $('#client_phone').val('');
+            $('#change-country').val('').change();
+            $('#change-state-from').val('').change();
+            $('#change-area-from').val('').change();
+
+
+            $('.existing-address-show').hide();
+            $('.new-address-show').show();
+        } else {
+
+            $('#change-address').val('').change();
+
+            $('.existing-address-show').show();
+            $('.new-address-show').hide();
+        }
+
+    });
+
+    $('.select-receiver').select2({
+        placeholder: "Search Receiver"
+    });
+    $('#change-receiver').change(function() {
+        var id = $(this).val();
+        $.get("{{ route('admin.shipments.get-receiver-address-ajax') }}?receiver_id=" + id, function(data) {
+            $('#change-receiver-address').empty();
+            $('#change-receiver-address').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                $('#change-receiver-address').append('<option value="' + element['id'] + '" data-last_name="' + element['last_name'] + '" data-first_name="' + element['first_name'] + '" data-email="' + element['receiver']['email'] + '" data-responsible_mobile="' + element['receiver']['responsible_mobile'] + '" data-zip_code="' + element['zip_code'] + '" data-address="' + element['type'] + '" data-address2="' + element['address'] + '" data-country_id="' + element['country_id'] + '" data-area_id="' + element['area_id'] + '" data-state_id="' + element['state_id'] + '">' + element['name'] + '</option>');
+
+            }
+
+
+        });
+    });
+
+
+    // $('.select-receiver-address').select2({
+    //     placeholder: "Search Address"
+    // });
+
+    $('#change-receiver-address').change(function() {
+        var id = $(this).val();
+        $('#receiver_first_name').val($(this).find(':selected').data('first_name'));
+        $('#receiver_last_name').val($(this).find(':selected').data('last_name'));
+        $('#receiver_address').val($(this).find(':selected').data('address'));
+        $('#receiver_address_2').val($(this).find(':selected').data('address2'));
+        $('#receiver_email').val($(this).find(':selected').data('email'));
+        $('#receiver_zip_code').val($(this).find(':selected').data('zip_code'));
+        $('#receiver_phone').val($(this).find(':selected').data('responsible_mobile')).change();
+        //alert($(this).find(':selected').data('address'));
+
+        $('#change-country-to').val($(this).find(':selected').data('country_id')).change();
+        var state_id=$(this).find(':selected').data('state_id');
+        var area_id=$(this).find(':selected').data('area_id');
+
+        setTimeout(function() {
+            $('#change-state-to').val(state_id).change();
+
+        }, 1000);
+        setTimeout(function() {
+            $('#change-area-to').val(area_id).change();
+
+        }, 2000);
+
+
+    });
+
+
+    $(document).on('change', '.address-listener-receiver', function() {
+
+        if ($(this).val()=="1") {
+            $('#receiver_first_name').val('');
+            $('#receiver_last_name').val('');
+            $('#receiver_address').val('');
+            $('#receiver_address_2').val('');
+            $('#receiver_email').val('');
+            $('#receiver_zip_code').val('');
+            $('#receiver_phone').val('');
+            $('#change-country-to').val('').change();
+            $('#change-state-to').val('').change();
+            $('#change-area-to').val('').change();
+
+
+            $('.existing-receiver-address-show').hide();
+            $('.new-receiver-address-show').show();
+        } else {
+
+            $('#change-address').val('').change();
+
+            $('.existing-receiver-address-show').show();
+            $('.new-receiver-address-show').hide();
+        }
+    });
+
+
+
     $('#change-country').change(function() {
         var id = $(this).val();
         $.get("{{ route('admin.shipments.get-states-ajax') }}?country_id=" + id, function(data) {

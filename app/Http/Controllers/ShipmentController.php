@@ -659,14 +659,14 @@ class ShipmentController extends Controller
     }
     public function ajaxGetAddressesClient()
     {
-        $country_id = $_GET['client_id'];
-        $states = ClientAddress::withoutGlobalScope('restriction')->where('client_id', $country_id)->with('country','state','area')->get();
+        $client_id = $_GET['client_id'];
+        $states = ClientAddress::withoutGlobalScope('restriction')->where('client_id', $client_id)->with('client','country','state','area')->get();
         return response()->json($states);
     }
     public function ajaxGetAddressesReceiver()
     {
-        $country_id = $_GET['receiver_id'];
-        $states = ReceiverAddress::withoutGlobalScope('restriction')->where('receiver_id', $country_id)->with('country','state','area')->get();
+        $receiver_id = $_GET['receiver_id'];
+        $states = ReceiverAddress::withoutGlobalScope('restriction')->where('receiver_id', $receiver_id)->with('receiver','country','state','area')->get();
         return response()->json($states);
     }
     public function ajaxGetAreas()
@@ -1456,6 +1456,7 @@ class ShipmentController extends Controller
     {
         $branchs = Branch::where('is_archived', 0)->get();
         $clients = Client::where('is_archived', 0)->get();
+        $receivers = Receiver::where('is_archived', 0)->get();
         $shipment = Shipment::find($id);
         $addresses=array();
         $default_address=null;
@@ -1463,7 +1464,7 @@ class ShipmentController extends Controller
         {
             $addresses= ClientAddress::where('client_id',@auth()->user()->userClient->client->id)->get();
         }
-        return view('backend.shipments.edit', compact('branchs', 'clients', 'shipment','addresses'));
+        return view('backend.shipments.edit', compact('branchs', 'clients','receivers', 'shipment','addresses'));
     }
 
     /**

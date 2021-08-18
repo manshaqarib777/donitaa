@@ -55,13 +55,13 @@ Route::get('shipments/ajaxed-get-branches','ShipmentController@ajaxGetBranches')
 Route::get('shipments/ajaxed-get-areas','ShipmentController@ajaxGetAreas')->name('admin.shipments.get-areas-ajax');
 Route::get('shipments/ajaxed-save-package','ShipmentController@ajaxSavePackage')->name('admin.shipments.save-package-ajax');
 Route::post('shipments/get-estimation-cost','ShipmentController@ajaxGetEstimationCost')->name('admin.shipments.get-estimation-cost');
-
+Route::get('shipments/ajaxed-get-client-addresses','ShipmentController@ajaxGetAddressesClient')->name('admin.shipments.get-client-address-ajax');
+Route::get('shipments/ajaxed-get-receiver-addresses','ShipmentController@ajaxGetAddressesReceiver')->name('admin.shipments.get-receiver-address-ajax');
+    
 
 Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff|customer|branch']], function(){
 	//Update Routes
     Route::get('shipments/print/{shipment}/{type}','ShipmentController@print')->name('admin.shipments.print');
-    Route::get('shipments/ajaxed-get-client-addresses','ShipmentController@ajaxGetAddressesClient')->name('admin.shipments.get-client-address-ajax');
-    Route::get('shipments/ajaxed-get-receiver-addresses','ShipmentController@ajaxGetAddressesReceiver')->name('admin.shipments.get-receiver-address-ajax');
     Route::post('shipments/assign','ShipmentController@assign')->name('admin.shipments.assign');
     Route::post('shipments/action/{to}','ShipmentController@change')->name('admin.shipments.action');
     Route::post('shipments/action/pickup_mission/{type}','ShipmentController@createPickupMission')->name('admin.shipments.action.create.pickup.mission');
