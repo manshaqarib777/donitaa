@@ -1172,12 +1172,12 @@
         $('.payment_method_id_radio_detail').val('');
         $('input[name ="Shipment[payment_method_id_details]"]').val('');
     });
-
-    $('.existing-address-show').hide();
-    $('.new-address-show').hide();
-    $('.existing-receiver-address-show').hide();
-    $('.new-receiver-address-show').hide();
-
+    @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+        $('.existing-address-show').hide();
+        $('.new-address-show').hide();
+        $('.existing-receiver-address-show').hide();
+        $('.new-receiver-address-show').hide();
+    @endif
 
     $(document).on('click', '.package-listener', function() {
 
