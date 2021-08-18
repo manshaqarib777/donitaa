@@ -144,15 +144,16 @@
                     @endif
                 </ul>
                 <ul class="nav navbar-nav icon-nav hidden-sm main-menu">
-                    @forelse ($navbar_menu->items as $item)
-                    @if($item->label=="Login")
-                    <li class="{{(count($item->child) > 0)?'dropdown':''}}">
-                        <a class="transition" href="{{$item->link}}">{{$item->label}}</a>
-                    </li>
+                    @if(isset($navbar_menu))
+                        @forelse ($navbar_menu->items as $item)
+                            @if($item->label=="Login")
+                            <li class="{{(count($item->child) > 0)?'dropdown':''}}">
+                                <a class="transition" href="{{$item->link}}">{{$item->label}}</a>
+                            </li>
+                            @endif
+                        @empty
+                        @endforelse
                     @endif
-                    @empty
-                    @endforelse
-                    
 
                     <li><a href="javascript:void(0)" class="search-btn"><i class="ion-search"></i></a></li>
                     <li class="search-box" style="margin-left: -10pc;">

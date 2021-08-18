@@ -13,7 +13,21 @@
                 @csrf
                 {{ method_field('PATCH') }}
                 <div class="card-body">
-
+                    <div class="form-group">
+                        <label>{{ translate('Contact First Name') }}:</label>
+                        <input type="text" id="type" class="form-control" value="{{ $client_address->first_name }}"
+                            placeholder="{{ translate('Here') }}" name="ClientAddress[first_name]">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ translate('Contact Last Name') }}:</label>
+                        <input type="text" id="type" class="form-control" value="{{ $client_address->last_name }}"
+                            placeholder="{{ translate('Here') }}" name="ClientAddress[last_name]">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ translate('Address') }}:</label>
+                        <input type="text" id="name" class="form-control" value="{{ $client_address->name }}"
+                            placeholder="{{ translate('Here') }}" name="ClientAddress[name]">
+                    </div>
                     <div class="form-group">
                         <label>{{ translate('Address Name') }}:</label>
                         <input type="text" id="type" class="form-control" value="{{ $client_address->type }}"
@@ -44,7 +58,7 @@
                             <input type="text" class="form-control" placeholder="{{ translate('Here') }}"
                                 value="{{ $client_address->phone }}" name="ClientAddress[phone]">
                         </div>
-                        @if(auth()->user()->user_type !='customer')
+                        @if(auth()->user()->user_type !='customer' || (auth()->user()->user_type =='customer' && auth()->user()->userReceiver))
                         <div class="form-group row">
                         <label class="col-sm-3 col-from-label" for="client_id">{{ translate('Client') }}:</label>
                         <div class="col-sm-9">

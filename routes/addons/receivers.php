@@ -1,5 +1,5 @@
 <?php 
-Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff|branch']], function(){
+Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff|customer|branch']], function(){
 	//Update Routes
     Route::resource('receivers','ReceiverController',[
         'as' => 'admin'

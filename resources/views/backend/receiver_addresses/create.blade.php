@@ -14,6 +14,16 @@
                 {!! redirect_input() !!}
                 <div class="card-body">
                     <div class="form-group">
+                        <label>{{ translate('Contact First Name') }}:</label>
+                        <input type="text" id="type" class="form-control"
+                            placeholder="{{ translate('Contact First Name') }}" name="ReceiverAddress[first_name]">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ translate('Contact Last Name') }}:</label>
+                        <input type="text" id="type" class="form-control"
+                            placeholder="{{ translate('Contact Last Name') }}" name="ReceiverAddress[last_name]">
+                    </div>
+                    <div class="form-group">
                         <label>{{ translate('Address Name') }}:</label>
                         <input type="text" id="name" class="form-control" placeholder="{{ translate('Address Name') }}"
                             name="ReceiverAddress[type]">
@@ -45,7 +55,7 @@
                         </div>
                     </div>
 
-                    @if(auth()->user()->user_type !='customer')
+                    @if(auth()->user()->user_type !='customer' || (auth()->user()->user_type =='customer' && auth()->user()->userClient))
 
                     <div class="form-group row">
                         <label class="col-sm-3 col-from-label" for="receiver_id">{{ translate('Receiver') }}:</label>

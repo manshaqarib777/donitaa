@@ -225,13 +225,14 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="col-md-12" style="background: hsl(194, 82%, 40%);">
-                            <div class="w-100 p-2 ">
-                                <h5 class="text-left">{{ translate('SENDER/FROM') }}:</h5>
+                    <div class="col-md-12 row">
+                        <div class="col-md-3" style="background:white;border: 1px solid hsl(194, 82%, 40%);">
+                            <div class="w-100 p-2">
+                                <h5 class="text-center" style="font-size: 28px;padding-top: 100px;">{{ translate('SENDER/FROM') }}:</h5>
+                                <img src={{asset('public/soruce.jpg')}} style="width: 200px;" />
                             </div>
                         </div>
-                        <div class="col-md-12 row p-3">
+                        <div class="col-md-9 row p-3 pl-0"  style="background: hsl(194, 82%, 40%);">
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label class="">{{ translate('Sender Company') }}:</label>
@@ -266,21 +267,23 @@
                                 </div>
                             </div>
 
-                            <div class="row col-md-12">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="">{{ translate('First Name:') }} <small style="font-size:12px;color: red">*</small></label>
-                                        <input type="text" placeholder="{{ translate('First Name') }}"
-                                            name="Shipment[client_first_name]" id="client_first_name" class="form-control" />
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="">{{ translate('First Name:') }} <small style="font-size:12px;color: red">*</small></label>
+                                            <input type="text" placeholder="{{ translate('First Name') }}"
+                                                name="Shipment[client_first_name]" id="client_first_name" class="form-control" />
 
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="">{{ translate('Last Name:') }} <small style="font-size:12px;color: red">*</small></label>
-                                        <input type="text" placeholder="{{ translate('Last Name') }}"
-                                            name="Shipment[client_last_name]" id="client_last_name" class="form-control" />
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="">{{ translate('Last Name:') }} <small style="font-size:12px;color: red">*</small></label>
+                                            <input type="text" placeholder="{{ translate('Last Name') }}"
+                                                name="Shipment[client_last_name]" id="client_last_name" class="form-control" />
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -410,51 +413,48 @@
 
                         </div>
                     </div>
-
-
-
-
-
-
-                    <div class="col-md-6">
-                        <div class="col-md-12 row" style="background: hsl(21deg 94% 57%);">
-                            <div class="w-100 p-2 text-white">
-                                <h5 class="text-left">{{ translate('RECEIVER/TO') }}:</h5>
+                    <div class="col-md-12 row pt-5">
+                        <div class="col-md-3" style="background: purple;">
+                            <div class="w-100 p-2 ">
+                                <h5 class="text-center text-white" style="font-size: 28px;padding-top: 100px;">{{ translate('RECEIVER/TO') }}:</h5>
+                                <img src={{asset('public/destination.png')}} style="width: 200px;" />
                             </div>
                         </div>
-                        <div class="col-md-12 row p-3" style="background:purple;">
+                        <div class="col-md-9 row p-3 pl-0" style="background:white;border: 1px solid purple">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label class="text-white">{{ translate('Receiver Company') }}:</label>
+                                    <label class="">{{ translate('Receiver Company') }}:</label>
                                     <input type="text" placeholder="{{ translate('Receiver Company') }}"
                                         name="Shipment[receiver_company]" id="receiver_company" class="form-control" />
 
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-12 ml-4">
-                                    <div class="radio-inline">
-                                        <label class="radio radio-success text-white">
-                                            <input type="radio" name="Shipment[receiver_shipment_type]" checked="checked"
-                                                value="1" />
-                                            <span></span>
-                                            {{ translate('Agent Deliver to You') }} <small style="font-size:12px;color: red">*</small>
-                                        </label>
-                                        <label class="radio radio-success text-white">
-                                            {{ translate('OR') }}
-                                        </label>
-                                        <label class="radio radio-success text-white">
-                                            <input type="radio" name="Shipment[receiver_shipment_type]" value="2" />
-                                            <span></span>
-                                            {{ translate('Client Pickup from Our Store') }}
-                                        </label>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <div class="col-12 ml-4">
+                                        <div class="radio-inline">
+                                            <label class="radio radio-success ">
+                                                <input type="radio" name="Shipment[receiver_shipment_type]" checked="checked"
+                                                    value="1" />
+                                                <span></span>
+                                                {{ translate('Agent Deliver to You') }} <small style="font-size:12px;color: red">*</small>
+                                            </label>
+                                            <label class="radio radio-success ">
+                                                {{ translate('OR') }}
+                                            </label>
+                                            <label class="radio radio-success ">
+                                                <input type="radio" name="Shipment[receiver_shipment_type]" value="2" />
+                                                <span></span>
+                                                {{ translate('Client Pickup from Our Store') }}
+                                            </label>
+                                        </div>
 
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-white">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                    <label class="">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('First Name') }}"
                                         name="Shipment[receiver_first_name]" id="receiver_first_name"
                                         class="form-control" />
@@ -463,7 +463,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-white">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                    <label class="">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('Last Name') }}"
                                         name="Shipment[receiver_last_name]" id="receiver_last_name" class="form-control" />
 
@@ -471,7 +471,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-white">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
+                                    <label class="">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
                                     </label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
@@ -485,7 +485,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-white">{{ translate('Floor/Apt No.') }}:
+                                    <label class="">{{ translate('Floor/Apt No.') }}:
                                     </label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-receiver-address" name="Shipment[receiver_address]">
@@ -499,7 +499,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-white">{{ translate('To Country:') }} <small style="font-size:12px;color: red">*</small></label>
+                                    <label class="">{{ translate('To Country:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <select id="change-country-to" name="Shipment[to_country_id]"
                                         class="form-control select-country">
                                         <option value=""></option>
@@ -513,7 +513,7 @@
                             @if(isset(auth()->user()->user_type) && (auth()->user()->user_type != 'customer') && auth()->user()->user_type != 'branch')
                                 <div class="col-md-6 show_receiver_branch">
                                     <div class="form-group">
-                                        <label class="text-white">{{ translate('Branch:') }} <small style="font-size:12px;color: red">*</small></label>
+                                        <label class="">{{ translate('Branch:') }} <small style="font-size:12px;color: red">*</small></label>
                                         <select class="form-control kt-select2 select-branch" name="Shipment[receiver_branch_id]">
                                             <option></option>
                                         </select>
@@ -524,7 +524,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label class="text-white">{{ translate('To Region:') }} <small style="font-size:12px;color: red">*</small></label>
+                                            <label class="">{{ translate('To Region:') }} <small style="font-size:12px;color: red">*</small></label>
                                         </div>
                                         <div class="col-md-6">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_receiver_regions"></i>
@@ -542,7 +542,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label class="text-white">{{ translate('To Area:') }} <small style="font-size:12px;color: red">*</small></label>
+                                            <label class="">{{ translate('To Area:') }} <small style="font-size:12px;color: red">*</small></label>
                                         </div>
                                         <div class="col-md-6">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_receiver_areas"></i>
@@ -558,7 +558,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-white">{{ translate('Zip/Postal Code') }}:</label>
+                                    <label class="">{{ translate('Zip/Postal Code') }}:</label>
                                     <input type="text" placeholder="{{ translate('Zip/Postal Code') }}"
                                         name="Shipment[receiver_zip_code]" id="receiver_zip_code" class="form-control" />
 
@@ -566,14 +566,14 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-white">{{ translate('Email:') }} <small style="font-size:12px;color: red">*</small></label>
+                                    <label class="">{{ translate('Email:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('Email') }}"
                                         name="Shipment[receiver_email]" id="receiver_email" class="form-control" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-white">{{ translate('Receiver Phone:') }} <small style="font-size:12px;color: red">*</small></label>
+                                    <label class="">{{ translate('Receiver Phone:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" name="Shipment[receiver_phone]" id="receiver_phone" class="form-control" />
 
                                 </div>
@@ -1648,7 +1648,7 @@
             $('#change-country').val('{{$default_address->country_id}}').change();
             var state_id={{$default_address->state_id}};
             var area_id={{$default_address->area_id}};
-            alert(area_id);
+            //alert(area_id);
             setTimeout(function() {
                 $('#change-state-from').val(state_id).change();
 

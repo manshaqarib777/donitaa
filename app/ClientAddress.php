@@ -30,7 +30,13 @@ class ClientAddress extends Model
                     return $query->where('users.country_id', auth()->user()->country_id);
                  });
             }
-            if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+            if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer' && isset(auth()->user()->userClient))
+            {
+                $builder->whereHas('client.userClient.user', function($query) {
+                    return $query->where('users.country_id', auth()->user()->country_id);
+                 });
+            }
+            if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer' && isset(auth()->user()->userClient))
             {
                 $builder->where('client_id',@auth()->user()->userClient->client->id);
             }

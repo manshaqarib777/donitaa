@@ -31,6 +31,13 @@ class Client extends Model
                     return $query->where('users.country_id', auth()->user()->country_id);
                  });
             }
+
+            if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer' && isset(auth()->user()->userClient))
+            {
+                $builder->whereHas('userClient.user', function($query) {
+                    return $query->where('users.country_id', auth()->user()->country_id);
+                 });
+            }
                 
         });
     }

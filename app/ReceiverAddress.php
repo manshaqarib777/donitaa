@@ -30,7 +30,13 @@ class ReceiverAddress extends Model
                     return $query->where('users.country_id', auth()->user()->country_id);
                  });
             }
-            if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+            if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer' && isset(auth()->user()->userClient))
+            {
+                $builder->whereHas('receiver.userReceiver.user', function($query) {
+                    return $query->where('users.country_id', auth()->user()->country_id);
+                 });
+            }
+            if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer' && isset(auth()->user()->userReceiver))
             {
                 $builder->where('receiver_id',@auth()->user()->userReceiver->receiver->id);
             }

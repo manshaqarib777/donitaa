@@ -14,7 +14,16 @@
                 {{ method_field('PATCH') }}
                 <div class="card-body">
 
-
+                    <div class="form-group">
+                        <label>{{ translate('Contact First Name') }}:</label>
+                        <input type="text" id="type" class="form-control" value="{{ $receiver_address->first_name }}"
+                            placeholder="{{ translate('Here') }}" name="ReceiverAddress[first_name]">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ translate('Contact Last Name') }}:</label>
+                        <input type="text" id="type" class="form-control" value="{{ $receiver_address->last_name }}"
+                            placeholder="{{ translate('Here') }}" name="ReceiverAddress[last_name]">
+                    </div>
                     <div class="form-group">
                         <label>{{ translate('Address Name') }}:</label>
                         <input type="text" id="type" class="form-control" value="{{ $receiver_address->type }}"
@@ -43,7 +52,7 @@
                             <input type="text" class="form-control" placeholder="{{ translate('Here') }}"
                                 value="{{ $receiver_address->phone }}" name="ReceiverAddress[phone]">
                         </div>
-                        @if(auth()->user()->user_type !='customer')
+                        @if(auth()->user()->user_type !='customer' || (auth()->user()->user_type =='customer' && auth()->user()->userClient))
                         <div class="form-group row">
                         <label class="col-sm-3 col-from-label" for="receiver_id">{{ translate('Receiver') }}:</label>
                         <div class="col-sm-9">

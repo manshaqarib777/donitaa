@@ -24,6 +24,8 @@
             <thead>
                 <tr>
                     <th  width="3%">#</th>
+                    <th >{{translate('Contact First Name')}}</th>
+                    <th >{{translate('Contact Last Name')}}</th>
                     <th >{{translate('Address')}}</th>
                     <th >{{translate('Address Name')}}</th>
                     <th >{{translate('Phone')}}</th>
@@ -41,6 +43,8 @@
 
                         <tr>
                             <td  width="3%">{{ ($key+1) + ($receiver_addresses->currentPage() - 1)*$receiver_addresses->perPage() }}</td>
+                            <td width="20%">{{$receiver_address->first_name}}</td>
+                            <td width="20%">{{$receiver_address->last_name}}</td>
                             <td width="20%">{{$receiver_address->name}}</td>
                             <td width="20%">{{$receiver_address->type}}</td>
                             <td width="20%">{{$receiver_address->phone}}</td>
