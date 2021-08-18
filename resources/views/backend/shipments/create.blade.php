@@ -1346,7 +1346,7 @@
             $('.new-receiver-address-show').show();
         } else {
 
-            $('#change-address').val('').change();
+            $('#change-receiver-address').val('').change();
 
             $('.existing-receiver-address-show').show();
             $('.new-receiver-address-show').hide();
