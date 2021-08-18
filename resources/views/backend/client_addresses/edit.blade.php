@@ -246,6 +246,51 @@
                                 }
                             }
                         },
+                        "ClientAddress[type]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "ClientAddress[address]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "ClientAddress[zip_code]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "ClientAddress[first_name]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "ClientAddress[last_name]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "ClientAddress[email]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                },
+                                emailAddress: {
+                                    message: '{{ translate('This is should be valid email!') }}'
+                                }
+                            }
+                        },
                         "ClientAddress[country_id]": {
                             validators: {
                                 notEmpty: {

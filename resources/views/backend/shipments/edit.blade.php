@@ -150,7 +150,7 @@
                     <div class="col-md-12 row">
                         <div class="col-md-3" style="background:white;border: 1px solid hsl(194, 82%, 40%);">
                             <div class="w-100 p-2">
-                                <h5 class="text-center" style="font-size: 28px;padding-top: 100px;">{{ translate('SENDER/FROM') }}:</h5>
+                                <h5 class="text-center" style="font-size: 28px">{{ translate('SENDER/FROM') }}:</h5>
                                 <img src={{asset('public/soruce.jpg')}} style="width: 200px;" />
                             </div>
                         </div>
@@ -215,7 +215,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-md-12 existing-address-show">
+                                <div class="col-md-6 existing-address-show">
                                     <div class="form-group">
                                         <label>{{ translate('Choose Address') }}:</label>
                                         <select id="change-address" class="form-control select-address">
@@ -368,7 +368,7 @@
                     <div class="col-md-12 row pt-5">
                         <div class="col-md-3" style="background: purple;">
                             <div class="w-100 p-2 ">
-                                <h5 class="text-center text-white" style="font-size: 28px;padding-top: 100px;">{{ translate('RECEIVER/TO') }}:</h5>
+                                <h5 class="text-center text-white" style="font-size: 28px">{{ translate('RECEIVER/TO') }}:</h5>
                                 <img src={{asset('public/destination.png')}} style="width: 200px;" />
                             </div>
                         </div>
@@ -1237,12 +1237,17 @@
         $('.payment_method_id_radio_detail').val('');
         $('input[name ="Shipment[payment_method_id_details]"]').val('');
     });
+
+
+
     $('.select-address').select2({
         placeholder: "Search Address"
     });
 
     $('#change-address').change(function() {
         var id = $(this).val();
+        $('#client_first_name').val($(this).find(':selected').data('first_name'));
+        $('#client_last_name').val($(this).find(':selected').data('last_name'));
         $('#client_address').val($(this).find(':selected').data('address'));
         $('#client_address_2').val($(this).find(':selected').data('address2'));
         $('#client_email').val($(this).find(':selected').data('email'));
@@ -1264,6 +1269,111 @@
         }, 2000);
 
 
+    });
+
+    $(document).on('change', '.address-listener', function() {
+
+        if ($(this).val()=="1") {
+            $('#client_first_name').val('');
+            $('#client_last_name').val('');
+            $('#client_address').val('');
+            $('#client_address_2').val('');
+            $('#client_email').val('');
+            $('#client_zip_code').val('');
+            $('#client_phone').val('');
+            $('#change-country').val('').change();
+            $('#change-state-from').val('').change();
+            $('#change-area-from').val('').change();
+
+
+            $('.existing-address-show').hide();
+            $('.new-address-show').show();
+        } else {
+
+            $('#change-address').val('').change();
+
+            $('.existing-address-show').show();
+            $('.new-address-show').hide();
+        }
+
+    });
+
+    $('.select-receiver').select2({
+        placeholder: "Search Receiver"
+    });
+    $('#change-receiver').change(function() {
+        var id = $(this).val();
+        $.get("{{ route('admin.shipments.get-receiver-address-ajax') }}?receiver_id=" + id, function(data) {
+            $('#change-receiver-address').empty();
+            $('#change-receiver-address').append('<option value=""></option>');
+            for (let index = 0; index < data.length; index++) {
+                const element = data[index];
+                $('#change-receiver-address').append('<option value="' + element['id'] + '" data-last_name="' + element['last_name'] + '" data-first_name="' + element['first_name'] + '" data-email="' + element['receiver']['email'] + '" data-responsible_mobile="' + element['receiver']['responsible_mobile'] + '" data-zip_code="' + element['zip_code'] + '" data-address="' + element['type'] + '" data-address2="' + element['address'] + '" data-country_id="' + element['country_id'] + '" data-area_id="' + element['area_id'] + '" data-state_id="' + element['state_id'] + '">' + element['name'] + '</option>');
+
+            }
+
+
+        });
+    });
+
+
+    $('.select-receiver-address').select2({
+        placeholder: "Search Address"
+    });
+
+    $('#change-receiver-address').change(function() {
+        var id = $(this).val();
+        $('#receiver_first_name').val($(this).find(':selected').data('first_name'));
+        $('#receiver_last_name').val($(this).find(':selected').data('last_name'));
+        $('#receiver_address').val($(this).find(':selected').data('address'));
+        $('#receiver_address_2').val($(this).find(':selected').data('address2'));
+        $('#receiver_email').val($(this).find(':selected').data('email'));
+        $('#receiver_zip_code').val($(this).find(':selected').data('zip_code'));
+        $('#receiver_phone').val($(this).find(':selected').data('responsible_mobile')).change();
+        //alert($(this).find(':selected').data('address'));
+
+        $('#change-country-to').val($(this).find(':selected').data('country_id')).change();
+        var state_id=$(this).find(':selected').data('state_id');
+        var area_id=$(this).find(':selected').data('area_id');
+
+        setTimeout(function() {
+            $('#change-state-to').val(state_id).change();
+
+        }, 1000);
+        setTimeout(function() {
+            $('#change-area-to').val(area_id).change();
+
+        }, 2000);
+
+
+    });
+
+
+    $(document).on('change', '.address-listener-receiver', function() {
+
+        if ($(this).val()=="1") {
+            $('#receiver_first_name').val('');
+            $('#receiver_last_name').val('');
+            $('#receiver_address').val('');
+            $('#receiver_address_2').val('');
+            $('#receiver_email').val('');
+            $('#receiver_zip_code').val('');
+            $('#receiver_phone').val('');
+            $('#change-country-to').val('').change();
+            $('#change-state-to').val('').change();
+            $('#change-area-to').val('').change();
+
+
+            $('.existing-receiver-address-show').hide();
+            $('.new-receiver-address-show').show();
+        } else {
+
+            $('#change-receiver-address').val('').change();
+            $('#change-receiver').val('').change();
+
+            $('.existing-receiver-address-show').show();
+            $('.new-receiver-address-show').hide();
+        }
     });
 
     $(document).on('click', '.package-listener', function() {

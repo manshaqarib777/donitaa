@@ -240,6 +240,51 @@
                                 }
                             }
                         },
+                        "ReceiverAddress[type]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "ReceiverAddress[address]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "ReceiverAddress[zip_code]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "ReceiverAddress[first_name]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "ReceiverAddress[last_name]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                }
+                            }
+                        },
+                        "ReceiverAddress[email]": {
+                            validators: {
+                                notEmpty: {
+                                    message: '{{ translate('This is required!') }}'
+                                },
+                                emailAddress: {
+                                    message: '{{ translate('This is should be valid email!') }}'
+                                }
+                            }
+                        },
                         "ReceiverAddress[country_id]": {
                             validators: {
                                 notEmpty: {

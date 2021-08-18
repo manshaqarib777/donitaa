@@ -228,7 +228,7 @@
                     <div class="col-md-12 row">
                         <div class="col-md-3" style="background:white;border: 1px solid hsl(194, 82%, 40%);">
                             <div class="w-100 p-2">
-                                <h5 class="text-center" style="font-size: 28px;padding-top: 100px;">{{ translate('SENDER/FROM') }}:</h5>
+                                <h5 class="text-center" style="font-size: 28px">{{ translate('SENDER/FROM') }}:</h5>
                                 <img src={{asset('public/soruce.jpg')}} style="width: 200px;" />
                             </div>
                         </div>
@@ -286,10 +286,10 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-md-12 existing-address-show">
+                                <div class="col-md-6 existing-address-show">
                                     <div class="form-group">
                                         <label>{{ translate('Choose Address') }}:</label>
-                                        <select id="change-address" class="form-control select-address">
+                                        <select id="change-address" class="form-control select-address" style="width:100%">
                                             <option value=""></option>
                                             @foreach ($addresses as $address)
                                                 <option value="{{ $address->id }}" data-last_name="{{ $address->last_name }}" data-first_name="{{ $address->first_name }}" data-email="{{ $address->client->email }}" data-responsible_mobile="{{ $address->client->responsible_mobile }}" data-zip_code="{{ $address->zip_code }}" data-address="{{ $address->type }}" data-address2="{{ $address->address }}" data-country_id="{{ $address->country_id }}" data-area_id="{{ $address->area_id }}" data-state_id="{{ $address->state_id }}" >{{ $address->name }}
@@ -351,7 +351,7 @@
                                 <div class="form-group">
                                     <label>{{ translate('From Country') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <select id="change-country" name="Shipment[from_country_id]"
-                                        class="form-control select-country">
+                                        class="form-control select-country" style="width:100%;">
                                         <option value=""></option>
                                         @foreach ($countries as $country)
                                             <option value="{{ $country->id }}">{{ $country->name }}
@@ -364,7 +364,7 @@
                                 <div class="col-md-6 show_client_branch">
                                     <div class="form-group">
                                         <label>{{ translate('Branch') }}: <small style="font-size:12px;color: red">*</small></label>
-                                        <select class="form-control kt-select2 select-branch" name="Shipment[branch_id]">
+                                        <select class="form-control kt-select2 select-branch" name="Shipment[branch_id]" style="width:100%;">
                                             <option></option>
                                         </select>
                                     </div>
@@ -381,7 +381,7 @@
                                         </div>
                                     </div>
                                     <select id="change-state-from" name="Shipment[from_state_id]"
-                                        class="form-control select-state">
+                                        class="form-control select-state" style="width:100%;">
                                         <option value=""></option>
 
                                     </select>
@@ -398,7 +398,7 @@
                                         </div>
                                     </div>
                                     <select id='change-area-from' name="Shipment[from_area_id]"
-                                        class="form-control select-area">
+                                        class="form-control select-area" style="width:100%;">
                                         <option value=""></option>
 
                                     </select>
@@ -434,7 +434,7 @@
                     <div class="col-md-12 row pt-5">
                         <div class="col-md-3" style="background: purple;">
                             <div class="w-100 p-2 ">
-                                <h5 class="text-center text-white" style="font-size: 28px;padding-top: 100px;">{{ translate('RECEIVER/TO') }}:</h5>
+                                <h5 class="text-center text-white" style="font-size: 28px">{{ translate('RECEIVER/TO') }}:</h5>
                                 <img src={{asset('public/destination.png')}} style="width: 200px;" />
                             </div>
                         </div>
@@ -494,7 +494,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>{{ translate('Choose Receiver') }}:</label>
-                                                <select id="change-receiver" class="form-control select-receiver">
+                                                <select id="change-receiver" class="form-control select-receiver" style="width:100%">
                                                     <option value=""></option>
                                                     @foreach ($receivers as $receiver)
                                                         <option value="{{ $receiver->id }}" >{{ $receiver->name }}
@@ -506,7 +506,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>{{ translate('Choose Address') }}:</label>
-                                                <select id="change-receiver-address" class="form-control select-receiver-address">
+                                                <select id="change-receiver-address" class="form-control select-receiver-address" style="width:100%">
                                                     <option value=""></option>
                                                 </select>
                                             </div>
@@ -563,7 +563,7 @@
                                 <div class="form-group">
                                     <label class="">{{ translate('To Country:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <select id="change-country-to" name="Shipment[to_country_id]"
-                                        class="form-control select-country">
+                                        class="form-control select-country" style="width:100%;">
                                         <option value=""></option>
                                         @foreach ($countries_receiver as $country)
                                             <option value="{{ $country->id }}">{{ $country->name }}
@@ -576,7 +576,7 @@
                                 <div class="col-md-6 show_receiver_branch">
                                     <div class="form-group">
                                         <label class="">{{ translate('Branch:') }} <small style="font-size:12px;color: red">*</small></label>
-                                        <select class="form-control kt-select2 select-branch" name="Shipment[receiver_branch_id]">
+                                        <select class="form-control kt-select2 select-branch" name="Shipment[receiver_branch_id]" style="width:100%;">
                                             <option></option>
                                         </select>
                                     </div>
@@ -593,7 +593,7 @@
                                         </div>
                                     </div>
                                     <select id="change-state-to" name="Shipment[to_state_id]"
-                                        class="form-control select-state">
+                                        class="form-control select-state" style="width:100%;">
                                         <option value=""></option>
 
                                     </select>
@@ -611,7 +611,7 @@
                                         </div>
                                     </div>
                                     <select name="Shipment[to_area_id]" id="change-area-to"
-                                        class="form-control select-area">
+                                        class="form-control select-area" style="width:100%;">
                                         <option value=""></option>
 
                                     </select>
@@ -1295,9 +1295,9 @@
     });
 
 
-    // $('.select-receiver-address').select2({
-    //     placeholder: "Search Address"
-    // });
+    $('.select-receiver-address').select2({
+        placeholder: "Search Address"
+    });
 
     $('#change-receiver-address').change(function() {
         var id = $(this).val();
@@ -1347,6 +1347,7 @@
         } else {
 
             $('#change-receiver-address').val('').change();
+            $('#change-receiver').val('').change();
 
             $('.existing-receiver-address-show').show();
             $('.new-receiver-address-show').hide();
