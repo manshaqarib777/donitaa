@@ -161,11 +161,11 @@
 
 
                     <td class="text-center">
-                        
+
                         <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{route('admin.costs.edit', $cost->id)}}" title="{{ translate('Edit') }}">
                             <i class="las la-edit"></i>
                         </a>
-                       
+
                     </td>
                 </tr>
 
@@ -196,16 +196,16 @@
     $('.select-area').select2({
         placeholder: "Select Area"
     });
-    
+
     $('#change-country').change(function() {
         var id = $(this).val();
 
 
-        
+
         $.get("{{route('admin.shipments.get-states-ajax')}}?country_id=" + id, function(data) {
             console.log(data[0]);
             $('select[name ="Cost[from_state_id]"]').empty();
-           
+
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
 
@@ -221,7 +221,7 @@
         $.get("{{route('admin.shipments.get-states-ajax')}}?country_id=" + id, function(data) {
             console.log(data[0]);
             $('select[name ="Cost[to_state_id]"]').empty();
-           
+
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
                 $('select[name ="Cost[to_state_id]"]').append('<option value="' + element['id'] + '">' + element['name'] + '</option>');
@@ -236,7 +236,7 @@
         $.get("{{route('admin.shipments.get-areas-ajax')}}?state_id=" + id, function(data) {
             console.log(data[0]);
             $('select[name ="Cost[from_area_id]"]').empty();
-           
+
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
                 $('select[name ="Cost[from_area_id]"]').append('<option value="' + element['id'] + '">' + element['name'] + '</option>');
@@ -251,7 +251,7 @@
         $.get("{{route('admin.shipments.get-areas-ajax')}}?state_id=" + id, function(data) {
             console.log(data[0]);
             $('select[name ="Cost[to_area_id]"]').empty();
-           
+
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
                 $('select[name ="Cost[to_area_id]"]').append('<option value="' + element['id'] + '">' + element['name'] + '</option>');
@@ -274,8 +274,8 @@
           return markup;
         },
     });
-    
-    
+
+
 
     $(document).ready(function() {
         FormValidation.formValidation(
@@ -339,7 +339,7 @@
                     },
 
                 },
-                
+
 
                 plugins: {
                     autoFocus: new FormValidation.plugins.AutoFocus(),

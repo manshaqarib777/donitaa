@@ -15,9 +15,41 @@
                     <label>{{translate('Package Type')}}:</label>
                     <input type="text" id="name" class="form-control" placeholder="{{translate('Here')}}" name="Package[name]">
                 </div>
-               
-                
-                {!! hookView('shipment_addon',$currentView) !!}               
+
+                <div class="row">
+                    <div class="col mb-5">
+                        <div class="input-group" data-toggle="aizuploader" data-type="image">
+                            <div class="input-group-prepend">
+                                <div
+                                    class="input-group-text bg-soft-secondary font-weight-medium">
+                                    {{ translate('Browse') }}</div>
+                            </div>
+                            <div class="form-control file-amount">
+                                {{ translate('Choose File') }}</div>
+                            <input type="hidden" name="Package[icon]"
+                                class="selected-files" required
+                                >
+                        </div>
+                        <div class="file-preview box sm">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>{{translate('Category')}}:</label>
+                            <select id="change-category" name="Package[category_id]" class="form-control select-category">
+                                <option value=""></option>
+                                @foreach(\App\Category::all() as $category)
+                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                {!! hookView('shipment_addon',$currentView) !!}
 
                 <div class="form-group mb-0 text-right">
                     <button type="submit" class="btn btn-sm btn-primary">{{translate('Save')}}</button>
@@ -32,7 +64,11 @@
 
 @section('script')
 <script type="text/javascript">
+
     $(document).ready(function() {
+        $('.select-category').select2({
+            placeholder: "Select a Category"
+        });
         FormValidation.formValidation(
             document.getElementById('kt_form_1'), {
                 fields: {
@@ -45,7 +81,7 @@
                     },
 
                 },
-                
+
 
                 plugins: {
                     autoFocus: new FormValidation.plugins.AutoFocus(),

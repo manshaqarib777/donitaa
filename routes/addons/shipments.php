@@ -44,6 +44,12 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staf
     Route::get('packages/delete/{package}','PackagesController@destroy')->name('admin.packages.delete-package');
 
 
+    Route::resource('categories','CategoriesController',[
+        'as' => 'admin'
+    ]);
+    Route::get('categories/delete/{category}','CategoriesController@destroy')->name('admin.categories.delete-category');
+
+
     Route::resource('times','TimesController',[
         'as' => 'admin'
     ]);

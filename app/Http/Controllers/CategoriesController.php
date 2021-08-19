@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Package;
+use App\Category;
 use App\Http\Helpers\UserRegistrationHelper;
 use DB;
-class PackagesController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class PackagesController extends Controller
      */
     public function index()
     {
-        $packages = Package::with('category')->paginate(15);
-        return view('backend.shipments.index-package', compact('packages'));
+        $categories = Category::paginate(15);
+        return view('backend.shipments.index-category', compact('categories'));
     }
 
     /**
@@ -26,7 +26,7 @@ class PackagesController extends Controller
      */
     public function create()
     {
-        return view('backend.shipments.create-package');
+        return view('backend.shipments.create-category');
     }
 
     /**
@@ -37,29 +37,30 @@ class PackagesController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         if (env('DEMO_MODE') == 'On') {
             flash(translate('This action is disabled in demo mode'))->error();
             return back();
         }
         try{	
 			DB::beginTransaction();
-            $check = Package::where('name',$_POST['Package']['name'])->first();
+            $check = Category::where('name',$_POST['Category']['name'])->first();
             if($check != null)
             {
-                flash(translate("This package is created before"))->error();
+                flash(translate("This category is created before"))->error();
                 return back();
             }
-			$model = new Package();
+			$model = new Category();
 			
 			
-			$model->fill($_POST['Package']);
+			$model->fill($_POST['Category']);
 	      
 			if (!$model->save()){
 				throw new \Exception();
 			}
 			
 			DB::commit();
-            flash(translate("Package added successfully"))->success();
+            flash(translate("Category added successfully"))->success();
             return back();
 		}catch(\Exception $e){
 			DB::rollback();
@@ -91,9 +92,9 @@ class PackagesController extends Controller
      */
     public function edit($id)
     {
-        $package = Package::where('id', $id)->first();
-        if($package != null){
-            return view('backend.shipments.edit-package',compact('package'));
+        $category = Category::where('id', $id)->first();
+        if($category != null){
+            return view('backend.shipments.edit-category',compact('category'));
         }
         abort(404);
     }
@@ -105,7 +106,7 @@ class PackagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $package)
+    public function update(Request $request, $category)
     {
         if (env('DEMO_MODE') == 'On') {
             flash(translate('This action is disabled in demo mode'))->error();
@@ -113,16 +114,16 @@ class PackagesController extends Controller
         }
         try{	
 			DB::beginTransaction();
-            $check = Package::where('name',$_POST['Package']['name'])->whereNotIn('id',[$package])->first();
+            $check = Category::where('name',$_POST['Category']['name'])->whereNotIn('id',[$category])->first();
             if($check != null)
             {
-                flash(translate("This package is created before"))->error();
+                flash(translate("This category is created before"))->error();
                 return back();
             }
-			$model = Package::find($package);
+			$model = Category::find($category);
 			
 			
-			$model->fill($_POST['Package']);
+			$model->fill($_POST['Category']);
 		
 			if (!$model->save()){
 				throw new \Exception();
@@ -130,7 +131,7 @@ class PackagesController extends Controller
 			
 			
 			DB::commit();
-            flash(translate("Package updated successfully"))->success();
+            flash(translate("Category updated successfully"))->success();
             return back();
 		}catch(\Exception $e){
 			DB::rollback();
@@ -148,17 +149,17 @@ class PackagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($package)
+    public function destroy($category)
     {
    
         if (env('DEMO_MODE') == 'On') {
             flash(translate('This action is disabled in demo mode'))->error();
             return back();
         }
-        $model = Package::findOrFail($package);
+        $model = Category::findOrFail($category);
         
         if($model->delete()){
-            flash(translate('Package has been deleted successfully'))->success();
+            flash(translate('Category has been deleted successfully'))->success();
             return redirect()->back();
         }
         return back();
