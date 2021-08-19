@@ -157,7 +157,7 @@
                         <div class="col-md-9 row p-3 pl-0"  style="background: hsl(194, 82%, 40%);">
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <label class="">{{ translate('Sender Company') }}:</label>
+                                    <label class="text-white">{{ translate('Sender Company') }}:</label>
                                     <input type="text" placeholder="{{ translate('Sender Company') }}"
                                         name="Shipment[client_company]" id="client_company" class="form-control"
                                         value="{{ @$shipment->client->company }}" />
@@ -166,12 +166,12 @@
                             </div>
                             <div class="col-4">
                                 <div class="radio-inline">
-                                    <label class="radio radio-success ">
+                                    <label class="radio radio-success text-white ">
                                         <input type="radio" name="Shipment[type]" @if ($shipment->type == 'Agent Pickup Package') checked="checked" @endif value="1" />
                                         <span></span>
                                         {{ translate('Agent Pickup Package') }} <small style="font-size:12px;color: red">*</small>
                                     </label>
-                                    <label class="radio radio-success ">
+                                    <label class="radio radio-success text-white ">
                                         <input type="radio" name="Shipment[type]" @if ($shipment->type == 'Client Dropoff to Our Store') checked="checked" @endif value="2" />
                                         <span></span>
                                         {{ translate('Client Dropoff to Our Store') }}
@@ -190,7 +190,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                                    <label class="text-white">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
                                                     <input type="text" placeholder="{{ translate('First Name') }}"
                                                         name="Shipment[client_first_name]" id="client_first_name" class="form-control"
                                                         value="{{ explode(' ', $shipment->client->name)[0] }}" />
@@ -199,7 +199,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                                    <label class="text-white">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
                                                     <input type="text" placeholder="{{ translate('Last Name') }}"
                                                         name="Shipment[client_last_name]" id="client_last_name" class="form-control"
                                                         value="{{ @explode(' ', $shipment->client->name)[1] }}" />
@@ -208,7 +208,7 @@
                                             </div>
                                             <div class='col-4 show_pickup_date'>
                                                 <div class="form-group">
-                                                    <label class="">{{ translate('Pickup Date:') }} <small style="font-size:12px;color: red">*</small></label>
+                                                    <label class="text-white">{{ translate('Pickup Date:') }} <small style="font-size:12px;color: red">*</small></label>
                                                     <input type="text" placeholder="{{ translate('Pickup Date') }}"
                                                         name="Shipment[pickup_date]" id="datepicker" class="form-control" value="{{ @$shipment->pickup_date }}" />
                                                 </div>
@@ -218,16 +218,16 @@
                             @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
                                 <div class="col-md-6">
                                     <div class="radio-inline">
-                                        <label class="radio radio-success ">
+                                        <label class="radio radio-success text-white ">
                                             <input type="radio" class="address-listener" name="client_test_address"
                                                 value="1" />
                                             <span></span>
                                             {{ translate('New Address') }}
                                         </label>
-                                        <label class="radio radio-success ">
+                                        <label class="radio radio-success text-white ">
                                             {{ translate('OR') }}
                                         </label>
-                                        <label class="radio radio-success ">
+                                        <label class="radio radio-success text-white ">
                                             <input type="radio" class="address-listener" name="client_test_address" value="2" />
                                             <span></span>
                                             {{ translate('Existing Address') }}
@@ -240,7 +240,7 @@
 
                                 <div class="col-md-6 existing-address-show">
                                     <div class="form-group">
-                                        <label>{{ translate('Choose Address') }}:</label>
+                                        <label class="text-white">{{ translate('Choose Address') }}:</label>
                                         <select id="change-address" class="form-control select-address">
                                             <option value=""></option>
                                             @foreach ($addresses as $address)
@@ -254,7 +254,7 @@
 
                             <div class="col-md-6 new-address-show">
                                 <div class="form-group">
-                                    <label class="">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
+                                    <label class="text-white">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
                                     </label>
                                     <div class="form-group">
                                         <input placeholder="{{ translate('Address') }}" name="Shipment[client_address]" id="client_address"
@@ -265,7 +265,7 @@
                             </div>
                             <div class="col-md-6 new-address-show">
                                 <div class="form-group">
-                                    <label class="">{{ translate('Floor/Apt No.') }}:
+                                    <label class="text-white">{{ translate('Floor/Apt No.') }}:
                                     </label>
                                     <div class="form-group">
                                         {{-- <select class="form-control select-client-address" name="Shipment[client_address]">
@@ -279,7 +279,7 @@
                             </div>
                             <div class="col-md-4 new-address-show">
                                 <div class="form-group">
-                                    <label>{{ translate('From Country') }}: <small style="font-size:12px;color: red">*</small></label>
+                                    <label class="text-white">{{ translate('From Country') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <select id="change-country" name="Shipment[from_country_id]"
                                         class="form-control select-country">
                                         <option value=""></option>
@@ -306,7 +306,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <label>{{ translate('From Region') }}: <small style="font-size:12px;color: red">*</small></label>
+                                            <label class="text-white">{{ translate('From Region') }}: <small style="font-size:12px;color: red">*</small></label>
                                         </div>
                                         <div class="col-md-4">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_client_regions"></i>
@@ -325,7 +325,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <label>{{ translate('From Area') }}: <small style="font-size:12px;color: red">*</small></label>
+                                            <label class="text-white">{{ translate('From Area') }}: <small style="font-size:12px;color: red">*</small></label>
                                         </div>
                                         <div class="col-md-4">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_client_areas"></i>
@@ -340,7 +340,7 @@
                             </div>
                             <div class="col-md-3 new-address-show">
                                 <div class="form-group">
-                                    <label class="">{{ translate('Zip/Postal Code') }}:</label>
+                                    <label class="text-white">{{ translate('Zip/Postal Code') }}:</label>
                                     <input type="text" placeholder="{{ translate('Zip/Postal Code') }}"
                                         name="Shipment[client_zip_code]" id="client_zip_code"
                                         value="{{ @$client_address->zip_code }}" class="form-control" />
@@ -349,7 +349,7 @@
                             </div>
                             <div class="col-md-5 new-address-show">
                                 <div class="form-group">
-                                    <label class="">{{ translate('Email') }}: <small style="font-size:12px;color: red">*</small></label>
+                                    <label class="text-white">{{ translate('Email') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('Email') }}"
                                         name="Shipment[client_email]" id="client_email"
                                         value="{{ $shipment->client->email }}" class="form-control" />
@@ -357,7 +357,7 @@
                             </div>
                             <div class="col-md-4 new-address-show">
                                 <div class="form-group">
-                                    <label class="">{{ translate('Sender Phone') }}: <small style="font-size:12px;color: red">*</small></label>
+                                    <label class="text-white">{{ translate('Sender Phone') }}: <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('Sender Phone') }}"
                                         name="Shipment[client_phone]" id="client_phone"
                                         value="{{ $shipment->client->responsible_mobile }}" class="form-control" />
