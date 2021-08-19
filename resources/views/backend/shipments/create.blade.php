@@ -241,7 +241,7 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="radio-inline">
                                     <label class="radio radio-success ">
                                         <input type="radio" name="Shipment[type]" checked="checked"
@@ -250,22 +250,13 @@
                                         {{ translate('Agent Pickup Package') }} <small style="font-size:12px;color: red">*</small>
                                     </label>
                                     <label class="radio radio-success ">
-                                        {{ translate('OR') }}
-                                    </label>
-                                    <label class="radio radio-success ">
                                         <input type="radio" name="Shipment[type]" value="2" />
                                         <span></span>
                                         {{ translate('Client Dropoff to Our Store') }}
                                     </label>
                                 </div>
                             </div>
-                            <div class='col-md-6 show_pickup_date'>
-                                <div class="form-group">
-                                    <label class="">{{ translate('Pickup Date:') }} <small style="font-size:12px;color: red">*</small></label>
-                                    <input type="text" placeholder="{{ translate('Pickup Date') }}"
-                                        name="Shipment[pickup_date]" id="datepicker" class="form-control" value="{{  date('l j, F Y')}}" />
-                                </div>
-                            </div>
+
 
                             @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
                                 <div class="col-md-6">
@@ -286,6 +277,36 @@
                                         </label>
                                     </div>
                                 </div>
+                            @endif
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="">{{ translate('First Name:') }} <small style="font-size:12px;color: red">*</small></label>
+                                                <input type="text" placeholder="{{ translate('First Name') }}"
+                                                    name="Shipment[client_first_name]" id="client_first_name" class="form-control" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="">{{ translate('Last Name:') }} <small style="font-size:12px;color: red">*</small></label>
+                                                <input type="text" placeholder="{{ translate('Last Name') }}"
+                                                    name="Shipment[client_last_name]" id="client_last_name" class="form-control" />
+
+                                            </div>
+                                        </div>
+                                        <div class='col-md-4 show_pickup_date'>
+                                            <div class="form-group">
+                                                <label class="">{{ translate('Pickup Date:') }} <small style="font-size:12px;color: red">*</small></label>
+                                                <input type="text" placeholder="{{ translate('Pickup Date') }}"
+                                                    name="Shipment[pickup_date]" id="datepicker" class="form-control" value="{{  date('l j, F Y')}}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+
                                 <div class="col-md-6 existing-address-show">
                                     <div class="form-group">
                                         <label>{{ translate('Choose Address') }}:</label>
@@ -299,26 +320,7 @@
                                     </div>
                                 </div>
                             @endif
-                            <div class="col-md-12 new-address-show">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="">{{ translate('First Name:') }} <small style="font-size:12px;color: red">*</small></label>
-                                            <input type="text" placeholder="{{ translate('First Name') }}"
-                                                name="Shipment[client_first_name]" id="client_first_name" class="form-control" />
 
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="">{{ translate('Last Name:') }} <small style="font-size:12px;color: red">*</small></label>
-                                            <input type="text" placeholder="{{ translate('Last Name') }}"
-                                                name="Shipment[client_last_name]" id="client_last_name" class="form-control" />
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="col-md-6 new-address-show">
                                 <div class="form-group">
@@ -360,7 +362,7 @@
                                     </select>
                                 </div>
                             </div>
-                            @if(isset(auth()->user()->user_type) && (auth()->user()->user_type != 'customer') && auth()->user()->user_type != 'branch')
+                            {{-- @if(isset(auth()->user()->user_type) && (auth()->user()->user_type != 'customer') && auth()->user()->user_type != 'branch')
                                 <div class="col-md-6 show_client_branch">
                                     <div class="form-group">
                                         <label>{{ translate('Branch') }}: <small style="font-size:12px;color: red">*</small></label>
@@ -369,7 +371,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            @endif
+                            @endif --}}
                             <div class="col-md-4 new-address-show">
                                 <div class="form-group">
                                     <div class="row">
@@ -447,26 +449,20 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group row">
-                                    <div class="col-12 ml-4">
-                                        <div class="radio-inline">
-                                            <label class="radio radio-success ">
-                                                <input type="radio" name="Shipment[receiver_shipment_type]" checked="checked"
-                                                    value="1" />
-                                                <span></span>
-                                                {{ translate('Agent Deliver to You') }} <small style="font-size:12px;color: red">*</small>
-                                            </label>
-                                            <label class="radio radio-success ">
-                                                {{ translate('OR') }}
-                                            </label>
-                                            <label class="radio radio-success ">
-                                                <input type="radio" name="Shipment[receiver_shipment_type]" value="2" />
-                                                <span></span>
-                                                {{ translate('Client Pickup from Our Store') }}
-                                            </label>
-                                        </div>
-
+                                    <div class="radio-inline">
+                                        <label class="radio radio-success ">
+                                            <input type="radio" name="Shipment[receiver_shipment_type]" checked="checked"
+                                                value="1" />
+                                            <span></span>
+                                            {{ translate('Agent Deliver to You') }} <small style="font-size:12px;color: red">*</small>
+                                        </label>
+                                        <label class="radio radio-success ">
+                                            <input type="radio" name="Shipment[receiver_shipment_type]" value="2" />
+                                            <span></span>
+                                            {{ translate('Client Pickup from Our Store') }}
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -489,6 +485,30 @@
                                         </label>
                                     </div>
                                 </div>
+                            @endif
+
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                            <input type="text" placeholder="{{ translate('First Name') }}"
+                                                name="Shipment[receiver_first_name]" id="receiver_first_name"
+                                                class="form-control" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                            <input type="text" placeholder="{{ translate('Last Name') }}"
+                                                name="Shipment[receiver_last_name]" id="receiver_last_name" class="form-control" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
                                 <div class="col-md-12 existing-receiver-address-show">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -514,23 +534,7 @@
                                     </div>
                                 </div>
                             @endif
-                            <div class="col-md-6 new-receiver-address-show">
-                                <div class="form-group">
-                                    <label class="">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
-                                    <input type="text" placeholder="{{ translate('First Name') }}"
-                                        name="Shipment[receiver_first_name]" id="receiver_first_name"
-                                        class="form-control" />
 
-                                </div>
-                            </div>
-                            <div class="col-md-6 new-receiver-address-show">
-                                <div class="form-group">
-                                    <label class="">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
-                                    <input type="text" placeholder="{{ translate('Last Name') }}"
-                                        name="Shipment[receiver_last_name]" id="receiver_last_name" class="form-control" />
-
-                                </div>
-                            </div>
                             <div class="col-md-6 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('Address') }}: <small style="font-size:12px;color: red">*</small>
@@ -559,7 +563,7 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6 new-receiver-address-show">
+                            <div class="col-md-4 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('To Country:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <select id="change-country-to" name="Shipment[to_country_id]"
@@ -572,7 +576,7 @@
                                     </select>
                                 </div>
                             </div>
-                            @if(isset(auth()->user()->user_type) && (auth()->user()->user_type != 'customer') && auth()->user()->user_type != 'branch')
+                            {{-- @if(isset(auth()->user()->user_type) && (auth()->user()->user_type != 'customer') && auth()->user()->user_type != 'branch')
                                 <div class="col-md-6 show_receiver_branch">
                                     <div class="form-group">
                                         <label class="">{{ translate('Branch:') }} <small style="font-size:12px;color: red">*</small></label>
@@ -581,8 +585,8 @@
                                         </select>
                                     </div>
                                 </div>
-                            @endif
-                            <div class="col-md-6 new-receiver-address-show">
+                            @endif --}}
+                            <div class="col-md-4 new-receiver-address-show">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -600,7 +604,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-6 new-receiver-address-show">
+                            <div class="col-md-4 new-receiver-address-show">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -618,7 +622,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-6 new-receiver-address-show">
+                            <div class="col-md-4 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('Zip/Postal Code') }}:</label>
                                     <input type="text" placeholder="{{ translate('Zip/Postal Code') }}"
@@ -626,14 +630,14 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6 new-receiver-address-show">
+                            <div class="col-md-4 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('Email:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" placeholder="{{ translate('Email') }}"
                                         name="Shipment[receiver_email]" id="receiver_email" class="form-control" />
                                 </div>
                             </div>
-                            <div class="col-md-6 new-receiver-address-show">
+                            <div class="col-md-4 new-receiver-address-show">
                                 <div class="form-group">
                                     <label class="">{{ translate('Receiver Phone:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <input type="text" name="Shipment[receiver_phone]" id="receiver_phone" class="form-control" />

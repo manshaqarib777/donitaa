@@ -81,7 +81,7 @@
 <style>
     html,
         body {
-            font-size: 10px !important;
+            font-size: 12px !important;
         }
 </style>
 <style media="print">
