@@ -186,7 +186,35 @@
                                     ->get()
                                     ->first();
                             @endphp
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                                    <input type="text" placeholder="{{ translate('First Name') }}"
+                                                        name="Shipment[client_first_name]" id="client_first_name" class="form-control"
+                                                        value="{{ explode(' ', $shipment->client->name)[0] }}" />
 
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                                    <input type="text" placeholder="{{ translate('Last Name') }}"
+                                                        name="Shipment[client_last_name]" id="client_last_name" class="form-control"
+                                                        value="{{ @explode(' ', $shipment->client->name)[1] }}" />
+
+                                                </div>
+                                            </div>
+                                            <div class='col-4 show_pickup_date'>
+                                                <div class="form-group">
+                                                    <label class="">{{ translate('Pickup Date:') }} <small style="font-size:12px;color: red">*</small></label>
+                                                    <input type="text" placeholder="{{ translate('Pickup Date') }}"
+                                                        name="Shipment[pickup_date]" id="datepicker" class="form-control" value="{{ @$shipment->pickup_date }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
                                 <div class="col-md-6">
                                     <div class="radio-inline">
@@ -207,35 +235,7 @@
                                     </div>
                                 </div>
                             @endif
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
-                                                <input type="text" placeholder="{{ translate('First Name') }}"
-                                                    name="Shipment[client_first_name]" id="client_first_name" class="form-control"
-                                                    value="{{ explode(' ', $shipment->client->name)[0] }}" />
 
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
-                                                <input type="text" placeholder="{{ translate('Last Name') }}"
-                                                    name="Shipment[client_last_name]" id="client_last_name" class="form-control"
-                                                    value="{{ @explode(' ', $shipment->client->name)[1] }}" />
-
-                                            </div>
-                                        </div>
-                                        <div class='col-4 show_pickup_date'>
-                                            <div class="form-group">
-                                                <label class="">{{ translate('Pickup Date:') }} <small style="font-size:12px;color: red">*</small></label>
-                                                <input type="text" placeholder="{{ translate('Pickup Date') }}"
-                                                    name="Shipment[pickup_date]" id="datepicker" class="form-control" value="{{ @$shipment->pickup_date }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                 </div>
                             @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
 
                                 <div class="col-md-6 existing-address-show">
@@ -409,6 +409,28 @@
                                     ->get()
                                     ->first();
                             @endphp
+                                                        <div class="col-md-12">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class=" ">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                                                        <input type="text" placeholder="{{ translate('First Name') }}"
+                                                                            name="Shipment[receiver_first_name]" id="receiver_first_name" class="form-control"
+                                                                            value="{{ explode(' ', @$shipment->receiver->name)[0] }}" />
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class=" ">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
+                                                                        <input type="text" placeholder="{{ translate('Last Name') }}"
+                                                                            name="Shipment[receiver_last_name]" id="receiver_last_name" class="form-control"
+                                                                            value="{{ @explode(' ', @$shipment->receiver->name)[1] }}" />
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                             @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
                             <div class="col-md-6">
                                 <div class="radio-inline">
@@ -429,28 +451,7 @@
                                 </div>
                             </div>
                             @endif
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class=" ">{{ translate('First Name') }}: <small style="font-size:12px;color: red">*</small></label>
-                                            <input type="text" placeholder="{{ translate('First Name') }}"
-                                                name="Shipment[receiver_first_name]" id="receiver_first_name" class="form-control"
-                                                value="{{ explode(' ', @$shipment->receiver->name)[0] }}" />
 
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class=" ">{{ translate('Last Name') }}: <small style="font-size:12px;color: red">*</small></label>
-                                            <input type="text" placeholder="{{ translate('Last Name') }}"
-                                                name="Shipment[receiver_last_name]" id="receiver_last_name" class="form-control"
-                                                value="{{ @explode(' ', @$shipment->receiver->name)[1] }}" />
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
 
                                 <div class="col-md-12 existing-receiver-address-show">

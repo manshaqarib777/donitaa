@@ -256,7 +256,33 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="">{{ translate('First Name:') }} <small style="font-size:12px;color: red">*</small></label>
+                                            <input type="text" placeholder="{{ translate('First Name') }}"
+                                                name="Shipment[client_first_name]" id="client_first_name" class="form-control" />
 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="">{{ translate('Last Name:') }} <small style="font-size:12px;color: red">*</small></label>
+                                            <input type="text" placeholder="{{ translate('Last Name') }}"
+                                                name="Shipment[client_last_name]" id="client_last_name" class="form-control" />
+
+                                        </div>
+                                    </div>
+                                    <div class='col-md-4 show_pickup_date'>
+                                        <div class="form-group">
+                                            <label class="">{{ translate('Pickup Date:') }} <small style="font-size:12px;color: red">*</small></label>
+                                            <input type="text" placeholder="{{ translate('Pickup Date') }}"
+                                                name="Shipment[pickup_date]" id="datepicker" class="form-control" value="{{  date('l j, F Y')}}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
                                 <div class="col-md-6">
@@ -278,33 +304,7 @@
                                     </div>
                                 </div>
                             @endif
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="">{{ translate('First Name:') }} <small style="font-size:12px;color: red">*</small></label>
-                                                <input type="text" placeholder="{{ translate('First Name') }}"
-                                                    name="Shipment[client_first_name]" id="client_first_name" class="form-control" />
 
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="">{{ translate('Last Name:') }} <small style="font-size:12px;color: red">*</small></label>
-                                                <input type="text" placeholder="{{ translate('Last Name') }}"
-                                                    name="Shipment[client_last_name]" id="client_last_name" class="form-control" />
-
-                                            </div>
-                                        </div>
-                                        <div class='col-md-4 show_pickup_date'>
-                                            <div class="form-group">
-                                                <label class="">{{ translate('Pickup Date:') }} <small style="font-size:12px;color: red">*</small></label>
-                                                <input type="text" placeholder="{{ translate('Pickup Date') }}"
-                                                    name="Shipment[pickup_date]" id="datepicker" class="form-control" value="{{  date('l j, F Y')}}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
 
                                 <div class="col-md-6 existing-address-show">
@@ -466,27 +466,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
-                                <div class="col-md-6">
-                                    <div class="radio-inline">
-                                        <label class="radio radio-success ">
-                                            <input type="radio" class="address-listener-receiver" name="receiver_test_address"
-                                                value="1" />
-                                            <span></span>
-                                            {{ translate('New Address') }}
-                                        </label>
-                                        <label class="radio radio-success ">
-                                            {{ translate('OR') }}
-                                        </label>
-                                        <label class="radio radio-success ">
-                                            <input type="radio" class="address-listener-receiver" name="receiver_test_address" value="2" />
-                                            <span></span>
-                                            {{ translate('Existing Address') }}
-                                        </label>
-                                    </div>
-                                </div>
-                            @endif
-
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -508,6 +487,28 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
+                                <div class="col-md-6">
+                                    <div class="radio-inline">
+                                        <label class="radio radio-success ">
+                                            <input type="radio" class="address-listener-receiver" name="receiver_test_address"
+                                                value="1" />
+                                            <span></span>
+                                            {{ translate('New Address') }}
+                                        </label>
+                                        <label class="radio radio-success ">
+                                            {{ translate('OR') }}
+                                        </label>
+                                        <label class="radio radio-success ">
+                                            <input type="radio" class="address-listener-receiver" name="receiver_test_address" value="2" />
+                                            <span></span>
+                                            {{ translate('Existing Address') }}
+                                        </label>
+                                    </div>
+                                </div>
+                            @endif
+
+
                             @if(isset(auth()->user()->user_type) && auth()->user()->user_type == 'customer')
                                 <div class="col-md-12 existing-receiver-address-show">
                                     <div class="row">
