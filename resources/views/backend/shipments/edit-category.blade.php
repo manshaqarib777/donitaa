@@ -5,18 +5,17 @@
 <div class="col-lg-12 mx-auto">
     <div class="card">
         <div class="card-header">
-            <h5 class="mb-0 h6">{{translate('Package Information')}}</h5>
+            <h5 class="mb-0 h6">{{translate('Category Information')}}</h5>
         </div>
 
-        <form class="form-horizontal" action="{{ route('admin.packages.update',['package'=>$package->id]) }}" id="kt_form_1" method="POST" enctype="multipart/form-data">
+        <form class="form-horizontal" action="{{ route('admin.categories.update',['category'=>$category->id]) }}" id="kt_form_1" method="POST" enctype="multipart/form-data">
             @csrf
             {{ method_field('PATCH') }}
             <div class="card-body">
                 <div class="form-group">
-                    <label>{{translate('Package Type')}}:</label>
-                    <input type="text" id="name" class="form-control" value="{{$package->name}}" placeholder="{{translate('Here')}}" name="Package[name]">
+                    <label>{{translate('Category Type')}}:</label>
+                    <input type="text" id="name" class="form-control" value="{{$category->name}}" placeholder="{{translate('Here')}}" name="Category[name]">
                 </div>
-
                 <div class="row">
                     <div class="col mb-5">
                         <div class="input-group" data-toggle="aizuploader" data-type="image">
@@ -27,30 +26,12 @@
                             </div>
                             <div class="form-control file-amount">
                                 {{ translate('Choose File') }}</div>
-                            <input type="hidden" name="Package[icon]"
+                            <input type="hidden" name="types[]" value="home_slider_images">
+                            <input type="hidden" name="Category[icon]"
                                 class="selected-files" required
-                                value="{{ $package->icon }}">
+                                value="{{ $category->icon }}">
                         </div>
                         <div class="file-preview box sm">
-                        </div>
-                    </div>
-                </div>
-                {{-- @php
-                    dd($package->category_id);
-                @endphp --}}
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>{{translate('Category')}}:</label>
-                            <select id="change-category" name="Package[category_id]" class="form-control select-category">
-                                <option value=""></option>
-                                @foreach(\App\Category::all() as $category)
-                                <option value="{{$category->id}}"
-                                    @if($package->category_id == $category->id)
-                                    selected="selected"
-                                    @endif>{{$category->name}}</option>
-                                @endforeach
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -68,15 +49,28 @@
 @endsection
 
 @section('script')
+<link href="{{ static_asset('assets/iconpicker/dist/iconpicker-1.5.0.css') }}" rel="stylesheet" type="text/css" />
+<script src="{{ static_asset('assets/iconpicker/dist/iconpicker-1.5.0.js') }}" ></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('.select-category').select2({
-            placeholder: "Select a Category"
+IconPicker.Init({
+            jsonUrl: "{{ static_asset('assets/iconpicker/dist/iconpicker-1.5.0.json') }}",
         });
+        var iconpicker_ids = [];
+        function iconpicker(){
+            var icon_buttons = document.getElementsByClassName('icon-picker');
+            for (let index = 0; index < icon_buttons.length; index++) {
+                IconPicker.Run('#'+icon_buttons[index].id);
+                iconpicker_ids.push(icon_buttons[index].id);
+            }
+            console.log('function iconpicker():');
+            console.log(iconpicker_ids);
+        }
+        iconpicker();
+    $(document).ready(function() {
         FormValidation.formValidation(
             document.getElementById('kt_form_1'), {
                 fields: {
-                    "Package[name]": {
+                    "Category[name]": {
                         validators: {
                             notEmpty: {
                                 message: '{{translate("This is required!")}}'

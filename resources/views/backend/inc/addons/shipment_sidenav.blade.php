@@ -957,7 +957,7 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
 @if ($addon != null)
     @if($addon->activated)
         @if($user_type == 'admin' || in_array('1105', json_decode(Auth::user()->staff->role->permissions ?? "[]")))
-            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.packages.index','admin.times.index','admin.shipments.settings','admin.shipments.covered_countries','admin.areas.index','admin.areas.create','admin.shipments.settings.fees'])}}" aria-haspopup="true" data-menu-toggle="hover">
+            <li class="menu-item menu-item-submenu  {{ areActiveRoutes(['admin.packages.index','admin.categories.index','admin.times.index','admin.shipments.settings','admin.shipments.covered_countries','admin.areas.index','admin.areas.create','admin.shipments.settings.fees'])}}" aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-icon fas fa-cogs"></i>
                     <span class="menu-text">{{translate('Shipment Settings')}}</span>
@@ -970,6 +970,14 @@ $addon = \App\Addon::where('unique_identifier', 'spot-cargo-shipment-addon')->fi
                             <span class="menu-link">
                                 <span class="menu-text">{{translate('Shipment Settings')}}</span>
                             </span>
+                        </li>
+                        <li class="menu-item {{ areActiveRoutes(['admin.categories.index'])}}" aria-haspopup="true">
+                            <a href="{{ route('admin.categories.index') }}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text">{{translate('Package Categories')}}</span>
+                            </a>
                         </li>
                         <li class="menu-item {{ areActiveRoutes(['admin.packages.index'])}}" aria-haspopup="true">
                             <a href="{{ route('admin.packages.index') }}" class="menu-link">
