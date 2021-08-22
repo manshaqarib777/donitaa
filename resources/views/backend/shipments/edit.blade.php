@@ -306,7 +306,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <label class="text-white">{{ translate('From Region') }}: <small style="font-size:12px;color: red">*</small></label>
+                                            <label class="text-white">{{ translate('From Region/State') }}: <small style="font-size:12px;color: red">*</small></label>
                                         </div>
                                         <div class="col-md-4">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_client_regions"></i>
@@ -325,7 +325,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <label class="text-white">{{ translate('From Area') }}: <small style="font-size:12px;color: red">*</small></label>
+                                            <label class="text-white">{{ translate('From Area/City') }}: <small style="font-size:12px;color: red">*</small></label>
                                         </div>
                                         <div class="col-md-4">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_client_areas"></i>
@@ -535,7 +535,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label class="">{{ translate('To Region:') }} <small style="font-size:12px;color: red">*</small></label>
+                                            <label class="">{{ translate('To Region/State:') }} <small style="font-size:12px;color: red">*</small></label>
                                         </div>
                                         <div class="col-md-6">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_receiver_regions"></i>
@@ -553,7 +553,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label class="">{{ translate('To Area:') }} <small style="font-size:12px;color: red">*</small></label>
+                                            <label class="">{{ translate('To Area/City:') }} <small style="font-size:12px;color: red">*</small></label>
                                         </div>
                                         <div class="col-md-6">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_receiver_areas"></i>
