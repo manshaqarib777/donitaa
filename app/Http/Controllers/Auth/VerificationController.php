@@ -93,6 +93,6 @@ class VerificationController extends Controller
             flash(translate('Sorry, we could not verifiy you. Please try again'))->error();
         }
 
-        return redirect()->route('dashboard');
+        return redirect()->route('admin.dashboard');
     }
 }
