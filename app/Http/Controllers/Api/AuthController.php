@@ -133,9 +133,9 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials))
             return response()->json(['message' => 'Unauthorized', 'user' => null], 401);
         $user = $request->user();
-        if($user->email_verified_at == null){
-            return response()->json(['message' => 'Please verify your account', 'user' => null], 401);
-        }
+        // if($user->email_verified_at == null){
+        //     return response()->json(['message' => 'Please verify your account', 'user' => null], 401);
+        // }
         $tokenResult = $user->createToken('Personal Access Token');
         return $this->loginSuccess($tokenResult, $user);
     }
