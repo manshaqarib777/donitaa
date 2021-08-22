@@ -590,10 +590,10 @@
                             <div class="col-md-4 new-receiver-address-show">
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-8">
                                             <label class="">{{ translate('To Region/State:') }} <small style="font-size:12px;color: red">*</small></label>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <i class="flaticon2-reload" style="color: #f9732c;cursor:pointer" id="reload_receiver_regions"></i>
                                         </div>
                                     </div>
