@@ -9,7 +9,15 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\User;
 use App\Notifications\EmailVerificationNotification;
-
+use DB;
+use App\UserClient;
+use App\Events\AddClient;
+use App\UserCaptain;
+use App\Events\AddCaptain;
+use App\ClientAddress;
+use App\Client;
+use App\Captain;
+use App\Http\Helpers\UserRegistrationHelper;
 class AuthController extends Controller
 {
     public function signup(Request $request)
@@ -19,26 +27,78 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:6'
         ]);
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
+        //dd($request->all());
 
-        if(BusinessSetting::where('type', 'email_verification')->first()->value != 1){
-            $user->email_verified_at = date('Y-m-d H:m:s');
-        }
-        else {
-            $user->notify(new EmailVerificationNotification());
-        }
-        $user->save();
 
-        $customer = new Customer;
-        $customer->user_id = $user->id;
-        $customer->save();
-        return response()->json([
-            'message' => 'Registration Successful. Please verify and log in to your account.'
-        ], 201);
+        try{	
+			DB::beginTransaction();
+            $model = new  Client();
+			$model->fill($request->only('email','name'));
+			$model->code = -1;
+          
+			if (!$model->save()){
+                throw new \Exception();
+			}
+
+            $model->created_by = 1;
+            
+			$model->code = $model->id;
+			if (!$model->save()){
+				throw new \Exception("Record Could Not Saved Successfully");
+
+			}
+            $userRegistrationHelper = new UserRegistrationHelper();
+			$userRegistrationHelper->setEmail($model->email); 
+			$userRegistrationHelper->setName($model->name);
+			$userRegistrationHelper->setApiToken();
+
+			if ($request->input('password') != '' || $request->input('password') != null){
+				$userRegistrationHelper->setPassword($request->input('password'));
+			}else{
+				$userRegistrationHelper->generatePassword();
+			}
+			$userRegistrationHelper->setRoleID(UserRegistrationHelper::MAINCLIENT);
+
+            $response = $userRegistrationHelper->save();
+            //dd($response);
+            if(!$response['success']){
+                //dd($response);
+				throw new \Exception($response['error_msg']);
+			}
+			
+            $userClient = new UserClient();
+            $userClient->user_id = $response['user_id'];
+            $userClient->client_id = $model->id;
+            if (!$userClient->save()){
+                throw new \Exception("Record Could Not Saved Successfully");
+            }
+            
+            event(new AddClient($model));
+            
+
+            $user=User::find($response['user_id']);
+            if(BusinessSetting::where('type', 'email_verification')->first()->value != 1){
+                $user->email_verified_at = date('Y-m-d H:m:s');
+            }
+            else {
+                $user->notify(new EmailVerificationNotification());
+            }
+            $user->save();
+    
+			DB::commit();
+
+            return response()->json([
+                'message' => 'Registration Successful. Please verify and log in to your account.'
+            ], 201);
+
+		}catch(\Exception $e){
+            dd($e->getMessage());
+            DB::rollback();
+            return response()->json([
+                'message' => 'Email Alreay Exist'
+            ], 500);             
+		}
+
     }
 
     public function login(Request $request)

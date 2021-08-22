@@ -187,7 +187,6 @@ class RegisterController extends Controller
             $user=User::find($response['user_id']);
             return $user;
 		}catch(\Exception $e){
-            dd($e->getMessage());
             DB::rollback();
             flash('Email Already Exist')->error();
             return false;             
