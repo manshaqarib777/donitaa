@@ -18,6 +18,7 @@ use App\ClientAddress;
 use App\Client;
 use App\Captain;
 use App\Http\Helpers\UserRegistrationHelper;
+use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     public function signup(Request $request)
@@ -32,14 +33,14 @@ class AuthController extends Controller
             //     'email' => 'required|string|email|unique:users',
             //     'password' => 'required|string|min:6'
             // ]);
-            $validator = \Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users',
                 'password' => 'required|string|min:6'
             ]);
 
             if ($validator->fails()) {
-            return response()->json($validator->errors(), 422)
+                return response()->json($validator->errors(), 422);
             }
 			DB::beginTransaction();
             $model = new  Client();
