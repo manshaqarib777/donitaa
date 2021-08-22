@@ -27,11 +27,20 @@ class AuthController extends Controller
 
 
         try{	
-            $request->validate([
+            // $request->validate([
+            //     'name' => 'required|string',
+            //     'email' => 'required|string|email|unique:users',
+            //     'password' => 'required|string|min:6'
+            // ]);
+            $validator = \Validator::make($request->all(), [
                 'name' => 'required|string',
                 'email' => 'required|string|email|unique:users',
                 'password' => 'required|string|min:6'
             ]);
+
+            if ($validator->fails()) {
+            return response()->json($validator->errors(), 422)
+            }
 			DB::beginTransaction();
             $model = new  Client();
 			$model->fill($request->only('email','name'));
