@@ -36,6 +36,7 @@ Route::prefix('v1')->group(function () {
     Route::post('user/info/update', 'Api\UserController@updateName')->middleware('auth:api');
     Route::get('user/shipping/address/{id}', 'Api\AddressController@addresses')->middleware('auth:api');
     Route::post('user/shipping/create', 'Api\ShipmentApiController@store')->middleware('auth:api');
+    Route::post('user/shipping/update/{id}', 'Api\ShipmentApiController@update')->middleware('auth:api');
     Route::get('user/shipping/delete/{id}', 'Api\AddressController@deleteShippingAddress')->middleware('auth:api');
 
 });

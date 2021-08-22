@@ -1483,21 +1483,25 @@ class ShipmentApiController extends Controller
             DB::beginTransaction();
             $request->request->add(['client_id'=>  $this->storeClient($request->all())]);
             $request->request->add(['receiver_id'=>$this->storeReceiver($request->all())]);
-            //dd($request->all());
+            //dd($this->storeReceiver($request->all()));
 
             $model = $this->updateShipment((object)$request->all(),$shipment);
             //dd($model);
             DB::commit();
-            flash(translate("Shipment added successfully"))->success();
-            return redirect()->route('admin.shipments.show', $model->id);
+            return response()->json([
+                'message'   => 'Shipment Updated Successfully',
+                'data'      => $model
+            ], 201);
         } catch (\Exception $e) {
+            
             DB::rollback();
-            print_r($e->getMessage());
-            exit;
-
-            flash(translate("Error"))->error();
-            return back();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500); 
         }
+
+
     }
 
     private function updateShipment($request,$shipment)
