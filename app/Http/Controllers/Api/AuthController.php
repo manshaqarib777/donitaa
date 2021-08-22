@@ -22,15 +22,16 @@ class AuthController extends Controller
 {
     public function signup(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:6'
-        ]);
+
         //dd($request->all());
 
 
         try{	
+            $request->validate([
+                'name' => 'required|string',
+                'email' => 'required|string|email|unique:users',
+                'password' => 'required|string|min:6'
+            ]);
 			DB::beginTransaction();
             $model = new  Client();
 			$model->fill($request->only('email','name'));
@@ -92,10 +93,11 @@ class AuthController extends Controller
             ], 201);
 
 		}catch(\Exception $e){
-            dd($e->getMessage());
+
             DB::rollback();
             return response()->json([
-                'message' => 'Email Alreay Exist'
+                'success' => false,
+                'message' => $e->getMessage(),
             ], 500);             
 		}
 
