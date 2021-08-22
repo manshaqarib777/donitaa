@@ -64,7 +64,6 @@ Route::post('shipments/get-estimation-cost','ShipmentController@ajaxGetEstimatio
 Route::get('shipments/ajaxed-get-client-addresses','ShipmentController@ajaxGetAddressesClient')->name('admin.shipments.get-client-address-ajax');
 Route::get('shipments/ajaxed-get-receiver-addresses','ShipmentController@ajaxGetAddressesReceiver')->name('admin.shipments.get-receiver-address-ajax');
     
-Route::get('shipments/print/{shipment}/{type}','ShipmentController@print')->name('admin.shipments.print');
 Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff|customer|branch']], function(){
 	//Update Routes
     Route::get('shipments/print/{shipment}/{type}','ShipmentController@print')->name('admin.shipments.print');
