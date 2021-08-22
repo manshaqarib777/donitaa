@@ -120,6 +120,15 @@ class AuthController extends Controller
             'password' => 'required|string',
             'remember_me' => 'boolean'
         ]);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+            'remember_me' => 'boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials))
             return response()->json(['message' => 'Unauthorized', 'user' => null], 401);
