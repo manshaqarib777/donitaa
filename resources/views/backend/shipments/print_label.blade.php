@@ -26,7 +26,7 @@ $d = new DNS1D();
             <tr>
                 <td>
                     <table width="450px" border="0" cellpadding="0" cellspacing="0" style="font-size:16px;font-family:Arial, Helvetica, sans-serif;">
-                        <tr>
+                        /* <tr>
                             <td height="21px" colspan="3" style="padding-left:5px; padding-bottom:5px;">
                                 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
                                     <tr>
@@ -41,7 +41,7 @@ $d = new DNS1D();
                                     </tr>
                                 </table>
                             </td>
-                        </tr>
+                        </tr> */
                         <tr>
                             <td height="21px" colspan="3" style="border-top:#000000  1px solid;border-bottom:#000000 1px solid;">
                                 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
