@@ -779,7 +779,7 @@
                         <div data-repeater-item class=" align-items-center"
                             style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-bottom:1px solid #ccc;">
                             <div class="row ml-1">
-                                <div class="row col-md-3">
+                                {{-- <div class="row col-md-3">
                                     <div class="col-md-6">
                                         <label style="font-size:9px;">{{ translate('Package Type OR') }}: <small style="font-size:12px;color: red">*</small>
                                         </label>
@@ -805,95 +805,119 @@
                                         class="form-control package-listener-value custom-package-show"
                                         style="display: none">
                                     <div class="mb-2 d-md-none"></div>
-                                </div>
+                                </div> --}}
 
 
-                                <div class="row col-md-3 ml-1">
-                                    <div class="col-md-6">
-                                        <label>{{ translate('Description:') }} <small style="font-size:12px;color: red">*</small></label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="checkbox">
-                                            <input type="checkbox" onchange="update_currency_status(this)"
-                                                placeholder="{{ translate('Fragile') }}"
-                                                class="form-control fragile-listener" name="shipment_fragile" />
-                                            <span></span>
-                                            {{ translate('Fragile') }}
-                                        </label>
-                                    </div>
-                                    <input type="text" placeholder="{{ translate('description') }}"
-                                        class="form-control" name="description">
+                                <div class="col-md-3">
+                                    <label>{{ translate('Description:') }} <small style="font-size:12px;color: red">*</small></label>
+                                    <textarea type="text" placeholder="{{ translate('description') }}"
+                                        class="form-control" name="description"></textarea>
                                     <div class="mb-2 d-md-none"></div>
                                 </div>
-                                <div class="" style="padding-left:5px;width:8%;">
-                                    <div class="input-group mb-3">
-                                        <label class="w-100" style="color:#0b2339;">Weight</label>
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1">KG</span>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Weight') }}</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" min="1" placeholder="{{ translate('Weight') }}"
+                                                    name="weight" class="form-control weight-listener"
+                                                    onchange="calcTotalWeight()" value="0" />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <input type="text" min="1" placeholder="{{ translate('Weight') }}"
-                                            name="weight" class="form-control weight-listener"
-                                            onchange="calcTotalWeight()" value="0" />
 
-                                    </div>
-                                    <div class="mb-2 d-md-none"></div>
-                                </div>
-                                <div class="" style="padding-left:5px;width:8%;">
-                                    <div class="input-group mb-3">
-                                        <label class="w-100" style="color:#0b2339;">Length</label>
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1">CM</span>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Length') }}</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" min="1" class="form-control length-listener"
+                                                    placeholder="{{ translate('Length') }}" name="length" value="0" />
+                                              </div>
+                                            </div>
                                         </div>
-                                        <input type="text" min="1" class="form-control length-listener"
-                                            placeholder="{{ translate('Length') }}" name="length" value="0" />
-
-                                    </div>
-                                </div>
-                                <div class="" style="padding-left:5px;width:8%;">
-
-                                    <div class="input-group mb-3">
-                                        <label class="w-100" style="color:#0b2339;">Width</label>
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1">CM</span>
-                                        </div>
-                                        <input type="text" min="1" class="form-control width-listener"
-                                            placeholder="{{ translate('Width') }}" name="width" value="0" />
-
                                     </div>
                                 </div>
-                                <div class="" style="padding-left:5px;width:8%;">
-                                    <div class="input-group mb-3">
-                                        <label class="w-100" style="color:#0b2339;">Height</label>
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1">CM</span>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Width') }}</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" min="1" class="form-control width-listener"
+                                                    placeholder="{{ translate('Width') }}" name="width" value="0" />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <input type="text" min="1" class="form-control height-listener"
-                                            placeholder="{{ translate('Height') }}" name="height" value="0" />
 
+                                        <div class="col-md-12 mb-2">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Height') }}</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" min="1" class="form-control height-listener"
+                                                    placeholder="{{ translate('Height') }}" name="height" value="0" />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
 
-                                </div>
-                                <div class="" style="padding-left:5px;width:8%;">
-                                    <label class="w-100" style="color:#0b2339;">Insurance</label>
-                                    <label class="checkbox">
-                                        <input type="checkbox" onchange="update_currency_status(this)"
-                                            placeholder="{{ translate('Include Shipment Insurance') }}"
-                                            class="form-control insurance-listener" name="shipment_insurance" />
-                                        <span></span>
-                                    </label>
-                                </div>
-                                <div class="" style="padding-left:5px;width:11%;">
-                                    <div class="input-group mb-3">
-                                        <label class="w-100" style="color:#0b2339;">Protection
-                                            Value</label>
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"
-                                                id="basic-addon1">{{ translate('PV') }}</span>
+                                <div class="col-md-2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="checkbox mb-3">
+                                                <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                                <label class="w-50 ml-2 mt-2" style="color:#0b2339;">{{ translate('Insurance') }}</label>
+                                                <input type="checkbox" onchange="update_currency_status(this)"
+                                                    placeholder="{{ translate('Include Shipment Insurance') }}"
+                                                    class="form-control insurance-listener" name="shipment_insurance" />
+                                                <span></span>
+                                            </label>
                                         </div>
-                                        <input type="text" placeholder="{{ translate('Package Value') }}"
-                                            class="form-control value-listener" name="shipment_price"
-                                            onchange="calcTotalPrice()" value="0" />
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="{{ translate('Protection Value') }}"
+                                                        class="form-control value-listener" name="shipment_price"
+                                                        onchange="calcTotalPrice()" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="w-50 ml-2 mt-2" style="color:#0b2339;">{{ translate('Fragile') }}</label>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <label class="checkbox">
+                                                <input type="checkbox" onchange="update_currency_status(this)"
+                                                    placeholder="{{ translate('Fragile') }}"
+                                                    class="form-control fragile-listener" name="shipment_fragile" />
+                                                    <span></span>
 
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1578,8 +1602,12 @@
         var elements = $('.value-listener');
         var sumPrice = 0;
         elements.map(function() {
-            sumPrice += parseInt($(this).val());
-            console.log(sumPrice);
+            if($(this).val())
+            {
+                sumPrice += parseInt($(this).val());
+                console.log(sumPrice);
+            }
+
         }).get();
         $('.total-price').val(sumPrice);
     }
