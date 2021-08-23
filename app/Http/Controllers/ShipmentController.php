@@ -669,6 +669,28 @@ class ShipmentController extends Controller
         $states = ReceiverAddress::withoutGlobalScope('restriction')->where('receiver_id', $receiver_id)->with('receiver','country','state','area')->get();
         return response()->json($states);
     }
+    public function ajaxGetPackages()
+    {
+        $category_id = $_GET['category_id'];
+        $packages = Package::withoutGlobalScope('restriction')->where('category_id', $category_id)->get();
+        $template='';
+        foreach ($packages as $key => $package)
+        {
+            $template.='<div class="col-md-3 mb-2 update_package_id" style="cursor: pointer" data-package_id="'.$package->id.'" data-default_cost="'.$package->default_cost.'">
+                            <div class="card p-3">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img src="'.url('public/'.\App\Upload::find($package->icon)->file_name).'" alt="Image" style="width:35px;height:35px;">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <p class="mt-3 update_package_title">'.$package->name.'</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+        }
+        return response()->json($template);
+    }
     public function ajaxGetAreas()
     {
         $state_id = $_GET['state_id'];
@@ -820,7 +842,7 @@ class ShipmentController extends Controller
 
     public function applyShipmentCost($request,$packages)
     {
-        //dd($packages);
+        //dd($request->all());
         $from_country_id = $request['from_country_id'];
         $to_country_id = $request['to_country_id'];
 

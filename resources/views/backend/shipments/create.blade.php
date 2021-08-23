@@ -19,6 +19,7 @@
     $countries = \App\Country::where('covered', 1)->get();
     $countries_receiver = \App\Country::get();
     $packages = \App\Package::all();
+    $categories = \App\Category::all();
     $times = \App\Time::all();
     @endphp
     <style>
@@ -770,14 +771,69 @@
 
                 <hr>
                 <div id="kt_repeater_1">
-                    <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
-                        <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}: <small
-                                style="font-size: 12px;">{{ translate('( Please select our standard package OR choose custom pachage, weight will be required )') }}</small>
-                        </h2>
+
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
+                                <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}:
+                                    <small style="font-size: 12px;">
+                                        {{ translate('( Please select our standard package OR choose custom pachage, weight will be required )') }}
+                                    </small>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group mt-2">
+                                <div class="">
+                                    <div>
+                                        <a href="javascript:;" data-repeater-create=""
+                                            class="btn btn-sm font-weight-bolder btn-light-primary"
+                                            style="background:orange;border-radius:20px;">
+                                            <i class="la la-plus"></i>{{ translate('Add Package') }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div data-repeater-list="Package">
                         <div data-repeater-item class=" align-items-center"
                             style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-bottom:1px solid #ccc;">
+                            <input type="hidden" class="package_id" name="package_id" />
+                            <div class="row mb-2">
+                                @foreach ($categories as $key => $category)
+                                    <div class="col-md-3 mb-2 update_category_id" style="cursor: pointer" data-category_id="{{$category->id}}">
+                                        <div class="card p-3" style="background: purple">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <img src="{{ url('public/'.\App\Upload::find($category->icon)->file_name) }}" alt="Image" style="width:50px;height:50px;">
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <h5 class="mt-5 text-white">{{ $category->name }}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="row mb-2 update_package_data">
+                                {{-- @foreach ($packages as $key => $package)
+                                    <div class="col-md-3 mb-2 update_package_id" style="cursor: pointer" data-package_id="{{$package->id}}">
+                                        <div class="card p-3">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <img src="{{ url('public/'.\App\Upload::find($package->icon)->file_name) }}" alt="Image" style="width:50px;height:50px;">
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <h5 class="mt-5">{{ $package->name }}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach --}}
+
+                            </div>
                             <div class="row ml-1">
                                 {{-- <div class="row col-md-3">
                                     <div class="col-md-6">
@@ -808,6 +864,8 @@
                                 </div> --}}
 
 
+
+
                                 <div class="col-md-3">
                                     <label>{{ translate('Description:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <textarea type="text" placeholder="{{ translate('description') }}"
@@ -816,7 +874,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="row">
-                                        <div class="col-md-12 mb-2">
+                                        <div class="col-md-12 mb-2 package_weight">
                                             <div class="row">
                                                 <div class="col-md-2">
                                                     <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
@@ -897,7 +955,7 @@
                                         <div class="col-md-12">
                                             <input type="text" placeholder="{{ translate('Protection Value') }}"
                                                         class="form-control value-listener" name="shipment_price"
-                                                        onchange="calcTotalPrice()" />
+                                                        onchange="calcTotalPrice()" value="0" />
                                         </div>
                                     </div>
                                 </div>
@@ -1003,17 +1061,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group mt-2">
-                        <div class="">
-                            <div>
-                                <a href="javascript:;" data-repeater-create=""
-                                    class="btn btn-sm font-weight-bolder btn-light-primary"
-                                    style="background: #1393ba;border-radius:20px;">
-                                    <i class="la la-plus"></i>{{ translate('Add Package') }}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="row">
@@ -1147,6 +1195,43 @@
             }
         }
     }
+
+
+    $(document).on("click",'.update_category_id', function () {
+
+        $(this).parent().parent().find('.update_category_id > .card').css("background-color", "purple");
+
+        $(this).find('.card').css("background-color", "grey");
+
+        var id = $(this).data('category_id');
+        var selector =$(this);
+        $(this).parent().parent().find('.update_package_data').html('');
+        $.get("{{ route('admin.shipments.get-packages-ajax') }}?category_id=" + id, function(data) {
+            selector.parent().parent().find('.update_package_data').html(data);
+        });
+
+    });
+
+    $(document).on("click",'.update_package_id', function () {
+
+        $(this).parent().parent().find('.update_package_id > .card').css("background-color", "");
+        $(this).parent().parent().find('.update_package_title').css("color", "");
+
+        $(this).find('.card').css("background-color", "orange");
+        $(this).find('.update_package_title').css("color", "white");
+
+        var id = $(this).data('package_id');
+        $(this).parent().parent().find('.package_id').val(id);
+        if($(this).data('default_cost'))
+        {
+            $(this).parent().parent().find('.package_weight').hide();
+        }
+        else
+        {
+            $(this).parent().parent().find('.package_weight').show();
+        }
+
+});
 
     $('.payment-type').change(function() {
        // alert($(this).val());
@@ -1481,7 +1566,7 @@
     function get_estimation_cost() {
         var total_weight = document.getElementById('kt_touchspin_4').value;
         var exp_type = document.querySelector('input[name="Shipment[exp_type]"]:checked').value;
-        var select_packages = document.getElementsByClassName('package-type-select');
+        var select_packages = document.getElementsByClassName('package_id');
         var select_custom_packages = document.getElementsByClassName('package-listener');
         var select_custom_packages_value = document.getElementsByClassName('package-listener-value');
 
@@ -1501,51 +1586,51 @@
         for (let index = 0; index < select_packages.length; index++) {
             if (select_packages[index].value) {
                 package_ids[index] = new Object();
-                if (select_custom_packages[index].value == 1) {
-                    if(select_weights[index].value<=0)
-                    {
-                        AIZ.plugins.notify('danger', '{{ translate('Wait Must be greater then zero') }} ' + (index + 1));
-                        return 0;
-                    }
-                    return_package_id = function() {
-                        var package_id = null;
-                        $.ajax({
-                            'async': false,
-                            'type': "GET",
-                            'global': false,
-                            'dataType': 'json',
-                            'url': "{{ route('admin.shipments.save-package-ajax') }}?package_name=" +
-                                select_custom_packages_value[index].value,
-                            'success': function(id) {
-                                package_id = id;
-                            }
-                        });
-                        return package_id;
-                    }();
+                // if (select_custom_packages[index].value == 1) {
+                //     if(select_weights[index].value<=0)
+                //     {
+                //         AIZ.plugins.notify('danger', '{{ translate('Wait Must be greater then zero') }} ' + (index + 1));
+                //         return 0;
+                //     }
+                //     return_package_id = function() {
+                //         var package_id = null;
+                //         $.ajax({
+                //             'async': false,
+                //             'type': "GET",
+                //             'global': false,
+                //             'dataType': 'json',
+                //             'url': "{{ route('admin.shipments.save-package-ajax') }}?package_name=" +
+                //                 select_custom_packages_value[index].value,
+                //             'success': function(id) {
+                //                 package_id = id;
+                //             }
+                //         });
+                //         return package_id;
+                //     }();
 
-                    var add_check = true;
-                    var package_index = 0;
-                    var event = new Event('change');
-                    for (i = 0; i < select_packages[index].length; ++i) {
-                        if (select_packages[index].options[i].value == return_package_id) {
-                            add_check = false;
-                            package_index = i;
-                        }
-                    }
-                    if (add_check) {
-                        var option = document.createElement("option");
-                        option.text = select_custom_packages_value[index].value;
-                        option.value = return_package_id;
-                        select_packages[index].appendChild(option).setAttribute("selected", "selected");
-                        select_packages[index].dispatchEvent(event);
-                    } else {
-                        select_packages[index].options[package_index].setAttribute("selected", "selected");
-                        select_packages[index].dispatchEvent(event);
-                    }
-                    package_ids[index]["package_id"] = return_package_id;
-                } else {
+                //     var add_check = true;
+                //     var package_index = 0;
+                //     var event = new Event('change');
+                //     for (i = 0; i < select_packages[index].length; ++i) {
+                //         if (select_packages[index].options[i].value == return_package_id) {
+                //             add_check = false;
+                //             package_index = i;
+                //         }
+                //     }
+                //     if (add_check) {
+                //         var option = document.createElement("option");
+                //         option.text = select_custom_packages_value[index].value;
+                //         option.value = return_package_id;
+                //         select_packages[index].appendChild(option).setAttribute("selected", "selected");
+                //         select_packages[index].dispatchEvent(event);
+                //     } else {
+                //         select_packages[index].options[package_index].setAttribute("selected", "selected");
+                //         select_packages[index].dispatchEvent(event);
+                //     }
+                //     package_ids[index]["package_id"] = return_package_id;
+                // } else {
                     package_ids[index]["package_id"] = select_packages[index].value;
-                }
+                //}
                 package_ids[index]["weight"] = select_weights[index].value;
                 package_ids[index]["shipment_insurance"] = select_insurances[index].value;
                 package_ids[index]["shipment_price"] = select_values[index].value;

@@ -63,6 +63,7 @@ Route::get('shipments/ajaxed-save-package','ShipmentController@ajaxSavePackage')
 Route::post('shipments/get-estimation-cost','ShipmentController@ajaxGetEstimationCost')->name('admin.shipments.get-estimation-cost');
 Route::get('shipments/ajaxed-get-client-addresses','ShipmentController@ajaxGetAddressesClient')->name('admin.shipments.get-client-address-ajax');
 Route::get('shipments/ajaxed-get-receiver-addresses','ShipmentController@ajaxGetAddressesReceiver')->name('admin.shipments.get-receiver-address-ajax');
+Route::get('shipments/ajaxed-get-packages','ShipmentController@ajaxGetPackages')->name('admin.shipments.get-packages-ajax');
     
 Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'user_role:admin|staff|customer|branch']], function(){
 	//Update Routes
