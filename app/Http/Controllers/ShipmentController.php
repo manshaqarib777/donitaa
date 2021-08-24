@@ -679,8 +679,8 @@ class ShipmentController extends Controller
             $template.='<div class="col-md-3 mb-2 update_package_id" style="cursor: pointer" data-package_id="'.$package->id.'" data-default_cost="'.$package->default_cost.'">
                                 <div class="row">
                                     <div class="col-md-1">
-                                    <label class="checkbox">
-                                        <input type="radio" name="package_checkbox" />
+                                    <label class="checkbox mt-3">
+                                        <input type="radio" name="package_checkbox " />
                                         <span></span>
                                     </label>
                                     </div>
