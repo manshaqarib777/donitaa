@@ -1206,11 +1206,11 @@
 
     $(document).on("click",'.update_package_id', function () {
 
-        $(this).parent().parent().find('.update_package_id > .card').css("background-color", "");
-        $(this).parent().parent().find('.update_package_title').css("color", "");
+        // $(this).parent().parent().find('.update_package_id > .card').css("background-color", "");
+        // $(this).parent().parent().find('.update_package_title').css("color", "");
 
-        $(this).find('.card').css("background-color", "orange");
-        $(this).find('.update_package_title').css("color", "white");
+        // $(this).find('.row').css("background-color", "orange");
+        // $(this).find('.update_package_title').css("color", "white");
 
         var id = $(this).data('package_id');
         $(this).parent().parent().find('.package_id').val(id);

@@ -677,16 +677,20 @@ class ShipmentController extends Controller
         foreach ($packages as $key => $package)
         {
             $template.='<div class="col-md-3 mb-2 update_package_id" style="cursor: pointer" data-package_id="'.$package->id.'" data-default_cost="'.$package->default_cost.'">
-                            <div class="card p-3">
                                 <div class="row">
+                                    <div class="col-md-1">
+                                    <label class="checkbox">
+                                        <input type="radio" name="package_checkbox" />
+                                        <span></span>
+                                    </label>
+                                    </div>
                                     <div class="col-md-2">
                                         <img src="'.url('public/'.\App\Upload::find($package->icon)->file_name).'" alt="Image" style="width:35px;height:35px;">
                                     </div>
-                                    <div class="col-md-10">
+                                    <div class="col-md-8">
                                         <p class="mt-3 update_package_title">'.$package->name.'</p>
                                     </div>
                                 </div>
-                            </div>
                         </div>';
         }
         return response()->json($template);
@@ -1341,11 +1345,14 @@ class ShipmentController extends Controller
                 if (isset($request->Package[$counter]['package_id'])) {
 
                     foreach ($request->Package as $k => $package) {
+                        if(isset($package['package_checkbox']))
+                            unset($package['package_checkbox']);
                         if(isset($package['shipment_insurance']))
-                        $package['shipment_insurance'] = $package['shipment_insurance'][0];
+                            $package['shipment_insurance'] = $package['shipment_insurance'][0];
                         if(isset($package['shipment_fragile']))
-                        $package['shipment_fragile'] = $package['shipment_fragile'][0];
-                        $package_shipment = new PackageShipment();
+                            $package['shipment_fragile'] = $package['shipment_fragile'][0];
+                        
+                            $package_shipment = new PackageShipment();
                         $package_shipment->fill($package);
                         $package_shipment->shipment_id = $model->id;
                         if (!$package_shipment->save()) {
@@ -1571,6 +1578,10 @@ class ShipmentController extends Controller
                 if (isset($_POST['Package'][$counter]['package_id'])) {
 
                     foreach ($_POST['Package'] as $k=> $package) {
+                        if(isset($package['package_checkbox']))
+                        {
+                            unset($package['package_checkbox']);
+                        }
                         if(isset($package['shipment_insurance']))
                             $package['shipment_insurance'] = $package['shipment_insurance'][0];
                         if(isset($package['shipment_fragile']))

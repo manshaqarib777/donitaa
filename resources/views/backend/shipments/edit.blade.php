@@ -787,14 +787,18 @@
                             <div class="row mb-2 update_package_data">
                                 @foreach ($pack->package->category->packages as $key => $package)
                                     <div class="col-md-3 mb-2 update_package_id" style="cursor: pointer;" data-package_id="{{$package->id}}">
-                                        <div class="card p-3" style="@if ($pack->package_id == $package->id) background: orange; @endif">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <img src="{{ url('public/'.\App\Upload::find($package->icon)->file_name) }}" alt="Image" style="width:50px;height:50px;">
-                                                </div>
-                                                <div class="col-md-9">
-                                                    <h5 class="mt-5">{{ $package->name }}</h5>
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="checkbox">
+                                                    <input type="radio" name="package_checkbox" @if ($pack->package_id == $package->id) checked @endif />
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <img src="{{ url('public/'.\App\Upload::find($package->icon)->file_name) }}" alt="Image" style="width:35px;height:35px;">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <p class="mt-3 update_package_title">{{ $package->name }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1231,11 +1235,11 @@
 
     $(document).on("click",'.update_package_id', function () {
 
-        $(this).parent().parent().find('.update_package_id > .card').css("background-color", "");
-        $(this).parent().parent().find('.update_package_title').css("color", "");
+        // $(this).parent().parent().find('.update_package_id > .card').css("background-color", "");
+        // $(this).parent().parent().find('.update_package_title').css("color", "");
 
-        $(this).find('.card').css("background-color", "orange");
-        $(this).find('.update_package_title').css("color", "white");
+        // $(this).find('.card').css("background-color", "orange");
+        // $(this).find('.update_package_title').css("color", "white");
 
         var id = $(this).data('package_id');
         $(this).parent().parent().find('.package_id').val(id);
