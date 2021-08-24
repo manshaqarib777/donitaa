@@ -1598,7 +1598,7 @@
     function get_estimation_cost() {
         var total_weight = document.getElementById('kt_touchspin_4').value;
         var exp_type = document.querySelector('input[name="Shipment[exp_type]"]:checked').value;
-        var select_packages = document.getElementsByClassName('package-type-select');
+        var select_packages = document.getElementsByClassName('package_id');
         var select_custom_packages = document.getElementsByClassName('package-listener');
         var select_custom_packages_value = document.getElementsByClassName('package-listener-value');
 
@@ -1618,51 +1618,51 @@
         for (let index = 0; index < select_packages.length; index++) {
             if (select_packages[index].value) {
                 package_ids[index] = new Object();
-                if (select_custom_packages[index].value == 1) {
-                    if(select_weights[index].value<=0)
-                    {
-                        AIZ.plugins.notify('danger', '{{ translate('Wait Must be greater then zero') }} ' + (index + 1));
-                        return 0;
-                    }
-                    return_package_id = function() {
-                        var package_id = null;
-                        $.ajax({
-                            'async': false,
-                            'type': "GET",
-                            'global': false,
-                            'dataType': 'json',
-                            'url': "{{ route('admin.shipments.save-package-ajax') }}?package_name=" +
-                                select_custom_packages_value[index].value,
-                            'success': function(id) {
-                                package_id = id;
-                            }
-                        });
-                        return package_id;
-                    }();
+                // if (select_custom_packages[index].value == 1) {
+                //     if(select_weights[index].value<=0)
+                //     {
+                //         AIZ.plugins.notify('danger', '{{ translate('Wait Must be greater then zero') }} ' + (index + 1));
+                //         return 0;
+                //     }
+                //     return_package_id = function() {
+                //         var package_id = null;
+                //         $.ajax({
+                //             'async': false,
+                //             'type': "GET",
+                //             'global': false,
+                //             'dataType': 'json',
+                //             'url': "{{ route('admin.shipments.save-package-ajax') }}?package_name=" +
+                //                 select_custom_packages_value[index].value,
+                //             'success': function(id) {
+                //                 package_id = id;
+                //             }
+                //         });
+                //         return package_id;
+                //     }();
 
-                    var add_check = true;
-                    var package_index = 0;
-                    var event = new Event('change');
-                    for (i = 0; i < select_packages[index].length; ++i) {
-                        if (select_packages[index].options[i].value == return_package_id) {
-                            add_check = false;
-                            package_index = i;
-                        }
-                    }
-                    if (add_check) {
-                        var option = document.createElement("option");
-                        option.text = select_custom_packages_value[index].value;
-                        option.value = return_package_id;
-                        select_packages[index].appendChild(option).setAttribute("selected", "selected");
-                        select_packages[index].dispatchEvent(event);
-                    } else {
-                        select_packages[index].options[package_index].setAttribute("selected", "selected");
-                        select_packages[index].dispatchEvent(event);
-                    }
-                    package_ids[index]["package_id"] = return_package_id;
-                } else {
+                //     var add_check = true;
+                //     var package_index = 0;
+                //     var event = new Event('change');
+                //     for (i = 0; i < select_packages[index].length; ++i) {
+                //         if (select_packages[index].options[i].value == return_package_id) {
+                //             add_check = false;
+                //             package_index = i;
+                //         }
+                //     }
+                //     if (add_check) {
+                //         var option = document.createElement("option");
+                //         option.text = select_custom_packages_value[index].value;
+                //         option.value = return_package_id;
+                //         select_packages[index].appendChild(option).setAttribute("selected", "selected");
+                //         select_packages[index].dispatchEvent(event);
+                //     } else {
+                //         select_packages[index].options[package_index].setAttribute("selected", "selected");
+                //         select_packages[index].dispatchEvent(event);
+                //     }
+                //     package_ids[index]["package_id"] = return_package_id;
+                // } else {
                     package_ids[index]["package_id"] = select_packages[index].value;
-                }
+                //}
                 package_ids[index]["weight"] = select_weights[index].value;
                 package_ids[index]["shipment_insurance"] = select_insurances[index].value;
                 package_ids[index]["shipment_price"] = select_values[index].value;
