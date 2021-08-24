@@ -82,7 +82,10 @@
     html,
         body {
             font-size: 12px !important;
+            font-family: Georgia, serif;
+
         }
+
 </style>
 <style media="print">
     .no-print, div#kt_header_mobile, div#kt_header, div#kt_footer{
