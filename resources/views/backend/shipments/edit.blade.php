@@ -7,6 +7,7 @@
     $staff_permission = json_decode(Auth::user()->staff->role->permissions ?? '[]');
     $countries = \App\Country::where('covered', 1)->get();
     $countries_receiver = \App\Country::get();
+    $categories = \App\Category::all();
     $packages = \App\Package::all();
     $times = \App\Time::all();
     @endphp
@@ -724,240 +725,254 @@
 
                 <hr>
 
+
+
+
+
+
+
+
+
+
+
+
                 <div id="kt_repeater_1">
-                    <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
-                        <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}: <small style="font-size:12px;color: red">*</small><small
-                                style="font-size: 12px;">{{ translate('( Please select our standard package OR choose custom pachage, weight will be required )') }}</small>
-                        </h2>
+
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="w-100 p-3 pl-5 text-white" style="background:hsl(194, 82%, 40%);">
+                                <h2 class="text-left">{{ translate('PACKAGE INFORMATION') }}:
+                                    <small style="font-size: 12px;">
+                                        {{ translate('( Please select our standard package OR choose custom pachage, weight will be required )') }}
+                                    </small>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group mt-2">
+                                <div class="">
+                                    <div>
+                                        <a href="javascript:;" data-repeater-create=""
+                                            class="btn btn-sm font-weight-bolder btn-light-primary"
+                                            style="background:orange;border-radius:20px;">
+                                            <i class="la la-plus"></i>{{ translate('Add Package') }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div data-repeater-list="Package">
                         @foreach (\App\PackageShipment::where('shipment_id', $shipment->id)->get() as $pack)
-                            <div data-repeater-item class=" align-items-center"
-                                style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-bottom:1px solid #ccc;">
-                                <div class="row ml-1">
-                                    <div class="row col-md-3">
-                                        <div class="col-md-6">
-                                            <label style="font-size:9px;">{{ translate('Package Type OR') }}: <small style="font-size:12px;color: red">*</small>
-                                            </label>
+                        <div data-repeater-item class=" align-items-center"
+                            style="margin-top: 15px;padding-bottom: 15px;padding-top: 15px;border-bottom:1px solid #ccc;">
+                            <input type="hidden" class="package_id" name="package_id" value="{{$pack->package_id}}" />
+                            <div class="row mb-2">
+                                @foreach ($categories as $key => $category)
+                                    <div class="col-md-3 mb-2 update_category_id" style="cursor: pointer" data-category_id="{{$category->id}}">
+                                        <div class="card p-3" style=" {{($pack->package->category->id==$category->id)?'background: gray':'background: purple'}} ">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <img src="{{ url('public/'.\App\Upload::find($category->icon)->file_name) }}" alt="Image" style="width:50px;height:50px;">
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <h5 class="mt-5 text-white">{{ $category->name }}</h5>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label class="checkbox">
-                                                <input type="checkbox"
-                                                    placeholder="{{ translate('Custom Package') }}"
-                                                    class="form-control package-listener" value="0" />
-                                                <span></span>
-                                                <label
-                                                    style="font-size:8px;">{{ translate('Custom Package') }}</label>
-                                            </label>
-                                        </div>
-                                        <div class="default-package-show" style="width:100%">
-                                            <select class="form-control kt-select2 package-type-select"
-                                                name="package_id">
-                                                <option></option>
-                                                @foreach (\App\Package::all() as $package)
-                                                    <option @if ($pack->package_id == $package->id) selected @endif
-                                                        value="{{ $package->id }}">{{ $package->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <input type="text" placeholder="{{ translate('Package Name') }}"
-                                            class="form-control package-listener-value custom-package-show"
-                                            style="display: none">
-                                        <div class="mb-2 d-md-none"></div>
                                     </div>
-
-
-                                    <div class="row col-md-3 ml-1">
-                                        <div class="col-md-6">
-                                            <label>{{ translate('Description:') }} <small style="font-size:12px;color: red">*</small></label>
+                                @endforeach
+                            </div>
+                            <div class="row mb-2 update_package_data">
+                                @foreach ($pack->package->category->packages as $key => $package)
+                                    <div class="col-md-3 mb-2 update_package_id" style="cursor: pointer;" data-package_id="{{$package->id}}">
+                                        <div class="card p-3" style="@if ($pack->package_id == $package->id) background: orange; @endif">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <img src="{{ url('public/'.\App\Upload::find($package->icon)->file_name) }}" alt="Image" style="width:50px;height:50px;">
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <h5 class="mt-5">{{ $package->name }}</h5>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
+                                @endforeach
+
+                            </div>
+                            <div class="row ml-1">
+
+                                <div class="col-md-3">
+                                    <label>{{ translate('Description:') }} <small style="font-size:12px;color: red">*</small></label>
+                                    <textarea type="text" placeholder="{{ translate('description') }}"
+                                        class="form-control" name="description">{{ $pack->description }}</textarea>
+                                    <div class="mb-2 d-md-none"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2 package_weight">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Weight') }}</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" min="0" placeholder="{{ translate('Weight') }}"
+                                                name="weight" class="form-control weight-listener"
+                                                onchange="calcTotalWeight()" value="{{ $pack->weight }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Length') }}</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" min="0" class="form-control length-listener"
+                                                placeholder="{{ translate('Length') }}" name="length"
+                                                value="{{ $pack->length }}" />
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Width') }}</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" min="0" class="form-control width-listener"
+                                                placeholder="{{ translate('Width') }}" name="width"
+                                                value="{{ $pack->width }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-2">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Height') }}</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input type="text" min="0" class="form-control height-listener"
+                                                placeholder="{{ translate('Height') }}" name="height"
+                                                value="{{ $pack->height }}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label class="checkbox mb-3">
+                                                <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                                <label class="w-50 ml-2 mt-2" style="color:#0b2339;">{{ translate('Insurance') }}</label>
+                                                <input type="checkbox" onchange="update_currency_status(this)"
+                                                placeholder="{{ translate('Include Shipment Insurance') }}"
+                                                class="form-control insurance-listener" name="shipment_insurance"
+                                                value="{{ $pack->shipment_insurance }}"
+                                                {{ $pack->shipment_insurance == 1 ? 'checked' : '' }} />
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="{{ translate('Package Value') }}"
+                                                class="form-control value-listener" name="shipment_price"
+                                                onchange="calcTotalPrice()" value="{{ $pack->shipment_price }}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="row">
                                         <div class="col-md-4">
+                                            <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="w-50 ml-2 mt-2" style="color:#0b2339;">{{ translate('Fragile') }}</label>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
                                             <label class="checkbox">
                                                 <input type="checkbox" onchange="update_currency_status(this)"
                                                     placeholder="{{ translate('Fragile') }}"
                                                     class="form-control fragile-listener" name="shipment_fragile"
                                                     value="{{ $pack->shipment_fragile }}"
                                                     {{ $pack->shipment_fragile == 1 ? 'checked' : '' }} />
-                                                <span></span>
-                                                {{ translate('Fragile') }}
+                                                    <span></span>
+
                                             </label>
-                                        </div>
-                                        <input type="text" placeholder="{{ translate('description') }}"
-                                            class="form-control" name="description"
-                                            value="{{ $pack->description }}">
-                                        <div class="mb-2 d-md-none"></div>
-                                    </div>
-                                    <div class="" style="padding-left:5px;width:8%;">
-                                        <div class="input-group mb-3">
-                                            <label class="w-100" style="color:#0b2339;">Weight</label>
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">KG</span>
-                                            </div>
-                                            <input type="text" min="0" placeholder="{{ translate('Weight') }}"
-                                                name="weight" class="form-control weight-listener"
-                                                onchange="calcTotalWeight()" value="{{ $pack->weight }}" />
-
-                                        </div>
-                                        <div class="mb-2 d-md-none"></div>
-                                    </div>
-                                    <div class="" style="padding-left:5px;width:8%;">
-                                        <div class="input-group mb-3">
-                                            <label class="w-100" style="color:#0b2339;">Length</label>
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">CM</span>
-                                            </div>
-                                            <input type="text" min="0" class="form-control length-listener"
-                                                placeholder="{{ translate('Length') }}" name="length"
-                                                value="{{ $pack->length }}" />
-
-                                        </div>
-                                    </div>
-                                    <div class="" style="padding-left:5px;width:8%;">
-
-                                        <div class="input-group mb-3">
-                                            <label class="w-100" style="color:#0b2339;">Width</label>
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">CM</span>
-                                            </div>
-                                            <input type="text" min="0" class="form-control width-listener"
-                                                placeholder="{{ translate('Width') }}" name="width"
-                                                value="{{ $pack->width }}" />
-
-                                        </div>
-                                    </div>
-                                    <div class="" style="padding-left:5px;width:8%;">
-                                        <div class="input-group mb-3">
-                                            <label class="w-100" style="color:#0b2339;">Height</label>
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">CM</span>
-                                            </div>
-                                            <input type="text" min="0" class="form-control height-listener"
-                                                placeholder="{{ translate('Height') }}" name="height"
-                                                value="{{ $pack->height }}" />
-
-                                        </div>
-
-                                    </div>
-                                    <div class="" style="padding-left:5px;width:8%;">
-                                        <label class="w-100" style="color:#0b2339;">Insurance</label>
-                                        <label class="checkbox">
-                                            <input type="checkbox" onchange="update_currency_status(this)"
-                                                placeholder="{{ translate('Include Shipment Insurance') }}"
-                                                class="form-control insurance-listener" name="shipment_insurance"
-                                                value="{{ $pack->shipment_insurance }}"
-                                                {{ $pack->shipment_insurance == 1 ? 'checked' : '' }} />
-                                            <span></span>
-                                        </label>
-                                    </div>
-                                    <div class="" style="padding-left:5px;width:11%;">
-                                        <div class="input-group mb-3">
-                                            <label class="w-100" style="color:#0b2339;">Protection
-                                                Value</label>
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"
-                                                    id="basic-addon1">{{ translate('PV') }}</span>
-                                            </div>
-                                            <input type="text" placeholder="{{ translate('Package Value') }}"
-                                                class="form-control value-listener" name="shipment_price"
-                                                onchange="calcTotalPrice()" value="{{ $pack->shipment_price }}" />
-
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <hr>
-                                    <div class="inner-repeater row">
-                                        <div class="form-group col-md-2">
-                                            <div class="">
-                                                <div>
-                                                    <a href="javascript:;" data-repeater-create=""
-                                                        class="btn btn-sm font-weight-bolder btn-light-primary"
-                                                        style="border-radius:20px;">
-                                                        <i class="la la-plus"></i>{{ translate('Add List') }}
-                                                    </a>
-                                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr>
+                                <div class="inner-repeater row">
+                                    <div class="form-group col-md-2">
+                                        <div class="">
+                                            <div>
+                                                <a href="javascript:;" data-repeater-create=""
+                                                    class="btn btn-sm font-weight-bolder btn-light-primary"
+                                                    style="border-radius:20px;">
+                                                    <i class="la la-plus"></i>{{ translate('Add Content List') }}
+                                                </a>
                                             </div>
                                         </div>
-                                        <div data-repeater-list="package_list" class="col-md-10">
-                                            @if (isset($pack->package_list))
-                                                @foreach ($pack->package_list as $list)
-                                                    <div data-repeater-item>
-                                                        <div class="row">
-                                                            <div class="col-md-4">
-                                                                <label>{{ translate('Item Name') }}:</label>
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="{{ translate('Item Name') }}"
-                                                                    name="item_name"
-                                                                    value="{{ $list->item_name }}" />
-
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label>{{ translate('Item Description') }}:</label>
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="{{ translate('Description') }}"
-                                                                    name="description"
-                                                                    value="{{ $list->description }}" />
-                                                            </div>
-                                                            <div class="col-md-2">
-
-                                                                <label>{{ translate('Quantity') }}:</label>
-
-                                                                <div class="input-group mb-3">
-                                                                    <div class="input-group-prepend">
-                                                                        <span class="input-group-text"
-                                                                            id="basic-addon1">Qty</span>
-                                                                    </div>
-                                                                    <input type="text" min="0"
-                                                                        class="form-control quantity-listener"
-                                                                        placeholder="{{ translate('Quantity') }}"
-                                                                        type="text" min="0" name="qty"
-                                                                        class="form-control"
-                                                                        value="{{ $list->qty }}" />
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-2">
-                                                            <div class="col-md-12">
-
-                                                                <div>
-                                                                    <a href="javascript:;" data-repeater-delete=""
-                                                                        class="btn btn-sm font-weight-bolder btn-light-danger delete_item">
-                                                                        <i
-                                                                            class="la la-trash-o"></i>{{ translate('Delete List') }}
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-                                                @endforeach
-                                            @else
-                                                <div data-repeater-item data-repeater-first-delete>
+                                    </div>
+                                    <div data-repeater-list="package_list" class="col-md-10">
+                                        @if (isset($pack->package_list))
+                                            @foreach ($pack->package_list as $list)
+                                                <div data-repeater-item>
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <label>{{ translate('Item Name') }}:</label>
                                                             <input type="text" class="form-control"
                                                                 placeholder="{{ translate('Item Name') }}"
-                                                                name="item_name" />
+                                                                name="item_name"
+                                                                value="{{ $list->item_name }}" />
 
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <label>{{ translate('Item Description') }}:</label>
                                                             <input type="text" class="form-control"
                                                                 placeholder="{{ translate('Description') }}"
-                                                                name="description" />
+                                                                name="description"
+                                                                value="{{ $list->description }}" />
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-2">
 
                                                             <label>{{ translate('Quantity') }}:</label>
 
-                                                            <input class="kt_touchspin_qty"
-                                                                placeholder="{{ translate('Quantity') }}"
-                                                                type="number" min="0" name="qty" class="form-control"
-                                                                value="1" />
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"
+                                                                        id="basic-addon1">Qty</span>
+                                                                </div>
+                                                                <input type="text" min="0"
+                                                                    class="form-control quantity-listener"
+                                                                    placeholder="{{ translate('Quantity') }}"
+                                                                    type="text" min="0" name="qty"
+                                                                    class="form-control"
+                                                                    value="{{ $list->qty }}" />
+                                                            </div>
 
                                                         </div>
                                                     </div>
@@ -976,42 +991,76 @@
 
 
                                                 </div>
+                                            @endforeach
+                                        @else
+                                            <div data-repeater-item data-repeater-first-delete>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label>{{ translate('Item Name') }}:</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="{{ translate('Item Name') }}"
+                                                            name="item_name" />
 
-                                            @endif
-                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label>{{ translate('Item Description') }}:</label>
+                                                        <input type="text" class="form-control"
+                                                            placeholder="{{ translate('Description') }}"
+                                                            name="description" />
+                                                    </div>
+                                                    <div class="col-md-4">
 
+                                                        <label>{{ translate('Quantity') }}:</label>
+
+                                                        <input class="kt_touchspin_qty"
+                                                            placeholder="{{ translate('Quantity') }}"
+                                                            type="number" min="0" name="qty" class="form-control"
+                                                            value="1" />
+
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="col-md-12">
+
+                                                        <div>
+                                                            <a href="javascript:;" data-repeater-delete=""
+                                                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item">
+                                                                <i
+                                                                    class="la la-trash-o"></i>{{ translate('Delete List') }}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                        @endif
                                     </div>
-                                </div>
 
-
-
-
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        <div>
-                                            <a href="javascript:;" data-repeater-delete=""
-                                                class="btn btn-sm font-weight-bolder btn-light-danger delete_item"
-                                                style="border-radius:20px;">
-                                                <i class="la la-trash-o"></i>{{ translate('Delete Package') }}
-                                            </a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
-                    <div class="form-group mt-2">
-                        <div class="">
-                            <div>
-                                <a href="javascript:;" data-repeater-create=""
-                                    class="btn btn-sm font-weight-bolder btn-light-primary"
-                                    style="background: #1393ba;border-radius:20px;">
-                                    <i class="la la-plus"></i>{{ translate('Add Package') }}
-                                </a>
+
+
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div>
+                                        <a href="javascript:;" data-repeater-delete=""
+                                            class="btn btn-sm font-weight-bolder btn-light-danger delete_item"
+                                            style="border-radius:20px;">
+                                            <i class="la la-trash-o"></i>{{ translate('Delete Package') }}
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        @endforeach
+
                     </div>
+
                 </div>
 
 
@@ -1170,6 +1219,42 @@
             }
         }
     }
+    $(document).on("click",'.update_category_id', function () {
+
+        $(this).parent().parent().find('.update_category_id > .card').css("background-color", "purple");
+
+        $(this).find('.card').css("background-color", "grey");
+
+        var id = $(this).data('category_id');
+        var selector =$(this);
+        $(this).parent().parent().find('.update_package_data').html('');
+        $.get("{{ route('admin.shipments.get-packages-ajax') }}?category_id=" + id, function(data) {
+            selector.parent().parent().find('.update_package_data').html(data);
+        });
+
+    });
+
+    $(document).on("click",'.update_package_id', function () {
+
+        $(this).parent().parent().find('.update_package_id > .card').css("background-color", "");
+        $(this).parent().parent().find('.update_package_title').css("color", "");
+
+        $(this).find('.card').css("background-color", "orange");
+        $(this).find('.update_package_title').css("color", "white");
+
+        var id = $(this).data('package_id');
+        $(this).parent().parent().find('.package_id').val(id);
+        if($(this).data('default_cost'))
+        {
+            $(this).parent().parent().find('.package_weight').hide();
+        }
+        else
+        {
+            $(this).parent().parent().find('.package_weight').show();
+        }
+
+    });
+
 
     if ($('.payment-type').val() == '2') {
         $('.payment-method').attr('disabled', 'disabled');

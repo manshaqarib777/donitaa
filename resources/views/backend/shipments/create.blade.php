@@ -1231,7 +1231,7 @@
             $(this).parent().parent().find('.package_weight').show();
         }
 
-});
+    });
 
     $('.payment-type').change(function() {
        // alert($(this).val());

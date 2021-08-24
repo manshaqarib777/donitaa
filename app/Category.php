@@ -15,4 +15,7 @@ class Category extends Model
     {
         $this->attributes['default_cost'] = (bool) $value;
     }
+    public function packages(){
+		return $this->hasMany('App\Package' , 'category_id', 'id');
+	}
 }
