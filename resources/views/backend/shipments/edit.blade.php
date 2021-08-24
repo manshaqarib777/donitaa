@@ -803,23 +803,21 @@
                             </div>
                             <div class="row ml-1">
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label>{{ translate('Description:') }} <small style="font-size:12px;color: red">*</small></label>
                                     <textarea type="text" placeholder="{{ translate('description') }}"
                                         class="form-control" name="description">{{ $pack->description }}</textarea>
                                     <div class="mb-2 d-md-none"></div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="row">
                                         <div class="col-md-12 mb-2 package_weight">
                                             <div class="row">
-                                                <div class="col-md-2">
+                                                <div class="col-md-6" style="display: flex">
                                                     <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
-                                                </div>
-                                                <div class="col-md-3">
                                                     <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Weight') }}</label>
                                                 </div>
-                                                <div class="col-md-7">
+                                                <div class="col-md-6">
                                                     <input type="text" min="0" placeholder="{{ translate('Weight') }}"
                                                 name="weight" class="form-control weight-listener"
                                                 onchange="calcTotalWeight()" value="{{ $pack->weight }}" />
@@ -829,13 +827,11 @@
 
                                         <div class="col-md-12">
                                             <div class="row">
-                                                <div class="col-md-2">
+                                                <div class="col-md-6" style="display: flex">
                                                     <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
-                                                </div>
-                                                <div class="col-md-3">
                                                     <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Length') }}</label>
                                                 </div>
-                                                <div class="col-md-7">
+                                                <div class="col-md-6">
                                                     <input type="text" min="0" class="form-control length-listener"
                                                 placeholder="{{ translate('Length') }}" name="length"
                                                 value="{{ $pack->length }}" />
@@ -844,17 +840,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="row">
                                         <div class="col-md-12 mb-2">
                                             <div class="row">
-                                                <div class="col-md-2">
+                                                <div class="col-md-6" style="display: flex">
                                                     <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
-                                                </div>
-                                                <div class="col-md-3">
                                                     <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Width') }}</label>
                                                 </div>
-                                                <div class="col-md-7">
+                                                <div class="col-md-6">
                                                     <input type="text" min="0" class="form-control width-listener"
                                                 placeholder="{{ translate('Width') }}" name="width"
                                                 value="{{ $pack->width }}" />
@@ -864,13 +858,11 @@
 
                                         <div class="col-md-12 mb-2">
                                             <div class="row">
-                                                <div class="col-md-2">
+                                                <div class="col-md-6" style="display: flex">
                                                     <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
-                                                </div>
-                                                <div class="col-md-3">
                                                     <label class="mt-2 ml-2" style="color:#0b2339;">{{ translate('Height') }}</label>
                                                 </div>
-                                                <div class="col-md-7">
+                                                <div class="col-md-6">
                                                     <input type="text" min="0" class="form-control height-listener"
                                                 placeholder="{{ translate('Height') }}" name="height"
                                                 value="{{ $pack->height }}" />
