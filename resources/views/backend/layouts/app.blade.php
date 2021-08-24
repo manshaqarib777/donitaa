@@ -82,7 +82,7 @@
     html,
         body {
             font-size: 12px !important;
-            font-family: Georgia, serif;
+            font-family: 'Trebuchet MS', sans-serif;
 
         }
 

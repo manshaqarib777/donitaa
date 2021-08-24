@@ -955,18 +955,16 @@
 
                                                             <div class="input-group mb-3">
                                                                 <div class="input-group-prepend">
-                                                                    <span class="input-group-text"
-                                                                        id="basic-addon1">Qty</span>
+                                                                    <span class="input-group-text">Qty</span>
                                                                 </div>
-                                                                <input type="text" min="0"
+                                                                <input type="text" min="1"
                                                                     class="form-control quantity-listener"
-                                                                    placeholder="{{ translate('Quantity') }}"
-                                                                    type="text" min="0" name="qty"
-                                                                    class="form-control"
-                                                                    value="{{ $list->qty }}" />
+                                                                    placeholder="{{ translate('Quantity') }}" type="text"
+                                                                    min="1" name="qty" class="form-control" value="{{ $list->qty }}" />
                                                             </div>
 
                                                         </div>
+
                                                     </div>
                                                     <div class="row mt-2">
                                                         <div class="col-md-12">
@@ -994,20 +992,25 @@
                                                             name="item_name" />
 
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <label>{{ translate('Item Description') }}:</label>
                                                         <input type="text" class="form-control"
                                                             placeholder="{{ translate('Description') }}"
                                                             name="description" />
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-2">
 
                                                         <label>{{ translate('Quantity') }}:</label>
 
-                                                        <input class="kt_touchspin_qty"
-                                                            placeholder="{{ translate('Quantity') }}"
-                                                            type="number" min="0" name="qty" class="form-control"
-                                                            value="1" />
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text" id="basic-addon1">Qty</span>
+                                                            </div>
+                                                            <input type="text" min="1"
+                                                                class="form-control quantity-listener"
+                                                                placeholder="{{ translate('Quantity') }}" type="text"
+                                                                min="1" name="qty" class="form-control" value="1" />
+                                                        </div>
 
                                                     </div>
                                                 </div>
