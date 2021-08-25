@@ -43,7 +43,7 @@ class PackagesController extends Controller
         }
         try{	
 			DB::beginTransaction();
-            $check = Package::where('name',$_POST['Package']['name'])->first();
+            $check = Package::where('name',$_POST['Package']['name'])->where('category_id',$_POST['Package']['category_id'])->first();
             if($check != null)
             {
                 flash(translate("This package is created before"))->error();
@@ -113,7 +113,7 @@ class PackagesController extends Controller
         }
         try{	
 			DB::beginTransaction();
-            $check = Package::where('name',$_POST['Package']['name'])->whereNotIn('id',[$package])->first();
+            $check = Package::where('name',$_POST['Package']['name'])->where('category_id',$_POST['Package']['category_id'])->whereNotIn('id',[$package])->first();
             if($check != null)
             {
                 flash(translate("This package is created before"))->error();

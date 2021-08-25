@@ -959,7 +959,7 @@
                                         <div class="col-md-8">
                                             <label class="w-50 ml-2 mt-2" style="color:#0b2339;">{{ translate('Fragile') }}</label>
                                         </div>
-                                        <div class="col-md-12 mt-3">
+                                        <div class="col-md-12 mt-5">
                                             <label class="checkbox">
                                                 <input type="checkbox" onchange="update_currency_status(this)"
                                                     placeholder="{{ translate('Fragile') }}"
