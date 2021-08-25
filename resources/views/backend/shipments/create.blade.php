@@ -951,21 +951,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <label class="w-50 ml-2 mt-2" style="color:#0b2339;">{{ translate('Fragile') }}</label>
-                                        </div>
-                                        <div class="col-md-12 mt-5">
-                                            <label class="checkbox">
+                                        <div class="col-md-12">
+                                            <label class="checkbox mb-3">
+                                                <i class="fa fa-gift text-dark" style="font-size: 30px;"></i>
+                                                <label class="w-50 ml-2 mt-2" style="color:#0b2339;">{{ translate('Fragile') }}</label>
                                                 <input type="checkbox" onchange="update_currency_status(this)"
-                                                    placeholder="{{ translate('Fragile') }}"
-                                                    class="form-control fragile-listener" name="shipment_fragile" />
-                                                    <span></span>
-
+                                                placeholder="{{ translate('Fragile') }}"
+                                                class="form-control fragile-listener" name="shipment_fragile" />
+                                                <span></span>
                                             </label>
                                         </div>
                                     </div>
