@@ -676,22 +676,47 @@ class ShipmentController extends Controller
         $template='';
         foreach ($packages as $key => $package)
         {
-            $template.='<div class="col-md-3 mb-2 update_package_id" style="cursor: pointer" data-package_id="'.$package->id.'" data-default_cost="'.$package->default_cost.'">
-                                <div class="row">
-                                    <div class="col-md-1">
-                                    <label class="checkbox mt-3">
-                                        <input type="radio" name="package_checkbox " />
-                                        <span></span>
-                                    </label>
+            if($package->name!='Other' && $package->name!='other')
+            {
+                $template.='<div class="col-md-3 mb-2 update_package_id" style="cursor: pointer" data-package_id="'.$package->id.'" data-default_cost="'.$package->default_cost.'">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                        <label class="checkbox mt-3">
+                                            <input type="radio" name="package_checkbox " />
+                                            <span></span>
+                                        </label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img src="'.url('public/'.\App\Upload::find($package->icon)->file_name).'" alt="Image" style="width:35px;height:35px;">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="mt-3 update_package_title">'.$package->name.'</p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <img src="'.url('public/'.\App\Upload::find($package->icon)->file_name).'" alt="Image" style="width:35px;height:35px;">
+                            </div>';
+            }
+        }
+        foreach ($packages as $key => $package)
+        {
+            if($package->name=='Other' || $package->name=='other')
+            {
+                $template.='<div class="col-md-3 mb-2 update_package_id" style="cursor: pointer" data-package_id="'.$package->id.'" data-default_cost="'.$package->default_cost.'">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                        <label class="checkbox mt-3">
+                                            <input type="radio" name="package_checkbox " />
+                                            <span></span>
+                                        </label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img src="'.url('public/'.\App\Upload::find($package->icon)->file_name).'" alt="Image" style="width:35px;height:35px;">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="mt-3 update_package_title">'.$package->name.'</p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <p class="mt-3 update_package_title">'.$package->name.'</p>
-                                    </div>
-                                </div>
-                        </div>';
+                            </div>';
+            }
         }
         return response()->json($template);
     }

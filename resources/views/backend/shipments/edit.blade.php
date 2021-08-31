@@ -786,22 +786,45 @@
                             </div>
                             <div class="row mb-2 update_package_data">
                                 @foreach ($pack->package->category->packages as $key => $package)
-                                    <div class="col-md-3 mb-2 update_package_id" style="cursor: pointer;" data-package_id="{{$package->id}}">
-                                        <div class="row">
-                                            <div class="col-md-1">
-                                                <label class="checkbox mt-3">
-                                                    <input type="radio" name="package_checkbox" @if ($pack->package_id == $package->id) checked @endif />
-                                                    <span></span>
-                                                </label>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <img src="{{ url('public/'.\App\Upload::find($package->icon)->file_name) }}" alt="Image" style="width:35px;height:35px;">
-                                            </div>
-                                            <div class="col-md-8">
-                                                <p class="mt-3 update_package_title">{{ $package->name }}</p>
+                                    @if($package->name != 'Other' && $package->name != 'other')
+                                        <div class="col-md-3 mb-2 update_package_id" style="cursor: pointer;" data-package_id="{{$package->id}}">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <label class="checkbox mt-3">
+                                                        <input type="radio" name="package_checkbox" @if ($pack->package_id == $package->id) checked @endif />
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <img src="{{ url('public/'.\App\Upload::find($package->icon)->file_name) }}" alt="Image" style="width:35px;height:35px;">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <p class="mt-3 update_package_title">{{ $package->name }}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
+                                @endforeach
+
+                                @foreach ($pack->package->category->packages as $key => $package)
+                                    @if($package->name == 'Other' || $package->name == 'other')
+                                        <div class="col-md-3 mb-2 update_package_id" style="cursor: pointer;" data-package_id="{{$package->id}}">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <label class="checkbox mt-3">
+                                                        <input type="radio" name="package_checkbox" @if ($pack->package_id == $package->id) checked @endif />
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <img src="{{ url('public/'.\App\Upload::find($package->icon)->file_name) }}" alt="Image" style="width:35px;height:35px;">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <p class="mt-3 update_package_title">{{ $package->name }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 @endforeach
 
                             </div>
