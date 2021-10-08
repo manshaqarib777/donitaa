@@ -38,6 +38,20 @@ Route::prefix('v1')->group(function () {
     Route::post('user/shipping/create', 'Api\ShipmentApiController@store')->middleware('auth:api');
     Route::post('user/shipping/update/{id}', 'Api\ShipmentApiController@update')->middleware('auth:api');
     Route::get('user/shipping/delete/{id}', 'Api\AddressController@deleteShippingAddress')->middleware('auth:api');
+    Route::get('tracking/{code}','Api\SettingsController@track')->name('admin.shipments.track');
+
+    Route::group(['middleware' => ['auth:api', 'user_role:customer']], function(){
+        //Update Routes
+        Route::resource('client-addresses','Api\ClientAddressController',[
+            'as' => 'admin'
+        ]);
+        Route::post('client-addresses/status','Api\ClientAddressController@status')->name('admin.client-addresses.update-status');
+    });
+    
+    Route::group(['middleware' => ['auth:api', 'user_role:admin|staff']], function(){
+        Route::get('client-addresses/delete/{address}','Api\ClientAddressController@destroy')->name('admin.client-addresses.delete-address');
+        
+    });
 
 });
 

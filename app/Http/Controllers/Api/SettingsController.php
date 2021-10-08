@@ -136,5 +136,31 @@ class SettingsController extends Controller
         ], 201);
     }
 
+    public function track($code)
+    {
+        $shipment = Shipment::where('code', $code)->first();
+        if(!$shipment)
+        {   
+            return response()->json([
+                'message' => 'Shipment does not exist'
+            ],500);
+        }
+        $data=array();
+
+        $data[0]['date']=$shipment->created_at->diffForHumans();
+        $data[0]['name']=translate('Shipment Created');
+
+        foreach($shipment->logs()->orderBy('id','asc')->get() as $key => $log)
+        {
+            $data[$key+1]['date']=$log->created_at->diffForHumans();
+            $data[$key+1]['name']=\App\Shipment::getClientStatusByStatusId($log->to);
+        }
+        return response()->json([
+            'message'   => 'Shipment Details retrived successfully',
+            'shipment'      => $shipment,
+            'shipment_details' =>$data
+        ], 201);
+    }
+
 
 }

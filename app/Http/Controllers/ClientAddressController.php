@@ -126,6 +126,7 @@ class ClientAddressController extends Controller
      */
     public function update(Request $request, $client)
     {
+        dd(json_encode($request->ClientAddress));
         if (env('DEMO_MODE') == 'On') {
             flash(translate('This action is disabled in demo mode'))->error();
             return back();
