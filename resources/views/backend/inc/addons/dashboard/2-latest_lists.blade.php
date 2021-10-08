@@ -61,7 +61,7 @@
                                         <td></td>
                                     @endif
                                     <td>{{format_price(convert_price($shipment->tax + $shipment->shipping_cost + $shipment->insurance)) }}</td>
-                                    <td>{{$shipment->pay->name}}</td>
+                                    <td>{{@$shipment->pay->name}}</td>
                                     <td>{{$shipment->shipping_date}}</td>
 
                                 </tr>
